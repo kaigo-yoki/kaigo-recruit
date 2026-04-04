@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>採用特設ページ | デイサービスはいさい【沖縄・南城市】</title>
+  <meta name="description" content="沖縄県南城市のデイサービスはいさいで一緒に働きませんか？未経験OK・手厚い研修制度あり。専門職集団が届ける安心の在宅医療ケアとサービス。">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;800&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'warm': {
+              50: '#FFF8F0',
+              100: '#FFEFD6',
+              200: '#FFD9A8',
+              300: '#FFC078',
+              400: '#FFA54D',
+              500: '#FF8C26',
+              600: '#E67300',
+              700: '#BF5F00',
+            },
+            'coral': {
+              50: '#FFF1EE',
+              100: '#FFE0D9',
+              200: '#FFC1B3',
+              300: '#FFA08D',
+              400: '#FF7F66',
+              500: '#FF5E40',
+              600: '#E64527',
+            },
+            'sky': {
+              50: '#EFF8FF',
+              100: '#DBEFFE',
+              200: '#BFE3FE',
+              300: '#93D3FD',
+              400: '#60B9FA',
+              500: '#3B9DF6',
+            },
+            'leaf': {
+              50: '#EEFBF3',
+              100: '#D7F5E2',
+              200: '#B2EBC9',
+              300: '#7EDBA6',
+              400: '#48C47E',
+              500: '#26A963',
+            },
+            'cream': '#FDF6EC',
+            'sand': '#F5EDE1',
+          },
+          fontFamily: {
+            'sans': ['"Noto Sans JP"', 'sans-serif'],
+            'round': ['"Zen Maru Gothic"', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 80px; /* Sticky button space */
+    }
+    .font-round {
+      font-family: 'Zen Maru Gothic', sans-serif;
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    @keyframes pulse-soft {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    @keyframes countUp {
+      from { opacity: 0; transform: scale(0.5); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes slideInLeft {
+      from { opacity: 0; transform: translateX(-40px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    .animate-fade-in-up {
+      animation: fadeInUp 0.8s ease-out forwards;
+    }
+    .animate-fade-in {
+      animation: fadeIn 0.6s ease-out forwards;
+    }
+    .animate-float {
+      animation: float 3s ease-in-out infinite;
+    }
+    .animate-pulse-soft {
+      animation: pulse-soft 2s ease-in-out infinite;
+    }
+    .animate-count-up {
+      animation: countUp 0.6s ease-out forwards;
+    }
+    .animate-slide-in-left {
+      animation: slideInLeft 0.7s ease-out forwards;
+    }
+
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+    .delay-300 { animation-delay: 0.3s; }
+    .delay-400 { animation-delay: 0.4s; }
+    .delay-500 { animation-delay: 0.5s; }
+    .delay-600 { animation-delay: 0.6s; }
+    .delay-700 { animation-delay: 0.7s; }
+
+    /* Intersection Observer reveal */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Hero gradient overlay */
+    .hero-overlay {
+      background: linear-gradient(
+        180deg,
+        rgba(255, 140, 38, 0.15) 0%,
+        rgba(255, 94, 64, 0.25) 50%,
+        rgba(255, 255, 255, 0.95) 100%
+      );
+    }
+
+    /* Schedule timeline */
+    .timeline-line {
+      background: linear-gradient(180deg, #FF8C26, #FF5E40, #3B9DF6, #26A963);
+    }
+
+    /* Number counter glow */
+    .number-glow {
+      text-shadow: 0 0 20px rgba(255, 140, 38, 0.3);
+    }
+
+    /* LINE button shimmer */
+    .line-btn-shimmer {
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      background-size: 200% 100%;
+      animation: shimmer 2s infinite;
+    }
+
+    /* Decorative blob */
+    .blob {
+      border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+    }
+
+    /* Card hover effect */
+    .feature-card {
+      transition: all 0.3s ease;
+    }
+    .feature-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(255, 140, 38, 0.15);
+    }
+
+    /* Sticky bottom bar */
+    .sticky-bar {
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+  </style>
+</head>
+<body class="bg-cream text-gray-800 overflow-x-hidden">
+
+  <!-- ===== HERO SECTION ===== -->
+  <section id="hero" class="relative min-h-[100svh] flex items-center justify-center overflow-hidden">
+    <!-- Background Image -->
+    <div class="absolute inset-0">
+      <img src="hero_staff.png" alt="笑顔で働くスタッフたち" class="w-full h-full object-cover" />
+      <div class="hero-overlay absolute inset-0"></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-cream"></div>
+    </div>
+
+    <!-- Decorative Elements -->
+    <div class="absolute top-10 right-5 md:top-16 md:right-16 w-16 h-16 md:w-24 md:h-24 bg-warm-300/30 blob animate-float"></div>
+    <div class="absolute bottom-32 left-5 md:bottom-40 md:left-16 w-12 h-12 md:w-20 md:h-20 bg-coral-300/20 blob animate-float delay-300"></div>
+
+    <!-- Content -->
+    <div class="relative z-10 text-center px-5 max-w-2xl mx-auto">
+      <!-- Logo / Facility Name -->
+      <div class="animate-fade-in mb-4">
+        <span class="inline-block bg-white/90 backdrop-blur-sm rounded-full px-5 py-2 text-sm font-medium text-warm-600 shadow-lg">
+          🌺 沖縄・南城市 ｜ 有限会社陽気
+        </span>
+      </div>
+
+      <h1 class="font-round font-bold text-3xl md:text-5xl lg:text-6xl text-white leading-tight mb-4 animate-fade-in-up drop-shadow-lg">
+        <span class="text-warm-200">専門職集団</span>が届ける、<br>
+        安心の<span class="text-warm-200">在宅医療ケア</span>と<br>
+        サービス。
+      </h1>
+
+      <p class="text-white/90 text-base md:text-lg leading-relaxed mb-6 animate-fade-in-up delay-200 drop-shadow-md">
+        デイサービスはいさいは、専門職が連携し<br class="md:hidden">
+        在宅でも安心した医療ケアと<br class="md:hidden">
+        介護サービスを届けています。<br>
+        <span class="font-semibold text-warm-200">未経験でも大丈夫。</span>あなたも専門職チームの一員に。
+      </p>
+
+      <div class="animate-fade-in-up delay-400 flex flex-col sm:flex-row gap-3 justify-center">
+        <a href="#features" class="inline-flex items-center justify-center bg-white text-warm-600 font-bold rounded-full px-8 py-4 shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300">
+          <span>はいさいの魅力を見る</span>
+          <svg class="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </a>
+      </div>
+
+      <!-- Scroll hint -->
+      <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-float">
+        <div class="w-6 h-10 rounded-full border-2 border-white/60 flex items-start justify-center p-1">
+          <div class="w-1.5 h-3 bg-white/80 rounded-full animate-pulse"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MESSAGE BANNER ===== -->
+  <section class="bg-gradient-to-r from-warm-500 to-coral-500 py-5 md:py-6">
+    <div class="max-w-4xl mx-auto px-5 text-center">
+      <p class="font-round font-bold text-white text-lg md:text-2xl tracking-wide">
+        ✨ 未経験歓迎！ 20〜30代活躍中 ✨
+      </p>
+      <p class="text-white/90 text-sm md:text-base mt-1">
+        資格がなくても、「誰かの役に立ちたい」その気持ちがあれば大歓迎です
+      </p>
+    </div>
+  </section>
+
+  <!-- ===== FEATURES SECTION ===== -->
+  <section id="features" class="py-16 md:py-24 bg-cream">
+    <div class="max-w-5xl mx-auto px-5">
+      <!-- Section Title -->
+      <div class="text-center mb-12 md:mb-16 reveal">
+        <span class="inline-block bg-warm-100 text-warm-600 font-semibold text-sm rounded-full px-4 py-1.5 mb-4">FEATURES</span>
+        <h2 class="font-round font-bold text-2xl md:text-4xl text-gray-800 mb-3">
+          はいさいが<span class="text-warm-500">選ばれる</span>理由
+        </h2>
+        <p class="text-gray-500 max-w-lg mx-auto text-sm md:text-base">
+          専門職集団として安心の在宅医療ケアとサービスを提供。<br class="hidden md:block">
+          チームの一員として、あなたも専門性を高められます
+        </p>
+      </div>
+
+      <!-- Feature Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+        <!-- Card 1 -->
+        <div class="feature-card reveal bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-warm-100">
+          <div class="w-14 h-14 bg-warm-100 rounded-2xl flex items-center justify-center mb-5 text-3xl">
+            🏥
+          </div>
+          <h3 class="font-round font-bold text-xl mb-3 text-gray-800">専門職集団による在宅医療ケア</h3>
+          <p class="text-gray-500 text-sm leading-relaxed">
+            介護福祉士・看護師など専門職が連携し、利用者さまに安心の在宅医療ケアとサービスを提供。胃ろう・気管切開・人工呼吸器など医療的ケアにも対応し、在宅でも安心した医療が受けられる環境を整えています。
+          </p>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="feature-card reveal delay-100 bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-warm-100">
+          <div class="w-14 h-14 bg-coral-100 rounded-2xl flex items-center justify-center mb-5 text-3xl">
+            📚
+          </div>
+          <h3 class="font-round font-bold text-xl mb-3 text-gray-800">未経験でも安心の研修制度</h3>
+          <p class="text-gray-500 text-sm leading-relaxed">
+            介護の経験がなくても大丈夫。先輩スタッフがマンツーマンで丁寧に指導します。入社後3ヶ月の充実した研修プログラムで、基礎からしっかり学べます。資格取得のサポート制度もあるので、働きながらスキルアップが可能です。
+          </p>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="feature-card reveal delay-200 bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-warm-100">
+          <div class="w-14 h-14 bg-sky-100 rounded-2xl flex items-center justify-center mb-5 text-3xl">
+            🌴
+          </div>
+          <h3 class="font-round font-bold text-xl mb-3 text-gray-800">沖縄の自然に囲まれた職場</h3>
+          <p class="text-gray-500 text-sm leading-relaxed">
+            南城市の穏やかな環境で、利用者さまとのコミュニケーションを大切にしながら働けます。スタッフが元気よくより楽しい空間づくりに努めており、明るく活気のある雰囲気が魅力。美容教室やレクリエーションなど、楽しいイベントも豊富です。
+          </p>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="feature-card reveal delay-300 bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-warm-100">
+          <div class="w-14 h-14 bg-leaf-100 rounded-2xl flex items-center justify-center mb-5 text-3xl">
+            💰
+          </div>
+          <h3 class="font-round font-bold text-xl mb-3 text-gray-800">処遇改善加算で待遇も充実</h3>
+          <p class="text-gray-500 text-sm leading-relaxed">
+            はいさいは特定処遇改善加算算定の事業所。技能・経験のある介護職員へは月額平均8万円相当の処遇改善も。長く働ける環境を整えているので、将来の安定を考えている方にもおすすめです。
+          </p>
+        </div>
+      </div>
+
+      <!-- Photo accent -->
+      <div class="mt-12 md:mt-16 reveal">
+        <div class="relative rounded-2xl overflow-hidden shadow-lg max-w-3xl mx-auto">
+          <img src="facility_interior.png" alt="明るく温かい施設内の様子" class="w-full h-48 md:h-72 object-cover" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+          <div class="absolute bottom-0 left-0 right-0 p-5 md:p-8">
+            <p class="font-round text-white font-bold text-lg md:text-xl">
+              専門職集団として、安心の在宅医療ケアを<br>一緒に届けませんか
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DAILY SCHEDULE ===== -->
+  <section id="schedule" class="py-16 md:py-24 bg-white">
+    <div class="max-w-3xl mx-auto px-5">
+      <!-- Section Title -->
+      <div class="text-center mb-12 md:mb-16 reveal">
+        <span class="inline-block bg-sky-100 text-sky-500 font-semibold text-sm rounded-full px-4 py-1.5 mb-4">DAILY SCHEDULE</span>
+        <h2 class="font-round font-bold text-2xl md:text-4xl text-gray-800 mb-3">
+          スタッフの<span class="text-sky-500">1日</span>の流れ
+        </h2>
+        <p class="text-gray-500 max-w-lg mx-auto text-sm md:text-base">
+          利用者さまと過ごす温かい1日をご紹介します
+        </p>
+      </div>
+
+      <!-- Timeline -->
+      <div class="relative">
+        <!-- Timeline vertical line -->
+        <div class="absolute left-6 md:left-8 top-0 bottom-0 w-0.5 timeline-line rounded-full"></div>
+
+        <!-- Schedule Items -->
+        <div class="space-y-8 md:space-y-10">
+
+          <!-- 8:30 -->
+          <div class="reveal relative flex items-start gap-4 md:gap-6 pl-2">
+            <div class="relative z-10 flex-shrink-0 w-10 h-10 md:w-14 md:h-14 bg-warm-500 rounded-full flex items-center justify-center shadow-lg">
+              <span class="text-white text-lg md:text-xl">🚗</span>
+            </div>
+            <div class="flex-1 bg-warm-50 rounded-2xl p-5 md:p-6 border border-warm-100">
+              <div class="flex items-baseline gap-3 mb-2">
+                <span class="font-round font-bold text-warm-600 text-lg md:text-xl">8:30</span>
+                <h3 class="font-round font-bold text-gray-800 text-base md:text-lg">出勤・お迎え準備</h3>
+              </div>
+              <p class="text-gray-500 text-sm leading-relaxed">
+                笑顔で出勤！利用者さまのご自宅へお迎えに向かいます。送迎車でのお迎えは、利用者さまとコミュニケーションを取る大切な時間です。
+              </p>
+            </div>
+          </div>
+
+          <!-- 9:30 -->
+          <div class="reveal delay-100 relative flex items-start gap-4 md:gap-6 pl-2">
+            <div class="relative z-10 flex-shrink-0 w-10 h-10 md:w-14 md:h-14 bg-coral-500 rounded-full flex items-center justify-center shadow-lg">
+              <span class="text-white text-lg md:text-xl">💓</span>
+            </div>
+            <div class="flex-1 bg-coral-50 rounded-2xl p-5 md:p-6 border border-coral-100">
+              <div class="flex items-baseline gap-3 mb-2">
+                <span class="font-round font-bold text-coral-600 text-lg md:text-xl">9:30</span>
+                <h3 class="font-round font-bold text-gray-800 text-base md:text-lg">健康チェック・入浴介助</h3>
+              </div>
+              <p class="text-gray-500 text-sm leading-relaxed">
+                到着した利用者さまのバイタルチェック（体温・血圧など）を行います。体調を確認した後、入浴のお手伝い。先輩スタッフと一緒に行うので安心です。
+              </p>
+            </div>
+          </div>
+
+          <!-- 11:00 -->
+          <div class="reveal delay-200 relative flex items-start gap-4 md:gap-6 pl-2">
+            <div class="relative z-10 flex-shrink-0 w-10 h-10 md:w-14 md:h-14 bg-leaf-500 rounded-full flex items-center justify-center shadow-lg">
+              <span class="text-white text-lg md:text-xl">🎨</span>
+            </div>
+            <div class="flex-1 bg-leaf-50 rounded-2xl p-5 md:p-6 border border-leaf-100">
+              <div class="flex items-baseline gap-3 mb-2">
+                <span class="font-round font-bold text-leaf-500 text-lg md:text-xl">11:00</span>
+                <h3 class="font-round font-bold text-gray-800 text-base md:text-lg">午前の活動・レクリエーション</h3>
+              </div>
+              <p class="text-gray-500 text-sm leading-relaxed">
+                体操や工作、美容教室など日替わりの楽しいプログラム。利用者さまの笑顔を間近で見られる時間です。あなたのアイデアも活かせます！
+              </p>
+            </div>
+          </div>
+
+          <!-- 12:00 -->
+          <div class="reveal delay-300 relative flex items-start gap-4 md:gap-6 pl-2">
+            <div class="relative z-10 flex-shrink-0 w-10 h-10 md:w-14 md:h-14 bg-warm-500 rounded-full flex items-center justify-center shadow-lg">
+              <span class="text-white text-lg md:text-xl">🍱</span>
+            </div>
+            <div class="flex-1 bg-warm-50 rounded-2xl p-5 md:p-6 border border-warm-100">
+              <div class="flex items-baseline gap-3 mb-2">
+                <span class="font-round font-bold text-warm-600 text-lg md:text-xl">12:00</span>
+                <h3 class="font-round font-bold text-gray-800 text-base md:text-lg">昼食・休憩</h3>
+              </div>
+              <p class="text-gray-500 text-sm leading-relaxed">
+                利用者さまの食事介助を行った後、スタッフもしっかり休憩。食事の時間は利用者さまとの会話も弾む楽しいひとときです。
+              </p>
+            </div>
+          </div>
+
+          <!-- 13:30 -->
+          <div class="reveal delay-400 relative flex items-start gap-4 md:gap-6 pl-2">
+            <div class="relative z-10 flex-shrink-0 w-10 h-10 md:w-14 md:h-14 bg-sky-500 rounded-full flex items-center justify-center shadow-lg">
+              <span class="text-white text-lg md:text-xl">💪</span>
+            </div>
+            <div class="flex-1 bg-sky-50 rounded-2xl p-5 md:p-6 border border-sky-100">
+              <div class="flex items-baseline gap-3 mb-2">
+                <span class="font-round font-bold text-sky-500 text-lg md:text-xl">13:30</span>
+                <h3 class="font-round font-bold text-gray-800 text-base md:text-lg">機能訓練・趣味活動</h3>
+              </div>
+              <p class="text-gray-500 text-sm leading-relaxed">
+                午後は機能訓練やレクリエーション、趣味活動の時間。利用者さまが生き生きと過ごせるようサポートします。一緒に歌ったり、工作を楽しんだり。
+              </p>
+            </div>
+          </div>
+
+          <!-- 15:00 -->
+          <div class="reveal delay-500 relative flex items-start gap-4 md:gap-6 pl-2">
+            <div class="relative z-10 flex-shrink-0 w-10 h-10 md:w-14 md:h-14 bg-coral-400 rounded-full flex items-center justify-center shadow-lg">
+              <span class="text-white text-lg md:text-xl">🍵</span>
+            </div>
+            <div class="flex-1 bg-coral-50 rounded-2xl p-5 md:p-6 border border-coral-100">
+              <div class="flex items-baseline gap-3 mb-2">
+                <span class="font-round font-bold text-coral-500 text-lg md:text-xl">15:00</span>
+                <h3 class="font-round font-bold text-gray-800 text-base md:text-lg">おやつタイム</h3>
+              </div>
+              <p class="text-gray-500 text-sm leading-relaxed">
+                みんなでおやつを楽しむティータイム。ゆったりとした時間の中で、利用者さまと他愛もない会話を楽しみます。
+              </p>
+            </div>
+          </div>
+
+          <!-- 16:00 -->
+          <div class="reveal delay-600 relative flex items-start gap-4 md:gap-6 pl-2">
+            <div class="relative z-10 flex-shrink-0 w-10 h-10 md:w-14 md:h-14 bg-leaf-400 rounded-full flex items-center justify-center shadow-lg">
+              <span class="text-white text-lg md:text-xl">👋</span>
+            </div>
+            <div class="flex-1 bg-leaf-50 rounded-2xl p-5 md:p-6 border border-leaf-100">
+              <div class="flex items-baseline gap-3 mb-2">
+                <span class="font-round font-bold text-leaf-500 text-lg md:text-xl">16:00</span>
+                <h3 class="font-round font-bold text-gray-800 text-base md:text-lg">お送り・事務作業</h3>
+              </div>
+              <p class="text-gray-500 text-sm leading-relaxed">
+                利用者さまを安全にご自宅へお送りします。その後、記録の整理や翌日の準備。定時退社が基本なので、プライベートの時間もしっかり確保できます。
+              </p>
+            </div>
+          </div>
+
+          <!-- 17:30 -->
+          <div class="reveal delay-700 relative flex items-start gap-4 md:gap-6 pl-2">
+            <div class="relative z-10 flex-shrink-0 w-10 h-10 md:w-14 md:h-14 bg-warm-400 rounded-full flex items-center justify-center shadow-lg">
+              <span class="text-white text-lg md:text-xl">🏠</span>
+            </div>
+            <div class="flex-1 bg-warm-50 rounded-2xl p-5 md:p-6 border border-warm-100">
+              <div class="flex items-baseline gap-3 mb-2">
+                <span class="font-round font-bold text-warm-600 text-lg md:text-xl">17:30</span>
+                <h3 class="font-round font-bold text-gray-800 text-base md:text-lg">退勤！おつかれさまでした 🌅</h3>
+              </div>
+              <p class="text-gray-500 text-sm leading-relaxed">
+                今日も1日おつかれさまでした！沖縄の美しい夕陽を眺めながら帰宅。心温まる1日をありがとう。明日も笑顔で頑張りましょう。
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== NUMBERS / DATA SECTION ===== -->
+  <section id="numbers" class="py-16 md:py-24 bg-gradient-to-br from-warm-500 via-coral-500 to-warm-600 relative overflow-hidden">
+    <!-- Decorative blobs -->
+    <div class="absolute top-10 right-10 w-40 h-40 bg-white/10 blob animate-float"></div>
+    <div class="absolute bottom-10 left-10 w-32 h-32 bg-white/5 blob animate-float delay-500"></div>
+
+    <div class="max-w-5xl mx-auto px-5 relative z-10">
+      <!-- Section Title -->
+      <div class="text-center mb-12 md:mb-16 reveal">
+        <span class="inline-block bg-white/20 text-white font-semibold text-sm rounded-full px-4 py-1.5 mb-4">NUMBERS</span>
+        <h2 class="font-round font-bold text-2xl md:text-4xl text-white mb-3">
+          数字で見る<span class="text-warm-200">はいさい</span>の働きやすさ
+        </h2>
+        <p class="text-white/80 max-w-lg mx-auto text-sm md:text-base">
+          スタッフが長く安心して働ける環境を数字でお伝えします
+        </p>
+      </div>
+
+      <!-- Number Cards Grid -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+        <!-- Card 1: 月平均残業 -->
+        <div class="reveal bg-white/15 backdrop-blur-sm rounded-2xl p-5 md:p-6 text-center border border-white/20">
+          <div class="text-4xl md:text-5xl font-bold text-white number-glow font-round mb-1">
+            0<span class="text-2xl md:text-3xl">時間</span>
+          </div>
+          <p class="text-white/90 text-xs md:text-sm font-medium">月平均残業</p>
+          <div class="mt-2 text-white/60 text-xs">定時退社が基本！</div>
+        </div>
+
+        <!-- Card 2: 有休取得率 -->
+        <div class="reveal delay-100 bg-white/15 backdrop-blur-sm rounded-2xl p-5 md:p-6 text-center border border-white/20">
+          <div class="text-4xl md:text-5xl font-bold text-white number-glow font-round mb-1">
+            90<span class="text-2xl md:text-3xl">%</span>
+          </div>
+          <p class="text-white/90 text-xs md:text-sm font-medium">有休取得率</p>
+          <div class="mt-2 text-white/60 text-xs">休みもしっかり</div>
+        </div>
+
+        <!-- Card 3: 未経験入社率 -->
+        <div class="reveal delay-200 bg-white/15 backdrop-blur-sm rounded-2xl p-5 md:p-6 text-center border border-white/20">
+          <div class="text-4xl md:text-5xl font-bold text-white number-glow font-round mb-1">
+            70<span class="text-2xl md:text-3xl">%</span>
+          </div>
+          <p class="text-white/90 text-xs md:text-sm font-medium">未経験入社率</p>
+          <div class="mt-2 text-white/60 text-xs">先輩も最初は未経験</div>
+        </div>
+
+        <!-- Card 4: 平均年齢 -->
+        <div class="reveal delay-300 bg-white/15 backdrop-blur-sm rounded-2xl p-5 md:p-6 text-center border border-white/20">
+          <div class="text-4xl md:text-5xl font-bold text-white number-glow font-round mb-1">
+            32<span class="text-2xl md:text-3xl">歳</span>
+          </div>
+          <p class="text-white/90 text-xs md:text-sm font-medium">スタッフ平均年齢</p>
+          <div class="mt-2 text-white/60 text-xs">若手が活躍中！</div>
+        </div>
+
+        <!-- Card 5: 研修期間 -->
+        <div class="reveal delay-400 bg-white/15 backdrop-blur-sm rounded-2xl p-5 md:p-6 text-center border border-white/20">
+          <div class="text-4xl md:text-5xl font-bold text-white number-glow font-round mb-1">
+            3<span class="text-2xl md:text-3xl">ヶ月</span>
+          </div>
+          <p class="text-white/90 text-xs md:text-sm font-medium">充実の研修期間</p>
+          <div class="mt-2 text-white/60 text-xs">マンツーマン指導</div>
+        </div>
+
+        <!-- Card 6: 定着率 -->
+        <div class="reveal delay-500 bg-white/15 backdrop-blur-sm rounded-2xl p-5 md:p-6 text-center border border-white/20">
+          <div class="text-4xl md:text-5xl font-bold text-white number-glow font-round mb-1">
+            95<span class="text-2xl md:text-3xl">%</span>
+          </div>
+          <p class="text-white/90 text-xs md:text-sm font-medium">スタッフ定着率</p>
+          <div class="mt-2 text-white/60 text-xs">長く働ける環境</div>
+        </div>
+
+        <!-- Card 7: 年間休日 -->
+        <div class="reveal delay-600 bg-white/15 backdrop-blur-sm rounded-2xl p-5 md:p-6 text-center border border-white/20">
+          <div class="text-4xl md:text-5xl font-bold text-white number-glow font-round mb-1">
+            110<span class="text-2xl md:text-3xl">日</span>
+          </div>
+          <p class="text-white/90 text-xs md:text-sm font-medium">年間休日</p>
+          <div class="mt-2 text-white/60 text-xs">ワークライフバランス◎</div>
+        </div>
+
+        <!-- Card 8: 資格取得支援 -->
+        <div class="reveal delay-700 bg-white/15 backdrop-blur-sm rounded-2xl p-5 md:p-6 text-center border border-white/20">
+          <div class="text-4xl md:text-5xl font-bold text-white number-glow font-round mb-1">
+            全額<span class="text-2xl md:text-3xl"></span>
+          </div>
+          <p class="text-white/90 text-xs md:text-sm font-medium">資格取得費用</p>
+          <div class="mt-2 text-white/60 text-xs">会社が全額負担</div>
+        </div>
+      </div>
+
+      <p class="text-center text-white/50 text-xs mt-6">※ 数値は2024年度実績に基づく目安です</p>
+    </div>
+  </section>
+
+  <!-- ===== VOICE / TESTIMONIAL SECTION ===== -->
+  <section id="voice" class="py-16 md:py-24 bg-cream">
+    <div class="max-w-4xl mx-auto px-5">
+      <!-- Section Title -->
+      <div class="text-center mb-12 md:mb-16 reveal">
+        <span class="inline-block bg-coral-100 text-coral-500 font-semibold text-sm rounded-full px-4 py-1.5 mb-4">VOICE</span>
+        <h2 class="font-round font-bold text-2xl md:text-4xl text-gray-800 mb-3">
+          先輩スタッフの<span class="text-coral-500">声</span>
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Voice 1 -->
+        <div class="reveal bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-warm-100">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-12 h-12 bg-gradient-to-br from-warm-400 to-coral-400 rounded-full flex items-center justify-center text-white font-bold text-lg">K</div>
+            <div>
+              <p class="font-round font-bold text-gray-800">Kさん（26歳）</p>
+              <p class="text-gray-400 text-xs">入社2年目 ｜ 前職：飲食業</p>
+            </div>
+          </div>
+          <p class="text-gray-600 text-sm leading-relaxed">
+            「前職は飲食業で、介護は全くの未経験でした。最初は不安でしたが、先輩が本当に丁寧に教えてくれて。利用者さまの笑顔を見ると、この仕事を選んで良かったと心から思います。<span class="font-semibold text-warm-600">残業もほとんどなく、プライベートも充実</span>しています！」
+          </p>
+        </div>
+
+        <!-- Voice 2 -->
+        <div class="reveal delay-200 bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-warm-100">
+          <div class="flex items-center gap-4 mb-4">
+            <div class="w-12 h-12 bg-gradient-to-br from-sky-400 to-leaf-400 rounded-full flex items-center justify-center text-white font-bold text-lg">M</div>
+            <div>
+              <p class="font-round font-bold text-gray-800">Mさん（31歳）</p>
+              <p class="text-gray-400 text-xs">入社4年目 ｜ 前職：事務職</p>
+            </div>
+          </div>
+          <p class="text-gray-600 text-sm leading-relaxed">
+            「事務職からの転職で不安もありましたが、入社3ヶ月の研修で自信がつきました。はいさいは医療的ケアにも対応しており、<span class="font-semibold text-warm-600">専門性を高められる環境</span>が整っています。利用者さまから『ありがとう』と言われると、やりがいを感じます。資格取得もサポートしてもらえて感謝しています。」
+          </p>
+        </div>
+      </div>
+
+      <!-- Care moment photo -->
+      <div class="mt-12 reveal">
+        <div class="relative rounded-2xl overflow-hidden shadow-lg max-w-2xl mx-auto">
+          <img src="care_moment.png" alt="利用者さまと心を通わせるスタッフ" class="w-full h-56 md:h-80 object-cover" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+          <div class="absolute bottom-0 left-0 right-0 p-5 md:p-8">
+            <p class="font-round text-white font-bold text-base md:text-lg">
+              一人一人を大切に。1日1日を大切に。
+            </p>
+            <p class="text-white/80 text-sm mt-1">代表 嶺井美幸</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== REQUIREMENTS SECTION ===== -->
+  <section id="requirements" class="py-16 md:py-24 bg-white">
+    <div class="max-w-3xl mx-auto px-5">
+      <div class="text-center mb-12 reveal">
+        <span class="inline-block bg-leaf-100 text-leaf-500 font-semibold text-sm rounded-full px-4 py-1.5 mb-4">REQUIREMENTS</span>
+        <h2 class="font-round font-bold text-2xl md:text-4xl text-gray-800 mb-3">
+          募集要項
+        </h2>
+      </div>
+
+      <div class="reveal bg-cream rounded-2xl p-6 md:p-8 border border-warm-100">
+        <table class="w-full text-sm md:text-base">
+          <tbody>
+            <tr class="border-b border-warm-200/50">
+              <th class="text-left py-4 pr-4 font-round font-bold text-warm-600 whitespace-nowrap align-top w-28 md:w-36">職種</th>
+              <td class="py-4 text-gray-600">介護スタッフ（デイサービス）</td>
+            </tr>
+            <tr class="border-b border-warm-200/50">
+              <th class="text-left py-4 pr-4 font-round font-bold text-warm-600 whitespace-nowrap align-top">雇用形態</th>
+              <td class="py-4 text-gray-600">正社員 / パート</td>
+            </tr>
+            <tr class="border-b border-warm-200/50">
+              <th class="text-left py-4 pr-4 font-round font-bold text-warm-600 whitespace-nowrap align-top">給与</th>
+              <td class="py-4 text-gray-600">
+                月給 180,000円〜250,000円<br>
+                <span class="text-xs text-gray-400">※経験・資格により優遇 ※処遇改善加算あり</span>
+              </td>
+            </tr>
+            <tr class="border-b border-warm-200/50">
+              <th class="text-left py-4 pr-4 font-round font-bold text-warm-600 whitespace-nowrap align-top">勤務時間</th>
+              <td class="py-4 text-gray-600">8:30〜17:30（休憩60分）</td>
+            </tr>
+            <tr class="border-b border-warm-200/50">
+              <th class="text-left py-4 pr-4 font-round font-bold text-warm-600 whitespace-nowrap align-top">休日</th>
+              <td class="py-4 text-gray-600">週休2日制 / 年間休日110日</td>
+            </tr>
+            <tr class="border-b border-warm-200/50">
+              <th class="text-left py-4 pr-4 font-round font-bold text-warm-600 whitespace-nowrap align-top">資格</th>
+              <td class="py-4 text-gray-600">
+                <span class="inline-block bg-warm-100 text-warm-600 rounded-full px-3 py-0.5 text-xs font-semibold mr-1">未経験OK</span>
+                <span class="inline-block bg-warm-100 text-warm-600 rounded-full px-3 py-0.5 text-xs font-semibold">無資格OK</span><br>
+                <span class="text-xs text-gray-400 mt-1 inline-block">介護福祉士・初任者研修など有資格者は優遇</span>
+              </td>
+            </tr>
+            <tr class="border-b border-warm-200/50">
+              <th class="text-left py-4 pr-4 font-round font-bold text-warm-600 whitespace-nowrap align-top">待遇</th>
+              <td class="py-4 text-gray-600 text-sm">
+                社会保険完備 / 交通費支給 / 賞与あり / 資格取得支援（全額負担） / 制服貸与 / 研修制度あり / 車通勤OK（駐車場完備）
+              </td>
+            </tr>
+            <tr>
+              <th class="text-left py-4 pr-4 font-round font-bold text-warm-600 whitespace-nowrap align-top">勤務地</th>
+              <td class="py-4 text-gray-600">
+                沖縄県南城市<br>
+                <span class="text-xs text-gray-400">デイサービスはいさい（有限会社陽気）</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="text-center text-gray-400 text-xs mt-4">※ 詳細はLINEからお気軽にお問い合わせください</p>
+    </div>
+  </section>
+
+  <!-- ===== BLOG SECTION ===== -->
+  <section id="blog" class="py-16 md:py-24 bg-white">
+    <div class="max-w-4xl mx-auto px-5">
+      <div class="text-center mb-12 reveal">
+        <span class="inline-block bg-warm-100 text-warm-600 font-semibold text-sm rounded-full px-4 py-1.5 mb-4">BLOG</span>
+        <h2 class="font-round font-bold text-2xl md:text-4xl text-gray-800 mb-3">
+          最新の<span class="text-warm-500">ブログ記事</span>
+        </h2>
+        <p class="text-gray-500 max-w-lg mx-auto text-sm md:text-base">
+          介護のお役立ち情報や日々の現場の様子をお届けします
+        </p>
+      </div>
+
+      <!-- Blog cards (dynamically loaded from posts.json, with static fallback) -->
+      <div id="blog-cards" class="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6">
+        <!-- Static fallback (replaced by JS when server is available) -->
+        <a href="posts/2026-04-03.html" class="group reveal block bg-cream hover:bg-warm-50 rounded-2xl p-5 md:p-6 border border-warm-100 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+          <span class="inline-block bg-coral-100 text-coral-500 text-xs font-semibold rounded-full px-3 py-0.5 mb-3">未経験者向け</span>
+          <h3 class="font-round font-bold text-base md:text-lg text-gray-800 mb-2 group-hover:text-warm-600 transition-colors leading-snug">未経験から介護職へ！最初の1ヶ月で学んだこと</h3>
+          <time class="text-gray-400 text-xs">2026年4月3日</time>
+          <div class="mt-3 text-warm-500 text-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">
+            続きを読む
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </div>
+        </a>
+        <a href="posts/2026-04-02.html" class="group reveal delay-100 block bg-cream hover:bg-warm-50 rounded-2xl p-5 md:p-6 border border-warm-100 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+          <span class="inline-block bg-sky-100 text-sky-500 text-xs font-semibold rounded-full px-3 py-0.5 mb-3">専門知識</span>
+          <h3 class="font-round font-bold text-base md:text-lg text-gray-800 mb-2 group-hover:text-warm-600 transition-colors leading-snug">在宅医療ケアの現場で求められるスキル</h3>
+          <time class="text-gray-400 text-xs">2026年4月2日</time>
+          <div class="mt-3 text-warm-500 text-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">
+            続きを読む
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </div>
+        </a>
+        <a href="posts/2026-04-01.html" class="group reveal delay-200 block bg-cream hover:bg-warm-50 rounded-2xl p-5 md:p-6 border border-warm-100 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+          <span class="inline-block bg-sky-100 text-sky-500 text-xs font-semibold rounded-full px-3 py-0.5 mb-3">沖縄</span>
+          <h3 class="font-round font-bold text-base md:text-lg text-gray-800 mb-2 group-hover:text-warm-600 transition-colors leading-snug">沖縄で介護の仕事をする魅力とは？</h3>
+          <time class="text-gray-400 text-xs">2026年4月1日</time>
+          <div class="mt-3 text-warm-500 text-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">
+            続きを読む
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA SECTION ===== -->
+  <section class="py-16 md:py-24 bg-gradient-to-b from-warm-50 to-cream relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute top-0 right-0 w-72 h-72 bg-warm-300 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-0 left-0 w-64 h-64 bg-coral-300 rounded-full blur-3xl"></div>
+    </div>
+    <div class="max-w-2xl mx-auto px-5 text-center relative z-10">
+      <div class="reveal">
+        <div class="text-5xl mb-6">🌺</div>
+        <h2 class="font-round font-bold text-2xl md:text-4xl text-gray-800 mb-4">
+          まずは気軽に<br><span class="text-warm-500">見学</span>してみませんか？
+        </h2>
+        <p class="text-gray-500 text-sm md:text-base leading-relaxed mb-8">
+          施設の雰囲気やスタッフの様子を実際にご覧ください。<br>
+          土日祝も見学対応しています。<br>
+          LINEで簡単に予約できます。
+        </p>
+        <a href="#" id="cta-line-button"
+           class="inline-flex items-center justify-center bg-[#06C755] hover:bg-[#05b04d] text-white font-bold rounded-full px-10 py-5 text-lg shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 gap-3">
+          <svg class="w-7 h-7" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.349 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/>
+          </svg>
+          LINEで見学予約する
+        </a>
+        <p class="mt-4 text-gray-400 text-xs">
+          お電話でもOK：<a href="tel:0988525255" class="text-warm-500 underline font-semibold">098-852-5255</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="bg-gray-800 text-gray-300 py-10">
+    <div class="max-w-4xl mx-auto px-5 text-center">
+      <p class="font-round font-bold text-white text-lg mb-2">デイサービスはいさい</p>
+      <p class="text-sm text-gray-400 mb-1">有限会社陽気</p>
+      <p class="text-xs text-gray-500 mb-4">〒沖縄県南城市</p>
+      <div class="flex justify-center gap-4 mb-6">
+        <a href="https://kaigo-yoki.jp/" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors text-sm underline">公式サイト</a>
+        <a href="https://www.facebook.com/haisaikaigo/" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors text-sm underline">Facebook</a>
+        <a href="https://www.instagram.com/youki8131/" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors text-sm underline">Instagram</a>
+      </div>
+      <p class="text-xs text-gray-600">&copy; 2024 有限会社陽気 All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <!-- ===== STICKY LINE BUTTON (Mobile Bottom Bar) ===== -->
+  <div id="sticky-line-bar" class="fixed bottom-0 left-0 right-0 z-50 sticky-bar bg-white/95 border-t border-gray-200 px-4 py-3 md:py-4 shadow-[0_-4px_20px_rgba(0,0,0,0.1)]">
+    <a href="#" id="sticky-line-button"
+       class="relative overflow-hidden flex items-center justify-center bg-[#06C755] text-white font-bold rounded-xl py-3.5 md:py-4 text-base md:text-lg shadow-lg hover:bg-[#05b04d] active:scale-[0.98] transition-all duration-200 max-w-lg mx-auto gap-2">
+      <!-- Shimmer effect -->
+      <div class="line-btn-shimmer absolute inset-0"></div>
+      <svg class="w-6 h-6 relative z-10" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M19.365 9.863c.349 0 .63.285.63.631 0 .345-.281.63-.63.63H17.61v1.125h1.755c.349 0 .63.283.63.63 0 .344-.281.629-.63.629h-2.386c-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63h2.386c.349 0 .63.285.63.63 0 .349-.281.63-.63.63H17.61v1.125h1.755zm-3.855 3.016c0 .27-.174.51-.432.596-.064.021-.133.031-.199.031-.211 0-.391-.09-.51-.25l-2.443-3.317v2.94c0 .344-.279.629-.631.629-.346 0-.626-.285-.626-.629V8.108c0-.27.173-.51.43-.595.06-.023.136-.033.194-.033.195 0 .375.104.495.254l2.462 3.33V8.108c0-.345.282-.63.63-.63.345 0 .63.285.63.63v4.771zm-5.741 0c0 .344-.282.629-.631.629-.345 0-.627-.285-.627-.629V8.108c0-.345.282-.63.627-.63.349 0 .631.285.631.63v4.771zm-2.466.629H4.917c-.345 0-.63-.285-.63-.629V8.108c0-.345.285-.63.63-.63.349 0 .63.285.63.63v4.141h1.756c.348 0 .629.283.629.63 0 .344-.281.629-.629.629M24 10.314C24 4.943 18.615.572 12 .572S0 4.943 0 10.314c0 4.811 4.27 8.842 10.035 9.608.391.082.923.258 1.058.59.12.301.079.766.038 1.08l-.164 1.02c-.045.301-.24 1.186 1.049.645 1.291-.539 6.916-4.078 9.436-6.975C23.176 14.393 24 12.458 24 10.314"/>
+      </svg>
+      <span class="relative z-10">LINEで見学予約 📩</span>
+    </a>
+  </div>
+
+  <!-- ===== JAVASCRIPT ===== -->
+  <script>
+    // Intersection Observer for reveal animations
+    const observerOptions = {
+      threshold: 0.15,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.reveal').forEach(el => {
+      observer.observe(el);
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Counter animation for numbers section
+    const numberObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const numberEls = entry.target.querySelectorAll('.number-glow');
+          numberEls.forEach((el, i) => {
+            el.style.animationDelay = `${i * 0.15}s`;
+            el.classList.add('animate-count-up');
+          });
+          numberObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    const numbersSection = document.getElementById('numbers');
+    if (numbersSection) {
+      numberObserver.observe(numbersSection);
+    }
+
+    // Blog posts dynamic loading
+    async function loadBlogPosts() {
+      const container = document.getElementById('blog-cards');
+      if (!container) return;
+
+      try {
+        const response = await fetch('posts/posts.json');
+        if (!response.ok) throw new Error('Failed to fetch');
+        const posts = await response.json();
+
+        // Show latest 3 posts
+        const latest = posts.slice(0, 3);
+
+        if (latest.length === 0) {
+          container.innerHTML = '<p class="col-span-full text-center text-gray-400 py-8">記事はまだありません</p>';
+          return;
+        }
+
+        const categoryColors = {
+          '未経験者向け': 'bg-coral-100 text-coral-500',
+          '専門知識': 'bg-sky-100 text-sky-500',
+          'やりがい': 'bg-warm-100 text-warm-600',
+          '働き方': 'bg-leaf-100 text-leaf-500',
+          '沖縄': 'bg-sky-100 text-sky-500',
+          'コミュニケーション': 'bg-warm-100 text-warm-600',
+          'キャリア': 'bg-leaf-100 text-leaf-500',
+          '健康': 'bg-coral-100 text-coral-500',
+        };
+
+        container.innerHTML = latest.map((post, i) => {
+          const [y, m, d] = post.date.split('-');
+          const dateStr = `${y}年${parseInt(m)}月${parseInt(d)}日`;
+          const colorClass = categoryColors[post.category] || 'bg-warm-100 text-warm-600';
+          const delay = i * 100;
+
+          return `
+            <a href="posts/${post.file}" class="group reveal delay-${delay} block bg-cream hover:bg-warm-50 rounded-2xl p-5 md:p-6 border border-warm-100 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1">
+              <span class="inline-block ${colorClass} text-xs font-semibold rounded-full px-3 py-0.5 mb-3">${post.category}</span>
+              <h3 class="font-round font-bold text-base md:text-lg text-gray-800 mb-2 group-hover:text-warm-600 transition-colors leading-snug">${post.title}</h3>
+              <time class="text-gray-400 text-xs">${dateStr}</time>
+              <div class="mt-3 text-warm-500 text-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">
+                続きを読む
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+              </div>
+            </a>
+          `;
+        }).join('');
+
+        // Re-observe new reveal elements
+        container.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+      } catch (err) {
+        // fetch failed (e.g. file:// protocol) — keep static fallback HTML as-is
+        console.log('Blog posts loaded from static fallback.');
+      }
+    }
+
+    loadBlogPosts();
+  </script>
+</body>
+</html>
