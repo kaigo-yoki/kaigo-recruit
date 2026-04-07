@@ -1,4 +1,4 @@
-name: 📝 ブログ自動生成
+name: ブログ自動生成
 
 on:
   schedule:
@@ -7,34 +7,37 @@ on:
   workflow_dispatch:
     # 手動実行も可能
 
+# 権限を最小限に制限
 permissions:
   contents: write
 
 jobs:
   generate-blog:
     runs-on: ubuntu-latest
+    # タイムアウトを設定（暴走防止）
+    timeout-minutes: 10
     steps:
-      - name: 📥 リポジトリをチェックアウト
+      - name: リポジトリをチェックアウト
         uses: actions/checkout@v4
 
-      - name: 🟢 Node.js セットアップ
+      - name: Node.js セットアップ
         uses: actions/setup-node@v4
         with:
           node-version: '20'
 
-      - name: 📦 依存関係をインストール
-        run: npm install
+      - name: 依存関係をインストール
+        run: npm ci --ignore-scripts
 
-      - name: ✍️ ブログ記事を生成
+      - name: ブログ記事を生成
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: npm run generate
 
-      - name: 📤 変更をコミット & プッシュ
+      - name: 変更をコミット & プッシュ
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add -A
+          git add posts/ sitemap.xml
           # 変更がある場合のみコミット
-          git diff --staged --quiet || git commit -m "📝 ブログ記事を自動生成 ($(date +'%Y-%m-%d'))"
+          git diff --staged --quiet || git commit -m "ブログ記事を自動生成 ($(date +'%Y-%m-%d'))"
           git push

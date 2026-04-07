@@ -1,4 +1,4 @@
-const Anthropic = require('@anthropic-ai/sdk');
+const OpenAI = require('openai');
 const fs = require('fs');
 const path = require('path');
 
@@ -91,7 +91,7 @@ function getCategoryColor(category) {
 
 // ===== 記事生成 =====
 async function generateArticle(theme) {
-  const client = new Anthropic();
+  const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
   const systemPrompt = `あなたは沖縄県南城市にある介護施設「ホームいこい」（有限会社 陽気が運営、訪問介護 ようき）のブログ記事を書くライターです。
 
@@ -135,16 +135,17 @@ SEO対策:
   "body": "HTML形式の本文（<article>タグで囲む。見出しは<h2>タグ、段落は<p>タグを使用）"
 }`;
 
-  const response = await client.messages.create({
-    model: 'claude-sonnet-4-20250514',
-    max_tokens: 2000,
-    system: systemPrompt,
+  const response = await client.chat.completions.create({
+    model: 'gpt-4o-mini',
     messages: [
+      { role: 'system', content: systemPrompt },
       { role: 'user', content: userPrompt },
     ],
+    temperature: 0.8,
+    max_tokens: 2000,
   });
 
-  const content = response.content[0].text.trim();
+  const content = response.choices[0].message.content.trim();
   try {
     const parsed = JSON.parse(content);
     return parsed;
@@ -282,9 +283,9 @@ async function main() {
   const theme = pickTheme(usedThemes);
   console.log(`テーマ: ${theme.title}（${theme.category}）`);
 
-  if (!process.env.ANTHROPIC_API_KEY) {
-    console.error('ANTHROPIC_API_KEY が設定されていません。');
-    console.error('GitHub リポジトリの Settings > Secrets > Actions に ANTHROPIC_API_KEY を追加してください。');
+  if (!process.env.OPENAI_API_KEY) {
+    console.error('OPENAI_API_KEY が設定されていません。');
+    console.error('GitHub リポジトリの Settings > Secrets > Actions に OPENAI_API_KEY を追加してください。');
     process.exit(1);
   }
 
