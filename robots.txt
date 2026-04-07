@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://kaigo-recruit.vercel.app/sitemap.xml
