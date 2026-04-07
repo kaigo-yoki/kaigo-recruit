@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>訪問介護 倫理・法令遵守研修 〜笑って学ぼう！〜</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Kosugi+Maru&display=swap');
+
+:root {
+  --primary: #2D5A8E;
+  --primary-light: #4A8FD4;
+  --accent: #E8594F;
+  --warm: #F9A826;
+  --green: #4CAF7D;
+  --bg: #FFF8F0;
+  --panel-bg: #FFFFFF;
+  --text: #2C2C2C;
+  --text-light: #666666;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Zen Maru Gothic', 'Kosugi Maru', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+.title-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #FF6B35 0%, #F7C948 50%, #FFE066 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.title-screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.08'%3E%3Ctext x='10' y='45' font-size='30'%3E😂%3C/text%3E%3C/g%3E%3C/svg%3E");
+}
+
+.title-badge {
+  background: var(--accent);
+  color: white;
+  padding: 8px 28px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+  animation: bounceIn 0.8s ease;
+}
+
+.title-main {
+  font-size: clamp(26px, 6vw, 48px);
+  font-weight: 900;
+  color: white;
+  text-align: center;
+  line-height: 1.4;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 1s ease 0.3s both;
+  text-shadow: 0 3px 12px rgba(0,0,0,0.2);
+}
+
+.title-sub {
+  font-size: clamp(14px, 3vw, 20px);
+  color: rgba(255,255,255,0.95);
+  margin-top: 16px;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 1s ease 0.6s both;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.title-characters {
+  display: flex;
+  gap: 30px;
+  margin-top: 30px;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 1s ease 0.9s both;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.title-char { text-align: center; }
+
+.title-char-icon {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 44px;
+  margin-bottom: 8px;
+  border: 4px solid rgba(255,255,255,0.6);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.title-char-name {
+  color: white;
+  font-weight: 700;
+  font-size: 13px;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+.start-btn {
+  margin-top: 36px;
+  padding: 16px 48px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 20px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 1s ease 1.2s both, pulse 2s ease-in-out 2.5s infinite;
+  box-shadow: 0 4px 20px rgba(45,90,142,0.4);
+  transition: transform 0.2s;
+}
+.start-btn:hover { transform: scale(1.05); }
+
+.progress-bar {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 5px; background: rgba(0,0,0,0.1); z-index: 100;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #FF6B35, #F7C948);
+  transition: width 0.5s ease;
+  border-radius: 0 3px 3px 0;
+}
+
+.page {
+  display: none; min-height: 100vh; padding: 24px 16px 100px;
+  max-width: 800px; margin: 0 auto; animation: fadeIn 0.6s ease;
+}
+.page.active { display: block; }
+
+.page-header { text-align: center; margin: 20px 0 30px; }
+.page-chapter {
+  display: inline-block; background: var(--primary); color: white;
+  padding: 4px 16px; border-radius: 20px; font-size: 12px;
+  font-weight: 700; letter-spacing: 1px; margin-bottom: 8px;
+}
+.page-title {
+  font-size: clamp(22px, 5vw, 32px); font-weight: 900;
+  color: var(--primary); line-height: 1.3;
+}
+
+.manga-panel {
+  background: var(--panel-bg); border-radius: 16px; padding: 24px;
+  margin-bottom: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  border: 2px solid #EEE; opacity: 0; transform: translateY(20px);
+  animation: panelIn 0.5s ease forwards;
+}
+.manga-panel:nth-child(2) { animation-delay: 0.15s; }
+.manga-panel:nth-child(3) { animation-delay: 0.3s; }
+.manga-panel:nth-child(4) { animation-delay: 0.45s; }
+.manga-panel:nth-child(5) { animation-delay: 0.6s; }
+.manga-panel:nth-child(6) { animation-delay: 0.75s; }
+
+.speech { display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start; }
+.speech.right { flex-direction: row-reverse; }
+
+.speech-avatar {
+  width: 56px; height: 56px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; flex-shrink: 0; border: 3px solid;
+}
+.speech-avatar.oyaji { background: #FFF3E0; border-color: #FF8F00; }
+.speech-avatar.student { background: #E3F2FD; border-color: var(--primary-light); }
+.speech-avatar.tsukkomi { background: #F3E5F5; border-color: #AB47BC; }
+
+.speech-bubble {
+  padding: 14px 18px; border-radius: 16px; font-size: 15px;
+  line-height: 1.7; max-width: 85%; position: relative;
+}
+
+.bubble-oyaji { background: #FFF3E0; border: 2px solid #FFE0B2; border-radius: 16px 16px 16px 4px; }
+.bubble-student { background: #E3F2FD; border: 2px solid #BBDEFB; border-radius: 16px 16px 4px 16px; }
+.bubble-tsukkomi { background: #F3E5F5; border: 2px solid #E1BEE7; border-radius: 16px 16px 4px 16px; }
+
+.speech-name { font-size: 11px; font-weight: 700; color: var(--text-light); margin-bottom: 4px; }
+
+.oyaji-gag {
+  background: linear-gradient(135deg, #FFF9C4, #FFF176);
+  border: 3px solid #FFD54F;
+  border-radius: 16px;
+  padding: 16px 20px;
+  margin: 14px 0;
+  text-align: center;
+  position: relative;
+  animation: gagPop 0.5s ease;
+}
+
+.oyaji-gag::before {
+  content: '\1F4A5';
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 28px;
+}
+
+.gag-text {
+  font-size: 20px;
+  font-weight: 900;
+  color: #E65100;
+  letter-spacing: 2px;
+}
+
+.gag-sub {
+  font-size: 12px;
+  color: #BF360C;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+.tsukkomi-text {
+  font-size: 14px;
+  font-weight: 900;
+  color: #7B1FA2;
+  text-align: center;
+  margin: 4px 0 10px;
+  letter-spacing: 1px;
+}
+
+.shiin {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 900;
+  color: #90A4AE;
+  letter-spacing: 12px;
+  margin: 8px 0;
+  animation: shiinFade 1.5s ease;
+}
+
+.effect-lines {
+  position: relative;
+  overflow: hidden;
+}
+.effect-lines::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: repeating-linear-gradient(
+    45deg, transparent, transparent 8px,
+    rgba(255,200,0,0.08) 8px, rgba(255,200,0,0.08) 16px
+  );
+  pointer-events: none;
+}
+
+.highlight-box { border-radius: 12px; padding: 20px; margin: 16px 0; }
+.highlight-box.law { background: linear-gradient(135deg, #E8EAF6, #C5CAE9); border-left: 5px solid #3F51B5; }
+.highlight-box.important { background: linear-gradient(135deg, #FFF3E0, #FFE0B2); border-left: 5px solid var(--warm); }
+.highlight-box.danger { background: linear-gradient(135deg, #FFEBEE, #FFCDD2); border-left: 5px solid var(--accent); }
+.highlight-box.good { background: linear-gradient(135deg, #E8F5E9, #C8E6C9); border-left: 5px solid var(--green); }
+.highlight-box .box-title { font-weight: 900; font-size: 15px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+.highlight-box .box-content { font-size: 14px; line-height: 1.8; }
+
+.scenario { background: #F5F5F5; border-radius: 12px; padding: 20px; margin: 16px 0; border: 2px dashed #CCC; }
+.scenario-title { font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 10px; }
+
+.quiz-box { background: white; border: 3px solid var(--primary); border-radius: 16px; padding: 24px; margin: 20px 0; }
+.quiz-question { font-size: 16px; font-weight: 700; margin-bottom: 16px; color: var(--primary); }
+.quiz-options { display: flex; flex-direction: column; gap: 10px; }
+.quiz-option {
+  padding: 14px 18px; background: #F5F5F5; border: 2px solid #DDD;
+  border-radius: 12px; cursor: pointer; font-size: 14px; font-family: inherit;
+  text-align: left; transition: all 0.3s; line-height: 1.5;
+}
+.quiz-option:hover { border-color: var(--primary-light); background: #E3F2FD; }
+.quiz-option.correct { background: #E8F5E9; border-color: var(--green); }
+.quiz-option.wrong { background: #FFEBEE; border-color: var(--accent); }
+.quiz-feedback { margin-top: 14px; padding: 14px; border-radius: 10px; font-size: 14px; line-height: 1.7; display: none; }
+.quiz-feedback.show { display: block; }
+
+.point-list { list-style: none; padding: 0; }
+.point-list li {
+  padding: 10px 0 10px 36px; position: relative;
+  font-size: 15px; line-height: 1.6; border-bottom: 1px solid #EEE;
+}
+.point-list li::before {
+  content: '\2713'; position: absolute; left: 0;
+  width: 24px; height: 24px; background: var(--green);
+  color: white; border-radius: 50%; display: flex;
+  align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; top: 12px;
+}
+
+.nav-bar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: white; border-top: 2px solid #EEE;
+  padding: 12px 20px; display: flex; justify-content: space-between;
+  align-items: center; z-index: 50;
+}
+.nav-btn {
+  padding: 10px 24px; border: none; border-radius: 30px;
+  font-size: 15px; font-weight: 700; font-family: inherit;
+  cursor: pointer; transition: all 0.2s;
+}
+.nav-btn.prev { background: #EEE; color: var(--text); }
+.nav-btn.next { background: var(--primary); color: white; box-shadow: 0 2px 10px rgba(45,90,142,0.3); }
+.nav-btn:hover { transform: translateY(-2px); }
+.nav-btn:disabled { opacity: 0.3; cursor: default; transform: none; }
+.nav-page { font-size: 13px; color: var(--text-light); font-weight: 700; }
+
+.toc { display: grid; gap: 12px; margin-top: 20px; }
+.toc-item {
+  display: flex; align-items: center; gap: 14px; padding: 16px;
+  background: white; border-radius: 12px; border: 2px solid #EEE;
+  cursor: pointer; transition: all 0.3s;
+}
+.toc-item:hover { border-color: var(--primary-light); transform: translateX(4px); }
+.toc-num {
+  width: 36px; height: 36px; border-radius: 50%; background: var(--primary);
+  color: white; display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 16px; flex-shrink: 0;
+}
+.toc-text { font-size: 15px; font-weight: 700; }
+
+.ending { text-align: center; padding: 40px 20px; }
+.ending-icon { font-size: 80px; margin-bottom: 16px; }
+.ending-title { font-size: 28px; font-weight: 900; color: var(--primary); margin-bottom: 12px; }
+.ending-msg { font-size: 16px; color: var(--text-light); line-height: 1.8; }
+
+.certificate {
+  background: linear-gradient(135deg, #FFF8E1, #FFECB3);
+  border: 3px solid var(--warm); border-radius: 16px;
+  padding: 30px; margin: 30px auto; max-width: 500px;
+}
+.certificate-title { font-size: 22px; font-weight: 900; color: var(--warm); }
+.certificate-body { font-size: 14px; margin-top: 12px; line-height: 1.8; }
+
+.manga-divider {
+  display: flex; align-items: center; gap: 10px; margin: 20px 0;
+}
+.manga-divider::before, .manga-divider::after {
+  content: ''; flex: 1; height: 2px;
+  background: linear-gradient(90deg, transparent, #DDD, transparent);
+}
+.manga-divider span { font-size: 20px; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes bounceIn { 0% { transform: scale(0); } 60% { transform: scale(1.1); } 100% { transform: scale(1); } }
+@keyframes panelIn { to { opacity: 1; transform: translateY(0); } }
+@keyframes pulse { 0%, 100% { box-shadow: 0 4px 20px rgba(45,90,142,0.4); } 50% { box-shadow: 0 4px 30px rgba(45,90,142,0.7); } }
+@keyframes gagPop { 0% { transform: scale(0.5) rotate(-5deg); opacity: 0; } 50% { transform: scale(1.1) rotate(2deg); } 100% { transform: scale(1) rotate(0); } }
+@keyframes shiinFade { 0% { opacity: 0; letter-spacing: 2px; } 100% { opacity: 1; letter-spacing: 12px; } }
+
+@media (max-width: 600px) {
+  .speech-avatar { width: 44px; height: 44px; font-size: 22px; }
+  .speech-bubble { font-size: 13px; }
+  .gag-text { font-size: 17px; }
+}
+</style>
+</head>
+<body>
+
+<!-- TITLE -->
+<div class="title-screen" id="titleScreen">
+  <div class="title-badge">訪問介護 法定研修</div>
+  <div class="title-main">笑って学ぼう！💥<br>倫理・法令遵守<br>（コンプライアンス）</div>
+  <div class="title-sub">〜 親父ギャグで覚えれば忘れない！？ 〜<br>※ ギャグのクオリティは保証しません</div>
+  <div class="title-characters">
+    <div class="title-char">
+      <div class="title-char-icon" style="background:#FFF3E0;">🧔</div>
+      <div class="title-char-name">ダジャレ所長<br>（おやじ先生）</div>
+    </div>
+    <div class="title-char">
+      <div class="title-char-icon" style="background:#E3F2FD;">👩</div>
+      <div class="title-char-name">新人ヘルパー<br>さくらさん</div>
+    </div>
+    <div class="title-char">
+      <div class="title-char-icon" style="background:#F3E5F5;">👩‍🦰</div>
+      <div class="title-char-name">ツッコミ担当<br>先輩みさきさん</div>
+    </div>
+  </div>
+  <button class="start-btn" onclick="startTraining()">▶ 研修をはじめる</button>
+</div>
+
+<div class="progress-bar" id="progressBar" style="display:none;"><div class="progress-fill" id="progressFill"></div></div>
+
+<!-- PAGE 1: 目次 -->
+<div class="page" id="page1">
+  <div class="page-header">
+    <div class="page-chapter">はじめに</div>
+    <div class="page-title">今日の研修メニュー 📋</div>
+  </div>
+  <div class="manga-panel">
+    <div class="speech">
+      <div class="speech-avatar oyaji">🧔</div>
+      <div class="speech-bubble bubble-oyaji">
+        <div class="speech-name">ダジャレ所長</div>
+        やあやあ、みんな集まったね！今日は<strong>「倫理・法令遵守（コンプライアンス）」</strong>の研修だよ。
+      </div>
+    </div>
+    <div class="oyaji-gag">
+      <div class="gag-text">「コンプラ」だけに…<br>今日は「困プラ（こんぷら）」ないように教えるよ！</div>
+      <div class="gag-sub">※ 困らないように、という意味です</div>
+    </div>
+    <div class="shiin">シーーーン</div>
+    <div class="speech right">
+      <div class="speech-avatar tsukkomi">👩‍🦰</div>
+      <div class="speech-bubble bubble-tsukkomi">
+        <div class="speech-name">みさき先輩</div>
+        所長…開始3秒でそれですか。さくらちゃん、このおじさんのギャグは無視して、中身はちゃんとしてるから安心してね。
+      </div>
+    </div>
+    <div class="speech right">
+      <div class="speech-avatar student">👩</div>
+      <div class="speech-bubble bubble-student">
+        <div class="speech-name">さくら</div>
+        は、はい…！（この研修、大丈夫かな…？😂）
+      </div>
+    </div>
+  </div>
+
+  <div class="toc">
+    <div class="toc-item" onclick="goToPage(2)"><div class="toc-num">1</div><div class="toc-text">コンプライアンスってなに？</div></div>
+    <div class="toc-item" onclick="goToPage(3)"><div class="toc-num">2</div><div class="toc-text">守秘義務とプライバシー保護</div></div>
+    <div class="toc-item" onclick="goToPage(4)"><div class="toc-num">3</div><div class="toc-text">虐待防止と身体拘束の禁止</div></div>
+    <div class="toc-item" onclick="goToPage(5)"><div class="toc-num">4</div><div class="toc-text">ハラスメント防止</div></div>
+    <div class="toc-item" onclick="goToPage(6)"><div class="toc-num">5</div><div class="toc-text">記録と報告の義務</div></div>
+    <div class="toc-item" onclick="goToPage(7)"><div class="toc-num">6</div><div class="toc-text">確認クイズ＆まとめ</div></div>
+  </div>
+</div>
+
+<!-- PAGE 2: コンプライアンスとは -->
+<div class="page" id="page2">
+  <div class="page-header">
+    <div class="page-chapter">第1章</div>
+    <div class="page-title">コンプライアンスってなに？ 🤔</div>
+  </div>
+  <div class="manga-panel">
+    <div class="speech right">
+      <div class="speech-avatar student">👩</div>
+      <div class="speech-bubble bubble-student">
+        <div class="speech-name">さくら</div>
+        所長、「コンプライアンス」って正直よくわかりません…
+      </div>
+    </div>
+    <div class="speech">
+      <div class="speech-avatar oyaji">🧔</div>
+      <div class="speech-bubble bubble-oyaji">
+        <div class="speech-name">ダジャレ所長</div>
+        いい質問だね！「コンプライアンス（Compliance）」は<strong>「法令遵守」</strong>っていう意味。法律やルールをちゃんと守ること。でもそれだけじゃなくて…
+      </div>
+    </div>
+    <div class="oyaji-gag">
+      <div class="gag-text">法律を守る＝「ほう」っておけない！</div>
+      <div class="gag-sub">※「法」と「放っておけない」をかけています</div>
+    </div>
+    <div class="speech right">
+      <div class="speech-avatar tsukkomi">👩‍🦰</div>
+      <div class="speech-bubble bubble-tsukkomi">
+        <div class="speech-name">みさき先輩</div>
+        …所長のギャグは放っておいて。要するに<strong>「法律＋社会ルール＋職業人としてのモラル」</strong>全部ひっくるめて守ろうね、ということよ！
+      </div>
+    </div>
+  </div>
+  <div class="manga-panel">
+    <div class="highlight-box law">
+      <div class="box-title">📘 訪問介護に関わる主な法律</div>
+      <div class="box-content">
+        <strong>① 介護保険法</strong> — サービスの基本ルール<br>
+        <strong>② 老人福祉法</strong> — 高齢者の福祉に関する法律<br>
+        <strong>③ 高齢者虐待防止法</strong> — 虐待の発見・通報の義務<br>
+        <strong>④ 個人情報保護法</strong> — 利用者の情報を守る<br>
+        <strong>⑤ 障害者総合支援法</strong> — 障害福祉サービスのルール
+      </div>
+    </div>
+    <div class="speech">
+      <div class="speech-avatar oyaji">🧔</div>
+      <div class="speech-bubble bubble-oyaji">
+        <div class="speech-name">ダジャレ所長</div>
+        法律の名前を全部覚えなくてもいいよ。<br>大事なのは<strong>「なぜルールがあるのか」</strong>を理解すること。<br><br>
+        すべてのルールの真ん中にあるのは…<strong>「利用者さんの人権と尊厳を守るため」</strong>なんだ ✨
+      </div>
+    </div>
+  </div>
+  <div class="manga-panel">
+    <div class="speech">
+      <div class="speech-avatar oyaji">🧔</div>
+      <div class="speech-bubble bubble-oyaji">
+        <div class="speech-name">ダジャレ所長</div>
+        ここで覚え方を教えよう！
+      </div>
+    </div>
+    <div class="oyaji-gag">
+      <div class="gag-text">コンプラは<br>「こんにちは」「プライバシー」「ラブ（愛）」<br>の略！…なんちゃって</div>
+      <div class="gag-sub">※ 実際の略ではありません。でもこの3つの心は大事です</div>
+    </div>
+    <div class="speech right">
+      <div class="speech-avatar student">👩</div>
+      <div class="speech-bubble bubble-student">
+        <div class="speech-name">さくら</div>
+        あはは！でも「あいさつ」「プライバシー」「愛情」って確かに介護の基本ですね！（意外とうまい…？）
+      </div>
+    </div>
+    <div class="speech right">
+      <div class="speech-avatar tsukkomi">👩‍🦰</div>
+      <div class="speech-bubble bubble-tsukkomi">
+        <div class="speech-name">みさき先輩</div>
+        さくらちゃん、甘やかさないで！！！
+      </div>
+    </div>
+  </div>
+  <div class="manga-panel">
+    <div class="highlight-box important">
+      <div class="box-title">💡 ポイント</div>
+      <div class="box-content">
+        コンプライアンス ＝ <strong>法律 ＋ 社会規範 ＋ 職業倫理</strong><br>
+        → すべての中心にあるのは<strong>「利用者さんの尊厳を守ること」</strong>です。
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 3: 守秘義務 -->
+<div class="page" id="page3">
+  <div class="page-header">
+    <div class="page-chapter">第2章</div>
+    <div class="page-title">守秘義務とプライバシー保護 🔒</div>
+  </div>
+  <div class="manga-panel">
+    <div class="speech">
+      <div class="speech-avatar oyaji">🧔</div>
+      <div class="speech-bubble bubble-oyaji">
+        <div class="speech-name">ダジャレ所長</div>
+        さて、守秘義務の話をしよう。訪問介護では利用者さんの<strong>とてもプライベートな情報</strong>に触れる。病状、家族のこと、経済状況…
+      </div>
+    </div>
+    <div class="oyaji-gag">
+      <div class="gag-text">秘密は「ヒミツ（秘蜜）」のように<br>甘くても口からこぼすな！🍯</div>
+      <div class="gag-sub">※ 蜂蜜と秘密をかけています</div>
+    </div>
+    <div class="speech right">
+      <div class="speech-avatar tsukkomi">👩‍🦰</div>
+      <div class="speech-bubble bubble-tsukkomi">
+        <div class="speech-name">みさき先輩</div>
+        …甘いのは所長のギャグセンスだけで十分です。でも言ってることは正しい！<strong>絶対に漏らしちゃダメ</strong>よ。
+      </div>
+    </div>
+  </div>
+  <div class="manga-panel">
+    <div class="scenario">
+      <div class="scenario-title">📖 こんな場面を想像してみよう</div>
+      <p style="font-size:14px;line-height:1.8;">仕事帰りにカフェで同僚のヘルパーとお茶。同僚が「今日行った〇〇さんのお宅、すごく散らかっていて大変だったの〜」と話し始めた。</p>
+    </div>
+    <div class="speech right">
+      <div class="speech-avatar student">👩</div>
+      <div class="speech-bubble bubble-student">
+        <div class="speech-name">さくら</div>
+        あ、これはよくありそう…でもダメなんですか？
+      </div>
+    </div>
+    <div class="speech">
+      <div class="speech-avatar oyaji">🧔</div>
+      <div class="speech-bubble bubble-oyaji">
+        <div class="speech-name">ダジャレ所長</div>
+        <strong>完全にアウト！</strong>名前を出さなくても場所や状況で<strong>誰か特定される可能性</strong>がある。カフェには知らない人の耳もあるからね。
+      </div>
+    </div>
+    <div class="oyaji-gag">
+      <div class="gag-text">カフェで「漏らす」のは<br>コーヒーだけにしてくれ！☕</div>
+    </div>
+    <div class="shiin">シーーーン</div>
+    <div class="speech right">
+      <div class="speech-avatar tsukkomi">👩‍🦰</div>
+      <div class="speech-bubble bubble-tsukkomi">
+        <div class="speech-name">みさき先輩</div>
+        ……（無言でコーヒーを飲む）。とにかく！<strong>公共の場・SNS・家族への話</strong>、全部NGよ！
+      </div>
+    </div>
+  </div>
+  <div class="manga-panel">
+    <div class="highlight-box danger">
+      <div class="box-title">🚫 こんな行為はNG！</div>
+      <div class="box-content">
+        ❌ 家族や友人に利用者さんの話をする<br>
+        ❌ カフェやランチで利用者の個人情報を話す<br>
+        ❌ SNSに「今日の訪問先で…」と投稿する<br>
+        ❌ 利用者宅で撮影した写真を送る・保存する<br>
+        ❌ 記録書類を電車やカフェに置き忘れる
+      </div>
+    </div>
+  </div>
+  <div class="manga-panel">
+    <div class="highlight-box good">
+      <div class="box-title">✅ 正しい対応</div>
+      <div class="box-content">
+        ✔ 情報共有は<strong>事業所内で、必要な人にだけ</strong><br>
+        ✔ 記録書類は<strong>鍵のかかる場所に保管</strong><br>
+        ✔ <strong>退職後も守秘義務は続く</strong>（辞めたら話してOKではない！）<br>
+        ✔ 迷ったら<strong>サービス提供責任者に相談</strong>
+      </div>
+    </div>
+    <div class="speech">
+      <div class="speech-avatar oyaji">🧔</div>
+      <div class="speech-bubble bubble-oyaji">
+        <div class="speech-name">ダジャレ所長</div>
+        「もし自分が利用者さんだったら？」って考えてみて。自分の情報をカフェで話されてたら…
+      </div>
+    </div>
+    <div class="oyaji-gag">
+      <div class="gag-text">情報漏洩は「じょうほう（上方）」じゃなく<br>「下方」修正！つまり評価ダダ下がり！📉</div>
+    </div>
+    <div class="speech right">
+      <div class="speech-avatar student">👩</div>
+      <div class="speech-bubble bubble-student">
+        <div class="speech-name">さくら</div>
+        自分だったら絶対嫌です…！気をつけます！（ギャグは聞かなかったことにしよう…）
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 4: 虐待防止 -->
+<div class="page" id="page4">
+  <div class="page-header">
+    <div class="page-chapter">第3章</div>
+    <div class="page-title">虐待防止と身体拘束の禁止 🛡️</div>
+  </div>
+  <div class="manga-panel">
+    <div class="speech">
+      <div class="speech-avatar oyaji">🧔</div>
+      <div class="speech-bubble bubble-oyaji">
+        <div class="speech-name">ダジャレ所長</div>
+        さて、ここからは真剣な話だよ。ギャグは少なめでいくから…
+      </div>
+    </div>
+    <div class="speech right">
+      <div class="speech-avatar tsukkomi">👩‍🦰</div>
+      <div class="speech-bubble bubble-tsukkomi">
+        <div class="speech-name">みさき先輩</div>
+        （少なめ…ゼロじゃないんだ…）
+      </div>
+    </div>
+    <div class="speech">
+      <div class="speech-avatar oyaji">🧔</div>
+      <div class="speech-bubble bubble-oyaji">
+        <div class="speech-name">ダジャレ所長</div>
+        <strong>「高齢者虐待防止法」</strong>では、虐待を<strong>発見した人は通報する義務</strong>がある。そして虐待は殴る・蹴るだけじゃないんだ。
+      </div>
+    </div>
+  </div>
+  <div class="manga-panel">
+    <div class="highlight-box danger">
+      <div class="box-title">⚠️ 5つの虐待の種類</div>
+      <div class="box-content">
+        <strong>① 身体的虐待</strong> — 叩く、つねる、縛り付ける<br>
+        <strong>② 心理的虐待</strong> — 怒鳴る、無視する、「早くして！」と怒る<br>
+        <strong>③ 性的虐待</strong> — 本人の同意のない性的な行為<br>
+        <strong>④ 経済的虐待</strong> — お金を勝手に使う、年金を搾取<br>
+        <strong>⑤ 介護放棄（ネグレクト）</strong> — 食事を与えない、不潔なまま放置
+      </div>
+    </div>
+  </div>
+  <div class="manga-panel">
+    <div class="scenario">
+      <div class="scenario-title">📖 こんな場面を想像してみよう</div>
+      <p style="font-size:14px;line-height:1.8;">利用者のAさんがなかなかご飯を食べてくれない。時間が押していて、つい「もう！早く食べてください！」と強い口調で言ってしまった。</p>
+    </div>
+    <div class="speech right">
+      <div class="speech-avatar student">👩</div>
+      <div class="speech-bubble bubble-student">
+        <div class="speech-name">さくら</div>
+        え、悪気がなくても虐待…？
+      </div>
+    </div>
+    <div class="speech">
+      <div class="speech-avatar oyaji">🧔</div>
+      <div class="speech-bubble bubble-oyaji">
+        <div class="speech-name">ダジャレ所長</div>
+        <strong>心理的虐待に該当する可能性がある。</strong>大切なのは<strong>「自分の意図」じゃなく「相手がどう感じたか」</strong>なんだ。
+      </div>
+    </div>
+    <div class="oyaji-gag">
+      <div class="gag-text">虐待は「ぎゃくたい（逆対）」応！<br>利用者さんの「逆の立場」で考えよう！</div>
+      <div class="gag-sub">※ 自分がされたらどう思うか、がポイントです</div>
+    </div>
+    <div class="speech right">
+      <div class="speech-avatar tsukkomi">👩‍🦰</div>
+      <div class="speech-bubble bubble-tsukkomi">
+        <div class="speech-name">みさき先輩</div>
+        真面目な話の途中でも入れてくるのね…。でもそう！<strong>「自分がされたらどう思う？」</strong>って常に考えることが大事よ。
+      </div>
+    </div>
+  </div>
+  <div class="manga-panel">
+    <div class="highlight-box important">
+      <div class="box-title">🔑 身体拘束の原則禁止</div>
+      <div class="box-content">
+        身体拘束は<strong>原則禁止</strong>。やむを得ない場合でも<strong>3つ全て</strong>を満たす必要あり：<br><br>
+        <strong>① 切迫性</strong> — 生命に危険が迫っている<br>
+        <strong>② 非代替性</strong> — 他に方法がない<br>
+        <strong>③ 一時性</strong> — 一時的なもの<br><br>
+        ※ 部屋に鍵をかけるのも身体拘束。<strong>迷ったら必ず上司に相談！</strong>
+      </div>
+    </div>
+  </div>
+  <div class="manga-panel">
+    <div class="highlight-box good">
+      <div class="box-title">💚 虐待を発見したら？</div>
+      <div class="box-content">
+        <strong>① 利用者さんの安全を確保</strong><br>
+        <strong>② すぐにサービス提供責任者・管理者に報告</strong><br>
+        <strong>③ 事業所は市町村に通報する義務あり</strong><br><br>
+        通報者が不利益を受けることは<strong>法律で禁止</strong>されてます。<br>
+        <strong>「見て見ぬふり」は絶対にしないで！</strong>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 5: ハラスメント -->
+<div class="page" id="page5">
+  <div class="page-header">
+    <div class="page-chapter">第4章</div>
+    <div class="page-title">ハラスメント防止 🤝</div>
+  </div>
+  <div class="manga-panel">
+    <div class="speech">
+      <div class="speech-avatar oyaji">🧔</div>
+      <div class="speech-bubble bubble-oyaji">
+        <div class="speech-name">ダジャレ所長</div>
+        ハラスメントは、<strong>する側にもされる側にもなる可能性</strong>がある。利用者さんやご家族からのハラスメントも、職員間のハラスメントもあるんだ。
+      </div>
+    </div>
+    <div class="oyaji-gag">
+      <div class="gag-text">ハラスメントは「腹す（はらす）」<br>…じゃなくて「晴らす」のは相談で！</div>
+      <div class="gag-sub">※ 一人で抱え込まず相談で解決しよう</div>
+    </div>
+    <div class="speech right">
+      <div class="speech-avatar tsukkomi">👩‍🦰</div>
+      <div class="speech-bubble bubble-tsukkomi">
+        <div class="speech-name">みさき先輩</div>
+        所長、そのギャグ自体がハラスメントギリギリですよ…
+      </div>
+    </div>
+    <div class="speech">
+      <div class="speech-avatar oyaji">🧔</div>
+      <div class="speech-bubble bubble-oyaji">
+        <div class="speech-name">ダジャレ所長</div>
+        ぐはっ…！すまん！（反省）
+      </div>
+    </div>
+  </div>
+  <div class="manga-panel">
+    <div class="highlight-box danger">
+      <div class="box-title">⚠️ 訪問介護で起こりやすいハラスメント</div>
+      <div class="box-content">
+        <strong>【利用者・家族から】</strong><br>
+        ・身体を触られる（セクハラ）<br>
+        ・「クビにしてやる」と脅される（パワハラ）<br>
+        ・サービス範囲外のことを強要される<br><br>
+        <strong>【職員間で】</strong><br>
+        ・「そんなこともできないの？」と繰り返し言われる<br>
+        ・特定の人だけ情報共有から外される
+      </div>
+    </div>
+  </div>
+  <div class="manga-panel">
+    <div class="speech right">
+      <div class="speech-avatar student">👩</div>
+      <div class="speech-bubble bubble-student">
+        <div class="speech-name">さくら</div>
+        利用者さんからハラスメントを受けても…我慢するしかないんですか？
+      </div>
+    </div>
+    <div class="speech">
+      <div class="speech-avatar oyaji">🧔</div>
+      <div class="speech-bubble bubble-oyaji">
+        <div class="speech-name">ダジャレ所長</div>
+        <strong>絶対に我慢しちゃダメ！</strong>ここだけはマジで言うよ。事業所には<strong>ヘルパーを守る義務</strong>がある。すぐにサービス提供責任者に報告してね。
+      </div>
+    </div>
+    <div class="speech right">
+      <div class="speech-avatar tsukkomi">👩‍🦰</div>
+      <div class="speech-bubble bubble-tsukkomi">
+        <div class="speech-name">みさき先輩</div>
+        所長がまともなこと言ってる…！感動…！でもホントにその通り。<strong>一人で抱え込まないで</strong>ね、さくらちゃん。
+      </div>
+    </div>
+  </div>
+  <div class="manga-panel">
+    <div class="highlight-box good">
+      <div class="box-title">✅ ハラスメントを受けたときの対応</div>
+      <div class="box-content">
+        <strong>① その場から離れる</strong>（安全確保が最優先）<br>
+        <strong>② 日時・内容を具体的に記録</strong><br>
+        <strong>③ サービス提供責任者・管理者に報告</strong><br>
+        <strong>④ 一人で解決しようとしない</strong><br><br>
+        あなたの安全と心の健康はとても大切です！
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 6: 記録と報告 -->
+<div class="page" id="page6">
+  <div class="page-header">
+    <div class="page-chapter">第5章</div>
+    <div class="page-title">記録と報告の義務 📝</div>
+  </div>
+  <div class="manga-panel">
+    <div class="speech">
+      <div class="speech-avatar oyaji">🧔</div>
+      <div class="speech-bubble bubble-oyaji">
+        <div class="speech-name">ダジャレ所長</div>
+        さぁ、記録の話だ！介護の世界では…
+      </div>
+    </div>
+    <div class="oyaji-gag">
+      <div class="gag-text">記録がない＝「記ろく（奇跡）」でもない限り<br>やっていないのと同じ！📝</div>
+      <div class="gag-sub">※ 記録なしにサービスの証明は奇跡でも起きない限り無理です</div>
+    </div>
+    <div class="speech right">
+      <div class="speech-avatar student">👩</div>
+      <div class="speech-bubble bubble-student">
+        <div class="speech-name">さくら</div>
+        ええっ！ちゃんとやったのに記録がなかったらダメなんですか！？
+      </div>
+    </div>
+    <div class="speech right">
+      <div class="speech-avatar tsukkomi">👩‍🦰</div>
+      <div class="speech-bubble bubble-tsukkomi">
+        <div class="speech-name">みさき先輩</div>
+        そう、<strong>「記録がない＝やっていない」</strong>と見なされるの。これは<strong>利用者さんを守るため</strong>でもあり、<strong>ヘルパー自身を守るため</strong>でもあるのよ。
+      </div>
+    </div>
+  </div>
+  <div class="manga-panel">
+    <div class="highlight-box important">
+      <div class="box-title">📋 記録のポイント</div>
+      <div class="box-content">
+        <strong>① 事実を書く</strong> — 「機嫌悪そう」→「表情が硬く、声かけに返事がなかった」<br><br>
+        <strong>② 5W1H</strong> — いつ・どこで・誰が・何を・なぜ・どのように<br><br>
+        <strong>③ すぐに書く</strong> — 記憶が新しいうちに！<br><br>
+        <strong>④ 改ざん・虚偽記載は厳禁</strong> — やってないのに「やった」＝法律違反
+      </div>
+    </div>
+    <div class="speech">
+      <div class="speech-avatar oyaji">🧔</div>
+      <div class="speech-bubble bubble-oyaji">
+        <div class="speech-name">ダジャレ所長</div>
+        覚え方を教えてあげよう！
+      </div>
+    </div>
+    <div class="oyaji-gag">
+      <div class="gag-text">記録は「すぐ書く、事実書く、嘘書かん！」<br>略して「スジウ」…筋を通せ！💪</div>
+      <div class="gag-sub">※ 苦しいですが、すぐ・事実・嘘なし は本当に大事です</div>
+    </div>
+    <div class="shiin">シーーーン</div>
+    <div class="speech right">
+      <div class="speech-avatar tsukkomi">👩‍🦰</div>
+      <div class="speech-bubble bubble-tsukkomi">
+        <div class="speech-name">みさき先輩</div>
+        苦しすぎて逆に忘れられないかも…。まぁいいわ。
+      </div>
+    </div>
+  </div>
+  <div class="manga-panel">
+    <div class="highlight-box danger">
+      <div class="box-title">🚫 こんな記録はNG！</div>
+      <div class="box-content">
+        ❌ 「特変なし」だけ（具体性ゼロ）<br>
+        ❌ やってないサービスの記録（不正請求！）<br>
+        ❌ 修正液で消す（二重線＋訂正印が正解）<br>
+        ❌ 数日後にまとめて書く（記憶があいまいに）
+      </div>
+    </div>
+  </div>
+  <div class="manga-panel">
+    <div class="speech">
+      <div class="speech-avatar oyaji">🧔</div>
+      <div class="speech-bubble bubble-oyaji">
+        <div class="speech-name">ダジャレ所長</div>
+        最後に<strong>ホウ・レン・ソウ</strong>ね！<br><br>
+        <strong>報告</strong>：結果や変化を上司に伝える<br>
+        <strong>連絡</strong>：関係者に情報を共有<br>
+        <strong>相談</strong>：判断に迷ったら一人で決めない<br><br>
+        特に<strong>利用者さんの異変</strong>に気づいたら<strong>即報告</strong>！
+      </div>
+    </div>
+    <div class="oyaji-gag">
+      <div class="gag-text">ホウレンソウは食べても美味しいけど<br>仕事のホウレンソウはもっと大事！🥬</div>
+    </div>
+    <div class="speech right">
+      <div class="speech-avatar student">👩</div>
+      <div class="speech-bubble bubble-student">
+        <div class="speech-name">さくら</div>
+        あはは！これは素直にわかりやすいです！😂
+      </div>
+    </div>
+    <div class="speech right">
+      <div class="speech-avatar tsukkomi">👩‍🦰</div>
+      <div class="speech-bubble bubble-tsukkomi">
+        <div class="speech-name">みさき先輩</div>
+        …ホウレンソウのやつは正直、昭和からあるネタよ。
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 7: クイズ＆まとめ -->
+<div class="page" id="page7">
+  <div class="page-header">
+    <div class="page-chapter">最終章</div>
+    <div class="page-title">確認クイズ＆まとめ 🎯</div>
+  </div>
+  <div class="manga-panel">
+    <div class="speech">
+      <div class="speech-avatar oyaji">🧔</div>
+      <div class="speech-bubble bubble-oyaji">
+        <div class="speech-name">ダジャレ所長</div>
+        最後にクイズだ！全問正解したら…
+      </div>
+    </div>
+    <div class="oyaji-gag">
+      <div class="gag-text">クイズに「食い」ついて<br>全問正解を目指そう！🍴</div>
+    </div>
+    <div class="speech right">
+      <div class="speech-avatar tsukkomi">👩‍🦰</div>
+      <div class="speech-bubble bubble-tsukkomi">
+        <div class="speech-name">みさき先輩</div>
+        最後までブレないわねこの人…。はい、いきましょう！
+      </div>
+    </div>
+  </div>
+
+  <div class="manga-panel">
+    <div class="quiz-box">
+      <div class="quiz-question">Q1. 退職後は守秘義務がなくなるので、利用者さんの話をしてもよい？</div>
+      <div class="quiz-options" id="quiz1">
+        <button class="quiz-option" onclick="checkQuiz('quiz1',this,false)">⭕ はい、退職後はOK</button>
+        <button class="quiz-option" onclick="checkQuiz('quiz1',this,true)">❌ いいえ、退職後も守秘義務は続く</button>
+      </div>
+      <div class="quiz-feedback" id="quiz1-fb"></div>
+    </div>
+  </div>
+
+  <div class="manga-panel">
+    <div class="quiz-box">
+      <div class="quiz-question">Q2. 利用者さんに「早くして！」と怒鳴るのは何に該当する？</div>
+      <div class="quiz-options" id="quiz2">
+        <button class="quiz-option" onclick="checkQuiz('quiz2',this,false)">🅰 身体的虐待</button>
+        <button class="quiz-option" onclick="checkQuiz('quiz2',this,true)">🅱 心理的虐待</button>
+        <button class="quiz-option" onclick="checkQuiz('quiz2',this,false)">🅲 特に問題なし</button>
+      </div>
+      <div class="quiz-feedback" id="quiz2-fb"></div>
+    </div>
+  </div>
+
+  <div class="manga-panel">
+    <div class="quiz-box">
+      <div class="quiz-question">Q3. 利用者さんからハラスメントを受けたらどうする？</div>
+      <div class="quiz-options" id="quiz3">
+        <button class="quiz-option" onclick="checkQuiz('quiz3',this,false)">🅰 プロとして我慢する</button>
+        <button class="quiz-option" onclick="checkQuiz('quiz3',this,false)">🅱 その場で利用者さんに注意する</button>
+        <button class="quiz-option" onclick="checkQuiz('quiz3',this,true)">🅲 安全を確保し、すぐにサ責に報告する</button>
+      </div>
+      <div class="quiz-feedback" id="quiz3-fb"></div>
+    </div>
+  </div>
+
+  <div class="manga-panel">
+    <div class="quiz-box">
+      <div class="quiz-question">Q4. 記録で正しい修正方法は？</div>
+      <div class="quiz-options" id="quiz4">
+        <button class="quiz-option" onclick="checkQuiz('quiz4',this,false)">🅰 修正液で消して書き直す</button>
+        <button class="quiz-option" onclick="checkQuiz('quiz4',this,true)">🅱 二重線を引いて訂正印を押す</button>
+        <button class="quiz-option" onclick="checkQuiz('quiz4',this,false)">🅲 新しい用紙に全部書き直す</button>
+      </div>
+      <div class="quiz-feedback" id="quiz4-fb"></div>
+    </div>
+  </div>
+
+  <div class="manga-divider"><span>⭐</span></div>
+
+  <div class="manga-panel">
+    <div class="highlight-box good" style="border-left-width:6px;">
+      <div class="box-title" style="font-size:18px;">📌 今日のまとめ</div>
+      <div class="box-content">
+        <ul class="point-list">
+          <li>コンプライアンス＝法律＋倫理＋モラル。中心は利用者さんの尊厳</li>
+          <li>守秘義務は退職後も続く。SNS・公共の場での会話に注意</li>
+          <li>虐待は5種類。「相手がどう感じたか」が基準。発見→通報義務あり</li>
+          <li>ハラスメントは我慢しない。すぐ報告・相談</li>
+          <li>記録がない＝やっていない。事実を・すぐに・正確に書く</li>
+          <li>迷ったら一人で判断せず、サービス提供責任者に相談</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="manga-panel">
+    <div class="ending">
+      <div class="ending-icon">🎉</div>
+      <div class="ending-title">研修おつかれさまでした！</div>
+      <div class="ending-msg">
+        コンプライアンスは難しいことではありません。<br><br>
+        <strong>「利用者さんの立場になって考える」</strong><br>
+        <strong>「迷ったら相談する」</strong><br><br>
+        この2つを忘れなければ大丈夫！
+      </div>
+      <div class="certificate">
+        <div class="certificate-title">🏅 研修修了証</div>
+        <div class="certificate-body">
+          <strong>倫理・法令遵守（コンプライアンス）研修</strong><br>
+          上記研修を修了したことを証します。<br><br>
+          <span id="completionDate"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="speech">
+      <div class="speech-avatar oyaji">🧔</div>
+      <div class="speech-bubble bubble-oyaji">
+        <div class="speech-name">ダジャレ所長</div>
+        最後にひとつだけ…
+      </div>
+    </div>
+    <div class="oyaji-gag">
+      <div class="gag-text">今日の研修、「けんしゅう（検収）」完了！<br>お疲れさまでした！🎊</div>
+      <div class="gag-sub">※ 研修と検収をかけています。最後まですみません。</div>
+    </div>
+    <div class="speech right">
+      <div class="speech-avatar tsukkomi">👩‍🦰</div>
+      <div class="speech-bubble bubble-tsukkomi">
+        <div class="speech-name">みさき先輩</div>
+        …最後の最後までご苦労さまです、所長。<br>さくらちゃん、内容はしっかり覚えてね！ギャグは忘れていいから！
+      </div>
+    </div>
+    <div class="speech right">
+      <div class="speech-avatar student">👩</div>
+      <div class="speech-bubble bubble-student">
+        <div class="speech-name">さくら</div>
+        ありがとうございました！ギャグのおかげで（？）内容が頭に残りました！😂💪
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="nav-bar" id="navBar" style="display:none;">
+  <button class="nav-btn prev" id="prevBtn" onclick="prevPage()">← 前へ</button>
+  <span class="nav-page" id="pageIndicator"></span>
+  <button class="nav-btn next" id="nextBtn" onclick="nextPage()">次へ →</button>
+</div>
+
+<script>
+const TOTAL=7; let cur=0;
+const fb={
+  quiz1:{correct:'正解！🎉 退職後も守秘義務は一生続きます。「辞めたから関係ない」は通用しません！',wrong:'残念…😢 退職後も守秘義務は続きます。一生守るべき義務です！'},
+  quiz2:{correct:'正解！🎉 怒鳴る・威圧的な態度は心理的虐待に当たります。利用者さんのペースを尊重しましょう。',wrong:'残念…😢 怒鳴ることは「心理的虐待」です。悪気がなくても、相手の気持ちが基準です。'},
+  quiz3:{correct:'正解！🎉 まず安全確保、そしてすぐにサービス提供責任者に報告。我慢は絶対NG！',wrong:'残念…😢 我慢したり一人で対処するのはNG。安全を確保してすぐにサ責に報告しましょう。'},
+  quiz4:{correct:'正解！🎉 二重線＋訂正印が正しい修正方法。修正液や書き直しはNGです。',wrong:'残念…😢 正しくは二重線を引いて訂正印を押す方法です。記録の改ざんを防ぐためのルールです。'}
+};
+
+function startTraining(){
+  document.getElementById('titleScreen').style.display='none';
+  document.getElementById('progressBar').style.display='block';
+  document.getElementById('navBar').style.display='flex';
+  cur=1; showPage(cur);
+}
+function showPage(n){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const pg=document.getElementById('page'+n);
+  if(pg){pg.classList.add('active');pg.style.animation='none';pg.offsetHeight;pg.style.animation='fadeIn 0.6s ease';
+    pg.querySelectorAll('.manga-panel').forEach(p=>{p.style.animation='none';p.offsetHeight;p.style.animation='';});
+  }
+  document.getElementById('prevBtn').disabled=(n<=1);
+  document.getElementById('nextBtn').textContent=(n>=TOTAL)?'🏁 完了':'次へ →';
+  document.getElementById('pageIndicator').textContent=n+' / '+TOTAL;
+  document.getElementById('progressFill').style.width=(n/TOTAL*100)+'%';
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(n===TOTAL){const d=new Date();document.getElementById('completionDate').textContent=d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日';}
+}
+function nextPage(){if(cur<TOTAL){cur++;showPage(cur);}}
+function prevPage(){if(cur>1){cur--;showPage(cur);}}
+function goToPage(n){cur=n;showPage(n);}
+function checkQuiz(id,btn,ok){
+  const c=document.getElementById(id),f=document.getElementById(id+'-fb');
+  c.querySelectorAll('.quiz-option').forEach(b=>{b.disabled=true;b.style.pointerEvents='none';});
+  if(ok){btn.classList.add('correct');f.style.background='#E8F5E9';f.style.color='#2E7D32';f.textContent=fb[id].correct;}
+  else{btn.classList.add('wrong');f.style.background='#FFEBEE';f.style.color='#C62828';f.textContent=fb[id].wrong;
+    c.querySelectorAll('.quiz-option').forEach(b=>{if(!b.classList.contains('wrong')&&b.onclick.toString().includes('true'))b.classList.add('correct');});
+  }
+  f.classList.add('show');
+}
+</script>
+</body>
+</html>
