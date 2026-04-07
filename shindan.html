@@ -4,46 +4,35 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>性格タイプ診断 | 訪問介護 ようき - あなたの適性をチェック!</title>
-<meta name="description" content="16タイプ性格診断であなたと訪問介護ようきの相性をチェック！明るく温かい介護の職場に向いているか、簡単な質問で診断します。">
+<meta name="description" content="20問の性格診断であなたと訪問介護ようきの相性をチェック！診断レポートPDF付き。">
 <link rel="icon" type="image/png" href="/favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-:root{
-  --pink:#FF6B9D;--orange:#FF8C42;--yellow:#FFD23F;--mint:#4ECDC4;
-  --blue:#45B7D1;--purple:#A78BFA;--td:#2D3436;--tm:#636E72;--bg:#FAFAFA;
-}
+:root{--pink:#FF6B9D;--orange:#FF8C42;--yellow:#FFD23F;--mint:#4ECDC4;--blue:#45B7D1;--purple:#A78BFA;--td:#2D3436;--tm:#636E72;--bg:#FAFAFA;}
 body{font-family:'M PLUS Rounded 1c',sans-serif;background:var(--bg);color:var(--td);line-height:1.8;overflow-x:hidden;}
-
-/* Header */
 header{background:rgba(255,255,255,.92);backdrop-filter:blur(20px);border-bottom:2px solid rgba(255,107,157,.15);padding:12px 24px;position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;}
 header a{font-weight:800;font-size:14px;color:var(--pink);text-decoration:none;}
 header span{font-size:11px;color:#B2BEC3;font-weight:500;}
-
-/* Hero */
 .hero{text-align:center;padding:60px 24px 40px;background:linear-gradient(135deg,#FF6B9D,#FF8C42,#FFD23F,#4ECDC4);color:#fff;}
 .hero h1{font-size:clamp(24px,4vw,36px);font-weight:900;margin-bottom:12px;}
 .hero p{font-size:14px;opacity:.9;max-width:500px;margin:0 auto;}
-
-/* Container */
 .container{max-width:640px;margin:0 auto;padding:32px 24px 120px;}
-
-/* Progress */
 .progress-wrap{margin-bottom:32px;display:none;}
 .progress-bar{height:8px;background:#eee;border-radius:8px;overflow:hidden;}
 .progress-fill{height:100%;background:linear-gradient(90deg,var(--pink),var(--orange),var(--yellow),var(--mint));border-radius:8px;transition:width .4s ease;width:0%;}
 .progress-text{font-size:12px;font-weight:700;color:var(--tm);margin-top:8px;text-align:center;}
-
-/* Question Card */
 .q-card{background:#fff;border-radius:24px;padding:36px 28px;border:2px solid rgba(255,107,157,.08);box-shadow:0 4px 20px rgba(0,0,0,.04);animation:fadeIn .4s ease;}
 .q-num{font-size:11px;font-weight:800;color:var(--pink);background:rgba(255,107,157,.1);display:inline-block;padding:4px 14px;border-radius:50px;margin-bottom:16px;}
 .q-text{font-size:18px;font-weight:800;line-height:1.6;margin-bottom:28px;color:var(--td);}
 .q-options{display:flex;flex-direction:column;gap:12px;}
 .q-btn{background:var(--bg);border:2px solid transparent;border-radius:16px;padding:16px 20px;font-size:14px;font-weight:700;color:var(--td);cursor:pointer;transition:all .25s;text-align:left;font-family:inherit;line-height:1.5;}
 .q-btn:hover{border-color:var(--pink);background:rgba(255,107,157,.05);transform:translateX(4px);}
-.q-btn:active{transform:scale(.98);}
-
-/* Start */
+.q-scale{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
+.q-scale button{width:48px;height:48px;border-radius:14px;border:2px solid #eee;background:#fff;font-size:16px;font-weight:800;cursor:pointer;transition:all .25s;font-family:inherit;color:var(--tm);}
+.q-scale button:hover{border-color:var(--pink);background:rgba(255,107,157,.05);transform:translateY(-2px);}
+.q-scale-labels{display:flex;justify-content:space-between;font-size:11px;color:var(--tm);margin-top:8px;padding:0 4px;}
 .start-card{text-align:center;}
 .start-card .emoji{font-size:64px;display:block;margin-bottom:16px;}
 .start-card h2{font-size:22px;font-weight:900;margin-bottom:12px;}
@@ -53,51 +42,59 @@ header span{font-size:11px;color:#B2BEC3;font-weight:500;}
 .features{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:24px 0;text-align:left;}
 .feat{background:var(--bg);border-radius:14px;padding:14px;font-size:12px;font-weight:700;color:var(--tm);display:flex;align-items:center;gap:10px;}
 .feat span{font-size:20px;}
-
-/* Result */
+.name-input{margin-top:20px;}
+.name-input input{width:100%;max-width:300px;padding:12px 20px;border:2px solid #eee;border-radius:14px;font-size:15px;font-family:inherit;font-weight:700;text-align:center;outline:none;transition:border-color .25s;}
+.name-input input:focus{border-color:var(--pink);}
+.name-input label{display:block;font-size:12px;color:var(--tm);margin-bottom:8px;font-weight:700;}
 .result{display:none;animation:fadeIn .5s ease;}
-.result-type-card{background:linear-gradient(135deg,var(--pink),var(--orange));border-radius:24px;padding:40px 28px;text-align:center;color:#fff;margin-bottom:24px;}
+.result-type-card{border-radius:24px;padding:40px 28px;text-align:center;color:#fff;margin-bottom:24px;}
 .result-type-card .type-code{font-size:14px;font-weight:800;background:rgba(255,255,255,.25);display:inline-block;padding:6px 20px;border-radius:50px;margin-bottom:12px;letter-spacing:.1em;}
-.result-type-card h2{font-size:28px;font-weight:900;margin-bottom:8px;}
-.result-type-card p{font-size:14px;opacity:.9;}
-
-.match-card{background:#fff;border-radius:24px;padding:32px 28px;border:2px solid rgba(255,107,157,.08);margin-bottom:24px;text-align:center;}
-.match-score{font-size:64px;font-weight:900;background:linear-gradient(135deg,var(--pink),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;}
-.match-label{font-size:14px;font-weight:700;color:var(--tm);margin:8px 0 16px;}
+.result-type-card h2{font-size:26px;font-weight:900;margin-bottom:8px;}
+.result-type-card p{font-size:14px;opacity:.9;line-height:1.8;}
+.card{background:#fff;border-radius:24px;padding:32px 28px;border:2px solid rgba(255,107,157,.08);margin-bottom:24px;}
+.card h3{font-size:16px;font-weight:800;color:var(--td);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.card p{font-size:14px;color:var(--tm);line-height:2;margin-bottom:12px;}
+.match-score{font-size:64px;font-weight:900;background:linear-gradient(135deg,var(--pink),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;text-align:center;}
+.match-label{font-size:14px;font-weight:700;color:var(--tm);margin:8px 0 16px;text-align:center;}
 .match-bar{height:12px;background:#eee;border-radius:12px;overflow:hidden;margin-bottom:20px;}
 .match-fill{height:100%;border-radius:12px;transition:width 1s ease;}
-.match-msg{font-size:15px;font-weight:700;color:var(--td);line-height:1.8;}
-
-.traits{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;}
-.trait{background:var(--bg);border-radius:16px;padding:16px;text-align:center;}
-.trait-icon{font-size:28px;display:block;margin-bottom:6px;}
-.trait-name{font-size:12px;font-weight:800;color:var(--td);}
-.trait-val{font-size:11px;color:var(--tm);margin-top:2px;}
-
-.detail-card{background:#fff;border-radius:24px;padding:32px 28px;border:2px solid rgba(78,205,196,.08);margin-bottom:24px;}
-.detail-card h3{font-size:16px;font-weight:800;color:var(--td);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
-.detail-card p{font-size:14px;color:var(--tm);line-height:2;margin-bottom:12px;}
-.detail-card ul{list-style:none;padding:0;}
-.detail-card li{font-size:14px;color:var(--tm);padding:8px 0;padding-left:20px;position:relative;line-height:1.7;}
-.detail-card li::before{content:'';position:absolute;left:0;top:14px;width:8px;height:8px;border-radius:50%;background:linear-gradient(135deg,var(--mint),var(--blue));}
-
-.cta-card{background:linear-gradient(135deg,rgba(255,107,157,.1),rgba(255,140,66,.1));border-radius:24px;padding:36px 28px;text-align:center;border:2px solid rgba(255,107,157,.1);}
+.match-msg{font-size:15px;font-weight:700;color:var(--td);line-height:1.8;text-align:center;}
+.radar-wrap{text-align:center;margin-bottom:20px;}
+.radar-wrap canvas{max-width:320px;width:100%;}
+.traits-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:24px;}
+.trait-item{background:var(--bg);border-radius:16px;padding:14px 10px;text-align:center;}
+.trait-icon{font-size:24px;display:block;margin-bottom:4px;}
+.trait-name{font-size:11px;font-weight:800;color:var(--td);}
+.trait-bar{height:6px;background:#eee;border-radius:6px;margin-top:6px;overflow:hidden;}
+.trait-fill{height:100%;border-radius:6px;transition:width 1s ease;}
+.trait-pct{font-size:18px;font-weight:900;color:var(--pink);margin-top:4px;}
+.dim-row{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding:12px 16px;background:var(--bg);border-radius:14px;}
+.dim-label{font-size:12px;font-weight:800;width:50px;text-align:right;flex-shrink:0;}
+.dim-bar-wrap{flex:1;height:10px;background:#eee;border-radius:10px;position:relative;overflow:hidden;}
+.dim-bar-fill{height:100%;border-radius:10px;transition:width 1s ease;}
+.dim-label-r{font-size:12px;font-weight:800;width:50px;flex-shrink:0;}
+.dim-pct{font-size:11px;color:var(--tm);text-align:center;margin-top:2px;}
+.strengths-list{list-style:none;padding:0;}
+.strengths-list li{font-size:14px;color:var(--tm);padding:10px 0;padding-left:24px;position:relative;line-height:1.7;border-bottom:1px solid #f0f0f0;}
+.strengths-list li:last-child{border-bottom:none;}
+.strengths-list li::before{content:'';position:absolute;left:0;top:16px;width:10px;height:10px;border-radius:50%;}
+.strengths-list.good li::before{background:linear-gradient(135deg,var(--mint),var(--blue));}
+.strengths-list.grow li::before{background:linear-gradient(135deg,var(--yellow),var(--orange));}
+.cta-card{background:linear-gradient(135deg,rgba(255,107,157,.1),rgba(255,140,66,.1));border-radius:24px;padding:36px 28px;text-align:center;border:2px solid rgba(255,107,157,.1);margin-bottom:24px;}
 .cta-card h3{font-size:18px;font-weight:900;color:var(--td);margin-bottom:8px;}
 .cta-card p{font-size:13px;color:var(--tm);margin-bottom:20px;}
 .cta-btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--pink),var(--orange));color:#fff;padding:14px 36px;border-radius:50px;font-size:14px;font-weight:800;text-decoration:none;box-shadow:0 8px 24px rgba(255,107,157,.3);transition:all .25s;}
 .cta-btn:hover{transform:translateY(-2px);}
 .cta-tel{margin-top:12px;font-size:12px;color:var(--tm);}
 .cta-tel a{color:var(--pink);text-decoration:none;font-weight:700;}
-
-.retry-btn{display:inline-flex;align-items:center;gap:6px;background:none;border:2px solid var(--pink);color:var(--pink);padding:12px 28px;border-radius:50px;font-size:13px;font-weight:800;cursor:pointer;margin-top:16px;font-family:inherit;transition:all .25s;}
+.pdf-btn{display:inline-flex;align-items:center;gap:8px;background:var(--blue);color:#fff;padding:14px 36px;border-radius:50px;font-size:14px;font-weight:800;border:none;cursor:pointer;box-shadow:0 8px 24px rgba(69,183,209,.3);transition:all .25s;font-family:inherit;margin-bottom:12px;}
+.pdf-btn:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(69,183,209,.4);}
+.retry-btn{display:inline-flex;align-items:center;gap:6px;background:none;border:2px solid var(--pink);color:var(--pink);padding:12px 28px;border-radius:50px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;transition:all .25s;}
 .retry-btn:hover{background:var(--pink);color:#fff;}
-
-/* Sticky */
 .sticky-bar{position:fixed;bottom:0;left:0;right:0;z-index:50;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-top:2px solid rgba(255,107,157,.1);padding:12px 16px;display:none;}
 .sticky-bar a{display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,var(--pink),var(--orange));color:#fff;font-weight:800;border-radius:16px;padding:14px;font-size:14px;text-decoration:none;max-width:480px;margin:0 auto;box-shadow:0 8px 24px rgba(255,107,157,.3);}
-
 @keyframes fadeIn{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
-@media(max-width:560px){.features{grid-template-columns:1fr;}.traits{grid-template-columns:1fr 1fr;}}
+@media(max-width:560px){.features{grid-template-columns:1fr;}.traits-grid{grid-template-columns:1fr 1fr;}}
 </style>
 </head>
 <body>
@@ -108,33 +105,35 @@ header span{font-size:11px;color:#B2BEC3;font-weight:500;}
 </header>
 
 <div class="hero">
-  <h1>&#x1F52E; 性格タイプ診断</h1>
-  <p>16タイプ診断であなたと「ようき」の相性をチェックしよう!</p>
+  <h1>&#x1F52E; 性格タイプ適性診断</h1>
+  <p>20問の診断であなたの性格を詳細分析! PDFレポート付き!</p>
 </div>
 
 <div class="container">
   <div class="progress-wrap" id="progress-wrap">
     <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
-    <div class="progress-text" id="progress-text">1 / 12</div>
+    <div class="progress-text" id="progress-text">1 / 20</div>
   </div>
 
   <div id="content">
-    <!-- Start -->
     <div class="q-card start-card" id="start-screen">
       <span class="emoji">&#x1F422;</span>
       <h2>あなたは「ようき」に<br>向いている?</h2>
-      <p>12の質問に答えるだけで、あなたの性格タイプと<br>ようきとの相性がわかります!</p>
+      <p>20の質問に答えるだけで、あなたの性格タイプと<br>ようきとの相性を詳しく診断します!</p>
       <div class="features">
-        <div class="feat"><span>&#x23F1;</span>所要時間 約2分</div>
+        <div class="feat"><span>&#x23F1;</span>所要時間 約3分</div>
         <div class="feat"><span>&#x1F4CA;</span>16タイプで診断</div>
-        <div class="feat"><span>&#x1F91D;</span>相性度を判定</div>
-        <div class="feat"><span>&#x2705;</span>完全無料</div>
+        <div class="feat"><span>&#x1F4DD;</span>6つの適性を分析</div>
+        <div class="feat"><span>&#x1F4C4;</span>PDFレポート付</div>
+      </div>
+      <div class="name-input">
+        <label>お名前（レポートに記載されます）</label>
+        <input type="text" id="user-name" placeholder="例: 山田 太郎">
       </div>
       <button class="start-btn" onclick="startQuiz()">診断スタート &#x2192;</button>
     </div>
   </div>
 
-  <!-- Result -->
   <div class="result" id="result"></div>
 </div>
 
@@ -144,115 +143,58 @@ header span{font-size:11px;color:#B2BEC3;font-weight:500;}
 
 <script>
 const questions = [
-  {
-    q: "休日の過ごし方は?",
-    a: [
-      { text: "友人や家族とワイワイ過ごす", axis: "EI", val: 1 },
-      { text: "一人でゆっくりリフレッシュする", axis: "EI", val: 0 }
-    ]
-  },
-  {
-    q: "初対面の人と話すのは?",
-    a: [
-      { text: "楽しい! すぐに打ち解けられる", axis: "EI", val: 1 },
-      { text: "少し緊張するけど、慣れれば大丈夫", axis: "EI", val: 0 }
-    ]
-  },
-  {
-    q: "グループで話し合うとき、あなたは?",
-    a: [
-      { text: "積極的に意見を言うタイプ", axis: "EI", val: 1 },
-      { text: "まず周りの意見を聞いてから考える", axis: "EI", val: 0 }
-    ]
-  },
-  {
-    q: "仕事で大切にしたいのは?",
-    a: [
-      { text: "目の前の人に寄り添い、丁寧に対応すること", axis: "SN", val: 1 },
-      { text: "全体の仕組みや改善点を考えること", axis: "SN", val: 0 }
-    ]
-  },
-  {
-    q: "新しいことを覚えるとき、あなたは?",
-    a: [
-      { text: "まずやってみて、体で覚える", axis: "SN", val: 1 },
-      { text: "マニュアルを読んで、全体像を把握してから", axis: "SN", val: 0 }
-    ]
-  },
-  {
-    q: "利用者さまが元気がない様子。あなたなら?",
-    a: [
-      { text: "「今日はどうしました?」と声をかける", axis: "SN", val: 1 },
-      { text: "そっと見守りながら、原因を考える", axis: "SN", val: 0 }
-    ]
-  },
-  {
-    q: "チームで意見が分かれたとき、あなたは?",
-    a: [
-      { text: "みんなの気持ちを大切にして調整する", axis: "TF", val: 1 },
-      { text: "論理的に最善の方法を考えて提案する", axis: "TF", val: 0 }
-    ]
-  },
-  {
-    q: "同僚が悩んでいるとき、あなたは?",
-    a: [
-      { text: "まず気持ちに寄り添って話を聞く", axis: "TF", val: 1 },
-      { text: "具体的な解決策を一緒に考える", axis: "TF", val: 0 }
-    ]
-  },
-  {
-    q: "感謝の言葉をもらったとき、あなたは?",
-    a: [
-      { text: "とても嬉しくて、もっと頑張りたくなる", axis: "TF", val: 1 },
-      { text: "嬉しいけど、当然のことをしただけと思う", axis: "TF", val: 0 }
-    ]
-  },
-  {
-    q: "仕事の進め方は?",
-    a: [
-      { text: "予定通りにきっちり進めたい", axis: "JP", val: 1 },
-      { text: "状況に応じて柔軟に対応したい", axis: "JP", val: 0 }
-    ]
-  },
-  {
-    q: "急な予定変更があったら?",
-    a: [
-      { text: "少し戸惑うけど、すぐに切り替える", axis: "JP", val: 1 },
-      { text: "むしろ変化を楽しめるタイプ", axis: "JP", val: 0 }
-    ]
-  },
-  {
-    q: "明日の準備は?",
-    a: [
-      { text: "前日にしっかり準備しておく", axis: "JP", val: 1 },
-      { text: "当日の朝にさっと準備する", axis: "JP", val: 0 }
-    ]
-  }
+  // E/I (5問)
+  { q: "休日はどう過ごしたい?", axis:"EI", a: ["友人や家族とワイワイ過ごしたい","少人数で楽しく過ごしたい","のんびり自分の時間を過ごしたい","一人で静かにリフレッシュしたい"]},
+  { q: "初対面の人と話すのは?", axis:"EI", a: ["楽しい! すぐ打ち解けられる","わりと平気、会話を楽しめる","最初は緊張するけど慣れれば大丈夫","できれば知っている人と話したい"]},
+  { q: "会議やミーティングでは?", axis:"EI", a: ["積極的に発言してアイデアを出す","気づいたことがあれば発言する","求められたら自分の意見を言う","まず周りの意見を聞いてから考える"]},
+  { q: "エネルギーが湧くのは?", axis:"EI", a: ["大勢の人と関わっているとき","仲間と一緒に活動しているとき","少人数の深い会話をしているとき","一人で集中しているとき"]},
+  { q: "職場の雰囲気で好きなのは?", axis:"EI", a: ["みんなで声を掛け合う賑やかな環境","活気がありつつ程よい雰囲気","適度に会話があるバランスの良い環境","落ち着いて集中できる静かな環境"]},
+  // S/N (5問)
+  { q: "仕事で大切にしたいのは?", axis:"SN", a: ["目の前の人に寄り添い丁寧に対応すること","経験を活かして確実に対応すること","臨機応変に工夫して対応すること","全体の仕組みを改善していくこと"]},
+  { q: "新しいことを覚えるとき?", axis:"SN", a: ["まずやってみて体で覚える","先輩のやり方を見て真似する","手順書を見ながら一つずつ進める","マニュアルで全体像を把握してから"]},
+  { q: "利用者さまが元気がないとき?", axis:"SN", a: ["すぐ声をかけて様子を聞く","さりげなく近くで見守る","普段との違いを観察する","記録やデータから原因を分析する"]},
+  { q: "報告するとき、重視するのは?", axis:"SN", a: ["具体的な事実やエピソード","実際に見聞きしたことの詳細","ポイントを絞った簡潔な報告","全体的な傾向やパターン"]},
+  { q: "問題が起きたとき、最初に考えるのは?", axis:"SN", a: ["今すぐできる対処法","過去の似た経験からの解決策","複数の選択肢を考えてみる","根本的な原因と再発防止策"]},
+  // T/F (5問)
+  { q: "チームで意見が分かれたとき?", axis:"TF", a: ["みんなの気持ちを大切にして調整する","全員が納得できる落とし所を探す","お互いの良い点を取り入れてまとめる","論理的に最善の方法を提案する"]},
+  { q: "同僚が落ち込んでいるとき?", axis:"TF", a: ["気持ちに寄り添って話を聞く","温かい言葉をかけて励ます","前向きな視点を一緒に探す","具体的な解決策を一緒に考える"]},
+  { q: "「ありがとう」と言われたとき?", axis:"TF", a: ["とても嬉しくてもっと頑張りたくなる","心が温かくなって幸せを感じる","素直に嬉しいと感じる","嬉しいけど当然のことをしたまで"]},
+  { q: "大事な決断をするとき?", axis:"TF", a: ["周りへの影響や気持ちを最優先する","関係者の気持ちと合理性のバランスを取る","バランスよく総合的に判断する","データや事実をもとに合理的に判断する"]},
+  { q: "仕事のモチベーションは?", axis:"TF", a: ["人から感謝されること","チームで協力して働くこと","目標を達成すること","スキルアップや成果を出すこと"]},
+  // J/P (5問)
+  { q: "仕事の進め方は?", axis:"JP", a: ["予定通りにきっちり進めたい","計画を立てつつ微調整しながら進める","大まかな計画で柔軟に対応する","状況に応じて臨機応変に動きたい"]},
+  { q: "急な予定変更があったら?", axis:"JP", a: ["すぐ頭を切り替えて新しい予定に集中","少し戸惑うけどすぐ適応できる","柔軟に対応できる方だと思う","むしろ変化を楽しめるタイプ"]},
+  { q: "明日の準備は?", axis:"JP", a: ["前日にしっかり準備しておく","だいたい準備しておく","最低限だけ準備しておく","当日の朝にさっと準備する"]},
+  { q: "デスク周りは?", axis:"JP", a: ["常に整理整頓されている","基本的にきれいに保っている","大体片付いているけど時々散らかる","自分なりの配置で自由に使っている"]},
+  { q: "締め切りへの向き合い方は?", axis:"JP", a: ["余裕を持って早めに終わらせる","計画的に進めて期限内に完了する","期限を意識しつつマイペースで進める","プレッシャーがあるほど集中できる"]}
 ];
 
 const typeData = {
-  ESFJ: { name: "みんなの太陽タイプ", emoji: "&#x2600;&#xFE0F;", match: 98, desc: "思いやりにあふれ、周囲を明るくする存在。チームの調和を大切にし、相手のニーズに敏感に気づけます。", color: "linear-gradient(135deg,#FF6B9D,#FF8C42)" },
-  ENFJ: { name: "情熱リーダータイプ", emoji: "&#x1F31F;", match: 95, desc: "人を導き、励ますのが得意。共感力が高く、チーム全体を前向きな方向に引っ張れます。", color: "linear-gradient(135deg,#FF8C42,#FFD23F)" },
-  ESFP: { name: "ムードメーカータイプ", emoji: "&#x1F389;", match: 95, desc: "明るく活発で、その場を楽しい雰囲気にする天才。目の前の人に全力で向き合えます。", color: "linear-gradient(135deg,#FFD23F,#4ECDC4)" },
-  ENFP: { name: "ひまわりタイプ", emoji: "&#x1F33B;", match: 92, desc: "好奇心旺盛で、人との関わりにエネルギーをもらえるタイプ。新しいアイデアで職場を活気づけます。", color: "linear-gradient(135deg,#4ECDC4,#45B7D1)" },
-  ISFJ: { name: "縁の下の力持ちタイプ", emoji: "&#x1F33F;", match: 90, desc: "控えめながらも深い思いやりを持ち、コツコツと丁寧な仕事ができます。信頼される存在です。", color: "linear-gradient(135deg,#4ECDC4,#45B7D1)" },
-  INFJ: { name: "静かな情熱タイプ", emoji: "&#x1F54A;&#xFE0F;", match: 85, desc: "深い洞察力と共感力を持ち、利用者様の気持ちに寄り添えるタイプ。静かだけど芯が強い。", color: "linear-gradient(135deg,#A78BFA,#FF6B9D)" },
-  ISTJ: { name: "頼れる守護者タイプ", emoji: "&#x1F6E1;&#xFE0F;", match: 82, desc: "責任感が強く、ルールや手順をしっかり守れる。安定感があり、チームの柱になれます。", color: "linear-gradient(135deg,#45B7D1,#A78BFA)" },
-  ISFP: { name: "やさしい職人タイプ", emoji: "&#x1F3A8;", match: 82, desc: "穏やかで優しく、一人ひとりに丁寧に向き合える。感性が豊かで、細やかな気配りが得意。", color: "linear-gradient(135deg,#FF6B9D,#A78BFA)" },
-  ESTJ: { name: "しっかり者リーダータイプ", emoji: "&#x1F4AA;", match: 78, desc: "組織をまとめる力があり、効率的に仕事を進められます。頼りがいのある存在。", color: "linear-gradient(135deg,#FF8C42,#FFD23F)" },
-  ESTP: { name: "行動派チャレンジャータイプ", emoji: "&#x26A1;", match: 78, desc: "行動力があり、緊急時にも冷静に対応できます。実践的な問題解決が得意。", color: "linear-gradient(135deg,#FFD23F,#FF8C42)" },
-  INFP: { name: "理想を追う夢見るタイプ", emoji: "&#x1F308;", match: 75, desc: "深い共感力と理想を持ち、「人の役に立ちたい」という想いが強い。繊細だけど芯がある。", color: "linear-gradient(135deg,#A78BFA,#4ECDC4)" },
-  ENTP: { name: "アイデア湧き出るタイプ", emoji: "&#x1F4A1;", match: 72, desc: "新しいやり方を考えるのが得意。既存の枠にとらわれず、職場に新しい風を吹き込めます。", color: "linear-gradient(135deg,#FFD23F,#4ECDC4)" },
-  INTP: { name: "知的探究者タイプ", emoji: "&#x1F9E0;", match: 68, desc: "分析力が高く、物事を深く考えられる。介護の専門知識を追求し、質の高いケアを目指せます。", color: "linear-gradient(135deg,#45B7D1,#A78BFA)" },
-  INTJ: { name: "戦略家タイプ", emoji: "&#x265F;&#xFE0F;", match: 68, desc: "先を見通す力があり、効率的な改善提案ができます。長期的な視点でキャリアを築けます。", color: "linear-gradient(135deg,#A78BFA,#45B7D1)" },
-  ENTJ: { name: "カリスマ統率者タイプ", emoji: "&#x1F451;", match: 70, desc: "強いリーダーシップで組織を動かせる。介護現場の管理職として力を発揮できるタイプ。", color: "linear-gradient(135deg,#FF8C42,#FF6B9D)" },
-  ISTP: { name: "クールな実務家タイプ", emoji: "&#x1F527;", match: 65, desc: "冷静沈着で、問題が起きても落ち着いて対処できます。実務的なスキルが高い。", color: "linear-gradient(135deg,#4ECDC4,#45B7D1)" }
+  ESFJ:{name:"みんなの太陽タイプ",emoji:"\u2600\uFE0F",match:98,desc:"思いやりにあふれ、周囲を明るくする存在。チームの調和を大切にし、相手のニーズに敏感に気づけます。介護の現場で最も活躍できるタイプの一つです。",strengths:["周囲への気配りが自然にできる","チームワークを重視し調和を保てる","利用者様の小さな変化に気づける","明るい雰囲気を作り出せる"],grows:["自分の意見をもっと主張してもOK","完璧を求めすぎず肩の力を抜こう"],color:"linear-gradient(135deg,#FF6B9D,#FF8C42)"},
+  ENFJ:{name:"情熱リーダータイプ",emoji:"\u2B50",match:95,desc:"人を導き、励ますのが得意。共感力が高く、チーム全体を前向きな方向に引っ張れます。将来のリーダー候補として期待大。",strengths:["チームを前向きにまとめる力がある","後輩の育成・指導が得意","利用者様の気持ちを深く理解できる","ビジョンを持って行動できる"],grows:["他人のことを優先しすぎないように","時には自分のケアも大切に"],color:"linear-gradient(135deg,#FF8C42,#FFD23F)"},
+  ESFP:{name:"ムードメーカータイプ",emoji:"\uD83C\uDF89",match:95,desc:"明るく活発で、その場を楽しい雰囲気にする天才。目の前の人に全力で向き合え、利用者様を笑顔にする力があります。",strengths:["場の雰囲気を明るくできる","行動力があり即座に対応できる","利用者様を楽しませる発想力がある","柔軟な対応力が高い"],grows:["長期的な計画を立てる練習をしよう","ルーティン業務も大切にしよう"],color:"linear-gradient(135deg,#FFD23F,#4ECDC4)"},
+  ENFP:{name:"ひまわりタイプ",emoji:"\uD83C\uDF3B",match:92,desc:"好奇心旺盛で、人との関わりにエネルギーをもらえるタイプ。新しいアイデアで職場に活気をもたらします。",strengths:["新しいアイデアを次々と生み出せる","人を励ますのが自然にできる","変化を楽しみ適応力が高い","コミュニケーション能力が高い"],grows:["細かい作業にも集中する練習を","一つのことを最後までやり遂げよう"],color:"linear-gradient(135deg,#4ECDC4,#45B7D1)"},
+  ISFJ:{name:"縁の下の力持ちタイプ",emoji:"\uD83C\uDF3F",match:90,desc:"控えめながらも深い思いやりを持ち、コツコツと丁寧な仕事ができます。チームに欠かせない信頼される存在。",strengths:["丁寧で正確な仕事ができる","利用者様一人ひとりを深く覚えている","責任感が強く最後までやり遂げる","チームのサポート役として優秀"],grows:["自分の意見をもっと伝えてみよう","新しいことにも挑戦してみよう"],color:"linear-gradient(135deg,#4ECDC4,#45B7D1)"},
+  INFJ:{name:"静かな情熱タイプ",emoji:"\uD83D\uDD4A\uFE0F",match:85,desc:"深い洞察力と共感力を持ち、利用者様の気持ちに寄り添えるタイプ。静かだけど芯が強く、質の高いケアができます。",strengths:["相手の気持ちを深く理解できる","質の高い丁寧なケアができる","物事の本質を見抜く力がある","信念を持って行動できる"],grows:["完璧主義になりすぎないように","チームメンバーと積極的に交流しよう"],color:"linear-gradient(135deg,#A78BFA,#FF6B9D)"},
+  ISTJ:{name:"頼れる守護者タイプ",emoji:"\uD83D\uDEE1\uFE0F",match:82,desc:"責任感が強く、ルールや手順をしっかり守れる。安定感があり、チームの柱として頼りにされます。",strengths:["業務手順を正確に遂行できる","記録や報告が丁寧で正確","責任感が強く信頼される","安定したパフォーマンスを発揮"],grows:["変化にも柔軟に対応する練習を","感情面のコミュニケーションも大切に"],color:"linear-gradient(135deg,#45B7D1,#A78BFA)"},
+  ISFP:{name:"やさしい職人タイプ",emoji:"\uD83C\uDFA8",match:82,desc:"穏やかで優しく、一人ひとりに丁寧に向き合える。感性が豊かで、細やかな気配りが得意です。",strengths:["一人ひとりに丁寧に寄り添える","細やかな気配りができる","穏やかな雰囲気を作れる","感性を活かしたケアができる"],grows:["自分から積極的に声をかけてみよう","チームでの意見表明にも挑戦しよう"],color:"linear-gradient(135deg,#FF6B9D,#A78BFA)"},
+  ESTJ:{name:"しっかり者リーダータイプ",emoji:"\uD83D\uDCAA",match:78,desc:"組織をまとめる力があり、効率的に仕事を進められます。頼りがいのある存在で管理職候補。",strengths:["リーダーシップを発揮できる","効率的に業務を進められる","明確な指示を出せる","目標達成への推進力がある"],grows:["メンバーの感情にも配慮しよう","柔軟な対応も時には大切"],color:"linear-gradient(135deg,#FF8C42,#FFD23F)"},
+  ESTP:{name:"行動派チャレンジャータイプ",emoji:"\u26A1",match:78,desc:"行動力があり、緊急時にも冷静に対応できます。実践的な問題解決力が高いタイプ。",strengths:["緊急時に冷静に対応できる","実践的な問題解決が得意","行動力がありスピード感がある","現場の状況判断力が高い"],grows:["長期的な計画性を身につけよう","相手の気持ちへの配慮も忘れずに"],color:"linear-gradient(135deg,#FFD23F,#FF8C42)"},
+  INFP:{name:"理想を追う夢見るタイプ",emoji:"\uD83C\uDF08",match:75,desc:"深い共感力と理想を持ち、「人の役に立ちたい」という想いが強い。繊細だけど芯があるタイプ。",strengths:["利用者様の気持ちに深く共感できる","理想を持って仕事に取り組める","創造的なアイデアがある","一人ひとりを大切にできる"],grows:["現実的な判断も時には必要","自分の感情をため込まないように"],color:"linear-gradient(135deg,#A78BFA,#4ECDC4)"},
+  ENTP:{name:"アイデア湧き出るタイプ",emoji:"\uD83D\uDCA1",match:72,desc:"新しいやり方を考えるのが得意。既存の枠にとらわれず、職場に新しい風を吹き込めます。",strengths:["革新的なアイデアを提案できる","議論を活性化させる力がある","多角的な視点で物事を見れる","知的好奇心が旺盛"],grows:["ルーティン業務も丁寧に取り組もう","相手の感情への配慮も大切に"],color:"linear-gradient(135deg,#FFD23F,#4ECDC4)"},
+  INTP:{name:"知的探究者タイプ",emoji:"\uD83E\uDDE0",match:68,desc:"分析力が高く、物事を深く考えられる。介護の専門知識を極め、質の高いケアを追求できます。",strengths:["専門知識を深く追求できる","論理的な分析力が高い","改善点を見つけ出す力がある","独自の視点で貢献できる"],grows:["チームメンバーとの交流を増やそう","感情面のコミュニケーションも練習"],color:"linear-gradient(135deg,#45B7D1,#A78BFA)"},
+  INTJ:{name:"戦略家タイプ",emoji:"\u265F\uFE0F",match:68,desc:"先を見通す力があり、効率的な改善提案ができます。長期的な視点でキャリアを築けるタイプ。",strengths:["長期的なビジョンを持てる","効率化の提案ができる","専門性を高めるのが得意","冷静な判断力がある"],grows:["チームでの協調性を意識しよう","目の前の人への温かさも大切に"],color:"linear-gradient(135deg,#A78BFA,#45B7D1)"},
+  ENTJ:{name:"カリスマ統率者タイプ",emoji:"\uD83D\uDC51",match:70,desc:"強いリーダーシップで組織を動かせる。介護現場の管理職として大きな力を発揮できるタイプ。",strengths:["組織を力強くまとめられる","目標設定と達成力が高い","決断力がある","効率的な業務改善ができる"],grows:["メンバーの気持ちにも寄り添おう","現場の声にも耳を傾けよう"],color:"linear-gradient(135deg,#FF8C42,#FF6B9D)"},
+  ISTP:{name:"クールな実務家タイプ",emoji:"\uD83D\uDD27",match:65,desc:"冷静沈着で、問題が起きても落ち着いて対処できます。実務的なスキルが高く頼りになる存在。",strengths:["緊急時にも冷静に対処できる","実務的なスキルが高い","独立して仕事を進められる","効率的な作業ができる"],grows:["チームワークを意識してみよう","感情表現を少しずつ練習しよう"],color:"linear-gradient(135deg,#4ECDC4,#45B7D1)"}
 };
 
 let current = 0;
-let scores = { EI: 0, SN: 0, TF: 0, JP: 0 };
+let scores = { EI:0, SN:0, TF:0, JP:0 };
+let maxScores = { EI:15, SN:15, TF:15, JP:15 };
+let userName = '';
 
 function startQuiz() {
+  userName = document.getElementById('user-name').value.trim() || '診断者';
   document.getElementById('start-screen').style.display = 'none';
   document.getElementById('progress-wrap').style.display = 'block';
   showQuestion();
@@ -260,15 +202,14 @@ function startQuiz() {
 
 function showQuestion() {
   const q = questions[current];
-  const shuffled = [...q.a].sort(() => Math.random() - 0.5);
-  document.getElementById('progress-fill').style.width = ((current) / questions.length * 100) + '%';
+  document.getElementById('progress-fill').style.width = (current / questions.length * 100) + '%';
   document.getElementById('progress-text').textContent = (current + 1) + ' / ' + questions.length;
-
+  // 4段階: index 0=3点, 1=2点, 2=1点, 3=0点
   const html = `<div class="q-card">
     <span class="q-num">Q${current + 1}</span>
     <div class="q-text">${q.q}</div>
     <div class="q-options">
-      ${shuffled.map((a, i) => `<button class="q-btn" onclick="answer('${a.axis}',${a.val})">${a.text}</button>`).join('')}
+      ${q.a.map((text, i) => `<button class="q-btn" onclick="answer('${q.axis}',${3-i})">${text}</button>`).join('')}
     </div>
   </div>`;
   document.getElementById('content').innerHTML = html;
@@ -277,138 +218,306 @@ function showQuestion() {
 function answer(axis, val) {
   scores[axis] += val;
   current++;
-  if (current < questions.length) {
-    showQuestion();
-  } else {
-    showResult();
-  }
+  if (current < questions.length) showQuestion();
+  else showResult();
 }
 
 function getType() {
-  const e = scores.EI >= 2 ? 'E' : 'I';
-  const s = scores.SN >= 2 ? 'S' : 'N';
-  const f = scores.TF >= 2 ? 'F' : 'T';
-  const j = scores.JP >= 2 ? 'J' : 'P';
-  return e + s + f + j;
+  return (scores.EI >= 8 ? 'E' : 'I') + (scores.SN >= 8 ? 'S' : 'N') + (scores.TF >= 8 ? 'F' : 'T') + (scores.JP >= 8 ? 'J' : 'P');
 }
+
+function pct(axis) { return Math.round(scores[axis] / maxScores[axis] * 100); }
 
 function showResult() {
   document.getElementById('content').style.display = 'none';
   document.getElementById('progress-wrap').style.display = 'none';
-  document.getElementById('progress-fill').style.width = '100%';
-
   const type = getType();
-  const data = typeData[type];
-  const matchPct = data.match;
+  const d = typeData[type];
+  const mp = d.match;
+
+  const eiP = pct('EI'), snP = pct('SN'), tfP = pct('TF'), jpP = pct('JP');
+
+  // 6つの適性スコア
+  const cheerful = Math.min(100, Math.round((eiP * 0.5 + tfP * 0.3 + snP * 0.2)));
+  const kindness = Math.min(100, Math.round((tfP * 0.6 + snP * 0.2 + eiP * 0.2)));
+  const teamwork = Math.min(100, Math.round((tfP * 0.4 + eiP * 0.3 + jpP * 0.3)));
+  const proactive = Math.min(100, Math.round((eiP * 0.4 + jpP * 0.3 + snP * 0.3)));
+  const ambition = Math.min(100, Math.round((jpP * 0.4 + eiP * 0.3 + (100 - tfP) * 0.3)));
+  const care = Math.min(100, Math.round((snP * 0.4 + tfP * 0.4 + jpP * 0.2)));
 
   let matchGrade, matchColor, matchMsg;
-  if (matchPct >= 90) {
-    matchGrade = "最高";
-    matchColor = "linear-gradient(90deg,#FF6B9D,#FF8C42,#FFD23F)";
-    matchMsg = "あなたはようきにピッタリの人材です! 明るく温かいあなたの力が、利用者様の笑顔につながります。ぜひ一緒に働きましょう!";
-  } else if (matchPct >= 80) {
-    matchGrade = "とても良い";
-    matchColor = "linear-gradient(90deg,#FF8C42,#FFD23F,#4ECDC4)";
-    matchMsg = "あなたの持ち味はようきの職場で大いに活かせます! 丁寧に仕事に向き合える姿勢が、チームの力になります。";
-  } else if (matchPct >= 70) {
-    matchGrade = "良い";
-    matchColor = "linear-gradient(90deg,#4ECDC4,#45B7D1)";
-    matchMsg = "あなたならではの強みがようきで活かせます! 新しい視点やスキルで、チームに良い刺激を与えられるでしょう。";
-  } else {
-    matchGrade = "可能性あり";
-    matchColor = "linear-gradient(90deg,#45B7D1,#A78BFA)";
-    matchMsg = "介護の仕事では多様な人材が活躍しています。あなたの冷静さや分析力は、専門性を高める場面で力を発揮します!";
-  }
+  if (mp >= 90) { matchGrade="最高"; matchColor="linear-gradient(90deg,#FF6B9D,#FF8C42,#FFD23F)"; matchMsg="あなたはようきにピッタリの人材です! 明るく温かいあなたの力が、利用者様の笑顔につながります。ぜひ一緒に働きましょう!"; }
+  else if (mp >= 80) { matchGrade="とても良い"; matchColor="linear-gradient(90deg,#FF8C42,#FFD23F,#4ECDC4)"; matchMsg="あなたの持ち味はようきの職場で大いに活かせます! 丁寧に仕事に向き合える姿勢が、チームの力になります。"; }
+  else if (mp >= 70) { matchGrade="良い"; matchColor="linear-gradient(90deg,#4ECDC4,#45B7D1)"; matchMsg="あなたならではの強みがようきで活かせます! 新しい視点やスキルで、チームに良い刺激を与えられるでしょう。"; }
+  else { matchGrade="可能性あり"; matchColor="linear-gradient(90deg,#45B7D1,#A78BFA)"; matchMsg="介護の仕事では多様な人材が活躍しています。あなたの冷静さや分析力は、専門性を高める場面で力を発揮します!"; }
 
-  const youkiTraits = [
-    { icon: "&#x2600;&#xFE0F;", name: "明るさ", val: scores.EI >= 2 ? "高い" : "やや控えめ" },
-    { icon: "&#x1F525;", name: "積極性", val: scores.EI >= 2 && scores.JP >= 2 ? "高い" : scores.EI >= 2 || scores.JP >= 2 ? "ある" : "じっくり型" },
-    { icon: "&#x1F49B;", name: "優しさ", val: scores.TF >= 2 ? "とても高い" : "理性的な優しさ" },
-    { icon: "&#x1F91D;", name: "協調性", val: scores.TF >= 2 && scores.EI >= 1 ? "高い" : scores.TF >= 2 ? "ある" : "自立型" }
+  const traits = [
+    { icon:"\u2600\uFE0F", name:"明るさ", pct:cheerful, color:"#FF6B9D" },
+    { icon:"\uD83D\uDC9B", name:"優しさ", pct:kindness, color:"#FF8C42" },
+    { icon:"\uD83E\uDD1D", name:"協調性", pct:teamwork, color:"#FFD23F" },
+    { icon:"\uD83D\uDD25", name:"積極性", pct:proactive, color:"#4ECDC4" },
+    { icon:"\uD83D\uDCB0", name:"向上心", pct:ambition, color:"#45B7D1" },
+    { icon:"\uD83C\uDFE5", name:"ケア適性", pct:care, color:"#A78BFA" }
   ];
 
-  const resultHTML = `
-    <div class="result-type-card" style="background:${data.color}">
+  // Store for PDF
+  window._result = { type, d, mp, matchGrade, matchColor, matchMsg, traits, eiP, snP, tfP, jpP, userName, cheerful, kindness, teamwork, proactive, ambition, care };
+
+  const html = `
+    <div class="result-type-card" style="background:${d.color}">
       <span class="type-code">${type}</span>
-      <h2>${data.emoji} ${data.name}</h2>
-      <p>${data.desc}</p>
+      <h2>${d.emoji} ${d.name}</h2>
+      <p>${d.desc}</p>
     </div>
 
-    <div class="match-card">
-      <div class="match-score">${matchPct}%</div>
+    <div class="card" style="text-align:center">
+      <div class="match-score">${mp}%</div>
       <div class="match-label">ようきとの相性: ${matchGrade}</div>
-      <div class="match-bar"><div class="match-fill" style="width:0%;background:${matchColor}"></div></div>
+      <div class="match-bar"><div class="match-fill" id="match-fill" style="width:0%;background:${matchColor}"></div></div>
       <div class="match-msg">${matchMsg}</div>
     </div>
 
-    <div class="traits">
-      ${youkiTraits.map(t => `<div class="trait"><span class="trait-icon">${t.icon}</span><div class="trait-name">${t.name}</div><div class="trait-val">${t.val}</div></div>`).join('')}
+    <div class="card">
+      <h3>\uD83D\uDCCA 6つの適性スコア</h3>
+      <div class="traits-grid">
+        ${traits.map(t => `<div class="trait-item">
+          <span class="trait-icon">${t.icon}</span>
+          <div class="trait-name">${t.name}</div>
+          <div class="trait-pct">${t.pct}%</div>
+          <div class="trait-bar"><div class="trait-fill" style="width:0%;background:${t.color}"></div></div>
+        </div>`).join('')}
+      </div>
     </div>
 
-    <div class="detail-card">
-      <h3>&#x1F33A; ようきが求める人物像</h3>
-      <ul>
+    <div class="card">
+      <h3>\uD83E\uDDE9 性格軸の分析</h3>
+      <div class="dim-row"><div class="dim-label" style="color:#FF6B9D">外向型</div><div class="dim-bar-wrap"><div class="dim-bar-fill" style="width:0%;background:linear-gradient(90deg,#FF6B9D,#FF8C42)" data-w="${eiP}%"></div></div><div class="dim-label-r" style="color:#A78BFA">内向型</div></div>
+      <div class="dim-row"><div class="dim-label" style="color:#FF8C42">感覚型</div><div class="dim-bar-wrap"><div class="dim-bar-fill" style="width:0%;background:linear-gradient(90deg,#FF8C42,#FFD23F)" data-w="${snP}%"></div></div><div class="dim-label-r" style="color:#45B7D1">直感型</div></div>
+      <div class="dim-row"><div class="dim-label" style="color:#4ECDC4">感情型</div><div class="dim-bar-wrap"><div class="dim-bar-fill" style="width:0%;background:linear-gradient(90deg,#4ECDC4,#45B7D1)" data-w="${tfP}%"></div></div><div class="dim-label-r" style="color:#636E72">思考型</div></div>
+      <div class="dim-row"><div class="dim-label" style="color:#A78BFA">計画型</div><div class="dim-bar-wrap"><div class="dim-bar-fill" style="width:0%;background:linear-gradient(90deg,#A78BFA,#FF6B9D)" data-w="${jpP}%"></div></div><div class="dim-label-r" style="color:#FFD23F">柔軟型</div></div>
+    </div>
+
+    <div class="card">
+      <h3>\u2705 あなたの強み</h3>
+      <ul class="strengths-list good">${d.strengths.map(s => `<li>${s}</li>`).join('')}</ul>
+    </div>
+
+    <div class="card">
+      <h3>\uD83C\uDF31 成長のヒント</h3>
+      <ul class="strengths-list grow">${d.grows.map(s => `<li>${s}</li>`).join('')}</ul>
+    </div>
+
+    <div class="card">
+      <h3>\uD83C\uDF3A ようきが求める人物像</h3>
+      <ul class="strengths-list good">
         <li>利用者様に<strong>明るく笑顔</strong>で接することができる</li>
         <li>チームメンバーと<strong>協力</strong>して仕事に取り組める</li>
         <li>相手の気持ちに<strong>寄り添える優しさ</strong>がある</li>
         <li><strong>積極的</strong>に学び、成長する意欲がある</li>
-        <li>沖縄の<strong>温かい心</strong>で介護に向き合える</li>
         <li><strong>しっかり稼ぎたい</strong>という意欲がある</li>
+        <li>沖縄の<strong>温かい心</strong>で介護に向き合える</li>
       </ul>
     </div>
 
-    <div class="detail-card">
-      <h3>&#x1F4BC; ようきの魅力</h3>
-      <ul>
-        <li>夜勤者 月給28万〜32万円 / 日勤常勤 月給23万〜26万円</li>
-        <li>資格取得は全額補助でスキルアップを応援</li>
-        <li>飲みニケーション補助金 月5,000円 / ランチ補助金 月2,000円</li>
-        <li>県外研修は会社が全額負担</li>
-        <li>未経験OK! 丁寧なサポート体制あり</li>
-      </ul>
+    <div style="text-align:center;margin-bottom:24px">
+      <button class="pdf-btn" onclick="generatePDF()">\uD83D\uDCC4 診断レポートをPDFで保存</button><br>
+      <button class="retry-btn" onclick="retry()">\uD83D\uDD04 もう一度診断する</button>
     </div>
 
     <div class="cta-card">
       <h3>まずはお気軽にお問い合わせ!</h3>
       <p>あなたの力をようきで活かしませんか?<br>見学・体験も大歓迎です!</p>
-      <a href="tel:098-852-5255" class="cta-btn">&#x1F4DE; 098-852-5255</a>
+      <a href="tel:098-852-5255" class="cta-btn">\uD83D\uDCDE 098-852-5255</a>
       <p class="cta-tel">受付 9:00〜18:00 | <a href="/">採用ページを見る</a></p>
-    </div>
-
-    <div style="text-align:center">
-      <button class="retry-btn" onclick="retry()">&#x1F504; もう一度診断する</button>
     </div>
   `;
 
-  const resultEl = document.getElementById('result');
-  resultEl.innerHTML = resultHTML;
-  resultEl.style.display = 'block';
+  const el = document.getElementById('result');
+  el.innerHTML = html;
+  el.style.display = 'block';
   document.getElementById('sticky-bar').style.display = 'block';
 
   setTimeout(() => {
-    document.querySelector('.match-fill').style.width = matchPct + '%';
+    document.getElementById('match-fill').style.width = mp + '%';
+    document.querySelectorAll('.trait-fill').forEach((f, i) => { f.style.width = traits[i].pct + '%'; });
+    document.querySelectorAll('.dim-bar-fill').forEach(f => { f.style.width = f.dataset.w; });
   }, 300);
 }
 
 function retry() {
-  current = 0;
-  scores = { EI: 0, SN: 0, TF: 0, JP: 0 };
+  current = 0; scores = {EI:0,SN:0,TF:0,JP:0};
   document.getElementById('result').style.display = 'none';
   document.getElementById('content').style.display = 'block';
   document.getElementById('sticky-bar').style.display = 'none';
-  document.getElementById('start-screen').style.display = 'block';
-  document.getElementById('content').innerHTML = `<div class="q-card start-card" id="start-screen">
-    <span class="emoji">&#x1F422;</span>
-    <h2>あなたは「ようき」に<br>向いている?</h2>
-    <p>12の質問に答えるだけで、あなたの性格タイプと<br>ようきとの相性がわかります!</p>
-    <div class="features">
-      <div class="feat"><span>&#x23F1;</span>所要時間 約2分</div>
-      <div class="feat"><span>&#x1F4CA;</span>16タイプで診断</div>
-      <div class="feat"><span>&#x1F91D;</span>相性度を判定</div>
-      <div class="feat"><span>&#x2705;</span>完全無料</div>
-    </div>
-    <button class="start-btn" onclick="startQuiz()">診断スタート &#x2192;</button>
-  </div>`;
+  location.reload();
+}
+
+// ===== PDF生成 =====
+async function generatePDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation:'p', unit:'mm', format:'a4' });
+  const r = window._result;
+  const W = 210, H = 297;
+
+  // フォント設定（日本語は組み込みフォントでは非対応のため英語ベース + Unicode）
+  doc.setFont('helvetica');
+
+  // --- ヘッダー背景 ---
+  doc.setFillColor(255, 107, 157);
+  doc.rect(0, 0, W, 50, 'F');
+  doc.setFillColor(255, 140, 66);
+  doc.rect(0, 50, W, 3, 'F');
+
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(22);
+  doc.text('PERSONALITY REPORT', W/2, 22, { align:'center' });
+  doc.setFontSize(11);
+  doc.text('Youki Career Compatibility Diagnosis', W/2, 32, { align:'center' });
+  doc.setFontSize(9);
+  const today = new Date().toLocaleDateString('ja-JP');
+  doc.text(`Name: ${r.userName}  |  Date: ${today}`, W/2, 42, { align:'center' });
+
+  // --- タイプ ---
+  doc.setTextColor(45, 52, 54);
+  doc.setFontSize(16);
+  doc.text(`Type: ${r.type}`, 20, 68);
+  doc.setFontSize(13);
+  doc.text(r.d.name, 70, 68);
+
+  // --- 相性 ---
+  doc.setFillColor(250, 250, 250);
+  doc.roundedRect(20, 75, W-40, 22, 4, 4, 'F');
+  doc.setFontSize(24);
+  doc.setTextColor(255, 107, 157);
+  doc.text(`${r.mp}%`, 35, 90);
+  doc.setFontSize(11);
+  doc.setTextColor(100, 100, 100);
+  doc.text(`Compatibility: ${r.matchGrade}`, 65, 88);
+
+  // --- バー ---
+  doc.setFillColor(238, 238, 238);
+  doc.roundedRect(20, 100, W-40, 6, 3, 3, 'F');
+  doc.setFillColor(255, 107, 157);
+  doc.roundedRect(20, 100, (W-40) * r.mp / 100, 6, 3, 3, 'F');
+
+  // --- 6つの適性 ---
+  doc.setTextColor(45, 52, 54);
+  doc.setFontSize(13);
+  doc.text('Aptitude Scores', 20, 118);
+  doc.setDrawColor(238, 238, 238);
+  doc.line(20, 120, W-20, 120);
+
+  const aptLabels = ['Cheerful', 'Kindness', 'Teamwork', 'Proactive', 'Ambition', 'Care Apt.'];
+  const aptVals = [r.cheerful, r.kindness, r.teamwork, r.proactive, r.ambition, r.care];
+  const aptColors = [[255,107,157],[255,140,66],[255,210,63],[78,205,196],[69,183,209],[167,139,250]];
+
+  aptLabels.forEach((label, i) => {
+    const y = 130 + i * 14;
+    doc.setFontSize(9);
+    doc.setTextColor(100, 100, 100);
+    doc.text(label, 22, y);
+    doc.setFillColor(238, 238, 238);
+    doc.roundedRect(65, y - 4, 100, 6, 3, 3, 'F');
+    doc.setFillColor(...aptColors[i]);
+    doc.roundedRect(65, y - 4, aptVals[i], 6, 3, 3, 'F');
+    doc.setTextColor(45, 52, 54);
+    doc.setFontSize(10);
+    doc.text(`${aptVals[i]}%`, 170, y);
+  });
+
+  // --- 4軸分析 ---
+  let yPos = 220;
+  doc.setFontSize(13);
+  doc.setTextColor(45, 52, 54);
+  doc.text('Personality Dimensions', 20, yPos);
+  doc.line(20, yPos + 2, W-20, yPos + 2);
+
+  const dims = [
+    { l:'Extrovert', r:'Introvert', p:r.eiP, c:[255,107,157] },
+    { l:'Sensing', r:'Intuition', p:r.snP, c:[255,140,66] },
+    { l:'Feeling', r:'Thinking', p:r.tfP, c:[78,205,196] },
+    { l:'Judging', r:'Perceiving', p:r.jpP, c:[167,139,250] }
+  ];
+
+  dims.forEach((dim, i) => {
+    const y = yPos + 14 + i * 14;
+    doc.setFontSize(8);
+    doc.setTextColor(100,100,100);
+    doc.text(dim.l, 20, y);
+    doc.text(dim.r, W - 20, y, { align:'right' });
+    doc.setFillColor(238,238,238);
+    doc.roundedRect(55, y - 4, 100, 6, 3, 3, 'F');
+    doc.setFillColor(...dim.c);
+    doc.roundedRect(55, y - 4, dim.p, 6, 3, 3, 'F');
+    doc.text(`${dim.p}%`, 160, y);
+  });
+
+  // --- フッター ---
+  doc.setFillColor(45, 52, 54);
+  doc.rect(0, H - 20, W, 20, 'F');
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(8);
+  doc.text('Home Ikoi | Youki Home Care | TEL: 098-852-5255', W/2, H - 10, { align:'center' });
+  doc.text('Okinawa, Nanjo-shi, Sashiki Tsuhako 1354-1', W/2, H - 5, { align:'center' });
+
+  // --- ページ2: 強み・成長 ---
+  doc.addPage();
+  doc.setFillColor(78, 205, 196);
+  doc.rect(0, 0, W, 35, 'F');
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(18);
+  doc.text('DETAILED ANALYSIS', W/2, 20, { align:'center' });
+  doc.setFontSize(9);
+  doc.text(`${r.type} - ${r.d.name}`, W/2, 28, { align:'center' });
+
+  // 強み
+  doc.setTextColor(45, 52, 54);
+  doc.setFontSize(13);
+  doc.text('Your Strengths', 20, 50);
+  doc.line(20, 52, W-20, 52);
+  r.d.strengths.forEach((s, i) => {
+    doc.setFillColor(78, 205, 196);
+    doc.circle(26, 60 + i * 12, 2, 'F');
+    doc.setFontSize(10);
+    doc.setTextColor(100, 100, 100);
+    doc.text(s, 32, 62 + i * 12);
+  });
+
+  // 成長
+  let gy = 60 + r.d.strengths.length * 12 + 15;
+  doc.setTextColor(45, 52, 54);
+  doc.setFontSize(13);
+  doc.text('Growth Areas', 20, gy);
+  doc.line(20, gy + 2, W-20, gy + 2);
+  r.d.grows.forEach((s, i) => {
+    doc.setFillColor(255, 210, 63);
+    doc.circle(26, gy + 12 + i * 12, 2, 'F');
+    doc.setFontSize(10);
+    doc.setTextColor(100, 100, 100);
+    doc.text(s, 32, gy + 14 + i * 12);
+  });
+
+  // メッセージ
+  let my = gy + 12 + r.d.grows.length * 12 + 20;
+  doc.setFillColor(255, 240, 245);
+  doc.roundedRect(20, my, W-40, 40, 6, 6, 'F');
+  doc.setFontSize(10);
+  doc.setTextColor(255, 107, 157);
+  doc.text('Message from Youki:', 28, my + 12);
+  doc.setTextColor(100, 100, 100);
+  doc.setFontSize(9);
+  const lines = doc.splitTextToSize(r.matchMsg, W - 56);
+  doc.text(lines, 28, my + 22);
+
+  // フッター
+  doc.setFillColor(45, 52, 54);
+  doc.rect(0, H - 20, W, 20, 'F');
+  doc.setTextColor(255, 255, 255);
+  doc.setFontSize(8);
+  doc.text('Home Ikoi | Youki Home Care | TEL: 098-852-5255', W/2, H - 10, { align:'center' });
+  doc.text('https://kaigo-recruit.vercel.app', W/2, H - 5, { align:'center' });
+
+  doc.save(`youki-shindan-${r.type}.pdf`);
 }
 </script>
 </body>
