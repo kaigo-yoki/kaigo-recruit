@@ -27,7 +27,7 @@ jobs:
 
       - name: ✍️ ブログ記事を生成
         env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: npm run generate
 
       - name: 📤 変更をコミット & プッシュ
