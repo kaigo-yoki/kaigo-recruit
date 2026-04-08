@@ -47,6 +47,9 @@ nav a{font-size:12px;font-weight:700;color:var(--tm);text-decoration:none;paddin
 nav a:hover{background:var(--pink-p);color:var(--pink);}
 .nav-cta{background:linear-gradient(135deg,var(--pink),var(--orange))!important;color:#fff!important;padding:10px 24px!important;box-shadow:0 4px 16px rgba(255,107,157,.3);font-size:13px!important;}
 .nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,107,157,.4);}
+.nav-highlight{background:linear-gradient(135deg,#E8F5E9,#FFFDE7)!important;color:#2E7D32!important;border:2.5px solid #8BC34A!important;padding:10px 24px!important;font-size:13px!important;font-weight:800!important;box-shadow:0 4px 16px rgba(139,195,74,.3);position:relative;animation:nav-glow 2s ease-in-out infinite;}
+.nav-highlight:hover{background:linear-gradient(135deg,#C8E6C9,#FFF9C4)!important;transform:translateY(-2px);box-shadow:0 8px 24px rgba(139,195,74,.5);}
+@keyframes nav-glow{0%,100%{box-shadow:0 4px 16px rgba(139,195,74,.3);}50%{box-shadow:0 4px 20px rgba(139,195,74,.6),0 0 8px rgba(255,235,59,.3);}}
 
 /* ── HERO ── */
 #hero{min-height:100vh;background:linear-gradient(135deg,#FF6B9D 0%,#FF8C42 25%,#FFD23F 50%,#4ECDC4 75%,#45B7D1 100%);display:flex;align-items:center;padding:120px 60px 80px;position:relative;overflow:hidden;}
@@ -315,7 +318,7 @@ footer{background:#2D3436;color:rgba(255,255,255,.6);padding:56px 48px;text-alig
     <a href="#blog">ブログ</a>
     <a href="/shindan">適性診断</a>
     <a href="/kenshu">研修</a>
-    <a href="/career-path">キャリアパス</a>
+    <a href="/career-path" class="nav-highlight">キャリアパス</a>
     <a href="#cta" class="nav-cta">応募する!</a>
   </nav>
 </header>
