@@ -81,6 +81,42 @@ body{font-family:'M PLUS Rounded 1c','Noto Sans JP',sans-serif;background:var(--
 .alloc-note{font-size:13px;color:var(--text-mid);line-height:1.9;margin-top:16px;padding:16px;background:#F8F9FA;border-radius:12px;}
 .step-salary-note{font-size:11px;color:var(--text-light);}
 
+/* Staircase Diagram */
+.stair-wrap{background:var(--white);border-radius:20px;padding:40px 32px;box-shadow:0 4px 24px rgba(0,0,0,.06);border:2px solid #EEE;margin-top:40px;}
+.stair-title{font-size:17px;font-weight:800;color:var(--navy);margin-bottom:24px;text-align:center;}
+.stair-container{display:flex;align-items:flex-end;justify-content:center;gap:8px;padding:0 16px;min-height:320px;}
+.stair-step{display:flex;flex-direction:column;align-items:center;flex:1;max-width:160px;}
+.stair-info{text-align:center;margin-bottom:8px;}
+.stair-salary{font-size:11px;font-weight:700;color:var(--gold);margin-bottom:2px;}
+.stair-coeff{font-size:20px;font-weight:900;margin-bottom:4px;}
+.stair-block{width:100%;border-radius:12px 12px 4px 4px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:16px 8px;position:relative;transition:transform .3s,box-shadow .3s;cursor:default;}
+.stair-block:hover{transform:translateY(-6px);box-shadow:0 12px 32px rgba(0,0,0,.15);}
+.stair-grade{font-size:28px;margin-bottom:4px;}
+.stair-grade-name{font-size:12px;font-weight:800;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.3);}
+.stair-grade-sub{font-size:10px;font-weight:600;color:rgba(255,255,255,.8);}
+
+/* Coefficient Bar Chart */
+.coeff-chart{background:var(--white);border-radius:20px;padding:32px;box-shadow:0 4px 24px rgba(0,0,0,.06);border:2px solid #EEE;margin-top:24px;}
+.coeff-title{font-size:17px;font-weight:800;color:var(--navy);margin-bottom:24px;text-align:center;}
+.coeff-bars{display:flex;flex-direction:column;gap:12px;}
+.coeff-row{display:flex;align-items:center;gap:12px;}
+.coeff-label{width:140px;font-size:13px;font-weight:700;text-align:right;flex-shrink:0;}
+.coeff-bar-track{flex:1;height:36px;background:#F0F0F5;border-radius:10px;overflow:hidden;position:relative;}
+.coeff-bar-fill{height:100%;border-radius:10px;display:flex;align-items:center;justify-content:flex-end;padding-right:14px;transition:width 1s ease;}
+.coeff-bar-value{font-size:14px;font-weight:900;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.3);}
+.coeff-bar-salary{font-size:12px;font-weight:700;color:var(--text-mid);width:100px;text-align:right;flex-shrink:0;}
+
+/* Process Flow */
+.process-flow{background:var(--white);border-radius:20px;padding:32px;box-shadow:0 4px 24px rgba(0,0,0,.06);border:2px solid #EEE;margin-top:24px;}
+.process-title{font-size:17px;font-weight:800;color:var(--navy);margin-bottom:24px;text-align:center;}
+.process-steps{display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap;}
+.process-step-item{background:linear-gradient(135deg,#E3F2FD,#BBDEFB);border:2px solid #90CAF9;border-radius:16px;padding:18px 16px;text-align:center;min-width:130px;flex:0 1 auto;}
+.process-step-item.accent{background:linear-gradient(135deg,var(--gold-bg),#FFE082);border-color:var(--gold);}
+.process-step-item.success{background:linear-gradient(135deg,#E8F5E9,#C8E6C9);border-color:var(--teal);}
+.process-step-icon{font-size:28px;margin-bottom:4px;}
+.process-step-text{font-size:12px;font-weight:700;line-height:1.4;}
+.process-arrow{font-size:24px;color:var(--text-light);padding:0 4px;flex-shrink:0;}
+
 /* Salary Table */
 .salary-table-wrap{background:var(--white);border-radius:20px;padding:32px;box-shadow:0 4px 24px rgba(0,0,0,.06);border:2px solid #EEE;margin-top:40px;overflow-x:auto;}
 .salary-table{width:100%;border-collapse:separate;border-spacing:0;font-size:13px;}
@@ -169,6 +205,21 @@ body{font-family:'M PLUS Rounded 1c','Noto Sans JP',sans-serif;background:var(--
   .hero-stats{gap:12px;}
   .hero-stat{padding:12px 20px;}
   .section{padding:60px 16px;}
+  .stair-container{gap:4px;min-height:220px;}
+  .stair-info{margin-bottom:4px;}
+  .stair-coeff{font-size:16px;}
+  .stair-salary{font-size:9px;}
+  .stair-grade{font-size:22px;}
+  .stair-grade-name{font-size:10px;}
+  .stair-grade-sub{font-size:8px;}
+  .stair-block{padding:10px 4px;}
+  .coeff-label{width:80px;font-size:11px;}
+  .coeff-bar-salary{width:80px;font-size:10px;}
+  .process-steps{gap:0;}
+  .process-step-item{min-width:100px;padding:12px 8px;}
+  .process-step-icon{font-size:22px;}
+  .process-step-text{font-size:10px;}
+  .process-arrow{font-size:18px;padding:0 2px;}
 }
 </style>
 </head>
@@ -244,6 +295,151 @@ body{font-family:'M PLUS Rounded 1c','Noto Sans JP',sans-serif;background:var(--
   <div class="section-label">📈 CAREER PATH</div>
   <div class="section-title">5等級キャリアパス制度</div>
   <div class="section-desc">1等級（一般職）から5等級（マネージャー職）まで、明確な等級制度でキャリアアップの道すじを示します。等級が上がるほど処遇改善の配当係数も高くなります。</div>
+
+  <!-- === 階段式ビジュアル図 === -->
+  <div class="stair-wrap">
+    <div class="stair-title">🪜 等級別キャリアステップ ─ 上を目指すほど待遇UP！</div>
+    <div class="stair-container">
+      <div class="stair-step">
+        <div class="stair-info">
+          <div class="stair-salary">23万〜</div>
+          <div class="stair-coeff" style="color:#00897B;">×1.0</div>
+        </div>
+        <div class="stair-block" style="height:120px;background:linear-gradient(180deg,#4DB6AC,#00897B);">
+          <div class="stair-grade">🌱</div>
+          <div class="stair-grade-name">1等級</div>
+          <div class="stair-grade-sub">一般職</div>
+        </div>
+      </div>
+      <div class="stair-step">
+        <div class="stair-info">
+          <div class="stair-salary">25万〜</div>
+          <div class="stair-coeff" style="color:#2D5A8E;">×1.2</div>
+        </div>
+        <div class="stair-block" style="height:160px;background:linear-gradient(180deg,#6FA3D4,#2D5A8E);">
+          <div class="stair-grade">⭐</div>
+          <div class="stair-grade-name">2等級</div>
+          <div class="stair-grade-sub">中堅職</div>
+        </div>
+      </div>
+      <div class="stair-step">
+        <div class="stair-info">
+          <div class="stair-salary">28万〜</div>
+          <div class="stair-coeff" style="color:#FF8F00;">×1.5</div>
+        </div>
+        <div class="stair-block" style="height:210px;background:linear-gradient(180deg,#FFB74D,#FF8F00);">
+          <div class="stair-grade">🏆</div>
+          <div class="stair-grade-name">3等級</div>
+          <div class="stair-grade-sub">リーダー職</div>
+        </div>
+      </div>
+      <div class="stair-step">
+        <div class="stair-info">
+          <div class="stair-salary">32万〜</div>
+          <div class="stair-coeff" style="color:#D4A017;">×1.8</div>
+        </div>
+        <div class="stair-block" style="height:260px;background:linear-gradient(180deg,#F5D060,#D4A017);">
+          <div class="stair-grade">👔</div>
+          <div class="stair-grade-name">4等級</div>
+          <div class="stair-grade-sub">管理職</div>
+        </div>
+      </div>
+      <div class="stair-step">
+        <div class="stair-info">
+          <div class="stair-salary">36万〜</div>
+          <div class="stair-coeff" style="color:#E8594F;">×2.0</div>
+        </div>
+        <div class="stair-block" style="height:310px;background:linear-gradient(180deg,#FF8A80,#E8594F);">
+          <div class="stair-grade">🌟</div>
+          <div class="stair-grade-name">5等級</div>
+          <div class="stair-grade-sub">マネージャー職</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- === 係数バーチャート === -->
+  <div class="coeff-chart">
+    <div class="coeff-title">📊 配当係数の比較 ─ 等級が上がるほど配当額UP！</div>
+    <div class="coeff-bars">
+      <div class="coeff-row">
+        <div class="coeff-label">🌱 1等級 一般職</div>
+        <div class="coeff-bar-track">
+          <div class="coeff-bar-fill" style="width:50%;background:linear-gradient(90deg,#4DB6AC,#00897B);">
+            <span class="coeff-bar-value">1.0</span>
+          </div>
+        </div>
+        <div class="coeff-bar-salary">23万円〜</div>
+      </div>
+      <div class="coeff-row">
+        <div class="coeff-label">⭐ 2等級 中堅職</div>
+        <div class="coeff-bar-track">
+          <div class="coeff-bar-fill" style="width:60%;background:linear-gradient(90deg,#6FA3D4,#2D5A8E);">
+            <span class="coeff-bar-value">1.2</span>
+          </div>
+        </div>
+        <div class="coeff-bar-salary">25万円〜</div>
+      </div>
+      <div class="coeff-row">
+        <div class="coeff-label">🏆 3等級 リーダー</div>
+        <div class="coeff-bar-track">
+          <div class="coeff-bar-fill" style="width:75%;background:linear-gradient(90deg,#FFB74D,#FF8F00);">
+            <span class="coeff-bar-value">1.5</span>
+          </div>
+        </div>
+        <div class="coeff-bar-salary">28万円〜</div>
+      </div>
+      <div class="coeff-row">
+        <div class="coeff-label">👔 4等級 管理職</div>
+        <div class="coeff-bar-track">
+          <div class="coeff-bar-fill" style="width:90%;background:linear-gradient(90deg,#F5D060,#D4A017);">
+            <span class="coeff-bar-value">1.8</span>
+          </div>
+        </div>
+        <div class="coeff-bar-salary">32万円〜</div>
+      </div>
+      <div class="coeff-row">
+        <div class="coeff-label">🌟 5等級 マネージャー</div>
+        <div class="coeff-bar-track">
+          <div class="coeff-bar-fill" style="width:100%;background:linear-gradient(90deg,#FF8A80,#E8594F);">
+            <span class="coeff-bar-value">2.0</span>
+          </div>
+        </div>
+        <div class="coeff-bar-salary">36万円〜</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- === 昇給プロセスフロー === -->
+  <div class="process-flow">
+    <div class="process-title">🔄 等級アップまでの流れ</div>
+    <div class="process-steps">
+      <div class="process-step-item">
+        <div class="process-step-icon">📋</div>
+        <div class="process-step-text">人事考課<br>（年2回）</div>
+      </div>
+      <div class="process-arrow">→</div>
+      <div class="process-step-item accent">
+        <div class="process-step-icon">⭐</div>
+        <div class="process-step-text">高評価<br>＋資格取得</div>
+      </div>
+      <div class="process-arrow">→</div>
+      <div class="process-step-item">
+        <div class="process-step-icon">📈</div>
+        <div class="process-step-text">等級アップ<br>（6月昇給）</div>
+      </div>
+      <div class="process-arrow">→</div>
+      <div class="process-step-item accent">
+        <div class="process-step-icon">💰</div>
+        <div class="process-step-text">係数UP<br>配当額増</div>
+      </div>
+      <div class="process-arrow">→</div>
+      <div class="process-step-item success">
+        <div class="process-step-icon">🎉</div>
+        <div class="process-step-text">給与UP<br>＋賞与UP</div>
+      </div>
+    </div>
+  </div>
 
   <div class="career-path">
     <!-- 1等級: 一般職 -->
@@ -440,7 +636,7 @@ body{font-family:'M PLUS Rounded 1c','Noto Sans JP',sans-serif;background:var(--
   <div style="margin-top:20px;font-size:12px;color:var(--text-light);line-height:2;">
     ※ 上記のほか処遇改善手当（係数連動）、資格手当、通勤手当、時間外手当等を別途支給<br>
     ※ 処遇改善手当：毎月の処遇改善売上の60%を等級係数で按分し給与に反映<br>
-    ※ 賞与：年2回（処遇改善売上の残り40%＋業績連動）/ 昇給：年1回（人事考課に基づく）<br>
+    ※ 賞与：年2回（処遇改善売上の残り40%＋業績連動）/ 昇給：年1回・6月（人事考課に基づく）<br>
     ※ 経験・能力を考慮の上、優遇します
   </div>
 </section>
@@ -559,7 +755,7 @@ body{font-family:'M PLUS Rounded 1c','Noto Sans JP',sans-serif;background:var(--
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">昇給のタイミングはいつですか？</div>
-      <div class="faq-a">年1回（4月）の定期昇給があります。人事評価（経験年数・資格・能力）に基づき、公平に判定します。また、資格を新たに取得した場合は、取得月の翌月から資格手当が加算されます。</div>
+      <div class="faq-a">年1回（6月）の定期昇給があります。人事考課（経験年数・資格・能力・勤務態度）に基づき、公平に判定します。昇級すると配当係数もアップし、処遇改善費の受け取り額が増加します。また、資格を新たに取得した場合は、取得月の翌月から資格手当が加算されます。</div>
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">キャリアパスは必ず順番通りに進む必要がありますか？</div>
