@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>リーダー向け 事例検討とリスクマネジメント | 訪問介護 ようき 個別研修</title>
+<meta name="description" content="ヒヤリハット分析と事例検討のファシリテーション技術を学びます。 訪問介護ようき（有限会社 陽気）のリーダー向け個別研修。">
+<link rel="canonical" href="https://kaigo-recruit.vercel.app/individual-training/leader-q3">
+<link rel="icon" type="image/png" href="/favicon.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Kosugi+Maru&display=swap');
+:root{--primary:#F9A826;--primary-light:#F9A826CC;--accent:#E8594F;--warm:#F9A826;--green:#4CAF7D;--bg:#FFF8F0;--panel-bg:#FFFFFF;--text:#2C2C2C;--text-light:#666666;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Zen Maru Gothic','Kosugi Maru',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
+.title-screen{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg, #FF8F00 0%, #FFB300 50%, #FFE082 100%);position:relative;overflow:hidden;}
+.title-screen::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.08'%3E%3Ctext x='10' y='45' font-size='30'%3E📚%3C/text%3E%3C/g%3E%3C/svg%3E");}
+.title-badge{background:rgba(255,255,255,.25);color:white;padding:8px 28px;border-radius:30px;font-size:14px;font-weight:700;letter-spacing:2px;margin-bottom:12px;position:relative;z-index:1;animation:bounceIn .8s ease;backdrop-filter:blur(4px);}
+.title-level{background:white;color:#F9A826;padding:6px 20px;border-radius:20px;font-size:13px;font-weight:900;margin-bottom:16px;position:relative;z-index:1;animation:fadeUp 1s ease .15s both;}
+.title-main{font-size:clamp(24px,5.5vw,44px);font-weight:900;color:white;text-align:center;line-height:1.4;position:relative;z-index:1;animation:fadeUp 1s ease .3s both;text-shadow:0 3px 12px rgba(0,0,0,.2);}
+.title-sub{font-size:clamp(13px,2.5vw,18px);color:rgba(255,255,255,.95);margin-top:14px;position:relative;z-index:1;animation:fadeUp 1s ease .6s both;text-align:center;line-height:1.6;}
+.title-characters{display:flex;gap:30px;margin-top:28px;position:relative;z-index:1;animation:fadeUp 1s ease .9s both;flex-wrap:wrap;justify-content:center;}
+.title-char{text-align:center;}
+.title-char-icon{width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:40px;margin-bottom:6px;border:4px solid rgba(255,255,255,.6);box-shadow:0 4px 20px rgba(0,0,0,.15);}
+.title-char-name{color:white;font-weight:700;font-size:12px;text-shadow:0 1px 4px rgba(0,0,0,.2);}
+.start-btn{margin-top:32px;padding:14px 44px;background:white;color:#F9A826;border:none;border-radius:50px;font-size:18px;font-weight:700;font-family:inherit;cursor:pointer;position:relative;z-index:1;animation:fadeUp 1s ease 1.2s both,pulse 2s ease-in-out 2.5s infinite;box-shadow:0 4px 20px rgba(0,0,0,.2);transition:transform .2s;}
+.start-btn:hover{transform:scale(1.05);}
+.progress-bar{position:fixed;top:0;left:0;right:0;height:5px;background:rgba(0,0,0,.1);z-index:100;}
+.progress-fill{height:100%;background:linear-gradient(90deg, #FF8F00, #FFE082);transition:width .5s ease;border-radius:0 3px 3px 0;}
+.page{display:none;min-height:100vh;padding:24px 16px 100px;max-width:800px;margin:0 auto;animation:fadeIn .6s ease;}
+.page.active{display:block;}
+.page-header{text-align:center;margin:20px 0 30px;}
+.page-chapter{display:inline-block;background:var(--primary);color:white;padding:4px 16px;border-radius:20px;font-size:12px;font-weight:700;letter-spacing:1px;margin-bottom:8px;}
+.page-title{font-size:clamp(22px,5vw,32px);font-weight:900;color:var(--primary);line-height:1.3;}
+.manga-panel{background:var(--panel-bg);border-radius:16px;padding:24px;margin-bottom:20px;box-shadow:0 2px 12px rgba(0,0,0,.06);border:2px solid #EEE;opacity:0;transform:translateY(20px);animation:panelIn .5s ease forwards;}
+.manga-panel:nth-child(2){animation-delay:.15s;}.manga-panel:nth-child(3){animation-delay:.3s;}.manga-panel:nth-child(4){animation-delay:.45s;}.manga-panel:nth-child(5){animation-delay:.6s;}.manga-panel:nth-child(6){animation-delay:.75s;}
+.speech{display:flex;gap:12px;margin-bottom:16px;align-items:flex-start;}.speech.right{flex-direction:row-reverse;}
+.speech-avatar{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;border:3px solid;}
+.speech-avatar.oyaji{background:#FFF3E0;border-color:#FF8F00;}.speech-avatar.student{background:#E3F2FD;border-color:#4A8FD4;}.speech-avatar.tsukkomi{background:#F3E5F5;border-color:#AB47BC;}
+.speech-bubble{padding:14px 18px;border-radius:16px;font-size:15px;line-height:1.7;max-width:85%;position:relative;}
+.bubble-oyaji{background:#FFF3E0;border:2px solid #FFE0B2;border-radius:16px 16px 16px 4px;}.bubble-student{background:#E3F2FD;border:2px solid #BBDEFB;border-radius:16px 16px 4px 16px;}.bubble-tsukkomi{background:#F3E5F5;border:2px solid #E1BEE7;border-radius:16px 16px 4px 16px;}
+.speech-name{font-size:11px;font-weight:700;color:var(--text-light);margin-bottom:4px;}
+.oyaji-gag{background:linear-gradient(135deg,#FFF9C4,#FFF176);border:3px solid #FFD54F;border-radius:16px;padding:16px 20px;margin:14px 0;text-align:center;position:relative;animation:gagPop .5s ease;}
+.oyaji-gag::before{content:'\1F4A5';position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:28px;}
+.gag-text{font-size:20px;font-weight:900;color:#E65100;letter-spacing:2px;}.gag-sub{font-size:12px;color:#BF360C;margin-top:4px;font-weight:500;}
+.shiin{text-align:center;font-size:28px;font-weight:900;color:#90A4AE;letter-spacing:12px;margin:8px 0;animation:shiinFade 1.5s ease;}
+.highlight-box{border-radius:12px;padding:20px;margin:16px 0;}.highlight-box.law{background:linear-gradient(135deg,#E8EAF6,#C5CAE9);border-left:5px solid #3F51B5;}.highlight-box.important{background:linear-gradient(135deg,#FFF3E0,#FFE0B2);border-left:5px solid var(--warm);}.highlight-box.danger{background:linear-gradient(135deg,#FFEBEE,#FFCDD2);border-left:5px solid var(--accent);}.highlight-box.good{background:linear-gradient(135deg,#E8F5E9,#C8E6C9);border-left:5px solid var(--green);}
+.highlight-box .box-title{font-weight:900;font-size:15px;margin-bottom:8px;display:flex;align-items:center;gap:6px;}.highlight-box .box-content{font-size:14px;line-height:1.8;}
+.scenario{background:#F5F5F5;border-radius:12px;padding:20px;margin:16px 0;border:2px dashed #CCC;}.scenario-title{font-size:13px;font-weight:700;color:var(--accent);margin-bottom:10px;}
+.quiz-box{background:white;border:3px solid var(--primary);border-radius:16px;padding:24px;margin:20px 0;}.quiz-question{font-size:16px;font-weight:700;margin-bottom:16px;color:var(--primary);}.quiz-options{display:flex;flex-direction:column;gap:10px;}
+.quiz-option{padding:14px 18px;background:#F5F5F5;border:2px solid #DDD;border-radius:12px;cursor:pointer;font-size:14px;font-family:inherit;text-align:left;transition:all .3s;line-height:1.5;}
+.quiz-option:hover{border-color:var(--primary-light);background:#E3F2FD;}.quiz-option.correct{background:#E8F5E9;border-color:var(--green);}.quiz-option.wrong{background:#FFEBEE;border-color:var(--accent);}
+.quiz-feedback{margin-top:14px;padding:14px;border-radius:10px;font-size:14px;line-height:1.7;display:none;}.quiz-feedback.show{display:block;}
+.point-list{list-style:none;padding:0;}.point-list li{padding:10px 0 10px 36px;position:relative;font-size:15px;line-height:1.6;border-bottom:1px solid #EEE;}
+.point-list li::before{content:'\2713';position:absolute;left:0;width:24px;height:24px;background:var(--green);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;top:12px;}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:white;border-top:2px solid #EEE;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;z-index:50;}
+.nav-btn{padding:10px 24px;border:none;border-radius:30px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;transition:all .2s;}
+.nav-btn.prev{background:#EEE;color:var(--text);}.nav-btn.next{background:var(--primary);color:white;box-shadow:0 2px 10px rgba(0,0,0,.15);}
+.nav-btn:hover{transform:translateY(-2px);}.nav-btn:disabled{opacity:.3;cursor:default;transform:none;}
+.nav-page{font-size:13px;color:var(--text-light);font-weight:700;}
+.toc{display:grid;gap:12px;margin-top:20px;}.toc-item{display:flex;align-items:center;gap:14px;padding:16px;background:white;border-radius:12px;border:2px solid #EEE;cursor:pointer;transition:all .3s;}
+.toc-item:hover{border-color:var(--primary-light);transform:translateX(4px);}.toc-num{width:36px;height:36px;border-radius:50%;background:var(--primary);color:white;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px;flex-shrink:0;}.toc-text{font-size:15px;font-weight:700;}
+.ending{text-align:center;padding:40px 20px;}.ending-icon{font-size:80px;margin-bottom:16px;}.ending-title{font-size:28px;font-weight:900;color:var(--primary);margin-bottom:12px;}.ending-msg{font-size:16px;color:var(--text-light);line-height:1.8;}
+.certificate{background:linear-gradient(135deg,#FFF8E1,#FFECB3);border:3px solid var(--warm);border-radius:16px;padding:30px;margin:30px auto;max-width:500px;}
+.certificate-title{font-size:22px;font-weight:900;color:var(--warm);}.certificate-body{font-size:14px;margin-top:12px;line-height:1.8;}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}@keyframes bounceIn{0%{transform:scale(0);}60%{transform:scale(1.1);}100%{transform:scale(1);}}@keyframes panelIn{to{opacity:1;transform:translateY(0);}}@keyframes pulse{0%,100%{box-shadow:0 4px 20px rgba(0,0,0,.2);}50%{box-shadow:0 4px 30px rgba(0,0,0,.35);}}@keyframes gagPop{0%{transform:scale(.5) rotate(-5deg);opacity:0;}50%{transform:scale(1.1) rotate(2deg);}100%{transform:scale(1) rotate(0);}}@keyframes shiinFade{0%{opacity:0;letter-spacing:2px;}100%{opacity:1;letter-spacing:12px;}}
+@media(max-width:600px){.speech-avatar{width:44px;height:44px;font-size:22px;}.speech-bubble{font-size:13px;}.gag-text{font-size:17px;}}
+</style>
+</head>
+<body>
+<div class="title-screen" id="titleScreen">
+  <div class="title-badge">訪問介護 個別研修</div>
+  <div class="title-level">⭐ リーダー向け ｜ Q3（10〜12月）</div>
+  <div class="title-main">🔍 事例検討とリスクマネジメント</div>
+  <div class="title-sub">〜 事例から学ぶ、事故を防ぐ知恵！ 〜<br>※ ギャグのクオリティは保証しません</div>
+  <div class="title-characters">
+    <div class="title-char"><div class="title-char-icon" style="background:#FFF3E0;">🧔</div><div class="title-char-name">ダジャレ所長</div></div>
+    <div class="title-char"><div class="title-char-icon" style="background:#E3F2FD;">👩</div><div class="title-char-name">さくら</div></div>
+    <div class="title-char"><div class="title-char-icon" style="background:#F3E5F5;">👩‍🦰</div><div class="title-char-name">みさき先輩</div></div>
+  </div>
+  <button class="start-btn" onclick="startTraining()">▶ 研修をはじめる</button>
+</div>
+<div class="progress-bar" id="progressBar" style="display:none;"><div class="progress-fill" id="progressFill"></div></div>
+
+<div class="page" id="page1">
+  <div class="page-header">
+    <div class="page-chapter">はじめに</div>
+    <div class="page-title">今日の研修メニュー 📋</div>
+  </div>
+  <div class="manga-panel"><div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji">みんな、今日は事例検討とリスクマネジメントについて学ぶよ！これで事故を防ぐ知恵をゲットだぜ！</div></div><div class="speech right"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student">事故を防ぐ知恵、しっかり身につけたいです！</div></div><div class="speech"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi">所長、いつも通りダジャレも交えながらの説明ですね。</div></div><div class="oyaji-gag"><div class="gag-text">事故に遭わないように、じっこり考えよう！</div><div class="gag-sub">※事故とじっくりを掛けた親父ギャグ</div></div><div class="toc-item" onclick="goToPage(1)">第1章: リスクの特定</div><div class="toc-item" onclick="goToPage(2)">第2章: リスクの評価</div><div class="toc-item" onclick="goToPage(3)">第3章: リスクの管理</div><div class="toc-item" onclick="goToPage(4)">第4章: 事例検討とフィードバック</div></div>
+</div>
+<div class="page" id="page2">
+  <div class="page-header">
+    <div class="page-chapter">第1章</div>
+    <div class="page-title">リスクの特定</div>
+  </div>
+  <div class="manga-panel"><div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji">まずはリスクを特定することが重要だね。見えないリスクは掴みにくい、なんてね！</div></div><div class="speech right"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student">具体的にはどうやってリスクを特定するんですか？</div></div><div class="speech"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi">それは簡単には見えないからこそ、データの収集と観察が大事なんです。</div></div><div class="highlight-box important"><strong>ポイント：</strong>リスクの特定はデータ収集と観察から始める。</div><div class="scenario"><div class="scenario-title">📖 こんな場面を想像してみよう</div>訪問先で利用者の体調変化があったが、事前にシフト表で情報共有していなかったため対応が遅れた。</div><div class="highlight-box danger"><strong>危険：</strong>情報共有が不十分だとリスクの特定が遅れる。</div><div class="oyaji-gag"><div class="gag-text">リスクは見つけたら早めにリスクューしよう！</div><div class="gag-sub">※リスクとレスキューを掛けた親父ギャグ</div></div></div>
+</div>
+<div class="page" id="page3">
+  <div class="page-header">
+    <div class="page-chapter">第2章</div>
+    <div class="page-title">リスクの評価</div>
+  </div>
+  <div class="manga-panel"><div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji">リスクを特定したら、次は評価だね。リスクの重さを測るんだよ、重さがわかれば対策も見えてくる！</div></div><div class="speech right"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student">どうやってリスクの重さを評価するんですか？</div></div><div class="speech"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi">影響度と発生頻度を基にマトリックスを使って評価する方法が効果的ですよ！</div></div><div class="highlight-box law"><strong>法律根拠：</strong>労働安全衛生法に基づくリスクアセスメントの重要性。</div><div class="highlight-box important"><strong>ポイント：</strong>影響度×発生頻度でリスクを評価する。</div><div class="oyaji-gag"><div class="gag-text">評価にはエイ評価（永遠の評価）が大事だね！</div><div class="gag-sub">※評価と永遠を掛けた親父ギャグ</div></div></div>
+</div>
+<div class="page" id="page4">
+  <div class="page-header">
+    <div class="page-chapter">第3章</div>
+    <div class="page-title">リスクの管理</div>
+  </div>
+  <div class="manga-panel"><div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji">さあ、評価したリスクをどう管理するかだね。リスクを管理するには、まず優先順位をつけることが肝心さ！</div></div><div class="speech right"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student">優先順位はどう決めるんですか？</div></div><div class="speech"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi">影響度と発生頻度を考慮して、最も重大なリスクから対応するのが基本です。</div></div><div class="highlight-box important"><strong>ポイント：</strong>リスクの優先順位を明確にし、対策を講じる。</div><div class="highlight-box good"><strong>良い例：</strong>リスク対応策をチームで共有し、役割分担を明確にする。</div><div class="oyaji-gag"><div class="gag-text">リスクを管理して、安心をガッツリ得るんだね！</div><div class="gag-sub">※ガッツリと安心を掛けた親父ギャグ</div></div></div>
+</div>
+<div class="page" id="page5">
+  <div class="page-header">
+    <div class="page-chapter">第4章</div>
+    <div class="page-title">事例検討とフィードバック</div>
+  </div>
+  <div class="manga-panel"><div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji">事例検討では実際の事例から学ぶんだね。過去の失敗も成功も宝の山さ！</div></div><div class="speech right"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student">事例から学ぶことで、次に活かせるんですね。</div></div><div class="speech"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi">その通りです。そして、フィードバックを通じて改善の種を撒くことが大切です。</div></div><div class="highlight-box important"><strong>ポイント：</strong>事例から学ぶことと、フィードバックを通じた改善が重要。</div><div class="highlight-box danger"><strong>危険：</strong>フィードバックを怠ると、同じミスを繰り返す可能性がある。</div><div class="oyaji-gag"><div class="gag-text">フィードバックでふぃーっと安心！</div><div class="gag-sub">※フィードバックと安心を掛けた親父ギャグ</div></div></div>
+</div>
+<div class="page" id="page6">
+  <div class="page-header">
+    <div class="page-chapter">確認クイズ</div>
+    <div class="page-title">確認クイズ＆まとめ</div>
+  </div>
+  <div class="manga-panel"><div class="quiz-box"><p>リスクの特定において重要な要素はどれですか？</p><button class="quiz-option" onclick="checkQuiz(this, false)">直感</button><button class="quiz-option" onclick="checkQuiz(this, true)">データの収集と観察</button><button class="quiz-option" onclick="checkQuiz(this, false)">経験則のみ</button><button class="quiz-option" onclick="checkQuiz(this, false)">運</button><div class="quiz-feedback">正解はデータの収集と観察です。</div></div><div class="quiz-box"><p>リスクの評価に最も適した方法は何ですか？</p><button class="quiz-option" onclick="checkQuiz(this, false)">リーダーの勘</button><button class="quiz-option" onclick="checkQuiz(this, false)">利用者の希望</button><button class="quiz-option" onclick="checkQuiz(this, true)">影響度×発生頻度のマトリックス</button><button class="quiz-option" onclick="checkQuiz(this, false)">季節のトレンド</button><div class="quiz-feedback">正解は影響度×発生頻度のマトリックスです。</div></div><div class="quiz-box"><p>フィードバックを怠るとどうなる可能性がありますか？</p><button class="quiz-option" onclick="checkQuiz(this, false)">新しいアイデアが生まれる</button><button class="quiz-option" onclick="checkQuiz(this, false)">モチベーションが上がる</button><button class="quiz-option" onclick="checkQuiz(this, true)">同じミスを繰り返す可能性がある</button><button class="quiz-option" onclick="checkQuiz(this, false)">何も影響はない</button><div class="quiz-feedback">正解は同じミスを繰り返す可能性があるです。</div></div><ul class="point-list"><li>リスクの特定にはデータと観察が重要。</li><li>影響度と発生頻度でリスクを評価。</li><li>優先順位をつけてリスクを管理。</li><li>事例検討とフィードバックで改善を。</li></ul><div class="manga-panel"><div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji">これで今日の研修はおしまいだね。みんな、事故なく陽気に頑張っていこう！</div></div><div class="speech"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student">ありがとうございました！しっかりと実践していきます！</div></div><div class="speech"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi">今日の学びを活かして、より良いチームを目指しましょう！</div></div></div>
+</div>
+<div class="nav-bar" id="navBar" style="display:none;">
+  <button class="nav-btn prev" id="prevBtn" onclick="prevPage()">◀ 前へ</button>
+  <span class="nav-page" id="pageNum">1 / 6</span>
+  <button class="nav-btn next" id="nextBtn" onclick="nextPage()">次へ ▶</button>
+</div>
+<script>
+let currentPage=0;const totalPages=6;
+function startTraining(){document.getElementById('titleScreen').style.display='none';document.getElementById('progressBar').style.display='block';document.getElementById('navBar').style.display='flex';currentPage=1;showPage(currentPage);}
+function showPage(n){document.querySelectorAll('.page').forEach(p=>{p.classList.remove('active');});const page=document.getElementById('page'+n);if(page){page.classList.add('active');page.querySelectorAll('.manga-panel').forEach(p=>{p.style.animation='none';p.offsetHeight;p.style.animation='';});}document.getElementById('prevBtn').disabled=(n<=1);document.getElementById('nextBtn').textContent=(n>=totalPages)?'🎉 完了！':'次へ ▶';document.getElementById('pageNum').textContent=n+' / '+totalPages;document.getElementById('progressFill').style.width=((n/totalPages)*100)+'%';window.scrollTo({top:0,behavior:'smooth'});}
+function nextPage(){if(currentPage<totalPages){currentPage++;showPage(currentPage);}}
+function prevPage(){if(currentPage>1){currentPage--;showPage(currentPage);}}
+function goToPage(n){currentPage=n;showPage(n);}
+function checkQuiz(btn,isCorrect){const qb=btn.closest('.quiz-box');const opts=qb.querySelectorAll('.quiz-option');opts.forEach(o=>{o.disabled=true;o.style.pointerEvents='none';});if(isCorrect){btn.classList.add('correct');const fb=qb.querySelector('.quiz-feedback');if(fb){fb.classList.add('show');fb.style.background='#E8F5E9';}}else{btn.classList.add('wrong');opts.forEach(o=>{if(o.getAttribute('onclick')&&o.getAttribute('onclick').includes('true'))o.classList.add('correct');});const fb=qb.querySelector('.quiz-feedback');if(fb){fb.classList.add('show');fb.style.background='#FFEBEE';}}}
+</script>
+</body>
+</html>

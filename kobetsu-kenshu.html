@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>個別研修一覧 | 訪問介護 ようき</title>
+<meta name="description" content="訪問介護ようき（有限会社 陽気）の個別研修一覧。新人・リーダー・管理者向けに年間計画に基づいた研修を実施しています。">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Kosugi+Maru&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--primary:#2D5A8E;--bg:#FFF8F0;--text:#2C2C2C;--text-light:#666;}
+body{font-family:'Zen Maru Gothic','Kosugi Maru',sans-serif;background:var(--bg);color:var(--text);line-height:1.8;}
+
+.header{background:rgba(255,255,255,.95);backdrop-filter:blur(20px);border-bottom:3px solid rgba(45,90,142,.15);padding:16px 24px;position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;}
+.header a{font-weight:800;font-size:14px;color:var(--primary);text-decoration:none;transition:color .25s;}
+.header a:hover{color:#1565C0;}
+.header span{font-size:12px;color:#999;font-weight:500;}
+
+.hero{background:linear-gradient(135deg,#1565C0 0%,#42A5F5 40%,#FF8F00 70%,#43A047 100%);padding:80px 24px 60px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.06'%3E%3Ctext x='10' y='45' font-size='30'%3E🎓%3C/text%3E%3C/g%3E%3C/svg%3E");}
+.hero-badge{display:inline-block;background:rgba(255,255,255,.2);color:#fff;padding:6px 22px;border-radius:30px;font-size:12px;font-weight:700;letter-spacing:2px;margin-bottom:16px;position:relative;z-index:1;backdrop-filter:blur(4px);}
+.hero h1{font-size:clamp(28px,5vw,44px);font-weight:900;color:#fff;line-height:1.3;position:relative;z-index:1;text-shadow:0 3px 12px rgba(0,0,0,.2);}
+.hero p{font-size:15px;color:rgba(255,255,255,.9);margin-top:12px;position:relative;z-index:1;max-width:600px;margin-left:auto;margin-right:auto;}
+
+main{max-width:960px;margin:0 auto;padding:40px 24px 80px;}
+
+.level-section{margin-bottom:48px;}
+.level-header{display:flex;align-items:center;gap:12px;margin-bottom:8px;}
+.level-icon{font-size:32px;}
+.level-title{font-size:22px;font-weight:900;}
+.level-sub{font-size:13px;color:var(--text-light);margin-bottom:20px;padding-left:44px;}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;}
+.card{background:#fff;border-radius:18px;padding:24px 20px;border:2px solid #EEE;transition:all .3s;text-decoration:none;display:block;position:relative;overflow:hidden;}
+.card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(0,0,0,.08);}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;border-radius:18px 18px 0 0;opacity:0;transition:opacity .3s;}
+.card:hover::before{opacity:1;}
+
+.card.new::before{background:linear-gradient(90deg,#43A047,#A5D6A7);}
+.card.leader::before{background:linear-gradient(90deg,#FF8F00,#FFE082);}
+.card.manager::before{background:linear-gradient(90deg,#1565C0,#90CAF9);}
+
+.card-quarter{font-size:11px;font-weight:800;padding:3px 12px;border-radius:20px;display:inline-block;margin-bottom:10px;}
+.card.new .card-quarter{background:#E8F5E9;color:#43A047;}
+.card.leader .card-quarter{background:#FFF3E0;color:#FF8F00;}
+.card.manager .card-quarter{background:#E3F2FD;color:#1565C0;}
+
+.card-icon{font-size:36px;display:block;margin-bottom:8px;}
+.card-title{font-size:15px;font-weight:900;color:var(--text);margin-bottom:4px;line-height:1.4;}
+.card-desc{font-size:12px;color:var(--text-light);line-height:1.6;}
+.card-status{display:inline-block;margin-top:10px;font-size:10px;font-weight:700;padding:3px 12px;border-radius:20px;}
+.card-status.ready{background:#E8F5E9;color:#4CAF7D;}
+.card-status.coming{background:#FFF3E0;color:#FF8F00;}
+.card-date{font-size:10px;color:#BBB;margin-top:3px;}
+
+.schedule{background:white;border-radius:20px;padding:32px;border:2px solid #EEE;margin-top:40px;}
+.schedule-title{font-size:18px;font-weight:900;color:var(--primary);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+th{background:var(--primary);color:white;padding:10px 12px;text-align:left;font-weight:700;}
+td{padding:10px 12px;border-bottom:1px solid #EEE;}
+tr:nth-child(even) td{background:#FAFAFA;}
+.level-badge{display:inline-block;padding:2px 10px;border-radius:12px;font-size:11px;font-weight:700;}
+.level-badge.new{background:#E8F5E9;color:#43A047;}
+.level-badge.leader{background:#FFF3E0;color:#FF8F00;}
+.level-badge.manager{background:#E3F2FD;color:#1565C0;}
+
+.nav-links{display:flex;gap:16px;justify-content:center;margin-top:40px;flex-wrap:wrap;}
+.nav-links a{color:var(--primary);font-size:14px;font-weight:700;text-decoration:none;padding:10px 20px;border:2px solid var(--primary);border-radius:30px;transition:all .3s;}
+.nav-links a:hover{background:var(--primary);color:white;}
+
+.footer{text-align:center;padding:40px 24px;font-size:12px;color:#999;}
+.footer a{color:var(--primary);text-decoration:none;font-weight:700;}
+
+@media(max-width:600px){
+  .cards{grid-template-columns:1fr 1fr;}
+  .level-sub{padding-left:0;}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <a href="/kenshu">← 研修一覧へ</a>
+  <span>訪問介護 ようき</span>
+</div>
+
+<div class="hero">
+  <div class="hero-badge">年間研修計画</div>
+  <h1>🎓 個別研修一覧</h1>
+  <p>新人・リーダー・管理者の階層別に、3か月に1回の研修を実施しています。</p>
+</div>
+
+<main>
+  <!-- 新人向け -->
+  <div class="level-section" id="new">
+    <div class="level-header">
+      <span class="level-icon">🌱</span>
+      <span class="level-title" style="color:#43A047;">新人向け研修</span>
+    </div>
+    <div class="level-sub">基礎的な介護技術やコミュニケーション、記録の書き方など、新人に必要なスキルを段階的に学びます。</div>
+    <div class="cards" id="cards-new"></div>
+  </div>
+
+  <!-- リーダー向け -->
+  <div class="level-section" id="leader">
+    <div class="level-header">
+      <span class="level-icon">⭐</span>
+      <span class="level-title" style="color:#FF8F00;">リーダー向け研修</span>
+    </div>
+    <div class="level-sub">チームマネジメント、多職種連携、リスク管理など、リーダーとして必要なスキルを強化します。</div>
+    <div class="cards" id="cards-leader"></div>
+  </div>
+
+  <!-- 管理者向け -->
+  <div class="level-section" id="manager">
+    <div class="level-header">
+      <span class="level-icon">👔</span>
+      <span class="level-title" style="color:#1565C0;">管理者向け研修</span>
+    </div>
+    <div class="level-sub">労務管理、運営指導対策、介護報酬、経営戦略など、管理者に求められる知識を体系的に学びます。</div>
+    <div class="cards" id="cards-manager"></div>
+  </div>
+
+  <!-- 年間スケジュール -->
+  <div class="schedule">
+    <div class="schedule-title">📅 年間研修スケジュール</div>
+    <table>
+      <tr><th>時期</th><th>新人向け</th><th>リーダー向け</th><th>管理者向け</th></tr>
+      <tr>
+        <td><strong>Q1</strong><br>4〜6月</td>
+        <td>基本介護技術と<br>訪問介護のルール</td>
+        <td>チームマネジメントと<br>後輩指導</td>
+        <td>労務管理と<br>人材育成計画</td>
+      </tr>
+      <tr>
+        <td><strong>Q2</strong><br>7〜9月</td>
+        <td>コミュニケーション技術と<br>利用者対応</td>
+        <td>サービス提供責任者の<br>役割と連携</td>
+        <td>運営指導対策と<br>書類管理</td>
+      </tr>
+      <tr>
+        <td><strong>Q3</strong><br>10〜12月</td>
+        <td>介護記録の書き方と<br>報連相</td>
+        <td>事例検討と<br>リスクマネジメント</td>
+        <td>介護報酬と<br>加算の理解</td>
+      </tr>
+      <tr>
+        <td><strong>Q4</strong><br>1〜3月</td>
+        <td>ストレスマネジメントと<br>セルフケア</td>
+        <td>クレーム対応と<br>スタッフ支援</td>
+        <td>経営戦略と<br>次年度事業計画</td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="nav-links">
+    <a href="/kenshu">📚 法定研修一覧</a>
+    <a href="/">🏠 トップページ</a>
+  </div>
+</main>
+
+<div class="footer">
+  訪問介護 ようき（有限会社 陽気）<br>
+  © 2025 有限会社 陽気. All rights reserved.
+</div>
+
+<script>
+const ALL_THEMES = [
+  {id:'new-q1',level:'new',quarter:'Q1（4〜6月）',title:'基本介護技術と訪問介護のルール',icon:'📖',desc:'移乗・移動・体位変換の基本と訪問介護のルール'},
+  {id:'new-q2',level:'new',quarter:'Q2（7〜9月）',title:'コミュニケーション技術と利用者対応',icon:'💬',desc:'利用者やご家族との信頼関係を築く技術'},
+  {id:'new-q3',level:'new',quarter:'Q3（10〜12月）',title:'介護記録の書き方と報連相',icon:'📝',desc:'正確な記録と報告・連絡・相談の重要性'},
+  {id:'new-q4',level:'new',quarter:'Q4（1〜3月）',title:'ストレスマネジメントとセルフケア',icon:'🧘',desc:'メンタルヘルス管理とストレス対処法'},
+  {id:'leader-q1',level:'leader',quarter:'Q1（4〜6月）',title:'チームマネジメントと後輩指導',icon:'👥',desc:'リーダーシップとOJT手法'},
+  {id:'leader-q2',level:'leader',quarter:'Q2（7〜9月）',title:'サービス提供責任者の役割と連携',icon:'🔗',desc:'サ責業務と多職種連携スキル'},
+  {id:'leader-q3',level:'leader',quarter:'Q3（10〜12月）',title:'事例検討とリスクマネジメント',icon:'🔍',desc:'ヒヤリハット分析と事例検討'},
+  {id:'leader-q4',level:'leader',quarter:'Q4（1〜3月）',title:'クレーム対応とスタッフ支援',icon:'🛎️',desc:'クレーム対応とモチベーション管理'},
+  {id:'manager-q1',level:'manager',quarter:'Q1（4〜6月）',title:'労務管理と人材育成計画',icon:'📊',desc:'労働基準法と人材育成計画'},
+  {id:'manager-q2',level:'manager',quarter:'Q2（7〜9月）',title:'運営指導対策と書類管理',icon:'📋',desc:'実地指導準備と書類整備'},
+  {id:'manager-q3',level:'manager',quarter:'Q3（10〜12月）',title:'介護報酬と加算の理解',icon:'💰',desc:'介護報酬の仕組みと加算要件'},
+  {id:'manager-q4',level:'manager',quarter:'Q4（1〜3月）',title:'経営戦略と次年度事業計画',icon:'🎯',desc:'経営分析と事業計画策定'}
+];
+
+async function load() {
+  let data = [];
+  try {
+    const r = await fetch('/individual-training/individual.json?_t='+Date.now());
+    data = await r.json();
+  } catch(e) {}
+  const genIds = data.map(d => d.id);
+
+  ['new','leader','manager'].forEach(level => {
+    const container = document.getElementById('cards-' + level);
+    const themes = ALL_THEMES.filter(t => t.level === level);
+    container.innerHTML = themes.map(t => {
+      const isReady = genIds.includes(t.id);
+      const info = data.find(d => d.id === t.id);
+      const tag = isReady ? 'a' : 'div';
+      const href = isReady ? ` href="/individual-training/${t.id}"` : '';
+      const status = isReady
+        ? '<span class="card-status ready">✅ 受講可能</span>'
+        : '<span class="card-status coming">🔜 準備中</span>';
+      const date = info ? `<div class="card-date">作成: ${info.date}</div>` : '';
+      return `<${tag} class="card ${level}"${href}>
+        <span class="card-quarter">${t.quarter}</span>
+        <span class="card-icon">${t.icon}</span>
+        <div class="card-title">${t.title}</div>
+        <div class="card-desc">${t.desc}</div>
+        ${status}${date}
+      </${tag}>`;
+    }).join('');
+  });
+}
+load();
+</script>
+</body>
+</html>

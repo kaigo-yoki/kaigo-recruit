@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>管理者向け 労務管理と人材育成計画 | 訪問介護 ようき 個別研修</title>
+<meta name="description" content="労働基準法の基礎と、効果的な人材育成計画の立て方を学びます。 訪問介護ようき（有限会社 陽気）の管理者向け個別研修。">
+<link rel="canonical" href="https://kaigo-recruit.vercel.app/individual-training/manager-q1">
+<link rel="icon" type="image/png" href="/favicon.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Kosugi+Maru&display=swap');
+:root{--primary:#2D5A8E;--primary-light:#2D5A8ECC;--accent:#E8594F;--warm:#F9A826;--green:#4CAF7D;--bg:#FFF8F0;--panel-bg:#FFFFFF;--text:#2C2C2C;--text-light:#666666;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Zen Maru Gothic','Kosugi Maru',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
+.title-screen{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg, #1565C0 0%, #42A5F5 50%, #90CAF9 100%);position:relative;overflow:hidden;}
+.title-screen::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.08'%3E%3Ctext x='10' y='45' font-size='30'%3E📚%3C/text%3E%3C/g%3E%3C/svg%3E");}
+.title-badge{background:rgba(255,255,255,.25);color:white;padding:8px 28px;border-radius:30px;font-size:14px;font-weight:700;letter-spacing:2px;margin-bottom:12px;position:relative;z-index:1;animation:bounceIn .8s ease;backdrop-filter:blur(4px);}
+.title-level{background:white;color:#2D5A8E;padding:6px 20px;border-radius:20px;font-size:13px;font-weight:900;margin-bottom:16px;position:relative;z-index:1;animation:fadeUp 1s ease .15s both;}
+.title-main{font-size:clamp(24px,5.5vw,44px);font-weight:900;color:white;text-align:center;line-height:1.4;position:relative;z-index:1;animation:fadeUp 1s ease .3s both;text-shadow:0 3px 12px rgba(0,0,0,.2);}
+.title-sub{font-size:clamp(13px,2.5vw,18px);color:rgba(255,255,255,.95);margin-top:14px;position:relative;z-index:1;animation:fadeUp 1s ease .6s both;text-align:center;line-height:1.6;}
+.title-characters{display:flex;gap:30px;margin-top:28px;position:relative;z-index:1;animation:fadeUp 1s ease .9s both;flex-wrap:wrap;justify-content:center;}
+.title-char{text-align:center;}
+.title-char-icon{width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:40px;margin-bottom:6px;border:4px solid rgba(255,255,255,.6);box-shadow:0 4px 20px rgba(0,0,0,.15);}
+.title-char-name{color:white;font-weight:700;font-size:12px;text-shadow:0 1px 4px rgba(0,0,0,.2);}
+.start-btn{margin-top:32px;padding:14px 44px;background:white;color:#2D5A8E;border:none;border-radius:50px;font-size:18px;font-weight:700;font-family:inherit;cursor:pointer;position:relative;z-index:1;animation:fadeUp 1s ease 1.2s both,pulse 2s ease-in-out 2.5s infinite;box-shadow:0 4px 20px rgba(0,0,0,.2);transition:transform .2s;}
+.start-btn:hover{transform:scale(1.05);}
+.progress-bar{position:fixed;top:0;left:0;right:0;height:5px;background:rgba(0,0,0,.1);z-index:100;}
+.progress-fill{height:100%;background:linear-gradient(90deg, #1565C0, #90CAF9);transition:width .5s ease;border-radius:0 3px 3px 0;}
+.page{display:none;min-height:100vh;padding:24px 16px 100px;max-width:800px;margin:0 auto;animation:fadeIn .6s ease;}
+.page.active{display:block;}
+.page-header{text-align:center;margin:20px 0 30px;}
+.page-chapter{display:inline-block;background:var(--primary);color:white;padding:4px 16px;border-radius:20px;font-size:12px;font-weight:700;letter-spacing:1px;margin-bottom:8px;}
+.page-title{font-size:clamp(22px,5vw,32px);font-weight:900;color:var(--primary);line-height:1.3;}
+.manga-panel{background:var(--panel-bg);border-radius:16px;padding:24px;margin-bottom:20px;box-shadow:0 2px 12px rgba(0,0,0,.06);border:2px solid #EEE;opacity:0;transform:translateY(20px);animation:panelIn .5s ease forwards;}
+.manga-panel:nth-child(2){animation-delay:.15s;}.manga-panel:nth-child(3){animation-delay:.3s;}.manga-panel:nth-child(4){animation-delay:.45s;}.manga-panel:nth-child(5){animation-delay:.6s;}.manga-panel:nth-child(6){animation-delay:.75s;}
+.speech{display:flex;gap:12px;margin-bottom:16px;align-items:flex-start;}.speech.right{flex-direction:row-reverse;}
+.speech-avatar{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;border:3px solid;}
+.speech-avatar.oyaji{background:#FFF3E0;border-color:#FF8F00;}.speech-avatar.student{background:#E3F2FD;border-color:#4A8FD4;}.speech-avatar.tsukkomi{background:#F3E5F5;border-color:#AB47BC;}
+.speech-bubble{padding:14px 18px;border-radius:16px;font-size:15px;line-height:1.7;max-width:85%;position:relative;}
+.bubble-oyaji{background:#FFF3E0;border:2px solid #FFE0B2;border-radius:16px 16px 16px 4px;}.bubble-student{background:#E3F2FD;border:2px solid #BBDEFB;border-radius:16px 16px 4px 16px;}.bubble-tsukkomi{background:#F3E5F5;border:2px solid #E1BEE7;border-radius:16px 16px 4px 16px;}
+.speech-name{font-size:11px;font-weight:700;color:var(--text-light);margin-bottom:4px;}
+.oyaji-gag{background:linear-gradient(135deg,#FFF9C4,#FFF176);border:3px solid #FFD54F;border-radius:16px;padding:16px 20px;margin:14px 0;text-align:center;position:relative;animation:gagPop .5s ease;}
+.oyaji-gag::before{content:'\1F4A5';position:absolute;top:-14px;left:50%;transform:translateX(-50%);font-size:28px;}
+.gag-text{font-size:20px;font-weight:900;color:#E65100;letter-spacing:2px;}.gag-sub{font-size:12px;color:#BF360C;margin-top:4px;font-weight:500;}
+.shiin{text-align:center;font-size:28px;font-weight:900;color:#90A4AE;letter-spacing:12px;margin:8px 0;animation:shiinFade 1.5s ease;}
+.highlight-box{border-radius:12px;padding:20px;margin:16px 0;}.highlight-box.law{background:linear-gradient(135deg,#E8EAF6,#C5CAE9);border-left:5px solid #3F51B5;}.highlight-box.important{background:linear-gradient(135deg,#FFF3E0,#FFE0B2);border-left:5px solid var(--warm);}.highlight-box.danger{background:linear-gradient(135deg,#FFEBEE,#FFCDD2);border-left:5px solid var(--accent);}.highlight-box.good{background:linear-gradient(135deg,#E8F5E9,#C8E6C9);border-left:5px solid var(--green);}
+.highlight-box .box-title{font-weight:900;font-size:15px;margin-bottom:8px;display:flex;align-items:center;gap:6px;}.highlight-box .box-content{font-size:14px;line-height:1.8;}
+.scenario{background:#F5F5F5;border-radius:12px;padding:20px;margin:16px 0;border:2px dashed #CCC;}.scenario-title{font-size:13px;font-weight:700;color:var(--accent);margin-bottom:10px;}
+.quiz-box{background:white;border:3px solid var(--primary);border-radius:16px;padding:24px;margin:20px 0;}.quiz-question{font-size:16px;font-weight:700;margin-bottom:16px;color:var(--primary);}.quiz-options{display:flex;flex-direction:column;gap:10px;}
+.quiz-option{padding:14px 18px;background:#F5F5F5;border:2px solid #DDD;border-radius:12px;cursor:pointer;font-size:14px;font-family:inherit;text-align:left;transition:all .3s;line-height:1.5;}
+.quiz-option:hover{border-color:var(--primary-light);background:#E3F2FD;}.quiz-option.correct{background:#E8F5E9;border-color:var(--green);}.quiz-option.wrong{background:#FFEBEE;border-color:var(--accent);}
+.quiz-feedback{margin-top:14px;padding:14px;border-radius:10px;font-size:14px;line-height:1.7;display:none;}.quiz-feedback.show{display:block;}
+.point-list{list-style:none;padding:0;}.point-list li{padding:10px 0 10px 36px;position:relative;font-size:15px;line-height:1.6;border-bottom:1px solid #EEE;}
+.point-list li::before{content:'\2713';position:absolute;left:0;width:24px;height:24px;background:var(--green);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;top:12px;}
+.nav-bar{position:fixed;bottom:0;left:0;right:0;background:white;border-top:2px solid #EEE;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;z-index:50;}
+.nav-btn{padding:10px 24px;border:none;border-radius:30px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;transition:all .2s;}
+.nav-btn.prev{background:#EEE;color:var(--text);}.nav-btn.next{background:var(--primary);color:white;box-shadow:0 2px 10px rgba(0,0,0,.15);}
+.nav-btn:hover{transform:translateY(-2px);}.nav-btn:disabled{opacity:.3;cursor:default;transform:none;}
+.nav-page{font-size:13px;color:var(--text-light);font-weight:700;}
+.toc{display:grid;gap:12px;margin-top:20px;}.toc-item{display:flex;align-items:center;gap:14px;padding:16px;background:white;border-radius:12px;border:2px solid #EEE;cursor:pointer;transition:all .3s;}
+.toc-item:hover{border-color:var(--primary-light);transform:translateX(4px);}.toc-num{width:36px;height:36px;border-radius:50%;background:var(--primary);color:white;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:16px;flex-shrink:0;}.toc-text{font-size:15px;font-weight:700;}
+.ending{text-align:center;padding:40px 20px;}.ending-icon{font-size:80px;margin-bottom:16px;}.ending-title{font-size:28px;font-weight:900;color:var(--primary);margin-bottom:12px;}.ending-msg{font-size:16px;color:var(--text-light);line-height:1.8;}
+.certificate{background:linear-gradient(135deg,#FFF8E1,#FFECB3);border:3px solid var(--warm);border-radius:16px;padding:30px;margin:30px auto;max-width:500px;}
+.certificate-title{font-size:22px;font-weight:900;color:var(--warm);}.certificate-body{font-size:14px;margin-top:12px;line-height:1.8;}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}@keyframes bounceIn{0%{transform:scale(0);}60%{transform:scale(1.1);}100%{transform:scale(1);}}@keyframes panelIn{to{opacity:1;transform:translateY(0);}}@keyframes pulse{0%,100%{box-shadow:0 4px 20px rgba(0,0,0,.2);}50%{box-shadow:0 4px 30px rgba(0,0,0,.35);}}@keyframes gagPop{0%{transform:scale(.5) rotate(-5deg);opacity:0;}50%{transform:scale(1.1) rotate(2deg);}100%{transform:scale(1) rotate(0);}}@keyframes shiinFade{0%{opacity:0;letter-spacing:2px;}100%{opacity:1;letter-spacing:12px;}}
+@media(max-width:600px){.speech-avatar{width:44px;height:44px;font-size:22px;}.speech-bubble{font-size:13px;}.gag-text{font-size:17px;}}
+</style>
+</head>
+<body>
+<div class="title-screen" id="titleScreen">
+  <div class="title-badge">訪問介護 個別研修</div>
+  <div class="title-level">👔 管理者向け ｜ Q1（4〜6月）</div>
+  <div class="title-main">📊 労務管理と人材育成計画</div>
+  <div class="title-sub">〜 人を育てる組織をつくる！ 〜<br>※ ギャグのクオリティは保証しません</div>
+  <div class="title-characters">
+    <div class="title-char"><div class="title-char-icon" style="background:#FFF3E0;">🧔</div><div class="title-char-name">ダジャレ所長</div></div>
+    <div class="title-char"><div class="title-char-icon" style="background:#E3F2FD;">👩</div><div class="title-char-name">さくら</div></div>
+    <div class="title-char"><div class="title-char-icon" style="background:#F3E5F5;">👩‍🦰</div><div class="title-char-name">みさき先輩</div></div>
+  </div>
+  <button class="start-btn" onclick="startTraining()">▶ 研修をはじめる</button>
+</div>
+<div class="progress-bar" id="progressBar" style="display:none;"><div class="progress-fill" id="progressFill"></div></div>
+
+<div class="page" id="page1">
+  <div class="page-header">
+    <div class="page-chapter">はじめに</div>
+    <div class="page-title">今日の研修メニュー 📋</div>
+  </div>
+  <div class="manga-panel"><div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji">皆さん、今日は労務管理と人材育成計画について学びますよ〜。しっかりと聞き耳を立ててくださいね。耳だけじゃなく、目も大事ですよ〜、目耳（メモ）を取ってくださいね！</div></div><div class="oyaji-gag"><div class="gag-text">しっかりメモを取って、目も耳もフル活用！</div><div class="gag-sub">※親父ギャグ</div></div><div class="speech right"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student">目耳ですか…しっかりメモします！</div></div><div class="speech right"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi">それ、メモのことですよね、所長！</div></div></div><div class="manga-panel"><div class="toc-item" onclick="goToPage(1)">第1章: 労務管理の基礎知識</div><div class="toc-item" onclick="goToPage(2)">第2章: 人材育成計画の立案</div><div class="toc-item" onclick="goToPage(3)">第3章: 制度改正への対応</div><div class="toc-item" onclick="goToPage(4)">第4章: 労務管理の実践ポイント</div><div class="toc-item" onclick="goToPage(5)">確認クイズ＆まとめ</div></div>
+</div>
+<div class="page" id="page2">
+  <div class="page-header">
+    <div class="page-chapter">第1章</div>
+    <div class="page-title">労務管理の基礎知識</div>
+  </div>
+  <div class="manga-panel"><div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji">まずは労務管理の基本を学びましょう。労働基準法を守るのは基本中の基本、基礎知識はしっかりと固めておかないと、基礎が崩れちゃいますよ〜。</div></div><div class="speech right"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student">労働基準法って、具体的にどんなことがあるんですか？</div></div><div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji">例えば、労働時間の管理です。1日8時間、週40時間が基本です。それを超えると残業になります。</div></div><div class="speech right"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi">所長、その辺はしっかりと守らないと労務管理が大変になりますよ！</div></div></div><div class="manga-panel"><div class="highlight-box law">労働基準法第32条：労働時間は原則として1日8時間、週40時間以内。</div><div class="highlight-box danger">違反すると、罰則が適用される可能性があります。</div><div class="oyaji-gag"><div class="gag-text">労働時間は時間厳守、時間を守らないとジカンがない！</div><div class="gag-sub">※親父ギャグ</div></div></div>
+</div>
+<div class="page" id="page3">
+  <div class="page-header">
+    <div class="page-chapter">第2章</div>
+    <div class="page-title">人材育成計画の立案</div>
+  </div>
+  <div class="manga-panel"><div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji">次に、人材育成計画についてです。計画は立てるだけではなく、しっかりと進めることが大事です。計画倒れにならないように、しっかりと立案しましょう。</div></div><div class="speech right"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student">具体的にはどのように計画を立てればいいんですか？</div></div><div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji">まずは目標を設定します。例えば、新人ヘルパーの育成として、3ヶ月以内に基本的な介護技術を習得するなどです。</div></div><div class="speech right"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi">具体的な目標設定があると進捗が見えやすくなりますね！</div></div></div><div class="manga-panel"><div class="highlight-box important">人材育成計画の立案にはSMART目標が有効：Specific, Measurable, Achievable, Relevant, Time-bound。</div><div class="highlight-box good">計画は定期的に見直し、改善を図ることが重要です。</div><div class="oyaji-gag"><div class="gag-text">計画は立てて、見直して、改めて！これが計画の基本！</div><div class="gag-sub">※親父ギャグ</div></div></div>
+</div>
+<div class="page" id="page4">
+  <div class="page-header">
+    <div class="page-chapter">第3章</div>
+    <div class="page-title">制度改正への対応</div>
+  </div>
+  <div class="manga-panel"><div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji">法改正は常にチェックが必要です。つい最近も介護職員の処遇改善に関する法律が改正されました。</div></div><div class="speech right"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student">処遇改善ってどんな内容ですか？</div></div><div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji">給与の引き上げや、キャリアアップのための支援が盛り込まれています。これにより、職員のモチベーション向上が期待できます。</div></div><div class="speech right"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi">法律の改正は職員にも大きな影響があるから、しっかり把握しないとですね！</div></div></div><div class="manga-panel"><div class="highlight-box law">介護職員の処遇改善加算：一定の条件を満たすと加算が適用される。</div><div class="highlight-box important">法改正情報は定期的に確認し、必要な対応を速やかに行う。</div></div>
+</div>
+<div class="page" id="page5">
+  <div class="page-header">
+    <div class="page-chapter">第4章</div>
+    <div class="page-title">労務管理の実践ポイント</div>
+  </div>
+  <div class="manga-panel"><div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji">最後に、労務管理の実践ポイントです。帳票管理や勤怠管理のツールを活用して、効率よく管理することが重要です。</div></div><div class="speech right"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student">具体的にどんなツールがあるんですか？</div></div><div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji">最近ではクラウド型の勤怠管理システムが普及していて、リアルタイムでの勤怠チェックが可能です。</div></div><div class="speech right"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi">デジタルツールを使うとミスも減りますし、効率的ですね！</div></div></div><div class="manga-panel"><div class="highlight-box good">クラウド型勤怠管理システムの導入で労務管理が効率化される。</div><div class="highlight-box danger">手作業によるミスを防ぐために、デジタルツールを活用する。</div></div>
+</div>
+<div class="page" id="page6">
+  <div class="page-header">
+    <div class="page-chapter">確認クイズ</div>
+    <div class="page-title">確認クイズ＆まとめ</div>
+  </div>
+  <div class="manga-panel"><div class="quiz-box">労働基準法による労働時間の基本は？<button class="quiz-option" onclick="checkQuiz(this, false)">1日10時間、週50時間</button><button class="quiz-option" onclick="checkQuiz(this, true)">1日8時間、週40時間</button><button class="quiz-option" onclick="checkQuiz(this, false)">1日6時間、週30時間</button><button class="quiz-option" onclick="checkQuiz(this, false)">1日12時間、週60時間</button><div class="quiz-feedback">正解！1日8時間、週40時間です。</div></div><div class="quiz-box">人材育成計画で重要なSMART目標とは？<button class="quiz-option" onclick="checkQuiz(this, false)">Simple, Manageable, Achievable, Relevant, Timely</button><button class="quiz-option" onclick="checkQuiz(this, true)">Specific, Measurable, Achievable, Relevant, Time-bound</button><button class="quiz-option" onclick="checkQuiz(this, false)">Strategic, Measurable, Agreed, Realistic, Timely</button><button class="quiz-option" onclick="checkQuiz(this, false)">Specific, Manageable, Actionable, Realistic, Time-bound</button><div class="quiz-feedback">正解！Specific, Measurable, Achievable, Relevant, Time-boundです。</div></div><div class="quiz-box">労務管理を効率化するためのツールは？<button class="quiz-option" onclick="checkQuiz(this, false)">紙のタイムカード</button><button class="quiz-option" onclick="checkQuiz(this, true)">クラウド型勤怠管理システム</button><button class="quiz-option" onclick="checkQuiz(this, false)">手書きの出勤簿</button><button class="quiz-option" onclick="checkQuiz(this, false)">電話での報告</button><div class="quiz-feedback">正解！クラウド型勤怠管理システムです。</div></div></div><div class="manga-panel"><ul class="point-list"><li>労働基準法に基づく労働時間管理の重要性</li><li>SMART目標を用いた人材育成計画の立案</li><li>制度改正に対する迅速な対応の必要性</li><li>デジタルツールの活用による労務管理の効率化</li></ul><div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji">皆さん、これで労務管理と人材育成の基本はバッチリですね！しっかりと実践して、楽しい職場を作りましょう！</div></div><div class="speech right"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student">はい、しっかりと頑張ります！</div></div></div>
+</div>
+<div class="nav-bar" id="navBar" style="display:none;">
+  <button class="nav-btn prev" id="prevBtn" onclick="prevPage()">◀ 前へ</button>
+  <span class="nav-page" id="pageNum">1 / 6</span>
+  <button class="nav-btn next" id="nextBtn" onclick="nextPage()">次へ ▶</button>
+</div>
+<script>
+let currentPage=0;const totalPages=6;
+function startTraining(){document.getElementById('titleScreen').style.display='none';document.getElementById('progressBar').style.display='block';document.getElementById('navBar').style.display='flex';currentPage=1;showPage(currentPage);}
+function showPage(n){document.querySelectorAll('.page').forEach(p=>{p.classList.remove('active');});const page=document.getElementById('page'+n);if(page){page.classList.add('active');page.querySelectorAll('.manga-panel').forEach(p=>{p.style.animation='none';p.offsetHeight;p.style.animation='';});}document.getElementById('prevBtn').disabled=(n<=1);document.getElementById('nextBtn').textContent=(n>=totalPages)?'🎉 完了！':'次へ ▶';document.getElementById('pageNum').textContent=n+' / '+totalPages;document.getElementById('progressFill').style.width=((n/totalPages)*100)+'%';window.scrollTo({top:0,behavior:'smooth'});}
+function nextPage(){if(currentPage<totalPages){currentPage++;showPage(currentPage);}}
+function prevPage(){if(currentPage>1){currentPage--;showPage(currentPage);}}
+function goToPage(n){currentPage=n;showPage(n);}
+function checkQuiz(btn,isCorrect){const qb=btn.closest('.quiz-box');const opts=qb.querySelectorAll('.quiz-option');opts.forEach(o=>{o.disabled=true;o.style.pointerEvents='none';});if(isCorrect){btn.classList.add('correct');const fb=qb.querySelector('.quiz-feedback');if(fb){fb.classList.add('show');fb.style.background='#E8F5E9';}}else{btn.classList.add('wrong');opts.forEach(o=>{if(o.getAttribute('onclick')&&o.getAttribute('onclick').includes('true'))o.classList.add('correct');});const fb=qb.querySelector('.quiz-feedback');if(fb){fb.classList.add('show');fb.style.background='#FFEBEE';}}}
+</script>
+</body>
+</html>
