@@ -49,7 +49,7 @@ body{font-family:'M PLUS Rounded 1c','Noto Sans JP',sans-serif;background:var(--
 
 /* Career Path Steps */
 .career-path{position:relative;padding:40px 0;margin-top:40px;}
-.career-path::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:4px;background:linear-gradient(to bottom,var(--teal),var(--navy-light),var(--gold),var(--coral));border-radius:4px;transform:translateX(-50%);}
+.career-path::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:4px;background:linear-gradient(to bottom,var(--teal),#4A8FD4,var(--navy-light),var(--gold),var(--coral));border-radius:4px;transform:translateX(-50%);}
 .career-step{display:flex;align-items:stretch;margin-bottom:40px;position:relative;}
 .career-step:nth-child(odd){flex-direction:row;}
 .career-step:nth-child(even){flex-direction:row-reverse;}
@@ -66,6 +66,19 @@ body{font-family:'M PLUS Rounded 1c','Noto Sans JP',sans-serif;background:var(--
 .step-salary{margin-top:16px;background:linear-gradient(135deg,var(--gold-bg),#FFF8E1);border:1px solid rgba(212,160,23,.2);border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:12px;}
 .step-salary-label{font-size:11px;color:var(--gold);font-weight:700;}
 .step-salary-amount{font-size:22px;font-weight:800;color:var(--gold);}
+.step-coeff{display:inline-block;background:linear-gradient(135deg,var(--navy),var(--navy-light));color:#fff;padding:3px 10px;border-radius:8px;font-size:11px;font-weight:800;margin-left:8px;}
+
+/* Allocation Diagram */
+.alloc-diagram{background:var(--white);border-radius:20px;padding:32px;box-shadow:0 4px 24px rgba(0,0,0,.06);border:2px solid #EEE;margin-top:40px;}
+.alloc-title{font-size:17px;font-weight:800;color:var(--navy);margin-bottom:20px;text-align:center;}
+.alloc-flow{display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:24px;}
+.alloc-box{background:linear-gradient(135deg,#E3F2FD,#BBDEFB);border:2px solid #90CAF9;border-radius:16px;padding:20px 24px;text-align:center;min-width:160px;}
+.alloc-box.gold{background:linear-gradient(135deg,var(--gold-bg),#FFE082);border-color:var(--gold);}
+.alloc-box.green{background:linear-gradient(135deg,#E8F5E9,#C8E6C9);border-color:var(--teal);}
+.alloc-pct{font-size:32px;font-weight:900;line-height:1;}
+.alloc-label{font-size:12px;font-weight:700;margin-top:4px;}
+.alloc-arrow{font-size:28px;color:var(--text-light);}
+.alloc-note{font-size:13px;color:var(--text-mid);line-height:1.9;margin-top:16px;padding:16px;background:#F8F9FA;border-radius:12px;}
 .step-salary-note{font-size:11px;color:var(--text-light);}
 
 /* Salary Table */
@@ -172,8 +185,9 @@ body{font-family:'M PLUS Rounded 1c','Noto Sans JP',sans-serif;background:var(--
   <h1>処遇改善・キャリアパス制度</h1>
   <div class="hero-sub">訪問介護ようきでは、介護職員等処遇改善加算を活用し、<br>明確なキャリアパスと充実した待遇で職員の成長を全力サポートします。</div>
   <div class="hero-stats">
-    <div class="hero-stat"><div class="hero-stat-num">4</div><div class="hero-stat-label">キャリアステージ</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">5</div><div class="hero-stat-label">等級制度</div></div>
     <div class="hero-stat"><div class="hero-stat-num">100%</div><div class="hero-stat-label">資格取得費用補助</div></div>
+    <div class="hero-stat"><div class="hero-stat-num">60%</div><div class="hero-stat-label">月給反映率</div></div>
     <div class="hero-stat"><div class="hero-stat-num">22</div><div class="hero-stat-label">年間研修テーマ数</div></div>
   </div>
 </section>
@@ -189,9 +203,38 @@ body{font-family:'M PLUS Rounded 1c','Noto Sans JP',sans-serif;background:var(--
     <div class="addon-content">
       ・介護職員等処遇改善加算（Ⅰ）を算定しています<br>
       ・キャリアパス要件Ⅰ〜Ⅴの全てを満たしています<br>
-      ・加算額は全額、職員の賃金改善（基本給・手当の引き上げ）に充当しています<br>
-      ・経験・技能のある介護職員の処遇改善を重点的に行っています<br>
+      ・処遇改善費の<strong>60%</strong>を毎月の給与に反映、残り<strong>40%</strong>を年2回の賞与に配分<br>
+      ・等級（1〜5等級）と人事考課評価に応じた<strong>係数制</strong>で公平に配当<br>
+      ・常勤者・高評価者への重点配分で、頑張りがしっかり反映される仕組み<br>
       ・処遇改善の内容は、就業規則・賃金規程に明記し全職員に周知しています
+    </div>
+  </div>
+
+  <!-- 配分の仕組み図 -->
+  <div class="alloc-diagram">
+    <div class="alloc-title">💰 処遇改善費の配分イメージ</div>
+    <div class="alloc-flow">
+      <div class="alloc-box">
+        <div class="alloc-pct" style="color:var(--navy);">100%</div>
+        <div class="alloc-label">処遇改善加算</div>
+      </div>
+      <div class="alloc-arrow">→</div>
+      <div class="alloc-box gold">
+        <div class="alloc-pct" style="color:var(--gold);">60%</div>
+        <div class="alloc-label">毎月の給与に反映</div>
+      </div>
+      <div class="alloc-arrow">＋</div>
+      <div class="alloc-box green">
+        <div class="alloc-pct" style="color:var(--teal);">40%</div>
+        <div class="alloc-label">年2回の賞与に配分</div>
+      </div>
+    </div>
+    <div class="alloc-note">
+      <strong>⚡ ポイント：</strong>処遇改善費は全員均等配分ではありません。<br>
+      ・<strong>常勤者</strong>が優先的に配当対象となります<br>
+      ・<strong>人事考課評価</strong>に連動し、高い評価を受けた職員により多く配当されます<br>
+      ・各等級に設定された<strong>配当係数</strong>に基づき、上位等級ほど係数が高くなります<br>
+      ・つまり「頑張って成長する人」が正当に報われる仕組みです
     </div>
   </div>
 </section>
@@ -199,16 +242,16 @@ body{font-family:'M PLUS Rounded 1c','Noto Sans JP',sans-serif;background:var(--
 <!-- ===== キャリアパス ===== -->
 <section class="section" id="career">
   <div class="section-label">📈 CAREER PATH</div>
-  <div class="section-title">キャリアアップの道すじ</div>
-  <div class="section-desc">経験年数・資格・スキルに応じた4つのキャリアステージ。どのステージからでも、あなたの成長に合わせて着実にステップアップできます。</div>
+  <div class="section-title">5等級キャリアパス制度</div>
+  <div class="section-desc">1等級（一般職）から5等級（マネージャー職）まで、明確な等級制度でキャリアアップの道すじを示します。等級が上がるほど処遇改善の配当係数も高くなります。</div>
 
   <div class="career-path">
-    <!-- STEP 1: 新人 -->
+    <!-- 1等級: 一般職 -->
     <div class="career-step">
       <div class="career-step-content" style="border-color:#4DB6AC;">
-        <div class="step-level" style="color:#00897B;">STAGE 1</div>
-        <div class="step-title">🌱 新人ヘルパー</div>
-        <div class="step-role">入社〜1年目 ｜ 初任者研修修了〜</div>
+        <div class="step-level" style="color:#00897B;">1等級 ─ 一般職 <span class="step-coeff">係数 1.0</span></div>
+        <div class="step-title">🌱 一般ヘルパー</div>
+        <div class="step-role">入社〜 ｜ 初任者研修修了〜</div>
         <div class="step-detail">
           <div class="step-item">先輩ヘルパーとの同行訪問で実践力を養成</div>
           <div class="step-item">基本介護技術（移乗・移動・入浴介助等）を習得</div>
@@ -227,12 +270,12 @@ body{font-family:'M PLUS Rounded 1c','Noto Sans JP',sans-serif;background:var(--
       <div class="career-step-spacer"></div>
     </div>
 
-    <!-- STEP 2: 中堅 -->
+    <!-- 2等級: 中堅職 -->
     <div class="career-step">
       <div class="career-step-content" style="border-color:#4A8FD4;">
-        <div class="step-level" style="color:#2D5A8E;">STAGE 2</div>
+        <div class="step-level" style="color:#2D5A8E;">2等級 ─ 中堅職 <span class="step-coeff">係数 1.2</span></div>
         <div class="step-title">⭐ 中堅ヘルパー</div>
-        <div class="step-role">2〜4年目 ｜ 実務者研修修了・介護福祉士</div>
+        <div class="step-role">2年目〜 ｜ 実務者研修修了・介護福祉士</div>
         <div class="step-detail">
           <div class="step-item">一人での訪問業務を担当（独り立ち）</div>
           <div class="step-item">認知症ケア・医療的ケアなど専門スキルを深化</div>
@@ -251,12 +294,12 @@ body{font-family:'M PLUS Rounded 1c','Noto Sans JP',sans-serif;background:var(--
       <div class="career-step-spacer"></div>
     </div>
 
-    <!-- STEP 3: リーダー -->
+    <!-- 3等級: リーダー職 -->
     <div class="career-step">
       <div class="career-step-content" style="border-color:#FFB300;">
-        <div class="step-level" style="color:#FF8F00;">STAGE 3</div>
+        <div class="step-level" style="color:#FF8F00;">3等級 ─ リーダー職 <span class="step-coeff">係数 1.5</span></div>
         <div class="step-title">🏆 リーダー・サービス提供責任者</div>
-        <div class="step-role">5年目〜 ｜ 介護福祉士必須</div>
+        <div class="step-role">介護福祉士必須 ｜ チームリーダー</div>
         <div class="step-detail">
           <div class="step-item">訪問介護計画書の作成・管理</div>
           <div class="step-item">チームマネジメントと後輩指導</div>
@@ -275,12 +318,12 @@ body{font-family:'M PLUS Rounded 1c','Noto Sans JP',sans-serif;background:var(--
       <div class="career-step-spacer"></div>
     </div>
 
-    <!-- STEP 4: 管理者 -->
+    <!-- 4等級: 管理職 -->
     <div class="career-step">
       <div class="career-step-content" style="border-color:#D4A017;">
-        <div class="step-level" style="color:#D4A017;">STAGE 4</div>
+        <div class="step-level" style="color:#D4A017;">4等級 ─ 管理職 <span class="step-coeff">係数 1.8</span></div>
         <div class="step-title">👔 管理者</div>
-        <div class="step-role">経験豊富な介護福祉士 ｜ 管理者研修修了</div>
+        <div class="step-role">介護福祉士＋管理者研修修了</div>
         <div class="step-detail">
           <div class="step-item">事業所の運営管理と経営判断</div>
           <div class="step-item">労務管理・人材採用・育成計画の策定</div>
@@ -290,7 +333,7 @@ body{font-family:'M PLUS Rounded 1c','Noto Sans JP',sans-serif;background:var(--
         <div class="step-salary">
           <div>
             <div class="step-salary-label">月給目安</div>
-            <div class="step-salary-amount">32万円〜</div>
+            <div class="step-salary-amount">32万〜36万円</div>
             <div class="step-salary-note">※管理者手当・業績手当含む</div>
           </div>
         </div>
@@ -298,100 +341,142 @@ body{font-family:'M PLUS Rounded 1c','Noto Sans JP',sans-serif;background:var(--
       <div class="career-step-dot" style="background:linear-gradient(135deg,#D4A017,#F5D060);color:#fff;">👔</div>
       <div class="career-step-spacer"></div>
     </div>
+
+    <!-- 5等級: マネージャー職 -->
+    <div class="career-step">
+      <div class="career-step-content" style="border-color:#E8594F;">
+        <div class="step-level" style="color:#E8594F;">5等級 ─ マネージャー職 <span class="step-coeff" style="background:linear-gradient(135deg,#E8594F,#D4A017);">係数 2.0</span></div>
+        <div class="step-title">🌟 マネージャー</div>
+        <div class="step-role">統括責任者 ｜ 複数事業所管理</div>
+        <div class="step-detail">
+          <div class="step-item">複数事業所の統括管理・経営戦略策定</div>
+          <div class="step-item">組織全体の人材育成方針の立案</div>
+          <div class="step-item">介護報酬・加算の最適化と経営改善</div>
+          <div class="step-item">行政・地域との連携強化、新規事業開発</div>
+        </div>
+        <div class="step-salary">
+          <div>
+            <div class="step-salary-label">月給目安</div>
+            <div class="step-salary-amount">36万円〜</div>
+            <div class="step-salary-note">※マネージャー手当・業績手当含む</div>
+          </div>
+        </div>
+      </div>
+      <div class="career-step-dot" style="background:linear-gradient(135deg,#E8594F,#D4A017);color:#fff;">🌟</div>
+      <div class="career-step-spacer"></div>
+    </div>
   </div>
 </section>
 
-<!-- ===== 給与体系 ===== -->
+<!-- ===== 等級・給与体系 ===== -->
 <section class="section" id="salary">
-  <div class="section-label">💴 SALARY SYSTEM</div>
-  <div class="section-title">給与体系と各種手当</div>
-  <div class="section-desc">資格・経験・役職に応じた透明性のある給与テーブル。処遇改善加算は全額、基本給・手当に反映しています。</div>
+  <div class="section-label">💴 GRADE & SALARY SYSTEM</div>
+  <div class="section-title">等級別 給与体系と配当係数</div>
+  <div class="section-desc">5等級の等級制度に連動した給与テーブル。処遇改善費は等級の係数に基づき配当されるため、上位等級ほど受け取り額が大きくなります。</div>
 
   <div class="salary-table-wrap">
     <table class="salary-table">
       <thead>
         <tr>
+          <th>等級</th>
           <th>職位</th>
+          <th>配当係数</th>
           <th>資格要件</th>
           <th>基本給（月額）</th>
-          <th>資格手当</th>
           <th>役職手当</th>
           <th>月給目安</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td><strong>🌱 新人</strong></td>
+          <td><strong>1等級</strong></td>
+          <td>🌱 一般職</td>
+          <td style="text-align:center;"><strong>1.0</strong></td>
           <td>初任者研修修了</td>
           <td>185,000円〜</td>
-          <td>5,000円</td>
           <td>ー</td>
           <td class="salary-highlight">230,000円〜</td>
         </tr>
         <tr>
-          <td><strong>⭐ 中堅</strong></td>
-          <td>実務者研修修了</td>
-          <td>200,000円〜</td>
-          <td>10,000円</td>
-          <td>ー</td>
-          <td class="salary-highlight">255,000円〜</td>
-        </tr>
-        <tr>
-          <td><strong>⭐ 中堅</strong></td>
-          <td>介護福祉士</td>
+          <td><strong>2等級</strong></td>
+          <td>⭐ 中堅職</td>
+          <td style="text-align:center;"><strong>1.2</strong></td>
+          <td>実務者研修・介護福祉士</td>
           <td>210,000円〜</td>
-          <td>20,000円</td>
           <td>ー</td>
-          <td class="salary-highlight">275,000円〜</td>
+          <td class="salary-highlight">265,000円〜</td>
         </tr>
         <tr>
-          <td><strong>🏆 リーダー</strong></td>
-          <td>介護福祉士（5年以上）</td>
+          <td><strong>3等級</strong></td>
+          <td>🏆 リーダー職</td>
+          <td style="text-align:center;"><strong>1.5</strong></td>
+          <td>介護福祉士必須</td>
           <td>220,000円〜</td>
-          <td>20,000円</td>
           <td>30,000円</td>
-          <td class="salary-highlight">310,000円〜</td>
+          <td class="salary-highlight">300,000円〜</td>
         </tr>
         <tr>
-          <td><strong>👔 管理者</strong></td>
+          <td><strong>4等級</strong></td>
+          <td>👔 管理職</td>
+          <td style="text-align:center;"><strong>1.8</strong></td>
           <td>介護福祉士＋管理者研修</td>
           <td>240,000円〜</td>
-          <td>20,000円</td>
           <td>50,000円</td>
-          <td class="salary-highlight">350,000円〜</td>
+          <td class="salary-highlight">340,000円〜</td>
+        </tr>
+        <tr>
+          <td><strong>5等級</strong></td>
+          <td>🌟 マネージャー職</td>
+          <td style="text-align:center;"><strong>2.0</strong></td>
+          <td>統括管理経験</td>
+          <td>260,000円〜</td>
+          <td>70,000円</td>
+          <td class="salary-highlight">380,000円〜</td>
         </tr>
       </tbody>
     </table>
   </div>
 
   <div style="margin-top:20px;font-size:12px;color:var(--text-light);line-height:2;">
-    ※ 上記のほか処遇改善手当、通勤手当、時間外手当等を別途支給<br>
-    ※ 賞与：年2回（業績による）/ 昇給：年1回（人事評価に基づく）<br>
+    ※ 上記のほか処遇改善手当（係数連動）、資格手当、通勤手当、時間外手当等を別途支給<br>
+    ※ 処遇改善手当：毎月の処遇改善売上の60%を等級係数で按分し給与に反映<br>
+    ※ 賞与：年2回（処遇改善売上の残り40%＋業績連動）/ 昇給：年1回（人事考課に基づく）<br>
     ※ 経験・能力を考慮の上、優遇します
   </div>
 </section>
 
-<!-- ===== 昇給の仕組み ===== -->
+<!-- ===== 昇給・人事考課の仕組み ===== -->
 <section class="section" id="evaluation">
   <div class="section-label">📊 EVALUATION</div>
-  <div class="section-title">昇給・昇格の仕組み</div>
-  <div class="section-desc">年1回の人事評価に基づく定期昇給を実施。以下の3つの基準で公平に評価します。</div>
+  <div class="section-title">人事考課と昇給・昇格の仕組み</div>
+  <div class="section-desc">人事考課の評価結果が処遇改善の配当額に直結。頑張りが正当に評価され、給与に反映される透明な仕組みです。</div>
 
   <div class="eval-grid">
     <div class="eval-item">
-      <div class="eval-icon">📅</div>
-      <div class="eval-title">経験年数</div>
-      <div class="eval-desc">勤続年数に応じて定期的に昇給。長く働くほど待遇がアップします。</div>
+      <div class="eval-icon">📋</div>
+      <div class="eval-title">人事考課評価</div>
+      <div class="eval-desc">年2回の人事考課で実績を評価。評価が高いほど処遇改善費の配当が多くなります。</div>
+    </div>
+    <div class="eval-item">
+      <div class="eval-icon">📈</div>
+      <div class="eval-title">等級昇格</div>
+      <div class="eval-desc">人事考課と資格要件を満たすと上位等級へ昇格。配当係数もアップします。</div>
     </div>
     <div class="eval-item">
       <div class="eval-icon">📜</div>
       <div class="eval-title">資格取得</div>
-      <div class="eval-desc">新たな資格を取得した場合、資格手当が加算されます。取得費用は全額会社負担。</div>
+      <div class="eval-desc">新たな資格取得で資格手当加算＋上位等級への要件クリアに。費用は全額会社負担。</div>
     </div>
-    <div class="eval-item">
-      <div class="eval-icon">🌟</div>
-      <div class="eval-title">能力評価</div>
-      <div class="eval-desc">介護技術・コミュニケーション力・チームワーク等を総合的に評価します。</div>
+  </div>
+
+  <div class="addon-notice" style="margin-top:28px;background:linear-gradient(135deg,#FFF3E0,#FFE0B2);border-left-color:var(--gold);">
+    <div class="addon-title" style="color:var(--gold);">💡 処遇改善費の配当ポイント</div>
+    <div class="addon-content" style="color:#E65100;">
+      ① <strong>常勤者</strong>が配当の対象（常勤換算で按分）<br>
+      ② 各職員の<strong>等級の係数</strong>に基づき配当額を計算<br>
+      ③ <strong>人事考課の評価</strong>が高い職員に重点的に配分<br>
+      ④ 60%は<strong>毎月の給与</strong>、40%は<strong>年2回の賞与</strong>に反映<br>
+      ⑤ 等級アップ ＋ 高評価 ＝ 配当額の大幅アップが可能！
     </div>
   </div>
 </section>
@@ -470,7 +555,7 @@ body{font-family:'M PLUS Rounded 1c','Noto Sans JP',sans-serif;background:var(--
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">処遇改善加算はどのように還元されますか？</div>
-      <div class="faq-a">処遇改善加算は全額、職員の基本給・手当の引き上げに充当しています。毎月の給与に反映される形で、確実に職員の皆様にお届けしています。一時金ではなく、毎月の安定した収入アップにつながります。</div>
+      <div class="faq-a">毎月の処遇改善売上の60%を毎月の給与に反映し、残り40%を年2回の賞与として支給します。配当額は等級ごとの係数と人事考課の評価に基づいて決定されるため、等級が上がり高い評価を受けるほど、受け取り額が大きくなる仕組みです。</div>
     </div>
     <div class="faq-item">
       <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">昇給のタイミングはいつですか？</div>
