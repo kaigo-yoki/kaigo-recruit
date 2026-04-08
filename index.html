@@ -717,7 +717,7 @@ const catColors={
   'キャリア':{bg:'#F0EDFF',c:'#A78BFA'},'沖縄':{bg:'#FFFBE6',c:'#E6A800'},
   'コミュニケーション':{bg:'#FFF0F5',c:'#FF6B9D'},'健康':{bg:'#E8FAF8',c:'#4ECDC4'}
 };
-fetch('/posts/posts.json').then(r=>r.json()).then(posts=>{
+fetch('/posts/posts.json?_t='+Date.now()).then(r=>r.json()).then(posts=>{
   const list=document.getElementById('blog-list');
   if(!list||!posts.length)return;
   const show=posts.slice(0,6);
