@@ -1,4 +1,15 @@
 User-agent: *
 Allow: /
+Disallow: /node_modules/
+Disallow: /scripts/
+Disallow: /.vercel/
+Disallow: /.git/
 
+# Crawl-delay for polite crawling
+Crawl-delay: 1
+
+# Sitemap
 Sitemap: https://kaigo-recruit.vercel.app/sitemap.xml
+
+# Host
+Host: https://kaigo-recruit.vercel.app
