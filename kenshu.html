@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>法定研修一覧 | 訪問介護 ようき</title>
+<meta name="description" content="訪問介護ようき（有限会社 陽気）の法定研修コンテンツ一覧。厚生労働省準拠の全10テーマをダジャレ付き漫画形式で楽しく学べます。">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Kosugi+Maru&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --primary:#2D5A8E;--primary-light:#4A8FD4;
+  --accent:#E8594F;--warm:#F9A826;--green:#4CAF7D;
+  --bg:#FFF8F0;--text:#2C2C2C;--text-light:#666;
+}
+body{font-family:'Zen Maru Gothic','Kosugi Maru',sans-serif;background:var(--bg);color:var(--text);line-height:1.8;}
+
+/* Header */
+.header{background:rgba(255,255,255,.95);backdrop-filter:blur(20px);border-bottom:3px solid rgba(255,107,53,.15);padding:16px 24px;position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;}
+.header a{font-weight:800;font-size:14px;color:#FF6B35;text-decoration:none;transition:color .25s;}
+.header a:hover{color:#E65100;}
+.header span{font-size:12px;color:#999;font-weight:500;}
+
+/* Hero */
+.hero{background:linear-gradient(135deg,#FF6B35 0%,#F7C948 50%,#FFE066 100%);padding:80px 24px 60px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.08'%3E%3Ctext x='10' y='45' font-size='30'%3E📚%3C/text%3E%3C/g%3E%3C/svg%3E");}
+.hero-badge{display:inline-block;background:var(--accent);color:#fff;padding:6px 22px;border-radius:30px;font-size:12px;font-weight:700;letter-spacing:2px;margin-bottom:16px;position:relative;z-index:1;}
+.hero h1{font-size:clamp(28px,5vw,44px);font-weight:900;color:#fff;line-height:1.3;position:relative;z-index:1;text-shadow:0 3px 12px rgba(0,0,0,.2);}
+.hero p{font-size:15px;color:rgba(255,255,255,.9);margin-top:12px;position:relative;z-index:1;max-width:600px;margin-left:auto;margin-right:auto;}
+
+/* Main */
+main{max-width:900px;margin:0 auto;padding:40px 24px 80px;}
+
+.section-title{font-size:22px;font-weight:900;color:var(--primary);margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+.section-sub{font-size:13px;color:var(--text-light);margin-bottom:32px;}
+
+/* Cards */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;}
+.card{background:#fff;border-radius:20px;padding:28px 24px;border:2px solid #EEE;transition:all .3s;text-decoration:none;display:block;position:relative;overflow:hidden;}
+.card:hover{transform:translateY(-6px);box-shadow:0 16px 48px rgba(0,0,0,.08);border-color:rgba(255,107,53,.2);}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;border-radius:20px 20px 0 0;opacity:0;transition:opacity .3s;}
+.card:hover::before{opacity:1;}
+.card:nth-child(1)::before{background:linear-gradient(90deg,#FF6B35,#F7C948);}
+.card:nth-child(2)::before{background:linear-gradient(90deg,#4A8FD4,#2D5A8E);}
+.card:nth-child(3)::before{background:linear-gradient(90deg,#E8594F,#FF6B35);}
+.card:nth-child(4)::before{background:linear-gradient(90deg,#F9A826,#FF6B35);}
+.card:nth-child(5)::before{background:linear-gradient(90deg,#E8594F,#F9A826);}
+.card:nth-child(6)::before{background:linear-gradient(90deg,#4CAF7D,#4A8FD4);}
+.card:nth-child(7)::before{background:linear-gradient(90deg,#F7C948,#FF6B35);}
+.card:nth-child(8)::before{background:linear-gradient(90deg,#AB47BC,#E8594F);}
+.card:nth-child(9)::before{background:linear-gradient(90deg,#4A8FD4,#4CAF7D);}
+.card:nth-child(10)::before{background:linear-gradient(90deg,#2D5A8E,#4CAF7D);}
+
+.card-icon{font-size:42px;margin-bottom:12px;display:block;}
+.card-num{display:inline-block;background:var(--primary);color:#fff;width:28px;height:28px;border-radius:50%;text-align:center;line-height:28px;font-size:13px;font-weight:900;margin-bottom:10px;}
+.card-title{font-size:17px;font-weight:900;color:var(--text);margin-bottom:6px;line-height:1.4;}
+.card-desc{font-size:13px;color:var(--text-light);line-height:1.7;}
+.card-status{display:inline-block;margin-top:12px;font-size:11px;font-weight:700;padding:4px 14px;border-radius:20px;}
+.card-status.ready{background:#E8F5E9;color:#4CAF7D;}
+.card-status.coming{background:#FFF3E0;color:#FF8F00;}
+
+.card-date{font-size:11px;color:#BBB;margin-top:4px;}
+
+/* Note */
+.note{background:linear-gradient(135deg,#E8EAF6,#C5CAE9);border-radius:16px;padding:24px;margin-top:40px;border-left:5px solid #3F51B5;}
+.note-title{font-size:15px;font-weight:900;color:#3F51B5;margin-bottom:8px;}
+.note-content{font-size:13px;color:#444;line-height:1.9;}
+
+/* Footer */
+.footer{text-align:center;padding:40px 24px;font-size:12px;color:#999;}
+.footer a{color:#FF6B35;text-decoration:none;font-weight:700;}
+.footer a:hover{color:#E65100;}
+
+@media(max-width:600px){
+  .cards{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <a href="/">← トップへ戻る</a>
+  <span>訪問介護 ようき</span>
+</div>
+
+<div class="hero">
+  <div class="hero-badge">厚生労働省準拠</div>
+  <h1>📚 法定研修一覧</h1>
+  <p>訪問介護事業所に義務付けられた研修テーマを、ダジャレ付き漫画形式で楽しく学べます！</p>
+</div>
+
+<main>
+  <div class="section-title">📋 全10テーマ</div>
+  <div class="section-sub">各テーマをクリックして研修を受けましょう。クイズ付きで理解度もチェック！</div>
+
+  <div class="cards" id="training-cards">
+    <!-- JavaScriptで動的に生成 -->
+  </div>
+
+  <div class="note">
+    <div class="note-title">📘 法定研修について</div>
+    <div class="note-content">
+      介護保険法に基づく運営基準により、訪問介護事業所は全職員を対象に以下の研修を計画的・定期的に実施することが求められています。<br>
+      研修の実施記録（日時・参加者・内容）は必ず保管し、運営指導時に提示できるようにしてください。
+    </div>
+  </div>
+</main>
+
+<div class="footer">
+  <a href="/">← 採用トップページへ戻る</a><br><br>
+  訪問介護 ようき（有限会社 陽気）<br>
+  © 2025 有限会社 陽気. All rights reserved.
+</div>
+
+<script>
+const ALL_THEMES = [
+  { id: 'rinri', title: '倫理・法令遵守（コンプライアンス）', icon: '⚖️', desc: '法律やルール、職業倫理を守ることの大切さを学びます。', url: '/rinri-kenshu' },
+  { id: 'privacy', title: 'プライバシー保護・個人情報保護', icon: '🔒', desc: '個人情報保護法と介護現場でのプライバシー保護のルールを学びます。' },
+  { id: 'dementia', title: '認知症及び認知症ケア', icon: '🧠', desc: '認知症の基本的な理解と、適切なケアの方法を学びます。' },
+  { id: 'abuse-prevention', title: '高齢者虐待防止・人権擁護', icon: '🛡️', desc: '高齢者虐待の種類と防止策、人権擁護について学びます。' },
+  { id: 'accident-prevention', title: '事故発生又は再発防止', icon: '⚠️', desc: '介護現場での事故防止と、万が一の際の対応方法を学びます。' },
+  { id: 'emergency', title: '緊急時の対応', icon: '🚨', desc: '利用者の急変時や災害時の緊急対応について学びます。' },
+  { id: 'infection-control', title: '感染症・食中毒の予防と蔓延防止', icon: '🦠', desc: '感染症・食中毒の予防策と、発生時の対応を学びます。' },
+  { id: 'hospitality', title: '接遇・マナー', icon: '😊', desc: '利用者やご家族への接し方、ビジネスマナーを学びます。' },
+  { id: 'harassment', title: 'ハラスメント防止', icon: '🤝', desc: '職場やサービス現場でのハラスメント防止と対策を学びます。' },
+  { id: 'bcp', title: '業務継続計画（BCP）・災害対応', icon: '🏗️', desc: '感染症や災害発生時の業務継続計画について学びます。' }
+];
+
+async function loadTrainings() {
+  const container = document.getElementById('training-cards');
+  let trainingsData = [];
+
+  try {
+    const res = await fetch('/trainings/trainings.json?_t=' + Date.now());
+    trainingsData = await res.json();
+  } catch(e) {}
+
+  const generatedIds = trainingsData.map(t => t.id);
+
+  container.innerHTML = ALL_THEMES.map((theme, i) => {
+    const isGenerated = theme.id === 'rinri' || generatedIds.includes(theme.id);
+    const trainingInfo = trainingsData.find(t => t.id === theme.id);
+    let url = '#';
+    if (theme.url) {
+      url = theme.url;
+    } else if (isGenerated) {
+      url = '/trainings/' + theme.id;
+    }
+
+    const statusHTML = isGenerated
+      ? '<span class="card-status ready">✅ 受講可能</span>'
+      : '<span class="card-status coming">🔜 準備中</span>';
+
+    const dateHTML = trainingInfo
+      ? '<div class="card-date">作成日: ' + trainingInfo.date + '</div>'
+      : (theme.id === 'rinri' ? '<div class="card-date">作成済み</div>' : '');
+
+    const tag = isGenerated ? 'a' : 'div';
+    const hrefAttr = isGenerated ? ' href="' + url + '"' : '';
+
+    return '<' + tag + ' class="card"' + hrefAttr + '>' +
+      '<span class="card-icon">' + theme.icon + '</span>' +
+      '<span class="card-num">' + (i + 1) + '</span>' +
+      '<div class="card-title">' + theme.title + '</div>' +
+      '<div class="card-desc">' + theme.desc + '</div>' +
+      statusHTML + dateHTML +
+    '</' + tag + '>';
+  }).join('');
+}
+
+loadTrainings();
+</script>
+</body>
+</html>

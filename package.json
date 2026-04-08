@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "デイサービスはいさい 採用特設ページ - ブログ自動生成",
   "scripts": {
-    "generate": "node scripts/generate-post.js"
+    "generate": "node scripts/generate-post.js",
+    "generate-training": "node scripts/generate-training.js"
   },
   "dependencies": {
     "openai": "^4.58.0"

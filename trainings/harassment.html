@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>訪問介護 ハラスメント防止 研修 〜 一人で抱え込まないで！ 〜</title>
+<meta name="description" content="職場やサービス現場でのハラスメント防止と対策を学びます。 訪問介護ようき（有限会社 陽気）の法定研修コンテンツ。">
+<link rel="canonical" href="https://kaigo-recruit.vercel.app/trainings/harassment">
+<link rel="icon" type="image/png" href="/favicon.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Kosugi+Maru&display=swap');
+
+:root {
+  --primary: #2D5A8E;
+  --primary-light: #4A8FD4;
+  --accent: #E8594F;
+  --warm: #F9A826;
+  --green: #4CAF7D;
+  --bg: #FFF8F0;
+  --panel-bg: #FFFFFF;
+  --text: #2C2C2C;
+  --text-light: #666666;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Zen Maru Gothic', 'Kosugi Maru', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+.title-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #FF6B35 0%, #F7C948 50%, #FFE066 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.title-screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.08'%3E%3Ctext x='10' y='45' font-size='30'%3E😂%3C/text%3E%3C/g%3E%3C/svg%3E");
+}
+
+.title-badge {
+  background: var(--accent);
+  color: white;
+  padding: 8px 28px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+  animation: bounceIn 0.8s ease;
+}
+
+.title-main {
+  font-size: clamp(26px, 6vw, 48px);
+  font-weight: 900;
+  color: white;
+  text-align: center;
+  line-height: 1.4;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 1s ease 0.3s both;
+  text-shadow: 0 3px 12px rgba(0,0,0,0.2);
+}
+
+.title-sub {
+  font-size: clamp(14px, 3vw, 20px);
+  color: rgba(255,255,255,0.95);
+  margin-top: 16px;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 1s ease 0.6s both;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.title-characters {
+  display: flex;
+  gap: 30px;
+  margin-top: 30px;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 1s ease 0.9s both;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.title-char { text-align: center; }
+
+.title-char-icon {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 44px;
+  margin-bottom: 8px;
+  border: 4px solid rgba(255,255,255,0.6);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.title-char-name {
+  color: white;
+  font-weight: 700;
+  font-size: 13px;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+.start-btn {
+  margin-top: 36px;
+  padding: 16px 48px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 20px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 1s ease 1.2s both, pulse 2s ease-in-out 2.5s infinite;
+  box-shadow: 0 4px 20px rgba(45,90,142,0.4);
+  transition: transform 0.2s;
+}
+.start-btn:hover { transform: scale(1.05); }
+
+.progress-bar {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 5px; background: rgba(0,0,0,0.1); z-index: 100;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #FF6B35, #F7C948);
+  transition: width 0.5s ease;
+  border-radius: 0 3px 3px 0;
+}
+
+.page {
+  display: none; min-height: 100vh; padding: 24px 16px 100px;
+  max-width: 800px; margin: 0 auto; animation: fadeIn 0.6s ease;
+}
+.page.active { display: block; }
+
+.page-header { text-align: center; margin: 20px 0 30px; }
+.page-chapter {
+  display: inline-block; background: var(--primary); color: white;
+  padding: 4px 16px; border-radius: 20px; font-size: 12px;
+  font-weight: 700; letter-spacing: 1px; margin-bottom: 8px;
+}
+.page-title {
+  font-size: clamp(22px, 5vw, 32px); font-weight: 900;
+  color: var(--primary); line-height: 1.3;
+}
+
+.manga-panel {
+  background: var(--panel-bg); border-radius: 16px; padding: 24px;
+  margin-bottom: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  border: 2px solid #EEE; opacity: 0; transform: translateY(20px);
+  animation: panelIn 0.5s ease forwards;
+}
+.manga-panel:nth-child(2) { animation-delay: 0.15s; }
+.manga-panel:nth-child(3) { animation-delay: 0.3s; }
+.manga-panel:nth-child(4) { animation-delay: 0.45s; }
+.manga-panel:nth-child(5) { animation-delay: 0.6s; }
+.manga-panel:nth-child(6) { animation-delay: 0.75s; }
+
+.speech { display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start; }
+.speech.right { flex-direction: row-reverse; }
+
+.speech-avatar {
+  width: 56px; height: 56px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; flex-shrink: 0; border: 3px solid;
+}
+.speech-avatar.oyaji { background: #FFF3E0; border-color: #FF8F00; }
+.speech-avatar.student { background: #E3F2FD; border-color: var(--primary-light); }
+.speech-avatar.tsukkomi { background: #F3E5F5; border-color: #AB47BC; }
+
+.speech-bubble {
+  padding: 14px 18px; border-radius: 16px; font-size: 15px;
+  line-height: 1.7; max-width: 85%; position: relative;
+}
+
+.bubble-oyaji { background: #FFF3E0; border: 2px solid #FFE0B2; border-radius: 16px 16px 16px 4px; }
+.bubble-student { background: #E3F2FD; border: 2px solid #BBDEFB; border-radius: 16px 16px 4px 16px; }
+.bubble-tsukkomi { background: #F3E5F5; border: 2px solid #E1BEE7; border-radius: 16px 16px 4px 16px; }
+
+.speech-name { font-size: 11px; font-weight: 700; color: var(--text-light); margin-bottom: 4px; }
+
+.oyaji-gag {
+  background: linear-gradient(135deg, #FFF9C4, #FFF176);
+  border: 3px solid #FFD54F;
+  border-radius: 16px;
+  padding: 16px 20px;
+  margin: 14px 0;
+  text-align: center;
+  position: relative;
+  animation: gagPop 0.5s ease;
+}
+
+.oyaji-gag::before {
+  content: '\1F4A5';
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 28px;
+}
+
+.gag-text {
+  font-size: 20px;
+  font-weight: 900;
+  color: #E65100;
+  letter-spacing: 2px;
+}
+
+.gag-sub {
+  font-size: 12px;
+  color: #BF360C;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+.tsukkomi-text {
+  font-size: 14px;
+  font-weight: 900;
+  color: #7B1FA2;
+  text-align: center;
+  margin: 4px 0 10px;
+  letter-spacing: 1px;
+}
+
+.shiin {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 900;
+  color: #90A4AE;
+  letter-spacing: 12px;
+  margin: 8px 0;
+  animation: shiinFade 1.5s ease;
+}
+
+.highlight-box { border-radius: 12px; padding: 20px; margin: 16px 0; }
+.highlight-box.law { background: linear-gradient(135deg, #E8EAF6, #C5CAE9); border-left: 5px solid #3F51B5; }
+.highlight-box.important { background: linear-gradient(135deg, #FFF3E0, #FFE0B2); border-left: 5px solid var(--warm); }
+.highlight-box.danger { background: linear-gradient(135deg, #FFEBEE, #FFCDD2); border-left: 5px solid var(--accent); }
+.highlight-box.good { background: linear-gradient(135deg, #E8F5E9, #C8E6C9); border-left: 5px solid var(--green); }
+.highlight-box .box-title { font-weight: 900; font-size: 15px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+.highlight-box .box-content { font-size: 14px; line-height: 1.8; }
+
+.scenario { background: #F5F5F5; border-radius: 12px; padding: 20px; margin: 16px 0; border: 2px dashed #CCC; }
+.scenario-title { font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 10px; }
+
+.quiz-box { background: white; border: 3px solid var(--primary); border-radius: 16px; padding: 24px; margin: 20px 0; }
+.quiz-question { font-size: 16px; font-weight: 700; margin-bottom: 16px; color: var(--primary); }
+.quiz-options { display: flex; flex-direction: column; gap: 10px; }
+.quiz-option {
+  padding: 14px 18px; background: #F5F5F5; border: 2px solid #DDD;
+  border-radius: 12px; cursor: pointer; font-size: 14px; font-family: inherit;
+  text-align: left; transition: all 0.3s; line-height: 1.5;
+}
+.quiz-option:hover { border-color: var(--primary-light); background: #E3F2FD; }
+.quiz-option.correct { background: #E8F5E9; border-color: var(--green); }
+.quiz-option.wrong { background: #FFEBEE; border-color: var(--accent); }
+.quiz-feedback { margin-top: 14px; padding: 14px; border-radius: 10px; font-size: 14px; line-height: 1.7; display: none; }
+.quiz-feedback.show { display: block; }
+
+.point-list { list-style: none; padding: 0; }
+.point-list li {
+  padding: 10px 0 10px 36px; position: relative;
+  font-size: 15px; line-height: 1.6; border-bottom: 1px solid #EEE;
+}
+.point-list li::before {
+  content: '\2713'; position: absolute; left: 0;
+  width: 24px; height: 24px; background: var(--green);
+  color: white; border-radius: 50%; display: flex;
+  align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; top: 12px;
+}
+
+.nav-bar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: white; border-top: 2px solid #EEE;
+  padding: 12px 20px; display: flex; justify-content: space-between;
+  align-items: center; z-index: 50;
+}
+.nav-btn {
+  padding: 10px 24px; border: none; border-radius: 30px;
+  font-size: 15px; font-weight: 700; font-family: inherit;
+  cursor: pointer; transition: all 0.2s;
+}
+.nav-btn.prev { background: #EEE; color: var(--text); }
+.nav-btn.next { background: var(--primary); color: white; box-shadow: 0 2px 10px rgba(45,90,142,0.3); }
+.nav-btn:hover { transform: translateY(-2px); }
+.nav-btn:disabled { opacity: 0.3; cursor: default; transform: none; }
+.nav-page { font-size: 13px; color: var(--text-light); font-weight: 700; }
+
+.toc { display: grid; gap: 12px; margin-top: 20px; }
+.toc-item {
+  display: flex; align-items: center; gap: 14px; padding: 16px;
+  background: white; border-radius: 12px; border: 2px solid #EEE;
+  cursor: pointer; transition: all 0.3s;
+}
+.toc-item:hover { border-color: var(--primary-light); transform: translateX(4px); }
+.toc-num {
+  width: 36px; height: 36px; border-radius: 50%; background: var(--primary);
+  color: white; display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 16px; flex-shrink: 0;
+}
+.toc-text { font-size: 15px; font-weight: 700; }
+
+.ending { text-align: center; padding: 40px 20px; }
+.ending-icon { font-size: 80px; margin-bottom: 16px; }
+.ending-title { font-size: 28px; font-weight: 900; color: var(--primary); margin-bottom: 12px; }
+.ending-msg { font-size: 16px; color: var(--text-light); line-height: 1.8; }
+
+.certificate {
+  background: linear-gradient(135deg, #FFF8E1, #FFECB3);
+  border: 3px solid var(--warm); border-radius: 16px;
+  padding: 30px; margin: 30px auto; max-width: 500px;
+}
+.certificate-title { font-size: 22px; font-weight: 900; color: var(--warm); }
+.certificate-body { font-size: 14px; margin-top: 12px; line-height: 1.8; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes bounceIn { 0% { transform: scale(0); } 60% { transform: scale(1.1); } 100% { transform: scale(1); } }
+@keyframes panelIn { to { opacity: 1; transform: translateY(0); } }
+@keyframes pulse { 0%, 100% { box-shadow: 0 4px 20px rgba(45,90,142,0.4); } 50% { box-shadow: 0 4px 30px rgba(45,90,142,0.7); } }
+@keyframes gagPop { 0% { transform: scale(0.5) rotate(-5deg); opacity: 0; } 50% { transform: scale(1.1) rotate(2deg); } 100% { transform: scale(1) rotate(0); } }
+@keyframes shiinFade { 0% { opacity: 0; letter-spacing: 2px; } 100% { opacity: 1; letter-spacing: 12px; } }
+
+@media (max-width: 600px) {
+  .speech-avatar { width: 44px; height: 44px; font-size: 22px; }
+  .speech-bubble { font-size: 13px; }
+  .gag-text { font-size: 17px; }
+}
+</style>
+</head>
+<body>
+
+<!-- TITLE -->
+<div class="title-screen" id="titleScreen">
+  <div class="title-badge">訪問介護 法定研修</div>
+  <div class="title-main">笑って学ぼう！💥<br>ハラスメント防止</div>
+  <div class="title-sub">〜 一人で抱え込まないで！ 〜<br>※ ギャグのクオリティは保証しません</div>
+  <div class="title-characters">
+    <div class="title-char">
+      <div class="title-char-icon" style="background:#FFF3E0;">🧔</div>
+      <div class="title-char-name">ダジャレ所長<br>（おやじ先生）</div>
+    </div>
+    <div class="title-char">
+      <div class="title-char-icon" style="background:#E3F2FD;">👩</div>
+      <div class="title-char-name">新人ヘルパー<br>さくらさん</div>
+    </div>
+    <div class="title-char">
+      <div class="title-char-icon" style="background:#F3E5F5;">👩‍🦰</div>
+      <div class="title-char-name">ツッコミ担当<br>先輩みさきさん</div>
+    </div>
+  </div>
+  <button class="start-btn" onclick="startTraining()">▶ 研修をはじめる</button>
+</div>
+
+<div class="progress-bar" id="progressBar" style="display:none;"><div class="progress-fill" id="progressFill"></div></div>
+
+
+<div class="page" id="page1">
+  <div class="page-header">
+    <div class="page-chapter">はじめに</div>
+    <div class="page-title">今日の研修メニュー 📋</div>
+  </div>
+  <div class="manga-panel">
+  <div class="speech">
+    <div class="speech-avatar oyaji">🧔</div>
+    <div class="speech-bubble bubble-oyaji">
+      <div class="speech-name">ダジャレ所長</div>
+      皆さん、今日はハラスメント防止について学びます。大事なことは、ハラスメントを一人で抱え込まないことです！
+    </div>
+  </div>
+  <div class="speech">
+    <div class="speech-avatar student">👩</div>
+    <div class="speech-bubble bubble-student">
+      <div class="speech-name">さくら</div>
+      よろしくお願いします！ハラスメントって種類がたくさんあるんですよね？
+    </div>
+  </div>
+  <div class="speech">
+    <div class="speech-avatar tsukkomi">👩‍🦰</div>
+    <div class="speech-bubble bubble-tsukkomi">
+      <div class="speech-name">みさき先輩</div>
+      そうそう、種類だけじゃなくて予防法もちゃんと学ばないとね。
+    </div>
+  </div>
+  <div class="oyaji-gag">
+    <div class="gag-text">ハラスメントは「ハラハラ」するものは「メント」していこう！</div>
+    <div class="gag-sub">※ メントとは「メンテナンス」の略です</div>
+  </div>
+  <div class="shiin">シーーーン</div>
+  <div class="speech">
+    <div class="speech-avatar tsukkomi">👩‍🦰</div>
+    <div class="speech-bubble bubble-tsukkomi">
+      <div class="speech-name">みさき先輩</div>
+      いやいや、メントって何ですか！
+    </div>
+  </div>
+  <div class="highlight-box important">
+    <div class="box-title">📘 研修の目次</div>
+    <div class="box-content">
+      <button class="toc-item">第1章: ハラスメントの基礎知識</button>
+      <button class="toc-item">第2章: 法律で守る！</button>
+      <button class="toc-item">第3章: 職場での事例</button>
+      <button class="toc-item">第4章: 防止策と対応方法</button>
+      <button class="toc-item">確認クイズ＆まとめ</button>
+    </div>
+  </div>
+</div>
+</div>
+<div class="page" id="page2">
+  <div class="page-header">
+    <div class="page-chapter">第1章</div>
+    <div class="page-title">ハラスメントの基礎知識</div>
+  </div>
+  <div class="manga-panel">
+  <div class="speech">
+    <div class="speech-avatar oyaji">🧔</div>
+    <div class="speech-bubble bubble-oyaji">
+      <div class="speech-name">ダジャレ所長</div>
+      ハラスメントにはさまざまな種類があります。セクハラ、パワハラ、モラハラ…どれも「ハラハラ」しますね！
+    </div>
+  </div>
+  <div class="oyaji-gag">
+    <div class="gag-text">ハラスメントは「ハラハラ」と「メント」して、壊さないようにしよう！</div>
+    <div class="gag-sub">※ メントとは「メンテナンス」の略です</div>
+  </div>
+  <div class="shiin">シーーーン</div>
+  <div class="speech right">
+    <div class="speech-avatar student">👩</div>
+    <div class="speech-bubble bubble-student">
+      <div class="speech-name">さくら</div>
+      具体的にどんな行為がハラスメントになるのか、教えてください！
+    </div>
+  </div>
+  <div class="speech">
+    <div class="speech-avatar tsukkomi">👩‍🦰</div>
+    <div class="speech-bubble bubble-tsukkomi">
+      <div class="speech-name">みさき先輩</div>
+      基本的には相手が不快に感じる行為はすべてハラスメントの可能性があるわね。
+    </div>
+  </div>
+  <div class="highlight-box law">
+    <div class="box-title">📘 労働施策総合推進法</div>
+    <div class="box-content">第30条の2では、職場におけるパワーハラスメントの防止措置を企業に義務付けています。</div>
+  </div>
+  <div class="scenario">
+    <div class="scenario-title">📖 こんな場面を想像してみよう</div>
+    <p>上司が部下に対して過度な叱責を繰り返し、部下が精神的に疲弊しています。これがパワーハラスメントに該当する可能性があります。</p>
+  </div>
+</div>
+</div>
+<div class="page" id="page3">
+  <div class="page-header">
+    <div class="page-chapter">第2章</div>
+    <div class="page-title">法律で守る！</div>
+  </div>
+  <div class="manga-panel">
+  <div class="speech">
+    <div class="speech-avatar oyaji">🧔</div>
+    <div class="speech-bubble bubble-oyaji">
+      <div class="speech-name">ダジャレ所長</div>
+      法律はハラスメントの「守りの盾」だよ！
+    </div>
+  </div>
+  <div class="speech">
+    <div class="speech-avatar student">👩</div>
+    <div class="speech-bubble bubble-student">
+      <div class="speech-name">さくら</div>
+      具体的にはどんな法律があるんですか？
+    </div>
+  </div>
+  <div class="highlight-box law">
+    <div class="box-title">📘 男女雇用機会均等法</div>
+    <div class="box-content">この法律では、セクハラの防止措置が義務付けられています。</div>
+  </div>
+  <div class="highlight-box law">
+    <div class="box-title">📘 労働安全衛生法</div>
+    <div class="box-content">職場のメンタルヘルス対策が義務化されています。</div>
+  </div>
+  <div class="speech">
+    <div class="speech-avatar tsukkomi">👩‍🦰</div>
+    <div class="speech-bubble bubble-tsukkomi">
+      <div class="speech-name">みさき先輩</div>
+      つまり、法律が私たちを守ってくれるってことね。
+    </div>
+  </div>
+  <div class="oyaji-gag">
+    <div class="gag-text">法律は「法」で守る！法ーっと安心！</div>
+    <div class="gag-sub">※ 「法」と「ホッと」を掛けています</div>
+  </div>
+  <div class="shiin">シーーーン</div>
+</div>
+</div>
+<div class="page" id="page4">
+  <div class="page-header">
+    <div class="page-chapter">第3章</div>
+    <div class="page-title">職場での事例</div>
+  </div>
+  <div class="manga-panel">
+  <div class="speech">
+    <div class="speech-avatar oyaji">🧔</div>
+    <div class="speech-bubble bubble-oyaji">
+      <div class="speech-name">ダジャレ所長</div>
+      実際に職場で起こりうる事例を見てみましょう。
+    </div>
+  </div>
+  <div class="scenario">
+    <div class="scenario-title">📖 こんな場面を想像してみよう</div>
+    <p>職場での飲み会で、上司が部下に対して無礼な言動を繰り返す場面。これがモラルハラスメントに該当する可能性があります。</p>
+  </div>
+  <div class="speech">
+    <div class="speech-avatar student">👩</div>
+    <div class="speech-bubble bubble-student">
+      <div class="speech-name">さくら</div>
+      飲み会でもハラスメントになるんですね。
+    </div>
+  </div>
+  <div class="highlight-box important">
+    <div class="box-title">📘 注意すべきポイント</div>
+    <div class="box-content">職場の外でも、業務に関連する場ではハラスメントの対象になります。</div>
+  </div>
+  <div class="speech">
+    <div class="speech-avatar tsukkomi">👩‍🦰</div>
+    <div class="speech-bubble bubble-tsukkomi">
+      <div class="speech-name">みさき先輩</div>
+      そう、プライベートと思っても気をつけないとね。
+    </div>
+  </div>
+</div>
+</div>
+<div class="page" id="page5">
+  <div class="page-header">
+    <div class="page-chapter">第4章</div>
+    <div class="page-title">防止策と対応方法</div>
+  </div>
+  <div class="manga-panel">
+  <div class="speech">
+    <div class="speech-avatar oyaji">🧔</div>
+    <div class="speech-bubble bubble-oyaji">
+      <div class="speech-name">ダジャレ所長</div>
+      防止策としては、「連絡を密にして、ハラハラさせない」が大事です！
+    </div>
+  </div>
+  <div class="speech">
+    <div class="speech-avatar student">👩</div>
+    <div class="speech-bubble bubble-student">
+      <div class="speech-name">さくら</div>
+      具体的にはどのように対応したらいいでしょう？
+    </div>
+  </div>
+  <div class="highlight-box good">
+    <div class="box-title">📘 正しい対応方法</div>
+    <div class="box-content">1. ハラスメントを受けたらすぐに上司や人事に報告。<br>2. 記録を残す。<br>3. 心のケアを大切に。</div>
+  </div>
+  <div class="speech">
+    <div class="speech-avatar tsukkomi">👩‍🦰</div>
+    <div class="speech-bubble bubble-tsukkomi">
+      <div class="speech-name">みさき先輩</div>
+      そう、報告と記録が大事だね。
+    </div>
+  </div>
+  <div class="oyaji-gag">
+    <div class="gag-text">ハラスメントを受けたら、ハラを割って話すことが大切！</div>
+    <div class="gag-sub">※ 「ハラを割る」とは、素直に話すという意味です</div>
+  </div>
+  <div class="shiin">シーーーン</div>
+</div>
+</div>
+<div class="page" id="page6">
+  <div class="page-header">
+    <div class="page-chapter">確認クイズ</div>
+    <div class="page-title">確認クイズ＆まとめ</div>
+  </div>
+  <div class="manga-panel">
+  <div class="quiz-box">
+    <div class="quiz-question">❓ クイズ1: パワーハラスメントに該当するのはどれですか？</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="checkQuiz(this, false)">A. 業務の指導を行う</button>
+      <button class="quiz-option" onclick="checkQuiz(this, true)">B. 必要以上に大声で叱責する</button>
+      <button class="quiz-option" onclick="checkQuiz(this, false)">C. 同僚と親しく話す</button>
+      <button class="quiz-option" onclick="checkQuiz(this, false)">D. 定期的に面談を行う</button>
+    </div>
+    <div class="quiz-feedback">パワーハラスメントは、業務の範囲を超えた不適切な指導行為です。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ クイズ2: セクシャルハラスメントに該当する行為はどれですか？</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="checkQuiz(this, false)">A. 業務報告をする</button>
+      <button class="quiz-option" onclick="checkQuiz(this, false)">B. ランチに誘う</button>
+      <button class="quiz-option" onclick="checkQuiz(this, true)">C. 相手の見た目に不適切なコメントをする</button>
+      <button class="quiz-option" onclick="checkQuiz(this, false)">D. 出張の報告をする</button>
+    </div>
+    <div class="quiz-feedback">セクハラは、相手を不快にさせる性的な発言や行為です。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ クイズ3: ハラスメントを受けたときの正しい対応策は？</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="checkQuiz(this, false)">A. 我慢する</button>
+      <button class="quiz-option" onclick="checkQuiz(this, false)">B. 無視する</button>
+      <button class="quiz-option" onclick="checkQuiz(this, true)">C. すぐに上司に報告する</button>
+      <button class="quiz-option" onclick="checkQuiz(this, false)">D. その場で抗議する</button>
+    </div>
+    <div class="quiz-feedback">ハラスメントを受けたら、適切な上司や人事部門に報告することが重要です。</div>
+  </div>
+</div>
+<div class="highlight-box important">
+  <div class="box-title">📘 まとめ</div>
+  <div class="box-content">
+    <ul class="point-list">
+      <li>ハラスメントには多くの種類がある。</li>
+      <li>法律で守られている権利を知ることが重要。</li>
+      <li>職場でのハラスメント事例を理解し、防止策を学ぶ。</li>
+      <li>ハラスメントを受けたらすぐに報告し、記録を残す。</li>
+    </ul>
+  </div>
+</div>
+<div class="highlight-box good">
+  <div class="box-title">👍 よくできました！</div>
+  <div class="box-content">これでハラスメント防止についての理解が深まりましたね！一人で抱え込まず、みんなで協力して安全な職場環境を作りましょう！</div>
+</div>
+</div>
+
+<div class="nav-bar" id="navBar" style="display:none;">
+  <button class="nav-btn prev" id="prevBtn" onclick="prevPage()">◀ 前へ</button>
+  <span class="nav-page" id="pageNum">1 / 6</span>
+  <button class="nav-btn next" id="nextBtn" onclick="nextPage()">次へ ▶</button>
+</div>
+
+<script>
+let currentPage = 0;
+const totalPages = 6;
+
+function startTraining() {
+  document.getElementById('titleScreen').style.display = 'none';
+  document.getElementById('progressBar').style.display = 'block';
+  document.getElementById('navBar').style.display = 'flex';
+  currentPage = 1;
+  showPage(currentPage);
+}
+
+function showPage(n) {
+  document.querySelectorAll('.page').forEach(p => { p.classList.remove('active'); });
+  const page = document.getElementById('page' + n);
+  if (page) {
+    page.classList.add('active');
+    page.querySelectorAll('.manga-panel').forEach(p => {
+      p.style.animation = 'none';
+      p.offsetHeight;
+      p.style.animation = '';
+    });
+  }
+  document.getElementById('prevBtn').disabled = (n <= 1);
+  document.getElementById('nextBtn').textContent = (n >= totalPages) ? '🎉 完了！' : '次へ ▶';
+  document.getElementById('pageNum').textContent = n + ' / ' + totalPages;
+  document.getElementById('progressFill').style.width = ((n / totalPages) * 100) + '%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function nextPage() {
+  if (currentPage < totalPages) { currentPage++; showPage(currentPage); }
+}
+
+function prevPage() {
+  if (currentPage > 1) { currentPage--; showPage(currentPage); }
+}
+
+function goToPage(n) { currentPage = n; showPage(n); }
+
+function checkQuiz(btn, isCorrect) {
+  const quizBox = btn.closest('.quiz-box');
+  const options = quizBox.querySelectorAll('.quiz-option');
+  options.forEach(o => { o.disabled = true; o.style.pointerEvents = 'none'; });
+  if (isCorrect) {
+    btn.classList.add('correct');
+    const fb = quizBox.querySelector('.quiz-feedback');
+    if (fb) { fb.classList.add('show'); fb.style.background = '#E8F5E9'; }
+  } else {
+    btn.classList.add('wrong');
+    options.forEach(o => { if (o.getAttribute('onclick') && o.getAttribute('onclick').includes('true')) o.classList.add('correct'); });
+    const fb = quizBox.querySelector('.quiz-feedback');
+    if (fb) { fb.classList.add('show'); fb.style.background = '#FFEBEE'; }
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>訪問介護 業務継続計画（BCP）・災害対応 研修 〜 備えあれば憂いなし！ 〜</title>
+<meta name="description" content="感染症や災害発生時の業務継続計画について学びます。 訪問介護ようき（有限会社 陽気）の法定研修コンテンツ。">
+<link rel="canonical" href="https://kaigo-recruit.vercel.app/trainings/bcp">
+<link rel="icon" type="image/png" href="/favicon.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Kosugi+Maru&display=swap');
+
+:root {
+  --primary: #2D5A8E;
+  --primary-light: #4A8FD4;
+  --accent: #E8594F;
+  --warm: #F9A826;
+  --green: #4CAF7D;
+  --bg: #FFF8F0;
+  --panel-bg: #FFFFFF;
+  --text: #2C2C2C;
+  --text-light: #666666;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Zen Maru Gothic', 'Kosugi Maru', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+.title-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #FF6B35 0%, #F7C948 50%, #FFE066 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.title-screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.08'%3E%3Ctext x='10' y='45' font-size='30'%3E😂%3C/text%3E%3C/g%3E%3C/svg%3E");
+}
+
+.title-badge {
+  background: var(--accent);
+  color: white;
+  padding: 8px 28px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+  animation: bounceIn 0.8s ease;
+}
+
+.title-main {
+  font-size: clamp(26px, 6vw, 48px);
+  font-weight: 900;
+  color: white;
+  text-align: center;
+  line-height: 1.4;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 1s ease 0.3s both;
+  text-shadow: 0 3px 12px rgba(0,0,0,0.2);
+}
+
+.title-sub {
+  font-size: clamp(14px, 3vw, 20px);
+  color: rgba(255,255,255,0.95);
+  margin-top: 16px;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 1s ease 0.6s both;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.title-characters {
+  display: flex;
+  gap: 30px;
+  margin-top: 30px;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 1s ease 0.9s both;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.title-char { text-align: center; }
+
+.title-char-icon {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 44px;
+  margin-bottom: 8px;
+  border: 4px solid rgba(255,255,255,0.6);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.title-char-name {
+  color: white;
+  font-weight: 700;
+  font-size: 13px;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+.start-btn {
+  margin-top: 36px;
+  padding: 16px 48px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 20px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 1s ease 1.2s both, pulse 2s ease-in-out 2.5s infinite;
+  box-shadow: 0 4px 20px rgba(45,90,142,0.4);
+  transition: transform 0.2s;
+}
+.start-btn:hover { transform: scale(1.05); }
+
+.progress-bar {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 5px; background: rgba(0,0,0,0.1); z-index: 100;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #FF6B35, #F7C948);
+  transition: width 0.5s ease;
+  border-radius: 0 3px 3px 0;
+}
+
+.page {
+  display: none; min-height: 100vh; padding: 24px 16px 100px;
+  max-width: 800px; margin: 0 auto; animation: fadeIn 0.6s ease;
+}
+.page.active { display: block; }
+
+.page-header { text-align: center; margin: 20px 0 30px; }
+.page-chapter {
+  display: inline-block; background: var(--primary); color: white;
+  padding: 4px 16px; border-radius: 20px; font-size: 12px;
+  font-weight: 700; letter-spacing: 1px; margin-bottom: 8px;
+}
+.page-title {
+  font-size: clamp(22px, 5vw, 32px); font-weight: 900;
+  color: var(--primary); line-height: 1.3;
+}
+
+.manga-panel {
+  background: var(--panel-bg); border-radius: 16px; padding: 24px;
+  margin-bottom: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  border: 2px solid #EEE; opacity: 0; transform: translateY(20px);
+  animation: panelIn 0.5s ease forwards;
+}
+.manga-panel:nth-child(2) { animation-delay: 0.15s; }
+.manga-panel:nth-child(3) { animation-delay: 0.3s; }
+.manga-panel:nth-child(4) { animation-delay: 0.45s; }
+.manga-panel:nth-child(5) { animation-delay: 0.6s; }
+.manga-panel:nth-child(6) { animation-delay: 0.75s; }
+
+.speech { display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start; }
+.speech.right { flex-direction: row-reverse; }
+
+.speech-avatar {
+  width: 56px; height: 56px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; flex-shrink: 0; border: 3px solid;
+}
+.speech-avatar.oyaji { background: #FFF3E0; border-color: #FF8F00; }
+.speech-avatar.student { background: #E3F2FD; border-color: var(--primary-light); }
+.speech-avatar.tsukkomi { background: #F3E5F5; border-color: #AB47BC; }
+
+.speech-bubble {
+  padding: 14px 18px; border-radius: 16px; font-size: 15px;
+  line-height: 1.7; max-width: 85%; position: relative;
+}
+
+.bubble-oyaji { background: #FFF3E0; border: 2px solid #FFE0B2; border-radius: 16px 16px 16px 4px; }
+.bubble-student { background: #E3F2FD; border: 2px solid #BBDEFB; border-radius: 16px 16px 4px 16px; }
+.bubble-tsukkomi { background: #F3E5F5; border: 2px solid #E1BEE7; border-radius: 16px 16px 4px 16px; }
+
+.speech-name { font-size: 11px; font-weight: 700; color: var(--text-light); margin-bottom: 4px; }
+
+.oyaji-gag {
+  background: linear-gradient(135deg, #FFF9C4, #FFF176);
+  border: 3px solid #FFD54F;
+  border-radius: 16px;
+  padding: 16px 20px;
+  margin: 14px 0;
+  text-align: center;
+  position: relative;
+  animation: gagPop 0.5s ease;
+}
+
+.oyaji-gag::before {
+  content: '\1F4A5';
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 28px;
+}
+
+.gag-text {
+  font-size: 20px;
+  font-weight: 900;
+  color: #E65100;
+  letter-spacing: 2px;
+}
+
+.gag-sub {
+  font-size: 12px;
+  color: #BF360C;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+.tsukkomi-text {
+  font-size: 14px;
+  font-weight: 900;
+  color: #7B1FA2;
+  text-align: center;
+  margin: 4px 0 10px;
+  letter-spacing: 1px;
+}
+
+.shiin {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 900;
+  color: #90A4AE;
+  letter-spacing: 12px;
+  margin: 8px 0;
+  animation: shiinFade 1.5s ease;
+}
+
+.highlight-box { border-radius: 12px; padding: 20px; margin: 16px 0; }
+.highlight-box.law { background: linear-gradient(135deg, #E8EAF6, #C5CAE9); border-left: 5px solid #3F51B5; }
+.highlight-box.important { background: linear-gradient(135deg, #FFF3E0, #FFE0B2); border-left: 5px solid var(--warm); }
+.highlight-box.danger { background: linear-gradient(135deg, #FFEBEE, #FFCDD2); border-left: 5px solid var(--accent); }
+.highlight-box.good { background: linear-gradient(135deg, #E8F5E9, #C8E6C9); border-left: 5px solid var(--green); }
+.highlight-box .box-title { font-weight: 900; font-size: 15px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+.highlight-box .box-content { font-size: 14px; line-height: 1.8; }
+
+.scenario { background: #F5F5F5; border-radius: 12px; padding: 20px; margin: 16px 0; border: 2px dashed #CCC; }
+.scenario-title { font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 10px; }
+
+.quiz-box { background: white; border: 3px solid var(--primary); border-radius: 16px; padding: 24px; margin: 20px 0; }
+.quiz-question { font-size: 16px; font-weight: 700; margin-bottom: 16px; color: var(--primary); }
+.quiz-options { display: flex; flex-direction: column; gap: 10px; }
+.quiz-option {
+  padding: 14px 18px; background: #F5F5F5; border: 2px solid #DDD;
+  border-radius: 12px; cursor: pointer; font-size: 14px; font-family: inherit;
+  text-align: left; transition: all 0.3s; line-height: 1.5;
+}
+.quiz-option:hover { border-color: var(--primary-light); background: #E3F2FD; }
+.quiz-option.correct { background: #E8F5E9; border-color: var(--green); }
+.quiz-option.wrong { background: #FFEBEE; border-color: var(--accent); }
+.quiz-feedback { margin-top: 14px; padding: 14px; border-radius: 10px; font-size: 14px; line-height: 1.7; display: none; }
+.quiz-feedback.show { display: block; }
+
+.point-list { list-style: none; padding: 0; }
+.point-list li {
+  padding: 10px 0 10px 36px; position: relative;
+  font-size: 15px; line-height: 1.6; border-bottom: 1px solid #EEE;
+}
+.point-list li::before {
+  content: '\2713'; position: absolute; left: 0;
+  width: 24px; height: 24px; background: var(--green);
+  color: white; border-radius: 50%; display: flex;
+  align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; top: 12px;
+}
+
+.nav-bar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: white; border-top: 2px solid #EEE;
+  padding: 12px 20px; display: flex; justify-content: space-between;
+  align-items: center; z-index: 50;
+}
+.nav-btn {
+  padding: 10px 24px; border: none; border-radius: 30px;
+  font-size: 15px; font-weight: 700; font-family: inherit;
+  cursor: pointer; transition: all 0.2s;
+}
+.nav-btn.prev { background: #EEE; color: var(--text); }
+.nav-btn.next { background: var(--primary); color: white; box-shadow: 0 2px 10px rgba(45,90,142,0.3); }
+.nav-btn:hover { transform: translateY(-2px); }
+.nav-btn:disabled { opacity: 0.3; cursor: default; transform: none; }
+.nav-page { font-size: 13px; color: var(--text-light); font-weight: 700; }
+
+.toc { display: grid; gap: 12px; margin-top: 20px; }
+.toc-item {
+  display: flex; align-items: center; gap: 14px; padding: 16px;
+  background: white; border-radius: 12px; border: 2px solid #EEE;
+  cursor: pointer; transition: all 0.3s;
+}
+.toc-item:hover { border-color: var(--primary-light); transform: translateX(4px); }
+.toc-num {
+  width: 36px; height: 36px; border-radius: 50%; background: var(--primary);
+  color: white; display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 16px; flex-shrink: 0;
+}
+.toc-text { font-size: 15px; font-weight: 700; }
+
+.ending { text-align: center; padding: 40px 20px; }
+.ending-icon { font-size: 80px; margin-bottom: 16px; }
+.ending-title { font-size: 28px; font-weight: 900; color: var(--primary); margin-bottom: 12px; }
+.ending-msg { font-size: 16px; color: var(--text-light); line-height: 1.8; }
+
+.certificate {
+  background: linear-gradient(135deg, #FFF8E1, #FFECB3);
+  border: 3px solid var(--warm); border-radius: 16px;
+  padding: 30px; margin: 30px auto; max-width: 500px;
+}
+.certificate-title { font-size: 22px; font-weight: 900; color: var(--warm); }
+.certificate-body { font-size: 14px; margin-top: 12px; line-height: 1.8; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes bounceIn { 0% { transform: scale(0); } 60% { transform: scale(1.1); } 100% { transform: scale(1); } }
+@keyframes panelIn { to { opacity: 1; transform: translateY(0); } }
+@keyframes pulse { 0%, 100% { box-shadow: 0 4px 20px rgba(45,90,142,0.4); } 50% { box-shadow: 0 4px 30px rgba(45,90,142,0.7); } }
+@keyframes gagPop { 0% { transform: scale(0.5) rotate(-5deg); opacity: 0; } 50% { transform: scale(1.1) rotate(2deg); } 100% { transform: scale(1) rotate(0); } }
+@keyframes shiinFade { 0% { opacity: 0; letter-spacing: 2px; } 100% { opacity: 1; letter-spacing: 12px; } }
+
+@media (max-width: 600px) {
+  .speech-avatar { width: 44px; height: 44px; font-size: 22px; }
+  .speech-bubble { font-size: 13px; }
+  .gag-text { font-size: 17px; }
+}
+</style>
+</head>
+<body>
+
+<!-- TITLE -->
+<div class="title-screen" id="titleScreen">
+  <div class="title-badge">訪問介護 法定研修</div>
+  <div class="title-main">笑って学ぼう！💥<br>業務継続計画（BCP）・災害対応</div>
+  <div class="title-sub">〜 備えあれば憂いなし！ 〜<br>※ ギャグのクオリティは保証しません</div>
+  <div class="title-characters">
+    <div class="title-char">
+      <div class="title-char-icon" style="background:#FFF3E0;">🧔</div>
+      <div class="title-char-name">ダジャレ所長<br>（おやじ先生）</div>
+    </div>
+    <div class="title-char">
+      <div class="title-char-icon" style="background:#E3F2FD;">👩</div>
+      <div class="title-char-name">新人ヘルパー<br>さくらさん</div>
+    </div>
+    <div class="title-char">
+      <div class="title-char-icon" style="background:#F3E5F5;">👩‍🦰</div>
+      <div class="title-char-name">ツッコミ担当<br>先輩みさきさん</div>
+    </div>
+  </div>
+  <button class="start-btn" onclick="startTraining()">▶ 研修をはじめる</button>
+</div>
+
+<div class="progress-bar" id="progressBar" style="display:none;"><div class="progress-fill" id="progressFill"></div></div>
+
+
+<div class="page" id="page1">
+  <div class="page-header">
+    <div class="page-chapter">はじめに</div>
+    <div class="page-title">今日の研修メニュー 📋</div>
+  </div>
+  <div class="manga-panel"><div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji"><div class="speech-name">ダジャレ所長</div>今日は「業務継続計画（BCP）・災害対応」について学んでいくよ！備えあれば憂いなし、備えなければウレナイし！</div></div><div class="oyaji-gag"><div class="gag-text">備えなければウレナイし！</div><div class="gag-sub">※ ウレナイ（売れない）という意味です</div></div><div class="shiin">シーーーン</div><div class="speech right"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student"><div class="speech-name">さくら</div>所長、今日も絶好調ですね。でも、業務継続計画って具体的に何をするんですか？</div></div><div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji"><div class="speech-name">ダジャレ所長</div>それは、災害が起こった時でも業務を続けられるようにするための計画だよ。</div></div><div class="speech right"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi"><div class="speech-name">みさき先輩</div>要するに、非常時でも慌てず騒がずってことね。では、各章で詳しく見ていきましょう！</div></div></div><div class="toc"><button class="toc-item">第1章: BCPの基本</button><button class="toc-item">第2章: 災害対応の実践</button><button class="toc-item">第3章: コミュニケーションの重要性</button><button class="toc-item">第4章: 継続的な改善</button></div>
+</div>
+<div class="page" id="page2">
+  <div class="page-header">
+    <div class="page-chapter">第1章</div>
+    <div class="page-title">BCPの基本</div>
+  </div>
+  <div class="manga-panel"><div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji"><div class="speech-name">ダジャレ所長</div>まずはBCPの基本だ。BCPはBusiness Continuity Planの略で、事業継続計画を意味するんだ。</div></div><div class="speech right"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student"><div class="speech-name">さくら</div>どんな災害にも対応できるように計画を立てるんですね。</div></div><div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji"><div class="speech-name">ダジャレ所長</div>その通り！備えあれば、ウレイもない！</div></div><div class="shiin">シーーーン</div><div class="speech right"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi"><div class="speech-name">みさき先輩</div>ウレイ（憂い）って言いたいところね。とにかく、法律もちゃんと読んでおきましょう。</div></div></div><div class="highlight-box law"><div class="box-title">📘 災害対策基本法</div><div class="box-content">災害対策基本法に基づき、事業者は適切な災害対策を講じることが求められています。</div></div><div class="scenario"><div class="scenario-title">📖 こんな場面を想像してみよう</div><p>ある日、大きな地震が発生しました。訪問先の利用者さんが不安になっています。あなたはどのように対応しますか？</p></div>
+</div>
+<div class="page" id="page3">
+  <div class="page-header">
+    <div class="page-chapter">第2章</div>
+    <div class="page-title">災害対応の実践</div>
+  </div>
+  <div class="manga-panel"><div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji"><div class="speech-name">ダジャレ所長</div>災害が起きたときには、まず自分の安全を確保することが大事だ。自分が倒れたら、訪問介護どころじゃない！</div></div><div class="speech right"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student"><div class="speech-name">さくら</div>そうですよね！自分が安全でないと、誰も助けられません。</div></div><div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji"><div class="speech-name">ダジャレ所長</div>次に、利用者さんを安全な場所へ誘導する。これが『避難計画』だ。</div></div><div class="speech right"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi"><div class="speech-name">みさき先輩</div>避難も計画的にね！法律に基づいて、避難経路の確認も忘れずに。</div></div></div><div class="highlight-box important"><div class="box-title">🔍 避難時のポイント</div><div class="box-content">避難経路を事前に確認し、利用者さんに伝えておくことが重要です。</div></div><div class="highlight-box danger"><div class="box-title">⚠️ NG行為</div><div class="box-content">避難時に慌てて大声を出したり、パニックになることは避けましょう。</div></div><div class="scenario"><div class="scenario-title">📖 こんな場面を想像してみよう</div><p>避難中、利用者さんがパニックに陥りました。落ち着かせるためにはどうすれば良いでしょうか？</p></div>
+</div>
+<div class="page" id="page4">
+  <div class="page-header">
+    <div class="page-chapter">第3章</div>
+    <div class="page-title">コミュニケーションの重要性</div>
+  </div>
+  <div class="manga-panel"><div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji"><div class="speech-name">ダジャレ所長</div>災害時は、情報の伝達が命運を分けることもある。まさに情報は命の綱だ。</div></div><div class="speech right"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student"><div class="speech-name">さくら</div>どうやって情報を的確に伝えればいいんでしょうか？</div></div><div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji"><div class="speech-name">ダジャレ所長</div>まずは落ち着いて、正確な情報を伝えることだ。焦って誤った情報を伝えると大変だよ。</div></div><div class="speech right"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi"><div class="speech-name">みさき先輩</div>正しい情報は命取りにならないようにしないとね。</div></div></div><div class="highlight-box important"><div class="box-title">🔍 情報伝達のポイント</div><div class="box-content">状況を的確に把握し、正確な情報を迅速に伝達することが重要です。</div></div><div class="highlight-box good"><div class="box-title">👍 良い対応</div><div class="box-content">緊急時の連絡先を事前に確認し、すぐに連絡できるようにしておきましょう。</div></div><div class="scenario"><div class="scenario-title">📖 こんな場面を想像してみよう</div><p>災害後、通信が不安定な状況で情報を伝える必要があります。どのように対応しますか？</p></div>
+</div>
+<div class="page" id="page5">
+  <div class="page-header">
+    <div class="page-chapter">第4章</div>
+    <div class="page-title">継続的な改善</div>
+  </div>
+  <div class="manga-panel"><div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji"><div class="speech-name">ダジャレ所長</div>BCPは一度作ったら終わりじゃない。常に見直し、改善していくことが大事だ。</div></div><div class="speech right"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student"><div class="speech-name">さくら</div>改善するためにはどうすれば良いですか？</div></div><div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji"><div class="speech-name">ダジャレ所長</div>訓練を定期的に行い、その結果を元に改善点を見つけるんだ。まさに「訓練は力なり」だね！</div></div><div class="shiin">シーーーン</div><div class="speech right"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi"><div class="speech-name">みさき先輩</div>それは「知識は力なり」って言いたかったんですよね。でも、訓練は大切です。</div></div></div><div class="highlight-box good"><div class="box-title">👍 定期的な訓練</div><div class="box-content">定期的に訓練を実施し、BCPの有効性を確認しましょう。</div></div><div class="highlight-box important"><div class="box-title">🔍 見直しのポイント</div><div class="box-content">訓練結果を評価し、必要に応じて計画を修正することが重要です。</div></div><div class="scenario"><div class="scenario-title">📖 こんな場面を想像してみよう</div><p>訓練後に問題点が発覚しました。どのように改善しますか？</p></div>
+</div>
+<div class="page" id="page6">
+  <div class="page-header">
+    <div class="page-chapter">確認クイズ</div>
+    <div class="page-title">確認クイズ＆まとめ</div>
+  </div>
+  <div class="quiz-box"><div class="quiz-question">❓ クイズ1: BCPの目的は何ですか？</div><div class="quiz-options"><button class="quiz-option" onclick="checkQuiz(this, false)">A. 利益を最大化する</button><button class="quiz-option" onclick="checkQuiz(this, true)">B. 災害時に業務を継続する</button><button class="quiz-option" onclick="checkQuiz(this, false)">C. 新規顧客を獲得する</button><button class="quiz-option" onclick="checkQuiz(this, false)">D. 従業員を休ませる</button></div><div class="quiz-feedback">BCPは災害時に業務を継続するための計画です。</div></div><div class="quiz-box"><div class="quiz-question">❓ クイズ2: 災害時の第一優先事項は何ですか？</div><div class="quiz-options"><button class="quiz-option" onclick="checkQuiz(this, false)">A. 利用者に連絡する</button><button class="quiz-option" onclick="checkQuiz(this, true)">B. 自分の安全を確保する</button><button class="quiz-option" onclick="checkQuiz(this, false)">C. 書類を保護する</button><button class="quiz-option" onclick="checkQuiz(this, false)">D. 記録を取る</button></div><div class="quiz-feedback">災害時はまず自分の安全を確保することが最優先です。</div></div><div class="quiz-box"><div class="quiz-question">❓ クイズ3: 継続的な改善に必要なことは？</div><div class="quiz-options"><button class="quiz-option" onclick="checkQuiz(this, false)">A. 新しい機器を購入する</button><button class="quiz-option" onclick="checkQuiz(this, true)">B. 定期的に訓練を行う</button><button class="quiz-option" onclick="checkQuiz(this, false)">C. 予算を増やす</button><button class="quiz-option" onclick="checkQuiz(this, false)">D. 他社の計画を真似する</button></div><div class="quiz-feedback">定期的な訓練を行い、BCPを見直すことが重要です。</div></div><ul class="point-list"><li>BCPは災害時に業務を継続するための計画</li><li>自分の安全を確保することが最優先</li><li>正確な情報を迅速に伝達する</li><li>定期的な訓練で計画を改善</li></ul><div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji"><div class="speech-name">ダジャレ所長</div>みんな、お疲れさま！これで災害時も心強いね！次回も頑張ろう！</div></div>
+</div>
+
+<div class="nav-bar" id="navBar" style="display:none;">
+  <button class="nav-btn prev" id="prevBtn" onclick="prevPage()">◀ 前へ</button>
+  <span class="nav-page" id="pageNum">1 / 6</span>
+  <button class="nav-btn next" id="nextBtn" onclick="nextPage()">次へ ▶</button>
+</div>
+
+<script>
+let currentPage = 0;
+const totalPages = 6;
+
+function startTraining() {
+  document.getElementById('titleScreen').style.display = 'none';
+  document.getElementById('progressBar').style.display = 'block';
+  document.getElementById('navBar').style.display = 'flex';
+  currentPage = 1;
+  showPage(currentPage);
+}
+
+function showPage(n) {
+  document.querySelectorAll('.page').forEach(p => { p.classList.remove('active'); });
+  const page = document.getElementById('page' + n);
+  if (page) {
+    page.classList.add('active');
+    page.querySelectorAll('.manga-panel').forEach(p => {
+      p.style.animation = 'none';
+      p.offsetHeight;
+      p.style.animation = '';
+    });
+  }
+  document.getElementById('prevBtn').disabled = (n <= 1);
+  document.getElementById('nextBtn').textContent = (n >= totalPages) ? '🎉 完了！' : '次へ ▶';
+  document.getElementById('pageNum').textContent = n + ' / ' + totalPages;
+  document.getElementById('progressFill').style.width = ((n / totalPages) * 100) + '%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function nextPage() {
+  if (currentPage < totalPages) { currentPage++; showPage(currentPage); }
+}
+
+function prevPage() {
+  if (currentPage > 1) { currentPage--; showPage(currentPage); }
+}
+
+function goToPage(n) { currentPage = n; showPage(n); }
+
+function checkQuiz(btn, isCorrect) {
+  const quizBox = btn.closest('.quiz-box');
+  const options = quizBox.querySelectorAll('.quiz-option');
+  options.forEach(o => { o.disabled = true; o.style.pointerEvents = 'none'; });
+  if (isCorrect) {
+    btn.classList.add('correct');
+    const fb = quizBox.querySelector('.quiz-feedback');
+    if (fb) { fb.classList.add('show'); fb.style.background = '#E8F5E9'; }
+  } else {
+    btn.classList.add('wrong');
+    options.forEach(o => { if (o.getAttribute('onclick') && o.getAttribute('onclick').includes('true')) o.classList.add('correct'); });
+    const fb = quizBox.querySelector('.quiz-feedback');
+    if (fb) { fb.classList.add('show'); fb.style.background = '#FFEBEE'; }
+  }
+}
+</script>
+</body>
+</html>

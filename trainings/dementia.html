@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>訪問介護 認知症及び認知症ケア 研修 〜 寄り添う心で支えよう！ 〜</title>
+<meta name="description" content="認知症の基本的な理解と、適切なケアの方法を学びます。 訪問介護ようき（有限会社 陽気）の法定研修コンテンツ。">
+<link rel="canonical" href="https://kaigo-recruit.vercel.app/trainings/dementia">
+<link rel="icon" type="image/png" href="/favicon.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Kosugi+Maru&display=swap');
+
+:root {
+  --primary: #2D5A8E;
+  --primary-light: #4A8FD4;
+  --accent: #E8594F;
+  --warm: #F9A826;
+  --green: #4CAF7D;
+  --bg: #FFF8F0;
+  --panel-bg: #FFFFFF;
+  --text: #2C2C2C;
+  --text-light: #666666;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Zen Maru Gothic', 'Kosugi Maru', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+.title-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #FF6B35 0%, #F7C948 50%, #FFE066 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.title-screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.08'%3E%3Ctext x='10' y='45' font-size='30'%3E😂%3C/text%3E%3C/g%3E%3C/svg%3E");
+}
+
+.title-badge {
+  background: var(--accent);
+  color: white;
+  padding: 8px 28px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+  animation: bounceIn 0.8s ease;
+}
+
+.title-main {
+  font-size: clamp(26px, 6vw, 48px);
+  font-weight: 900;
+  color: white;
+  text-align: center;
+  line-height: 1.4;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 1s ease 0.3s both;
+  text-shadow: 0 3px 12px rgba(0,0,0,0.2);
+}
+
+.title-sub {
+  font-size: clamp(14px, 3vw, 20px);
+  color: rgba(255,255,255,0.95);
+  margin-top: 16px;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 1s ease 0.6s both;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.title-characters {
+  display: flex;
+  gap: 30px;
+  margin-top: 30px;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 1s ease 0.9s both;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.title-char { text-align: center; }
+
+.title-char-icon {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 44px;
+  margin-bottom: 8px;
+  border: 4px solid rgba(255,255,255,0.6);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.title-char-name {
+  color: white;
+  font-weight: 700;
+  font-size: 13px;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+.start-btn {
+  margin-top: 36px;
+  padding: 16px 48px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 20px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 1s ease 1.2s both, pulse 2s ease-in-out 2.5s infinite;
+  box-shadow: 0 4px 20px rgba(45,90,142,0.4);
+  transition: transform 0.2s;
+}
+.start-btn:hover { transform: scale(1.05); }
+
+.progress-bar {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 5px; background: rgba(0,0,0,0.1); z-index: 100;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #FF6B35, #F7C948);
+  transition: width 0.5s ease;
+  border-radius: 0 3px 3px 0;
+}
+
+.page {
+  display: none; min-height: 100vh; padding: 24px 16px 100px;
+  max-width: 800px; margin: 0 auto; animation: fadeIn 0.6s ease;
+}
+.page.active { display: block; }
+
+.page-header { text-align: center; margin: 20px 0 30px; }
+.page-chapter {
+  display: inline-block; background: var(--primary); color: white;
+  padding: 4px 16px; border-radius: 20px; font-size: 12px;
+  font-weight: 700; letter-spacing: 1px; margin-bottom: 8px;
+}
+.page-title {
+  font-size: clamp(22px, 5vw, 32px); font-weight: 900;
+  color: var(--primary); line-height: 1.3;
+}
+
+.manga-panel {
+  background: var(--panel-bg); border-radius: 16px; padding: 24px;
+  margin-bottom: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  border: 2px solid #EEE; opacity: 0; transform: translateY(20px);
+  animation: panelIn 0.5s ease forwards;
+}
+.manga-panel:nth-child(2) { animation-delay: 0.15s; }
+.manga-panel:nth-child(3) { animation-delay: 0.3s; }
+.manga-panel:nth-child(4) { animation-delay: 0.45s; }
+.manga-panel:nth-child(5) { animation-delay: 0.6s; }
+.manga-panel:nth-child(6) { animation-delay: 0.75s; }
+
+.speech { display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start; }
+.speech.right { flex-direction: row-reverse; }
+
+.speech-avatar {
+  width: 56px; height: 56px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; flex-shrink: 0; border: 3px solid;
+}
+.speech-avatar.oyaji { background: #FFF3E0; border-color: #FF8F00; }
+.speech-avatar.student { background: #E3F2FD; border-color: var(--primary-light); }
+.speech-avatar.tsukkomi { background: #F3E5F5; border-color: #AB47BC; }
+
+.speech-bubble {
+  padding: 14px 18px; border-radius: 16px; font-size: 15px;
+  line-height: 1.7; max-width: 85%; position: relative;
+}
+
+.bubble-oyaji { background: #FFF3E0; border: 2px solid #FFE0B2; border-radius: 16px 16px 16px 4px; }
+.bubble-student { background: #E3F2FD; border: 2px solid #BBDEFB; border-radius: 16px 16px 4px 16px; }
+.bubble-tsukkomi { background: #F3E5F5; border: 2px solid #E1BEE7; border-radius: 16px 16px 4px 16px; }
+
+.speech-name { font-size: 11px; font-weight: 700; color: var(--text-light); margin-bottom: 4px; }
+
+.oyaji-gag {
+  background: linear-gradient(135deg, #FFF9C4, #FFF176);
+  border: 3px solid #FFD54F;
+  border-radius: 16px;
+  padding: 16px 20px;
+  margin: 14px 0;
+  text-align: center;
+  position: relative;
+  animation: gagPop 0.5s ease;
+}
+
+.oyaji-gag::before {
+  content: '\1F4A5';
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 28px;
+}
+
+.gag-text {
+  font-size: 20px;
+  font-weight: 900;
+  color: #E65100;
+  letter-spacing: 2px;
+}
+
+.gag-sub {
+  font-size: 12px;
+  color: #BF360C;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+.tsukkomi-text {
+  font-size: 14px;
+  font-weight: 900;
+  color: #7B1FA2;
+  text-align: center;
+  margin: 4px 0 10px;
+  letter-spacing: 1px;
+}
+
+.shiin {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 900;
+  color: #90A4AE;
+  letter-spacing: 12px;
+  margin: 8px 0;
+  animation: shiinFade 1.5s ease;
+}
+
+.highlight-box { border-radius: 12px; padding: 20px; margin: 16px 0; }
+.highlight-box.law { background: linear-gradient(135deg, #E8EAF6, #C5CAE9); border-left: 5px solid #3F51B5; }
+.highlight-box.important { background: linear-gradient(135deg, #FFF3E0, #FFE0B2); border-left: 5px solid var(--warm); }
+.highlight-box.danger { background: linear-gradient(135deg, #FFEBEE, #FFCDD2); border-left: 5px solid var(--accent); }
+.highlight-box.good { background: linear-gradient(135deg, #E8F5E9, #C8E6C9); border-left: 5px solid var(--green); }
+.highlight-box .box-title { font-weight: 900; font-size: 15px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+.highlight-box .box-content { font-size: 14px; line-height: 1.8; }
+
+.scenario { background: #F5F5F5; border-radius: 12px; padding: 20px; margin: 16px 0; border: 2px dashed #CCC; }
+.scenario-title { font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 10px; }
+
+.quiz-box { background: white; border: 3px solid var(--primary); border-radius: 16px; padding: 24px; margin: 20px 0; }
+.quiz-question { font-size: 16px; font-weight: 700; margin-bottom: 16px; color: var(--primary); }
+.quiz-options { display: flex; flex-direction: column; gap: 10px; }
+.quiz-option {
+  padding: 14px 18px; background: #F5F5F5; border: 2px solid #DDD;
+  border-radius: 12px; cursor: pointer; font-size: 14px; font-family: inherit;
+  text-align: left; transition: all 0.3s; line-height: 1.5;
+}
+.quiz-option:hover { border-color: var(--primary-light); background: #E3F2FD; }
+.quiz-option.correct { background: #E8F5E9; border-color: var(--green); }
+.quiz-option.wrong { background: #FFEBEE; border-color: var(--accent); }
+.quiz-feedback { margin-top: 14px; padding: 14px; border-radius: 10px; font-size: 14px; line-height: 1.7; display: none; }
+.quiz-feedback.show { display: block; }
+
+.point-list { list-style: none; padding: 0; }
+.point-list li {
+  padding: 10px 0 10px 36px; position: relative;
+  font-size: 15px; line-height: 1.6; border-bottom: 1px solid #EEE;
+}
+.point-list li::before {
+  content: '\2713'; position: absolute; left: 0;
+  width: 24px; height: 24px; background: var(--green);
+  color: white; border-radius: 50%; display: flex;
+  align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; top: 12px;
+}
+
+.nav-bar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: white; border-top: 2px solid #EEE;
+  padding: 12px 20px; display: flex; justify-content: space-between;
+  align-items: center; z-index: 50;
+}
+.nav-btn {
+  padding: 10px 24px; border: none; border-radius: 30px;
+  font-size: 15px; font-weight: 700; font-family: inherit;
+  cursor: pointer; transition: all 0.2s;
+}
+.nav-btn.prev { background: #EEE; color: var(--text); }
+.nav-btn.next { background: var(--primary); color: white; box-shadow: 0 2px 10px rgba(45,90,142,0.3); }
+.nav-btn:hover { transform: translateY(-2px); }
+.nav-btn:disabled { opacity: 0.3; cursor: default; transform: none; }
+.nav-page { font-size: 13px; color: var(--text-light); font-weight: 700; }
+
+.toc { display: grid; gap: 12px; margin-top: 20px; }
+.toc-item {
+  display: flex; align-items: center; gap: 14px; padding: 16px;
+  background: white; border-radius: 12px; border: 2px solid #EEE;
+  cursor: pointer; transition: all 0.3s;
+}
+.toc-item:hover { border-color: var(--primary-light); transform: translateX(4px); }
+.toc-num {
+  width: 36px; height: 36px; border-radius: 50%; background: var(--primary);
+  color: white; display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 16px; flex-shrink: 0;
+}
+.toc-text { font-size: 15px; font-weight: 700; }
+
+.ending { text-align: center; padding: 40px 20px; }
+.ending-icon { font-size: 80px; margin-bottom: 16px; }
+.ending-title { font-size: 28px; font-weight: 900; color: var(--primary); margin-bottom: 12px; }
+.ending-msg { font-size: 16px; color: var(--text-light); line-height: 1.8; }
+
+.certificate {
+  background: linear-gradient(135deg, #FFF8E1, #FFECB3);
+  border: 3px solid var(--warm); border-radius: 16px;
+  padding: 30px; margin: 30px auto; max-width: 500px;
+}
+.certificate-title { font-size: 22px; font-weight: 900; color: var(--warm); }
+.certificate-body { font-size: 14px; margin-top: 12px; line-height: 1.8; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes bounceIn { 0% { transform: scale(0); } 60% { transform: scale(1.1); } 100% { transform: scale(1); } }
+@keyframes panelIn { to { opacity: 1; transform: translateY(0); } }
+@keyframes pulse { 0%, 100% { box-shadow: 0 4px 20px rgba(45,90,142,0.4); } 50% { box-shadow: 0 4px 30px rgba(45,90,142,0.7); } }
+@keyframes gagPop { 0% { transform: scale(0.5) rotate(-5deg); opacity: 0; } 50% { transform: scale(1.1) rotate(2deg); } 100% { transform: scale(1) rotate(0); } }
+@keyframes shiinFade { 0% { opacity: 0; letter-spacing: 2px; } 100% { opacity: 1; letter-spacing: 12px; } }
+
+@media (max-width: 600px) {
+  .speech-avatar { width: 44px; height: 44px; font-size: 22px; }
+  .speech-bubble { font-size: 13px; }
+  .gag-text { font-size: 17px; }
+}
+</style>
+</head>
+<body>
+
+<!-- TITLE -->
+<div class="title-screen" id="titleScreen">
+  <div class="title-badge">訪問介護 法定研修</div>
+  <div class="title-main">笑って学ぼう！💥<br>認知症及び認知症ケア</div>
+  <div class="title-sub">〜 寄り添う心で支えよう！ 〜<br>※ ギャグのクオリティは保証しません</div>
+  <div class="title-characters">
+    <div class="title-char">
+      <div class="title-char-icon" style="background:#FFF3E0;">🧔</div>
+      <div class="title-char-name">ダジャレ所長<br>（おやじ先生）</div>
+    </div>
+    <div class="title-char">
+      <div class="title-char-icon" style="background:#E3F2FD;">👩</div>
+      <div class="title-char-name">新人ヘルパー<br>さくらさん</div>
+    </div>
+    <div class="title-char">
+      <div class="title-char-icon" style="background:#F3E5F5;">👩‍🦰</div>
+      <div class="title-char-name">ツッコミ担当<br>先輩みさきさん</div>
+    </div>
+  </div>
+  <button class="start-btn" onclick="startTraining()">▶ 研修をはじめる</button>
+</div>
+
+<div class="progress-bar" id="progressBar" style="display:none;"><div class="progress-fill" id="progressFill"></div></div>
+
+
+<div class="page" id="page1">
+  <div class="page-header">
+    <div class="page-chapter">はじめに</div>
+    <div class="page-title">今日の研修メニュー 📋</div>
+  </div>
+  <div class="manga-panel">
+  <div class="speech">
+    <div class="speech-avatar oyaji">🧔</div>
+    <div class="speech-bubble bubble-oyaji">
+      <div class="speech-name">ダジャレ所長</div>
+      今日は「認知症及び認知症ケア」について学びます！頭を柔らかくして、寄り添う心を育てましょう。
+    </div>
+  </div>
+  <div class="speech right">
+    <div class="speech-avatar">👩</div>
+    <div class="speech-bubble bubble-student">
+      <div class="speech-name">さくら</div>
+      よろしくお願いします！初めてのテーマなので、ドキドキします。
+    </div>
+  </div>
+  <div class="speech">
+    <div class="speech-avatar tsukkomi">👩‍🦰</div>
+    <div class="speech-bubble bubble-tsukkomi">
+      <div class="speech-name">みさき先輩</div>
+      所長、今日もダジャレで記憶に残る研修をお願いしますね。
+    </div>
+  </div>
+  <div class="oyaji-gag">
+    <div class="gag-text">認知症ケアは、脳内の迷路から抜け出す、いわば脳（のう）サポート！</div>
+    <div class="gag-sub">※ 脳（のう）サポートという意味です</div>
+  </div>
+  <div class="shiin">シーーーン</div>
+</div>
+<div class="toc">
+  <button class="toc-item">第1章: 認知症の基礎知識</button>
+  <button class="toc-item">第2章: 法律と制度</button>
+  <button class="toc-item">第3章: 認知症ケアの実践</button>
+  <button class="toc-item">第4章: ケーススタディ</button>
+</div>
+</div>
+<div class="page" id="page2">
+  <div class="page-header">
+    <div class="page-chapter">第1章</div>
+    <div class="page-title">認知症の基礎知識</div>
+  </div>
+  <div class="manga-panel">
+  <div class="speech">
+    <div class="speech-avatar oyaji">🧔</div>
+    <div class="speech-bubble bubble-oyaji">
+      <div class="speech-name">ダジャレ所長</div>
+      まずは認知症の基礎を理解しましょう。認知症は、記憶や判断力の障害が進行する病気です。
+    </div>
+  </div>
+  <div class="speech right">
+    <div class="speech-avatar">👩</div>
+    <div class="speech-bubble bubble-student">
+      <div class="speech-name">さくら</div>
+      具体的にはどんな症状があるんですか？
+    </div>
+  </div>
+  <div class="speech">
+    <div class="speech-avatar tsukkomi">👩‍🦰</div>
+    <div class="speech-bubble bubble-tsukkomi">
+      <div class="speech-name">みさき先輩</div>
+      記憶障害や時間感覚の乱れ、日常生活の困難などが挙げられますね。
+    </div>
+  </div>
+  <div class="highlight-box important">
+    <div class="box-title">📘 認知症とは？</div>
+    <div class="box-content">認知症は、脳の機能が低下し、記憶や思考に障害が生じる状態を指します。代表的なものにアルツハイマー型認知症があります。</div>
+  </div>
+  <div class="oyaji-gag">
+    <div class="gag-text">認知症は、脳にノウがない！</div>
+    <div class="gag-sub">※ ノウ（能力）がないという意味です</div>
+  </div>
+  <div class="shiin">シーーーン</div>
+  <div class="scenario">
+    <div class="scenario-title">📖 こんな場面を想像してみよう</div>
+    <p>訪問先で、利用者が何度も同じ質問を繰り返すことがあります。この時、どのように対応すれば良いでしょうか？</p>
+  </div>
+  <div class="highlight-box good">
+    <div class="box-title">✨ 正しい対応</div>
+    <div class="box-content">落ち着いて優しく答え、安心感を与えることが重要です。焦らず、利用者のペースに合わせましょう。</div>
+  </div>
+</div>
+</div>
+<div class="page" id="page3">
+  <div class="page-header">
+    <div class="page-chapter">第2章</div>
+    <div class="page-title">法律と制度</div>
+  </div>
+  <div class="manga-panel">
+  <div class="speech">
+    <div class="speech-avatar oyaji">🧔</div>
+    <div class="speech-bubble bubble-oyaji">
+      <div class="speech-name">ダジャレ所長</div>
+      認知症ケアには、法的な枠組みも大切です。「介護保険法」を知っておくと安心ですよ。
+    </div>
+  </div>
+  <div class="speech right">
+    <div class="speech-avatar">👩</div>
+    <div class="speech-bubble bubble-student">
+      <div class="speech-name">さくら</div>
+      介護保険法って、どんな法律ですか？
+    </div>
+  </div>
+  <div class="speech">
+    <div class="speech-avatar tsukkomi">👩‍🦰</div>
+    <div class="speech-bubble bubble-tsukkomi">
+      <div class="speech-name">みさき先輩</div>
+      高齢者が安心して介護サービスを受けられるようにする法律です。
+    </div>
+  </div>
+  <div class="highlight-box law">
+    <div class="box-title">📘 介護保険法の概要</div>
+    <div class="box-content">介護保険法は、介護が必要な高齢者に適切なサービスを提供するための公的保険制度を規定しています。</div>
+  </div>
+  <div class="oyaji-gag">
+    <div class="gag-text">法の元で、ほっと一息つく！</div>
+    <div class="gag-sub">※ 法（ほう）と一息（ほっと）という意味です</div>
+  </div>
+  <div class="shiin">シーーーン</div>
+  <div class="scenario">
+    <div class="scenario-title">📖 こんな場面を想像してみよう</div>
+    <p>利用者の家族から、介護サービスの内容についての質問を受けました。介護保険法に基づいて、どのように説明しますか？</p>
+  </div>
+  <div class="highlight-box important">
+    <div class="box-title">🔍 NG行為</div>
+    <div class="box-content">法的根拠を曖昧に伝えてしまうと誤解を招きます。正確な情報を提供することが大切です。</div>
+  </div>
+</div>
+</div>
+<div class="page" id="page4">
+  <div class="page-header">
+    <div class="page-chapter">第3章</div>
+    <div class="page-title">認知症ケアの実践</div>
+  </div>
+  <div class="manga-panel">
+  <div class="speech">
+    <div class="speech-avatar oyaji">🧔</div>
+    <div class="speech-bubble bubble-oyaji">
+      <div class="speech-name">ダジャレ所長</div>
+      次は実践編。利用者に寄り添い、日常を支えるケアが求められます。
+    </div>
+  </div>
+  <div class="speech right">
+    <div class="speech-avatar">👩</div>
+    <div class="speech-bubble bubble-student">
+      <div class="speech-name">さくら</div>
+      具体的にはどんなケアがあるんですか？
+    </div>
+  </div>
+  <div class="speech">
+    <div class="speech-avatar tsukkomi">👩‍🦰</div>
+    <div class="speech-bubble bubble-tsukkomi">
+      <div class="speech-name">みさき先輩</div>
+      例えば、本人のペースに合わせて会話をしたり、安心感を与える環境作りが大事です。
+    </div>
+  </div>
+  <div class="highlight-box good">
+    <div class="box-title">✨ 寄り添うケアのポイント</div>
+    <div class="box-content">利用者の話に耳を傾け、共感と安心を提供することで、信頼関係を築きましょう。</div>
+  </div>
+  <div class="oyaji-gag">
+    <div class="gag-text">ケアは気配り、心配り。これが大事な脳（ノウ）ハウ！</div>
+    <div class="gag-sub">※ 脳（ノウ）ハウという意味です</div>
+  </div>
+  <div class="shiin">シーーーン</div>
+  <div class="scenario">
+    <div class="scenario-title">📖 こんな場面を想像してみよう</div>
+    <p>利用者が不安を感じている様子。どのように声かけをして、安心感を与えることができますか？</p>
+  </div>
+  <div class="highlight-box important">
+    <div class="box-title">🔍 NG行為</div>
+    <div class="box-content">強制的に話を進めると、利用者の不安が増すことがあります。無理に急かさないようにしましょう。</div>
+  </div>
+</div>
+</div>
+<div class="page" id="page5">
+  <div class="page-header">
+    <div class="page-chapter">第4章</div>
+    <div class="page-title">ケーススタディ</div>
+  </div>
+  <div class="manga-panel">
+  <div class="speech">
+    <div class="speech-avatar oyaji">🧔</div>
+    <div class="speech-bubble bubble-oyaji">
+      <div class="speech-name">ダジャレ所長</div>
+      最後に、いくつかのケーススタディを通して、実際の対応を学びましょう。
+    </div>
+  </div>
+  <div class="speech right">
+    <div class="speech-avatar">👩</div>
+    <div class="speech-bubble bubble-student">
+      <div class="speech-name">さくら</div>
+      具体的な事例があると、勉強しやすいですね！
+    </div>
+  </div>
+  <div class="speech">
+    <div class="speech-avatar tsukkomi">👩‍🦰</div>
+    <div class="speech-bubble bubble-tsukkomi">
+      <div class="speech-name">みさき先輩</div>
+      さくらちゃん、その意気込みで頑張りましょう！
+    </div>
+  </div>
+  <div class="scenario">
+    <div class="scenario-title">📖 こんな場面を想像してみよう</div>
+    <p>利用者が急に怒り出した。どのように対応しますか？</p>
+  </div>
+  <div class="highlight-box good">
+    <div class="box-title">✨ 正しい対応</div>
+    <div class="box-content">まずは落ち着いて状況を観察し、利用者の気持ちを受け入れる姿勢を示しましょう。</div>
+  </div>
+  <div class="oyaji-gag">
+    <div class="gag-text">怒りを和らげるのは、怒（イカリ）を上手にかわす技術！</div>
+    <div class="gag-sub">※ 怒（イカリ）という意味です</div>
+  </div>
+  <div class="shiin">シーーーン</div>
+  <div class="highlight-box danger">
+    <div class="box-title">⚠️ 注意点</div>
+    <div class="box-content">感情的に対応すると、状況が悪化する場合があります。冷静さを保ちましょう。</div>
+  </div>
+</div>
+</div>
+<div class="page" id="page6">
+  <div class="page-header">
+    <div class="page-chapter">確認クイズ</div>
+    <div class="page-title">確認クイズ＆まとめ</div>
+  </div>
+  <div class="manga-panel">
+  <div class="quiz-box">
+    <div class="quiz-question">❓ クイズ1: 認知症の主な症状はどれですか？</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="checkQuiz(this, false)">A. 身体の痛み</button>
+      <button class="quiz-option" onclick="checkQuiz(this, true)">B. 記憶障害</button>
+      <button class="quiz-option" onclick="checkQuiz(this, false)">C. 聴覚の低下</button>
+      <button class="quiz-option" onclick="checkQuiz(this, false)">D. 視力の悪化</button>
+    </div>
+    <div class="quiz-feedback">認知症の主な症状は記憶障害です。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ クイズ2: 介護保険法の目的は何ですか？</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="checkQuiz(this, false)">A. 高齢者の医療費削減</button>
+      <button class="quiz-option" onclick="checkQuiz(this, true)">B. 高齢者に適切な介護サービスを提供する</button>
+      <button class="quiz-option" onclick="checkQuiz(this, false)">C. 若者の介護負担軽減</button>
+      <button class="quiz-option" onclick="checkQuiz(this, false)">D. 全世代に対する福祉の充実</button>
+    </div>
+    <div class="quiz-feedback">介護保険法の目的は、高齢者に適切な介護サービスを提供することです。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ クイズ3: 認知症ケアで重要なことは何ですか？</div>
+    <div class="quiz-options">
+      <button class="quiz-option" onclick="checkQuiz(this, false)">A. 常に急いで対応する</button>
+      <button class="quiz-option" onclick="checkQuiz(this, false)">B. 大声で説明する</button>
+      <button class="quiz-option" onclick="checkQuiz(this, true)">C. 利用者に寄り添い安心感を与える</button>
+      <button class="quiz-option" onclick="checkQuiz(this, false)">D. 家族にすべて任せる</button>
+    </div>
+    <div class="quiz-feedback">認知症ケアでは、利用者に寄り添い安心感を与えることが重要です。</div>
+  </div>
+  <ul class="point-list">
+    <li>認知症は記憶や判断力に影響を及ぼす病気。</li>
+    <li>介護保険法は高齢者に適切な介護サービスを提供する。</li>
+    <li>ケアでは、利用者に寄り添い共感を示すことが大切。</li>
+  </ul>
+  <div class="conclusion">
+    お疲れ様でした！これからも利用者に寄り添う心を大切に、素晴らしいヘルパーになってくださいね。
+  </div>
+</div>
+</div>
+
+<div class="nav-bar" id="navBar" style="display:none;">
+  <button class="nav-btn prev" id="prevBtn" onclick="prevPage()">◀ 前へ</button>
+  <span class="nav-page" id="pageNum">1 / 6</span>
+  <button class="nav-btn next" id="nextBtn" onclick="nextPage()">次へ ▶</button>
+</div>
+
+<script>
+let currentPage = 0;
+const totalPages = 6;
+
+function startTraining() {
+  document.getElementById('titleScreen').style.display = 'none';
+  document.getElementById('progressBar').style.display = 'block';
+  document.getElementById('navBar').style.display = 'flex';
+  currentPage = 1;
+  showPage(currentPage);
+}
+
+function showPage(n) {
+  document.querySelectorAll('.page').forEach(p => { p.classList.remove('active'); });
+  const page = document.getElementById('page' + n);
+  if (page) {
+    page.classList.add('active');
+    page.querySelectorAll('.manga-panel').forEach(p => {
+      p.style.animation = 'none';
+      p.offsetHeight;
+      p.style.animation = '';
+    });
+  }
+  document.getElementById('prevBtn').disabled = (n <= 1);
+  document.getElementById('nextBtn').textContent = (n >= totalPages) ? '🎉 完了！' : '次へ ▶';
+  document.getElementById('pageNum').textContent = n + ' / ' + totalPages;
+  document.getElementById('progressFill').style.width = ((n / totalPages) * 100) + '%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function nextPage() {
+  if (currentPage < totalPages) { currentPage++; showPage(currentPage); }
+}
+
+function prevPage() {
+  if (currentPage > 1) { currentPage--; showPage(currentPage); }
+}
+
+function goToPage(n) { currentPage = n; showPage(n); }
+
+function checkQuiz(btn, isCorrect) {
+  const quizBox = btn.closest('.quiz-box');
+  const options = quizBox.querySelectorAll('.quiz-option');
+  options.forEach(o => { o.disabled = true; o.style.pointerEvents = 'none'; });
+  if (isCorrect) {
+    btn.classList.add('correct');
+    const fb = quizBox.querySelector('.quiz-feedback');
+    if (fb) { fb.classList.add('show'); fb.style.background = '#E8F5E9'; }
+  } else {
+    btn.classList.add('wrong');
+    options.forEach(o => { if (o.getAttribute('onclick') && o.getAttribute('onclick').includes('true')) o.classList.add('correct'); });
+    const fb = quizBox.querySelector('.quiz-feedback');
+    if (fb) { fb.classList.add('show'); fb.style.background = '#FFEBEE'; }
+  }
+}
+</script>
+</body>
+</html>

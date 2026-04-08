@@ -1,0 +1,83 @@
+[
+  {
+    "id": "privacy",
+    "title": "プライバシー保護・個人情報保護",
+    "subtitle": "〜 秘密はヒミツのままに！ 〜",
+    "icon": "🔒",
+    "description": "個人情報保護法と介護現場でのプライバシー保護のルールを学びます。",
+    "file": "privacy.html",
+    "date": "2026-04-08"
+  },
+  {
+    "id": "dementia",
+    "title": "認知症及び認知症ケア",
+    "subtitle": "〜 寄り添う心で支えよう！ 〜",
+    "icon": "🧠",
+    "description": "認知症の基本的な理解と、適切なケアの方法を学びます。",
+    "file": "dementia.html",
+    "date": "2026-04-08"
+  },
+  {
+    "id": "abuse-prevention",
+    "title": "高齢者虐待防止・人権擁護",
+    "subtitle": "〜 守るべきは尊厳だ！ 〜",
+    "icon": "🛡️",
+    "description": "高齢者虐待の種類と防止策、人権擁護について学びます。",
+    "file": "abuse-prevention.html",
+    "date": "2026-04-08"
+  },
+  {
+    "id": "accident-prevention",
+    "title": "事故発生又は再発防止",
+    "subtitle": "〜 転ばぬ先の知恵！ 〜",
+    "icon": "⚠️",
+    "description": "介護現場での事故防止と、万が一の際の対応方法を学びます。",
+    "file": "accident-prevention.html",
+    "date": "2026-04-08"
+  },
+  {
+    "id": "emergency",
+    "title": "緊急時の対応",
+    "subtitle": "〜 いざという時に慌てない！ 〜",
+    "icon": "🚨",
+    "description": "利用者の急変時や災害時の緊急対応について学びます。",
+    "file": "emergency.html",
+    "date": "2026-04-08"
+  },
+  {
+    "id": "infection-control",
+    "title": "感染症・食中毒の予防と蔓延防止",
+    "subtitle": "〜 バイキンにバイバイキン！ 〜",
+    "icon": "🦠",
+    "description": "感染症・食中毒の予防策と、発生時の対応を学びます。",
+    "file": "infection-control.html",
+    "date": "2026-04-08"
+  },
+  {
+    "id": "hospitality",
+    "title": "接遇・マナー",
+    "subtitle": "〜 笑顔は最高のケア！ 〜",
+    "icon": "😊",
+    "description": "利用者やご家族への接し方、ビジネスマナーを学びます。",
+    "file": "hospitality.html",
+    "date": "2026-04-08"
+  },
+  {
+    "id": "harassment",
+    "title": "ハラスメント防止",
+    "subtitle": "〜 一人で抱え込まないで！ 〜",
+    "icon": "🤝",
+    "description": "職場やサービス現場でのハラスメント防止と対策を学びます。",
+    "file": "harassment.html",
+    "date": "2026-04-08"
+  },
+  {
+    "id": "bcp",
+    "title": "業務継続計画（BCP）・災害対応",
+    "subtitle": "〜 備えあれば憂いなし！ 〜",
+    "icon": "🏗️",
+    "description": "感染症や災害発生時の業務継続計画について学びます。",
+    "file": "bcp.html",
+    "date": "2026-04-08"
+  }
+]

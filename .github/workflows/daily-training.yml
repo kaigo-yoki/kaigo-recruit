@@ -1,0 +1,42 @@
+name: 法定研修自動生成
+
+on:
+  schedule:
+    # 毎日 JST 9:00 (UTC 0:00) に実行
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+    # 手動実行も可能
+
+# 権限を最小限に制限
+permissions:
+  contents: write
+
+jobs:
+  generate-training:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v4
+
+      - name: Node.js セットアップ
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 依存関係をインストール
+        run: npm ci --ignore-scripts
+
+      - name: 研修コンテンツを生成
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: npm run generate-training
+
+      - name: 変更をコミット & プッシュ
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add trainings/
+          # 変更がある場合のみコミット
+          git diff --staged --quiet || git commit -m "法定研修コンテンツを自動生成 ($(date +'%Y-%m-%d'))"
+          git push
