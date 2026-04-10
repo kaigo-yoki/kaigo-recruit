@@ -1,0 +1,8 @@
+{
+  "lastUpdated": "2026-04-10",
+  "facilities": [
+    { "id": "HOME1", "name": "ホーム1", "capacity": 18, "occupied": 15 },
+    { "id": "HOME2", "name": "ホーム2", "capacity": 26, "occupied": 12 },
+    { "id": "HOME3", "name": "ホーム3", "capacity": 29, "occupied": 12 }
+  ]
+}
