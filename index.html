@@ -25,8 +25,8 @@
 <meta name="twitter:title" content="介護職員募集 | 訪問介護 ようき（沖縄県南城市）">
 <meta name="twitter:description" content="未経験OK・資格取得全額補助・月給23万〜38万円・5等級キャリアパス制度。沖縄で介護のお仕事。">
 <meta name="twitter:image" content="https://kaigo-recruit.vercel.app/favicon.png">
-<link rel="icon" type="image/png" href="/favicon.png">
-<link rel="apple-touch-icon" href="/favicon.png">
+<link rel="icon" type="image/png" href="./favicon.png">
+<link rel="apple-touch-icon" href="./favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;800;900&family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -344,7 +344,7 @@ footer{background:#2D3436;color:rgba(255,255,255,.6);padding:56px 48px;text-alig
 <!-- HEADER -->
 <header>
   <div class="logo-w">
-    <div class="logo-icon"><img src="/favicon.png" alt="陽気ロゴ"></div>
+    <div class="logo-icon"><img src="./favicon.png" alt="陽気ロゴ"></div>
     <div class="logo-t">訪問介護 ようき<span>有限会社 陽気</span></div>
   </div>
   <nav>
@@ -355,11 +355,11 @@ footer{background:#2D3436;color:rgba(255,255,255,.6);padding:56px 48px;text-alig
     <a href="#features">特徴</a>
     <a href="#requirements">募集要項</a>
     <a href="#blog">ブログ</a>
-    <a href="/shindan">適性診断</a>
-    <a href="/kenshu">研修</a>
-    <a href="/career-path" class="nav-highlight">キャリアパス</a>
-    <a href="/vacancy">🏠 空床情報</a>
-    <a href="/contact" class="nav-cta">📝 お問い合わせ</a>
+    <a href="./shindan">適性診断</a>
+    <a href="./kenshu">研修</a>
+    <a href="./career-path" class="nav-highlight">キャリアパス</a>
+    <a href="./vacancy">🏠 空床情報</a>
+    <a href="./contact" class="nav-cta">📝 お問い合わせ</a>
   </nav>
 </header>
 
@@ -384,8 +384,8 @@ footer{background:#2D3436;color:rgba(255,255,255,.6);padding:56px 48px;text-alig
       </p>
       <div class="hbtns">
         <a href="#cta" class="btn-m">まずは話を聞く &#x2192;</a>
-        <a href="/shindan" class="btn-s">&#x1F52E; 適性診断をやってみる</a>
-        <a href="/kenshu" class="btn-s">&#x1F4DD; スタッフ研修</a>
+        <a href="./shindan" class="btn-s">&#x1F52E; 適性診断をやってみる</a>
+        <a href="./kenshu" class="btn-s">&#x1F4DD; スタッフ研修</a>
       </div>
       <div class="hstats">
         <div class="stat"><span class="snum">7</span><span class="slab">シフトパターン</span></div>
@@ -722,7 +722,7 @@ footer{background:#2D3436;color:rgba(255,255,255,.6);padding:56px 48px;text-alig
       <a href="tel:098-852-5255" class="cta-phone">
         &#x1F4DE; 098-852-5255
       </a>
-      <a href="/contact" class="cta-form">
+      <a href="./contact" class="cta-form">
         📝 Webでお問い合わせ
       </a>
     </div>
@@ -736,7 +736,7 @@ footer{background:#2D3436;color:rgba(255,255,255,.6);padding:56px 48px;text-alig
 <!-- FOOTER -->
 <footer>
   <div class="flogo">
-    <div class="flogo-icon"><img src="/favicon.png" alt="陽気ロゴ"></div>
+    <div class="flogo-icon"><img src="./favicon.png" alt="陽気ロゴ"></div>
     <span class="fname">有限会社 陽気 - 訪問介護 ようき</span>
   </div>
   <div class="fsocial">
@@ -748,7 +748,7 @@ footer{background:#2D3436;color:rgba(255,255,255,.6);padding:56px 48px;text-alig
   <div class="finfo">
     &#x1F4CD; 沖縄県南城市佐敷津波古1354-1<br>
     &#x1F4DE; <a href="tel:098-852-5255">098-852-5255</a><br>
-    <a href="/vacancy" style="color:rgba(255,255,255,.8);text-decoration:underline;">🏠 空床状況のご案内</a> ｜ <a href="/admin" style="color:rgba(255,255,255,.4);text-decoration:none;font-size:11px;">管理者ログイン</a><br>
+    <a href="./vacancy" style="color:rgba(255,255,255,.8);text-decoration:underline;">🏠 空床状況のご案内</a> ｜ <a href="./admin" style="color:rgba(255,255,255,.4);text-decoration:none;font-size:11px;">管理者ログイン</a><br>
     明るく・温かく・ゆったりと<br>
     &copy; 2026 有限会社 陽気. All rights reserved.
   </div>
@@ -774,14 +774,14 @@ const catColors={
   'キャリア':{bg:'#F0EDFF',c:'#A78BFA'},'沖縄':{bg:'#FFFBE6',c:'#E6A800'},
   'コミュニケーション':{bg:'#FFF0F5',c:'#FF6B9D'},'健康':{bg:'#E8FAF8',c:'#4ECDC4'}
 };
-fetch('/posts/posts.json?_t='+Date.now()).then(r=>r.json()).then(posts=>{
+fetch('./posts/posts.json?_t='+Date.now()).then(r=>r.json()).then(posts=>{
   const list=document.getElementById('blog-list');
   if(!list||!posts.length)return;
   const show=posts.slice(0,6);
   list.innerHTML=show.map(p=>{
     const cc=catColors[p.category]||{bg:'#F0EDFF',c:'#A78BFA'};
     const [y,m,d]=p.date.split('-');
-    return `<a href="/posts/${p.file}" class="blog-card">
+    return `<a href="./posts/${p.file}" class="blog-card">
       <span class="blog-cat" style="background:${cc.bg};color:${cc.c}">${p.category}</span>
       <div class="blog-title">${p.title}</div>
       <div class="blog-date">${y}年${parseInt(m)}月${parseInt(d)}日</div>

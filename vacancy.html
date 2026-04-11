@@ -7,7 +7,7 @@
 <meta name="description" content="有限会社 陽気が運営するホームいこい ようき 3施設の空床状況をリアルタイムでご確認いただけます。ご入居相談はお気軽にお電話ください。">
 <meta name="keywords" content="空床,空室,入居,介護施設,南城市,沖縄,ホームいこい,ようき,有料老人ホーム">
 <link rel="canonical" href="https://kaigo-recruit.vercel.app/vacancy">
-<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="icon" type="image/png" href="./favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800;900&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -123,11 +123,11 @@ footer a{color:rgba(255,255,255,.7);text-decoration:none;}
 <body>
 
 <div class="header">
-  <a href="/" class="logo-w">
-    <img src="/favicon.png" alt="ようきロゴ">
+  <a href="./" class="logo-w">
+    <img src="./favicon.png" alt="ようきロゴ">
     <div class="logo-t">ホームいこい ようき<span>有限会社 陽気</span></div>
   </a>
-  <a href="/" class="back-link">← 採用情報へ</a>
+  <a href="./" class="back-link">← 採用情報へ</a>
 </div>
 
 <div class="hero">
@@ -162,7 +162,7 @@ footer a{color:rgba(255,255,255,.7);text-decoration:none;}
 </div>
 
 <footer>
-  <a href="/">訪問介護 ようき 採用サイト</a> ｜ <a href="/admin">管理者ログイン</a><br>
+  <a href="./">訪問介護 ようき 採用サイト</a> ｜ <a href="./admin">管理者ログイン</a><br>
   &copy; 2026 有限会社 陽気. All rights reserved.
 </footer>
 
@@ -204,7 +204,7 @@ async function loadData() {
   } catch (e) {
     // APIが利用不可の場合、vacancy.jsonにフォールバック
     try {
-      const res = await fetch('/data/vacancy.json?' + Date.now());
+      const res = await fetch('./data/vacancy.json?' + Date.now());
       const data = await res.json();
       render(data);
     } catch (e2) {

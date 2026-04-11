@@ -17,7 +17,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="法定研修一覧 | 訪問介護 ようき">
 <meta name="twitter:description" content="厚生労働省準拠の全10テーマ法定研修。漫画形式で楽しく学べる。">
-<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="icon" type="image/png" href="./favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Kosugi+Maru&display=swap" rel="stylesheet">
@@ -97,7 +97,7 @@ main{max-width:900px;margin:0 auto;padding:40px 24px 80px;}
 <body>
 
 <div class="header">
-  <a href="/">← トップへ戻る</a>
+  <a href="./">← トップへ戻る</a>
   <span>訪問介護 ようき</span>
 </div>
 
@@ -124,12 +124,12 @@ main{max-width:900px;margin:0 auto;padding:40px 24px 80px;}
   </div>
 
   <div style="text-align:center;margin-top:32px;">
-    <a href="/kobetsu-kenshu" style="display:inline-block;background:linear-gradient(135deg,#1565C0,#42A5F5);color:#fff;padding:16px 36px;border-radius:50px;font-size:16px;font-weight:900;text-decoration:none;box-shadow:0 6px 20px rgba(21,101,192,.3);transition:all .3s;">🎓 個別研修（階層別）はこちら →</a>
+    <a href="./kobetsu-kenshu" style="display:inline-block;background:linear-gradient(135deg,#1565C0,#42A5F5);color:#fff;padding:16px 36px;border-radius:50px;font-size:16px;font-weight:900;text-decoration:none;box-shadow:0 6px 20px rgba(21,101,192,.3);transition:all .3s;">🎓 個別研修（階層別）はこちら →</a>
   </div>
 </main>
 
 <div class="footer">
-  <a href="/">← 採用トップページへ戻る</a><br><br>
+  <a href="./">← 採用トップページへ戻る</a><br><br>
   訪問介護 ようき（有限会社 陽気）<br>
   © 2025 有限会社 陽気. All rights reserved.
 </div>
@@ -153,7 +153,7 @@ async function loadTrainings() {
   let trainingsData = [];
 
   try {
-    const res = await fetch('/trainings/trainings.json?_t=' + Date.now());
+    const res = await fetch('./trainings/trainings.json?_t=' + Date.now());
     trainingsData = await res.json();
   } catch(e) {}
 

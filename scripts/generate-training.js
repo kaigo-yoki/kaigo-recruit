@@ -319,7 +319,7 @@ function buildTrainingHTML(theme, trainingData) {
 <title>訪問介護 ${theme.title} 研修 ${theme.subtitle}</title>
 <meta name="description" content="${theme.description} 訪問介護ようき（有限会社 陽気）の法定研修コンテンツ。">
 <link rel="canonical" href="${SITE_URL}/trainings/${theme.id}">
-<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="icon" type="image/png" href="../favicon.png">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Kosugi+Maru&display=swap');
 

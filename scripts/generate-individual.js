@@ -321,7 +321,7 @@ function buildHTML(theme, data) {
 <title>${theme.level} ${theme.title} | 訪問介護 ようき 個別研修</title>
 <meta name="description" content="${theme.description} 訪問介護ようき（有限会社 陽気）の${theme.level}個別研修。">
 <link rel="canonical" href="${SITE_URL}/individual-training/${theme.id}">
-<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="icon" type="image/png" href="../favicon.png">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Kosugi+Maru&display=swap');
 :root{--primary:${theme.levelColor};--primary-light:${theme.levelColor}CC;--accent:#E8594F;--warm:#F9A826;--green:#4CAF7D;--bg:#FFF8F0;--panel-bg:#FFFFFF;--text:#2C2C2C;--text-light:#666666;}
