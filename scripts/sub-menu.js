@@ -47,7 +47,7 @@
   document.head.appendChild(css);
 
   /* ── ヘッダーを探す or 作成 ── */
-  var existingHeader = document.querySelector('.header, header');
+  var existingHeader = document.querySelector('.header, header, .site-header');
   if (!existingHeader) return;
 
   // blog.htmlなど既にheader-navがあるページはPCナビ注入をスキップ
