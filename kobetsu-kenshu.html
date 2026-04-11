@@ -98,7 +98,7 @@ tr:nth-child(even) td{background:#FAFAFA;}
 <body>
 
 <div class="header">
-  <a href="./kenshu">← 研修一覧へ</a>
+  <a href="./kenshu.html">← 研修一覧へ</a>
   <span>訪問介護 ようき</span>
 </div>
 
@@ -172,7 +172,7 @@ tr:nth-child(even) td{background:#FAFAFA;}
   </div>
 
   <div class="nav-links">
-    <a href="./kenshu">📚 法定研修一覧</a>
+    <a href="./kenshu.html">📚 法定研修一覧</a>
     <a href="./">🏠 トップページ</a>
   </div>
 </main>
@@ -213,7 +213,7 @@ async function load() {
       const isReady = genIds.includes(t.id);
       const info = data.find(d => d.id === t.id);
       const tag = isReady ? 'a' : 'div';
-      const href = isReady ? ` href="./individual-training/${t.id}"` : '';
+      const href = isReady ? ` href="./individual-training/${t.id}.html"` : '';
       const status = isReady
         ? '<span class="card-status ready">✅ 受講可能</span>'
         : '<span class="card-status coming">🔜 準備中</span>';

@@ -124,7 +124,7 @@ main{max-width:900px;margin:0 auto;padding:40px 24px 80px;}
   </div>
 
   <div style="text-align:center;margin-top:32px;">
-    <a href="./kobetsu-kenshu" style="display:inline-block;background:linear-gradient(135deg,#1565C0,#42A5F5);color:#fff;padding:16px 36px;border-radius:50px;font-size:16px;font-weight:900;text-decoration:none;box-shadow:0 6px 20px rgba(21,101,192,.3);transition:all .3s;">🎓 個別研修（階層別）はこちら →</a>
+    <a href="./kobetsu-kenshu.html" style="display:inline-block;background:linear-gradient(135deg,#1565C0,#42A5F5);color:#fff;padding:16px 36px;border-radius:50px;font-size:16px;font-weight:900;text-decoration:none;box-shadow:0 6px 20px rgba(21,101,192,.3);transition:all .3s;">🎓 個別研修（階層別）はこちら →</a>
   </div>
 </main>
 
@@ -136,7 +136,7 @@ main{max-width:900px;margin:0 auto;padding:40px 24px 80px;}
 
 <script>
 const ALL_THEMES = [
-  { id: 'rinri', title: '倫理・法令遵守（コンプライアンス）', icon: '⚖️', desc: '法律やルール、職業倫理を守ることの大切さを学びます。', url: '/rinri-kenshu' },
+  { id: 'rinri', title: '倫理・法令遵守（コンプライアンス）', icon: '⚖️', desc: '法律やルール、職業倫理を守ることの大切さを学びます。', url: './rinri-kenshu.html' },
   { id: 'privacy', title: 'プライバシー保護・個人情報保護', icon: '🔒', desc: '個人情報保護法と介護現場でのプライバシー保護のルールを学びます。' },
   { id: 'dementia', title: '認知症及び認知症ケア', icon: '🧠', desc: '認知症の基本的な理解と、適切なケアの方法を学びます。' },
   { id: 'abuse-prevention', title: '高齢者虐待防止・人権擁護', icon: '🛡️', desc: '高齢者虐待の種類と防止策、人権擁護について学びます。' },
@@ -166,7 +166,7 @@ async function loadTrainings() {
     if (theme.url) {
       url = theme.url;
     } else if (isGenerated) {
-      url = '/trainings/' + theme.id;
+      url = './trainings/' + theme.id + '.html';
     }
 
     const statusHTML = isGenerated
