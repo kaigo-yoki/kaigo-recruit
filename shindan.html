@@ -7,12 +7,12 @@
 <meta name="description" content="訪問介護ようきの性格タイプ適性診断。20問の質問であなたの介護適性を16タイプで分析。PDFレポート付き。未経験から介護職を目指す方に最適な自己診断ツール。">
 <meta name="keywords" content="介護適性診断,性格診断,訪問介護,ようき,沖縄,適性チェック,介護職,MBTI,自己分析,介護求人">
 <meta name="robots" content="index, follow">
-<link rel="canonical" href="https://kaigo-recruit.vercel.app/shindan">
+<link rel="canonical" href="https://kaigo-yoki.jp/recruit/shindan.html">
 <meta property="og:title" content="介護職適性診断 | 訪問介護 ようき - 16タイプで相性チェック">
 <meta property="og:description" content="20問の診断であなたの介護適性を16タイプで分析。PDFレポート付きの無料診断。">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://kaigo-recruit.vercel.app/shindan">
-<meta property="og:image" content="https://kaigo-recruit.vercel.app/favicon.png">
+<meta property="og:url" content="https://kaigo-yoki.jp/recruit/shindan.html">
+<meta property="og:image" content="https://kaigo-yoki.jp/recruit/favicon.png">
 <meta property="og:site_name" content="訪問介護 ようき 採用サイト">
 <meta property="og:locale" content="ja_JP">
 <meta name="twitter:card" content="summary">
@@ -20,7 +20,7 @@
 <meta name="twitter:description" content="20問で介護適性を16タイプ判定。PDFレポート付き無料診断。">
 <link rel="icon" type="image/png" href="./favicon.png">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"採用情報","item":"https://kaigo-recruit.vercel.app/"},{"@type":"ListItem","position":2,"name":"適性診断","item":"https://kaigo-recruit.vercel.app/shindan"}]}
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"採用情報","item":"https://kaigo-yoki.jp/recruit/"},{"@type":"ListItem","position":2,"name":"適性診断","item":"https://kaigo-yoki.jp/recruit/shindan.html"}]}
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -533,7 +533,7 @@ async function generatePDF() {
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(8);
   doc.text('Home Ikoi | Youki Home Care | TEL: 098-852-5255', W/2, H - 10, { align:'center' });
-  doc.text('https://kaigo-recruit.vercel.app', W/2, H - 5, { align:'center' });
+  doc.text('https://kaigo-yoki.jp/recruit', W/2, H - 5, { align:'center' });
 
   doc.save(`youki-shindan-${r.type}.pdf`);
 }

@@ -6,7 +6,7 @@ const path = require('path');
 const POSTS_DIR = path.join(__dirname, '..', 'posts');
 const POSTS_JSON = path.join(POSTS_DIR, 'posts.json');
 const SITEMAP_PATH = path.join(__dirname, '..', 'sitemap.xml');
-const SITE_URL = 'https://kaigo-recruit.vercel.app';
+const SITE_URL = 'https://kaigo-yoki.jp/recruit';
 
 // ===== テーマプール =====
 const THEMES = [
@@ -228,6 +228,12 @@ time{font-size:13px;color:#B2BEC3;font-weight:500;}
 .post-nav-list:hover{background:linear-gradient(135deg,#FF6B9D,#FF8C42);color:#fff;transform:translateY(-2px);box-shadow:0 6px 20px rgba(255,107,157,.3);}
 @media(max-width:480px){.post-nav-links{grid-template-columns:1fr;}.post-nav-link.next{text-align:left;justify-content:flex-start;}}
 </style>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","headline":"${title}","datePublished":"${date}","dateModified":"${date}","author":{"@type":"Organization","name":"有限会社 陽気"},"publisher":{"@type":"Organization","name":"訪問介護 ようき","logo":{"@type":"ImageObject","url":"${SITE_URL}/favicon.png"}},"mainEntityOfPage":{"@type":"WebPage","@id":"${postUrl}.html"},"articleSection":"${category}"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"採用情報","item":"${SITE_URL}/"},{"@type":"ListItem","position":2,"name":"ブログ","item":"${SITE_URL}/blog.html"},{"@type":"ListItem","position":3,"name":"${title}","item":"${postUrl}.html"}]}
+</script>
 </head>
 <body>
 <header>
@@ -294,12 +300,28 @@ function generateSitemap(posts) {
   let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
   xml += `  <url>\n    <loc>${SITE_URL}/</loc>\n    <changefreq>weekly</changefreq>\n    <priority>1.0</priority>\n  </url>\n`;
 
+  // 主要ページ
+  const pages = [
+    {path: 'blog.html', freq: 'daily', pri: '0.9'},
+    {path: 'shindan.html', freq: 'monthly', pri: '0.8'},
+    {path: 'kenshu.html', freq: 'monthly', pri: '0.8'},
+    {path: 'career-path.html', freq: 'monthly', pri: '0.8'},
+    {path: 'vacancy.html', freq: 'weekly', pri: '0.8'},
+    {path: 'contact.html', freq: 'monthly', pri: '0.8'},
+    {path: 'kobetsu-kenshu.html', freq: 'monthly', pri: '0.7'},
+    {path: 'rinri-kenshu.html', freq: 'monthly', pri: '0.7'},
+  ];
+  for (const p of pages) {
+    xml += `  <url>\n    <loc>${SITE_URL}/${p.path}</loc>\n    <changefreq>${p.freq}</changefreq>\n    <priority>${p.pri}</priority>\n  </url>\n`;
+  }
+
+  // ブログ記事
   for (const post of posts) {
     xml += `  <url>\n`;
-    xml += `    <loc>${SITE_URL}/posts/${post.date}</loc>\n`;
+    xml += `    <loc>${SITE_URL}/posts/${post.date}.html</loc>\n`;
     xml += `    <lastmod>${post.date}</lastmod>\n`;
     xml += `    <changefreq>monthly</changefreq>\n`;
-    xml += `    <priority>0.7</priority>\n`;
+    xml += `    <priority>0.6</priority>\n`;
     xml += `  </url>\n`;
   }
 

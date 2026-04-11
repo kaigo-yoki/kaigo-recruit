@@ -5,7 +5,7 @@ const path = require('path');
 // ===== 設定 =====
 const TRAININGS_DIR = path.join(__dirname, '..', 'trainings');
 const TRAININGS_JSON = path.join(TRAININGS_DIR, 'trainings.json');
-const SITE_URL = 'https://kaigo-recruit.vercel.app';
+const SITE_URL = 'https://kaigo-yoki.jp/recruit';
 
 // ===== 法定研修テーマプール（厚生労働省準拠） =====
 const TRAINING_THEMES = [

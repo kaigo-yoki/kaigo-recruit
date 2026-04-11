@@ -5,7 +5,7 @@ const path = require('path');
 // ===== 設定 =====
 const INDIVIDUAL_DIR = path.join(__dirname, '..', 'individual-training');
 const INDIVIDUAL_JSON = path.join(INDIVIDUAL_DIR, 'individual.json');
-const SITE_URL = 'https://kaigo-recruit.vercel.app';
+const SITE_URL = 'https://kaigo-yoki.jp/recruit';
 
 // ===== 個別研修テーマ（年間計画 3か月に1回 × 3階層） =====
 const INDIVIDUAL_THEMES = [
