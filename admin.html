@@ -619,37 +619,22 @@ async function saveVacancyToAPI() {
   btn.disabled = true;
   btn.textContent = '⏳ 保存中...';
 
-  // Always save locally first
+  // Save locally
   const data = saveVacancyLocal();
 
-  try {
-    const res = await fetch('/api/update-vacancy', {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer youki8131'
-      },
-      body: JSON.stringify({ facilities: data.facilities })
-    });
+  // Also auto-download the JSON for easy update
+  const json = JSON.stringify(data, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'vacancy.json';
+  a.click();
+  URL.revokeObjectURL(url);
 
-    const result = await res.json();
-
-    if (result.success) {
-      msg.className = 'msg success';
-      msg.textContent = '✅ ' + result.message;
-      statusEl.textContent = '最終保存: ' + new Date().toLocaleString('ja-JP');
-    } else {
-      // API failed, but local save worked
-      msg.className = 'msg warn';
-      msg.textContent = '⚠️ ローカル保存は完了。公開ページへの自動反映に失敗: ' + result.error;
-      statusEl.textContent = 'JSONダウンロードで手動更新してください';
-    }
-  } catch (e) {
-    // API not available (local dev or GITHUB_TOKEN not set)
-    msg.className = 'msg warn';
-    msg.textContent = '⚠️ ローカル保存は完了。自動反映が未設定の場合は「JSONダウンロード」をご利用ください。';
-    statusEl.textContent = '';
-  }
+  msg.className = 'msg success';
+  msg.textContent = '✅ 保存完了！vacancy.json がダウンロードされました。プロジェクトの data/ フォルダに上書きして Git Push すると公開ページに反映されます。';
+  statusEl.textContent = '最終保存: ' + new Date().toLocaleString('ja-JP');
 
   btn.disabled = false;
   btn.textContent = '💾 保存して公開ページに反映';
@@ -669,38 +654,40 @@ function downloadVacancyJSON() {
 }
 
 // ===== AIMANA SYNC =====
+const AIMANA_API = 'https://asia-northeast1-aimana-8a09c.cloudfunctions.net/getCompanyData';
+
 async function loadAimanaData() {
   const statusEl = document.getElementById('aimanaStatus');
   const statsEl = document.getElementById('aimanaStats');
   const diffEl = document.getElementById('aimanaDiff');
 
   try {
-    const res = await fetch('/api/aimana-sync');
-    const result = await res.json();
+    const res = await fetch(AIMANA_API);
+    const data = await res.json();
 
-    if (!result.success) throw new Error(result.error);
+    if (!data.success || !data.company) throw new Error('データ形式が不正です');
 
-    const d = result.data;
+    const c = data.company;
     statusEl.textContent = '✅ 接続中';
     statusEl.className = 'aimana-status ok';
 
     // Last activity
     let lastActivity = '-';
-    if (d.lastActivityAt && d.lastActivityAt._seconds) {
-      lastActivity = new Date(d.lastActivityAt._seconds * 1000).toLocaleString('ja-JP');
+    if (c.lastActivityAt && c.lastActivityAt._seconds) {
+      lastActivity = new Date(c.lastActivityAt._seconds * 1000).toLocaleString('ja-JP');
     }
 
     statsEl.innerHTML = `
       <div class="aimana-stat">
-        <div class="num">${d.insuredPersonCount}</div>
+        <div class="num">${c.insuredPersonCount || 0}</div>
         <div class="label">登録利用者数（全施設）</div>
       </div>
       <div class="aimana-stat">
-        <div class="num">${d.thisMonth}</div>
+        <div class="num">${c.thisMonth || 0}</div>
         <div class="label">今月</div>
       </div>
       <div class="aimana-stat">
-        <div class="num">${d.lastMonth}</div>
+        <div class="num">${c.lastMonth || 0}</div>
         <div class="label">先月</div>
       </div>
       <div class="aimana-stat">
@@ -712,7 +699,7 @@ async function loadAimanaData() {
     // Compare with local vacancy data
     const vacData = getVacancyData();
     const localTotal = vacData.facilities.reduce((s, f) => s + f.occupied, 0);
-    const diff = d.insuredPersonCount - localTotal;
+    const diff = c.insuredPersonCount - localTotal;
 
     diffEl.style.display = 'flex';
     if (diff === 0) {
@@ -720,16 +707,16 @@ async function loadAimanaData() {
       diffEl.innerHTML = '✅ 介護のまなの利用者数と施設合計が一致しています';
     } else {
       diffEl.className = 'aimana-diff mismatch';
-      diffEl.innerHTML = `⚠️ 介護のまな: ${d.insuredPersonCount}名（全5施設） / 下記3施設の合計: ${localTotal}名（差: ${diff}名はホーム4・5の利用者と推測）`;
+      diffEl.innerHTML = `⚠️ 介護のまな: ${c.insuredPersonCount}名（全5施設） / 下記3施設の合計: ${localTotal}名（差: ${diff}名はホーム4・5の利用者と推測）`;
     }
 
     // Store for change detection
     const prevCount = localStorage.getItem('aimana_prev_count');
-    if (prevCount && parseInt(prevCount) !== d.insuredPersonCount) {
+    if (prevCount && parseInt(prevCount) !== c.insuredPersonCount) {
       diffEl.innerHTML += '<br>🔔 <strong>前回確認時から利用者数が変化しています！</strong> 空床状況を確認してください。';
       diffEl.className = 'aimana-diff mismatch';
     }
-    localStorage.setItem('aimana_prev_count', d.insuredPersonCount);
+    localStorage.setItem('aimana_prev_count', c.insuredPersonCount);
 
   } catch (e) {
     statusEl.textContent = '❌ 接続失敗';

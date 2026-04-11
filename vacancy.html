@@ -241,9 +241,9 @@ loadData();
 // Check aimana sync status
 async function checkAimanaSync() {
   try {
-    const res = await fetch('/api/aimana-sync');
+    const res = await fetch('https://asia-northeast1-aimana-8a09c.cloudfunctions.net/getCompanyData');
     const result = await res.json();
-    if (result.success) {
+    if (result.success && result.company) {
       document.getElementById('syncIndicator').style.display = 'inline-flex';
     }
   } catch (e) { /* silently fail on public page */ }
