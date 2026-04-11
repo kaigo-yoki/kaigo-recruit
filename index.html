@@ -82,6 +82,24 @@ nav a:hover{background:var(--pink-p);color:var(--pink);}
 .nav-cta:hover{transform:translateY(-1px);box-shadow:0 4px 16px rgba(255,107,157,.4);}
 @keyframes nav-glow{0%,100%{box-shadow:0 2px 8px rgba(139,195,74,.25);}50%{box-shadow:0 2px 12px rgba(139,195,74,.5),0 0 4px rgba(255,235,59,.2);}}
 
+/* ── HAMBURGER ── */
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:8px;z-index:200;position:relative;width:40px;height:40px;}
+.hamburger span{display:block;width:24px;height:2.5px;background:var(--td);border-radius:2px;transition:all .3s;position:absolute;left:8px;}
+.hamburger span:nth-child(1){top:11px;}
+.hamburger span:nth-child(2){top:19px;}
+.hamburger span:nth-child(3){top:27px;}
+.hamburger.open span:nth-child(1){transform:rotate(45deg);top:19px;background:var(--pink);}
+.hamburger.open span:nth-child(2){opacity:0;}
+.hamburger.open span:nth-child(3){transform:rotate(-45deg);top:19px;background:var(--pink);}
+
+.mobile-menu{display:none;position:fixed;inset:0;z-index:150;background:rgba(255,255,255,.98);backdrop-filter:blur(24px);flex-direction:column;align-items:center;justify-content:center;gap:0;opacity:0;transform:scale(.95);transition:opacity .35s,transform .35s;}
+.mobile-menu.open{display:flex;opacity:1;transform:none;}
+.mobile-menu a{font-size:17px;font-weight:700;color:var(--td);text-decoration:none;padding:16px 32px;border-radius:16px;transition:all .25s;display:flex;align-items:center;gap:10px;width:280px;justify-content:center;}
+.mobile-menu a:hover,.mobile-menu a:active{background:var(--pink-p);color:var(--pink);}
+.mobile-menu .mm-cta{margin-top:12px;background:linear-gradient(135deg,var(--pink),var(--orange));color:#fff;font-weight:800;font-size:16px;box-shadow:0 6px 24px rgba(255,107,157,.3);padding:18px 40px;}
+.mobile-menu .mm-cta:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(255,107,157,.4);}
+.mobile-menu .mm-divider{width:200px;height:1px;background:linear-gradient(90deg,transparent,rgba(255,107,157,.2),transparent);margin:6px 0;}
+
 /* ── HERO ── */
 #hero{min-height:100vh;background:linear-gradient(135deg,#FF6B9D 0%,#FF8C42 25%,#FFD23F 50%,#4ECDC4 75%,#45B7D1 100%);display:flex;align-items:center;padding:120px 60px 80px;position:relative;overflow:hidden;}
 .hero-blob1{position:absolute;width:500px;height:500px;border-radius:50%;background:rgba(255,255,255,.1);top:-100px;right:-100px;animation:float 8s ease-in-out infinite;}
@@ -283,6 +301,7 @@ footer{background:#2D3436;color:rgba(255,255,255,.6);padding:56px 48px;text-alig
 @media(max-width:900px){
   header{padding:12px 20px;}
   nav{display:none;}
+  .hamburger{display:block;}
   section{padding:72px 24px;}
   .hero-in{grid-template-columns:1fr;}
   .hero-r{display:none;}
@@ -361,7 +380,27 @@ footer{background:#2D3436;color:rgba(255,255,255,.6);padding:56px 48px;text-alig
     <a href="./vacancy.html">🏠 空床情報</a>
     <a href="./contact.html" class="nav-cta">📝 お問い合わせ</a>
   </nav>
+  <button class="hamburger" id="hamburger" aria-label="メニューを開く">
+    <span></span><span></span><span></span>
+  </button>
 </header>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#message" onclick="closeMenu()">💭 想い</a>
+  <a href="#salary" onclick="closeMenu()">💰 給与・待遇</a>
+  <a href="#shifts" onclick="closeMenu()">🕐 シフト</a>
+  <a href="#features" onclick="closeMenu()">✨ 特徴</a>
+  <a href="#requirements" onclick="closeMenu()">📋 募集要項</a>
+  <div class="mm-divider"></div>
+  <a href="./shindan.html">🔮 適性診断</a>
+  <a href="./kenshu.html">📚 研修制度</a>
+  <a href="./career-path.html">🚀 キャリアパス</a>
+  <a href="./blog.html">📝 ブログ</a>
+  <a href="./vacancy.html">🏠 空床情報</a>
+  <div class="mm-divider"></div>
+  <a href="./contact.html" class="mm-cta">📝 お問い合わせ・応募</a>
+</div>
 
 
 <!-- ══ HERO ══ -->
@@ -756,6 +795,21 @@ footer{background:#2D3436;color:rgba(255,255,255,.6);padding:56px 48px;text-alig
 </footer>
 
 <script>
+// Hamburger menu
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+function toggleMenu() {
+  hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
+  document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+}
+function closeMenu() {
+  hamburger.classList.remove('open');
+  mobileMenu.classList.remove('open');
+  document.body.style.overflow = '';
+}
+hamburger.addEventListener('click', toggleMenu);
+
 const els=document.querySelectorAll('.reveal');
 const obs=new IntersectionObserver(entries=>{
   entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');obs.unobserve(e.target);}});
