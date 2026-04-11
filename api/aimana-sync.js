@@ -1,4 +1,4 @@
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   // CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
@@ -18,7 +18,7 @@ export default async function handler(req, res) {
     );
 
     if (!response.ok) {
-      throw new Error(`aimana API returned ${response.status}`);
+      throw new Error('aimana API returned ' + response.status);
     }
 
     const data = await response.json();
@@ -29,7 +29,7 @@ export default async function handler(req, res) {
 
     const company = data.company;
 
-    // Return only the fields we need
+    // Return only the fields we need (filter out sensitive data like passwords)
     res.status(200).json({
       success: true,
       syncedAt: new Date().toISOString(),
@@ -50,4 +50,4 @@ export default async function handler(req, res) {
       detail: error.message
     });
   }
-}
+};

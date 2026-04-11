@@ -1,4 +1,4 @@
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   // CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'GET, PUT, OPTIONS');
@@ -17,17 +17,17 @@ export default async function handler(req, res) {
   if (req.method === 'GET') {
     try {
       const response = await fetch(
-        `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`,
+        'https://api.github.com/repos/' + REPO_OWNER + '/' + REPO_NAME + '/contents/' + FILE_PATH,
         {
           headers: {
             'Accept': 'application/vnd.github.v3+json',
-            ...(GITHUB_TOKEN ? { 'Authorization': `Bearer ${GITHUB_TOKEN}` } : {})
+            'User-Agent': 'kaigo-recruit-app'
           }
         }
       );
 
       if (!response.ok) {
-        throw new Error(`GitHub API returned ${response.status}`);
+        throw new Error('GitHub API returned ' + response.status);
       }
 
       const ghData = await response.json();
@@ -58,8 +58,8 @@ export default async function handler(req, res) {
       });
     }
 
-    // Simple auth check - require admin password in header
-    const adminAuth = req.headers['authorization'];
+    // Simple auth check
+    var adminAuth = req.headers['authorization'];
     if (!adminAuth || adminAuth !== 'Bearer youki8131') {
       return res.status(401).json({
         success: false,
@@ -68,7 +68,7 @@ export default async function handler(req, res) {
     }
 
     try {
-      const { facilities, sha } = req.body;
+      var facilities = req.body && req.body.facilities;
 
       if (!facilities || !Array.isArray(facilities)) {
         return res.status(400).json({
@@ -77,50 +77,54 @@ export default async function handler(req, res) {
         });
       }
 
-      const vacancyData = {
+      var vacancyData = {
         lastUpdated: new Date().toISOString().split('T')[0],
-        facilities: facilities.map(f => ({
-          id: f.id,
-          name: f.name,
-          capacity: parseInt(f.capacity),
-          occupied: parseInt(f.occupied)
-        }))
+        facilities: facilities.map(function(f) {
+          return {
+            id: f.id,
+            name: f.name,
+            capacity: parseInt(f.capacity),
+            occupied: parseInt(f.occupied)
+          };
+        })
       };
 
-      const content = Buffer.from(
+      var content = Buffer.from(
         JSON.stringify(vacancyData, null, 2) + '\n',
         'utf-8'
       ).toString('base64');
 
-      // We need the current SHA to update
-      let currentSha = sha;
-      if (!currentSha) {
-        const getRes = await fetch(
-          `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`,
-          {
-            headers: {
-              'Accept': 'application/vnd.github.v3+json',
-              'Authorization': `Bearer ${GITHUB_TOKEN}`
-            }
+      // Get current SHA
+      var getRes = await fetch(
+        'https://api.github.com/repos/' + REPO_OWNER + '/' + REPO_NAME + '/contents/' + FILE_PATH,
+        {
+          headers: {
+            'Accept': 'application/vnd.github.v3+json',
+            'Authorization': 'Bearer ' + GITHUB_TOKEN,
+            'User-Agent': 'kaigo-recruit-app'
           }
-        );
-        if (getRes.ok) {
-          const getData = await getRes.json();
-          currentSha = getData.sha;
         }
+      );
+
+      if (!getRes.ok) {
+        throw new Error('Failed to get current file SHA');
       }
 
-      const updateRes = await fetch(
-        `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${FILE_PATH}`,
+      var getData = await getRes.json();
+      var currentSha = getData.sha;
+
+      var updateRes = await fetch(
+        'https://api.github.com/repos/' + REPO_OWNER + '/' + REPO_NAME + '/contents/' + FILE_PATH,
         {
           method: 'PUT',
           headers: {
             'Accept': 'application/vnd.github.v3+json',
-            'Authorization': `Bearer ${GITHUB_TOKEN}`,
-            'Content-Type': 'application/json'
+            'Authorization': 'Bearer ' + GITHUB_TOKEN,
+            'Content-Type': 'application/json',
+            'User-Agent': 'kaigo-recruit-app'
           },
           body: JSON.stringify({
-            message: `空床状況を更新 (${vacancyData.lastUpdated})`,
+            message: '空床状況を更新 (' + vacancyData.lastUpdated + ')',
             content: content,
             sha: currentSha
           })
@@ -128,8 +132,8 @@ export default async function handler(req, res) {
       );
 
       if (!updateRes.ok) {
-        const errData = await updateRes.json();
-        throw new Error(errData.message || `GitHub API returned ${updateRes.status}`);
+        var errData = await updateRes.json();
+        throw new Error(errData.message || 'GitHub API returned ' + updateRes.status);
       }
 
       return res.status(200).json({
@@ -141,10 +145,10 @@ export default async function handler(req, res) {
       console.error('Update vacancy error:', error.message);
       return res.status(500).json({
         success: false,
-        error: `更新に失敗しました: ${error.message}`
+        error: '更新に失敗しました: ' + error.message
       });
     }
   }
 
   return res.status(405).json({ error: 'Method not allowed' });
-}
+};
