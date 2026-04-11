@@ -169,14 +169,47 @@ footer a{color:rgba(255,255,255,.7);text-decoration:none;}
 <script>
 const ICONS = { HOME1: '🏠', HOME2: '🏡', HOME3: '🏘️' };
 const ICON_CLASS = { HOME1: 'h1', HOME2: 'h2', HOME3: 'h3' };
+const FACILITY_CAPACITY = { HOME1: 18, HOME2: 16, HOME3: 19 };
+const FACILITY_NAMES = { HOME1: 'ホーム1', HOME2: 'ホーム2', HOME3: 'ホーム3' };
+const AIMANA_API = 'https://asia-northeast1-aimana-8a09c.cloudfunctions.net/getCompanyData';
 
 async function loadData() {
   try {
-    const res = await fetch('/data/vacancy.json?' + Date.now());
-    const data = await res.json();
+    // 介護のまなAPIからリアルタイムデータを取得
+    const res = await fetch(AIMANA_API + '?includeInsuredPersons=true');
+    const apiData = await res.json();
+
+    if (!apiData.success || !apiData.insuredPersons) throw new Error('API error');
+
+    // 利用中の利用者のみフィルター
+    const persons = apiData.insuredPersons.filter(p => p.insuredPersonStatus === 'using');
+
+    // 拠点ごとにカウント
+    const facilities = ['HOME1', 'HOME2', 'HOME3'].map(id => ({
+      id: id,
+      name: FACILITY_NAMES[id],
+      capacity: FACILITY_CAPACITY[id],
+      occupied: persons.filter(p => p.facilityName === id).length
+    }));
+
+    const now = new Date();
+    const data = {
+      lastUpdated: `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`,
+      facilities: facilities
+    };
+
     render(data);
+    document.getElementById('syncIndicator').style.display = 'inline-flex';
+
   } catch (e) {
-    document.getElementById('loadingState').innerHTML = '<p style="color:#E8594F;">データの読み込みに失敗しました。</p>';
+    // APIが利用不可の場合、vacancy.jsonにフォールバック
+    try {
+      const res = await fetch('/data/vacancy.json?' + Date.now());
+      const data = await res.json();
+      render(data);
+    } catch (e2) {
+      document.getElementById('loadingState').innerHTML = '<p style="color:#E8594F;">データの読み込みに失敗しました。</p>';
+    }
   }
 }
 
@@ -237,18 +270,6 @@ function render(data) {
 }
 
 loadData();
-
-// Check aimana sync status
-async function checkAimanaSync() {
-  try {
-    const res = await fetch('https://asia-northeast1-aimana-8a09c.cloudfunctions.net/getCompanyData');
-    const result = await res.json();
-    if (result.success && result.company) {
-      document.getElementById('syncIndicator').style.display = 'inline-flex';
-    }
-  } catch (e) { /* silently fail on public page */ }
-}
-checkAimanaSync();
 </script>
 </body>
 </html>

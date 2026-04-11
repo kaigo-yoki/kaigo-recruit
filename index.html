@@ -230,9 +230,13 @@ section{padding:100px 48px;}
 .ctitle{font-size:clamp(28px,4vw,46px);font-weight:900;color:#fff;margin-bottom:16px;line-height:1.4;}
 .ctitle span{background:rgba(255,255,255,.25);padding:2px 12px;border-radius:8px;}
 .csub{font-size:15px;color:rgba(255,255,255,.9);margin-bottom:44px;line-height:2;font-weight:500;}
+.cta-btns{display:flex;gap:20px;justify-content:center;flex-wrap:wrap;align-items:center;margin-bottom:8px;}
 .cta-phone{display:inline-flex;align-items:center;gap:12px;background:#fff;color:var(--pink);padding:20px 48px;border-radius:50px;font-size:22px;font-weight:900;text-decoration:none;letter-spacing:.04em;transition:all .25s;box-shadow:0 10px 40px rgba(0,0,0,.12);}
 .cta-phone:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 18px 56px rgba(0,0,0,.18);}
+.cta-form{display:inline-flex;align-items:center;gap:12px;background:rgba(255,255,255,.18);color:#fff;padding:20px 48px;border-radius:50px;font-size:18px;font-weight:800;text-decoration:none;letter-spacing:.04em;transition:all .25s;border:3px solid rgba(255,255,255,.5);backdrop-filter:blur(12px);box-shadow:0 10px 40px rgba(0,0,0,.08);}
+.cta-form:hover{background:rgba(255,255,255,.3);transform:translateY(-3px) scale(1.02);box-shadow:0 18px 56px rgba(0,0,0,.15);border-color:rgba(255,255,255,.8);}
 .cta-phone-sub{display:block;font-size:12px;font-weight:600;color:var(--tm);letter-spacing:.08em;}
+.cta-form-sub{display:block;font-size:12px;font-weight:600;color:rgba(255,255,255,.7);letter-spacing:.08em;margin-top:4px;}
 .cta-address{margin-top:24px;font-size:13px;color:rgba(255,255,255,.85);font-weight:500;line-height:2;}
 .cnote{margin-top:12px;font-size:12px;color:rgba(255,255,255,.7);letter-spacing:.06em;}
 
@@ -355,7 +359,7 @@ footer{background:#2D3436;color:rgba(255,255,255,.6);padding:56px 48px;text-alig
     <a href="/kenshu">研修</a>
     <a href="/career-path" class="nav-highlight">キャリアパス</a>
     <a href="/vacancy">🏠 空床情報</a>
-    <a href="#cta" class="nav-cta">応募する!</a>
+    <a href="/contact" class="nav-cta">📝 お問い合わせ</a>
   </nav>
 </header>
 
@@ -713,11 +717,17 @@ footer{background:#2D3436;color:rgba(255,255,255,.6);padding:56px 48px;text-alig
   <div class="cta-blob2"></div>
   <div class="cinner">
     <h2 class="ctitle">あなたの<span>「はたらきたい」</span>を<br>全力で応援します!</h2>
-    <p class="csub">まずはお気軽にお電話ください。<br>見学・体験も大歓迎! 一緒にようきの仲間になりましょう!</p>
-    <a href="tel:098-852-5255" class="cta-phone">
-      &#x1F4DE; 098-852-5255
-    </a>
-    <span class="cta-phone-sub">受付時間 9:00〜18:00（土日祝もご相談ください）</span>
+    <p class="csub">お電話またはWebフォームからお気軽にお問い合わせください。<br>見学・体験も大歓迎! 一緒にようきの仲間になりましょう!</p>
+    <div class="cta-btns">
+      <a href="tel:098-852-5255" class="cta-phone">
+        &#x1F4DE; 098-852-5255
+      </a>
+      <a href="/contact" class="cta-form">
+        📝 Webでお問い合わせ
+      </a>
+    </div>
+    <span class="cta-phone-sub">電話受付 9:00〜18:00（土日祝もご相談ください）</span>
+    <span class="cta-form-sub">Webフォームは24時間受付中</span>
     <p class="cta-address">&#x1F4CD; 沖縄県南城市佐敷津波古1354-1<br>ホームいこい ようき</p>
   </div>
 </section>

@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800;900&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5"></script>
+
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
@@ -155,7 +155,7 @@ tr:hover td{background:rgba(45,90,142,.02);}
 .aimana-status.ok{background:rgba(76,175,125,.2);color:#66BB6A;}
 .aimana-status.warn{background:rgba(255,140,66,.2);color:#FFB74D;}
 .aimana-status.err{background:rgba(232,89,79,.2);color:#EF5350;}
-.aimana-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;}
+.aimana-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;}
 .aimana-stat{background:rgba(255,255,255,.08);border-radius:12px;padding:16px;text-align:center;}
 .aimana-stat .num{font-size:28px;font-weight:900;color:#fff;}
 .aimana-stat .label{font-size:11px;color:rgba(255,255,255,.6);font-weight:600;margin-top:4px;}
@@ -210,8 +210,7 @@ tr:hover td{background:rgba(45,90,142,.02);}
     <div class="tab" data-tab="home1">🏠 ホーム1</div>
     <div class="tab" data-tab="home2">🏡 ホーム2</div>
     <div class="tab" data-tab="home3">🏘️ ホーム3</div>
-    <div class="tab" data-tab="import">📥 CSV取り込み</div>
-    <div class="tab" data-tab="vacancy">✏️ 空床更新</div>
+    <div class="tab" data-tab="vacancy">📡 介護のまな連携</div>
   </div>
 
   <div class="content">
@@ -230,53 +229,29 @@ tr:hover td{background:rgba(45,90,142,.02);}
     <div class="tab-panel" id="panel-home1">
       <div class="card">
         <div class="card-title">🏠 ホーム1 入居者一覧（定員18名）</div>
-        <div class="table-wrap" id="table-HOME1"><p style="color:var(--text-light);font-size:13px;">CSVを取り込むと入居者一覧が表示されます。</p></div>
+        <div class="table-wrap" id="table-HOME1"><p style="color:var(--text-light);font-size:13px;">データ読み込み中...</p></div>
       </div>
     </div>
     <div class="tab-panel" id="panel-home2">
       <div class="card">
-        <div class="card-title">🏡 ホーム2 入居者一覧（定員26名）</div>
-        <div class="table-wrap" id="table-HOME2"><p style="color:var(--text-light);font-size:13px;">CSVを取り込むと入居者一覧が表示されます。</p></div>
+        <div class="card-title">🏡 ホーム2 入居者一覧（定員16名）</div>
+        <div class="table-wrap" id="table-HOME2"><p style="color:var(--text-light);font-size:13px;">データ読み込み中...</p></div>
       </div>
     </div>
     <div class="tab-panel" id="panel-home3">
       <div class="card">
-        <div class="card-title">🏘️ ホーム3 入居者一覧（定員29名）</div>
-        <div class="table-wrap" id="table-HOME3"><p style="color:var(--text-light);font-size:13px;">CSVを取り込むと入居者一覧が表示されます。</p></div>
+        <div class="card-title">🏘️ ホーム3 入居者一覧（定員19名）</div>
+        <div class="table-wrap" id="table-HOME3"><p style="color:var(--text-light);font-size:13px;">データ読み込み中...</p></div>
       </div>
     </div>
 
-    <!-- ===== CSV IMPORT ===== -->
-    <div class="tab-panel" id="panel-import">
-      <div class="card">
-        <div class="card-title">📥 介護のまな CSVデータ取り込み</div>
-        <p style="font-size:13px;color:var(--text-mid);margin-bottom:16px;">「介護のまな」からエクスポートした利用者一覧CSVをアップロードしてください。<br>複数ファイル（ホーム1/2/3）を一度に取り込めます。</p>
-        <div class="drop-zone" id="dropZone" onclick="document.getElementById('csvFile').click()">
-          <div class="drop-zone-icon">📄</div>
-          <div class="drop-zone-text">CSVファイルをドラッグ＆ドロップ</div>
-          <div class="drop-zone-sub">またはクリックしてファイルを選択（複数選択可）</div>
-        </div>
-        <input type="file" class="file-input" id="csvFile" accept=".csv" multiple>
-        <div class="import-preview" id="importPreview" style="display:none;">
-          <div class="card-title">📋 取り込みプレビュー</div>
-          <div class="import-summary" id="importSummary"></div>
-          <div class="table-wrap" id="importTable"></div>
-          <div class="import-actions">
-            <button class="btn btn-primary" onclick="confirmImport()">✅ この内容で取り込む</button>
-            <button class="btn btn-secondary" onclick="cancelImport()">キャンセル</button>
-          </div>
-        </div>
-        <div class="msg" id="importMsg"></div>
-      </div>
-    </div>
-
-    <!-- ===== VACANCY EDITOR ===== -->
+    <!-- ===== AIMANA SYNC & VACANCY ===== -->
     <div class="tab-panel" id="panel-vacancy">
 
       <!-- Aimana Sync Panel -->
       <div class="aimana-panel" id="aimanaPanel">
         <div class="aimana-header">
-          <h3>📡 介護のまな連携データ</h3>
+          <h3>📡 介護のまな連携データ（リアルタイム）</h3>
           <span class="aimana-status" id="aimanaStatus">読み込み中...</span>
         </div>
         <div class="aimana-stats" id="aimanaStats">
@@ -286,13 +261,9 @@ tr:hover td{background:rgba(45,90,142,.02);}
       </div>
 
       <div class="card">
-        <div class="card-title">✏️ 空床状況の更新</div>
-        <p style="font-size:13px;color:var(--text-mid);margin-bottom:20px;">入居者数を変更して「保存」を押すと、公開ページに自動で反映されます。</p>
+        <div class="card-title">📊 拠点別 空床状況</div>
+        <p style="font-size:13px;color:var(--text-mid);margin-bottom:20px;">介護のまなAPIからリアルタイムで取得した利用者数です。公開ページにも同じデータが自動反映されます。</p>
         <div class="vacancy-grid" id="vacancyEditor"></div>
-        <div style="text-align:center;margin-top:24px;">
-          <button class="btn btn-primary" onclick="saveVacancyToAPI()" id="saveBtn" style="padding:14px 48px;">💾 保存して公開ページに反映</button>
-          <button class="btn btn-secondary" onclick="downloadVacancyJSON()" style="margin-left:12px;">📥 JSONダウンロード</button>
-        </div>
         <div class="msg" id="vacancyMsg" style="margin-top:16px;"></div>
         <div class="save-status" id="saveStatus"></div>
       </div>
@@ -309,6 +280,7 @@ const FACILITIES = [
   { id: 'HOME2', name: 'ホーム2', capacity: 16, icon: '🏡' },
   { id: 'HOME3', name: 'ホーム3', capacity: 19, icon: '🏘️' }
 ];
+const AIMANA_API = 'https://asia-northeast1-aimana-8a09c.cloudfunctions.net/getCompanyData';
 
 // ===== AUTH =====
 async function hashPassword(pw) {
@@ -342,10 +314,7 @@ function logout() {
 function showApp() {
   document.getElementById('loginScreen').style.display = 'none';
   document.getElementById('app').style.display = 'block';
-  initDashboard();
-  initVacancyEditor();
-  loadResidents();
-  loadAimanaData();
+  loadAllFromAimana();
 }
 
 // Check session
@@ -361,20 +330,52 @@ document.querySelectorAll('.tab').forEach(tab => {
   });
 });
 
-// ===== DASHBOARD =====
-function getVacancyData() {
-  const stored = localStorage.getItem('vacancy_data');
-  if (stored) return JSON.parse(stored);
-  return {
-    lastUpdated: new Date().toISOString().split('T')[0],
-    facilities: FACILITIES.map(f => ({ id: f.id, name: f.name, capacity: f.capacity, occupied: 0 }))
-  };
+// ===== ALL DATA FROM AIMANA API =====
+let aimanaPersons = []; // APIから取得した利用者データを保持
+
+async function loadAllFromAimana() {
+  try {
+    const res = await fetch(AIMANA_API + '?includeInsuredPersons=true');
+    const data = await res.json();
+
+    if (!data.success || !data.insuredPersons) throw new Error('API error');
+
+    // 利用中の利用者のみフィルター
+    aimanaPersons = data.insuredPersons.filter(p => p.insuredPersonStatus === 'using');
+
+    // 拠点ごとの利用者数を算出
+    const facilityCounts = {};
+    FACILITIES.forEach(f => {
+      facilityCounts[f.id] = aimanaPersons.filter(p => p.facilityName === f.id).length;
+    });
+
+    // ダッシュボード更新
+    initDashboard(facilityCounts);
+    // 入居者一覧更新
+    loadResidentsFromApi();
+    // 空床パネル更新
+    initVacancyDisplay(facilityCounts);
+    // 介護のまなパネル更新
+    loadAimanaData(data, facilityCounts);
+
+  } catch (e) {
+    console.error('Aimana API error:', e);
+    // フォールバック: 空のダッシュボード
+    initDashboard({});
+    document.getElementById('aimanaStatus').textContent = '❌ 接続失敗';
+    document.getElementById('aimanaStatus').className = 'aimana-status err';
+  }
 }
 
-function initDashboard() {
-  const data = getVacancyData();
-  const totalCap = data.facilities.reduce((s,f) => s+f.capacity, 0);
-  const totalOcc = data.facilities.reduce((s,f) => s+f.occupied, 0);
+// ===== DASHBOARD =====
+function initDashboard(facilityCounts) {
+  const facilities = FACILITIES.map(f => ({
+    ...f,
+    occupied: facilityCounts[f.id] || 0
+  }));
+
+  const totalCap = facilities.reduce((s,f) => s+f.capacity, 0);
+  const totalOcc = facilities.reduce((s,f) => s+f.occupied, 0);
   const totalVac = totalCap - totalOcc;
   const rate = totalCap > 0 ? Math.round((totalOcc/totalCap)*100) : 0;
 
@@ -385,16 +386,15 @@ function initDashboard() {
     <div class="stat-card"><div class="stat-label">全体稼働率</div><div class="stat-value ${rate>=90?'red':rate>=70?'orange':'green'}">${rate}<small>%</small></div></div>
   `;
 
-  document.getElementById('dashGauges').innerHTML = data.facilities.map(f => {
+  document.getElementById('dashGauges').innerHTML = facilities.map(f => {
     const vac = f.capacity - f.occupied;
     const pct = f.capacity > 0 ? Math.round((f.occupied/f.capacity)*100) : 0;
     let cls = 'green', badgeCls = 'ok', badgeText = `空き${vac}床`;
     if (vac <= 0) { cls='red'; badgeCls='full'; badgeText='満床'; }
     else if (vac <= 3) { cls='orange'; badgeCls='warn'; badgeText=`残り${vac}床`; }
-    const fi = FACILITIES.find(x=>x.id===f.id);
     return `
     <div class="gauge-card">
-      <div class="gauge-header"><div class="gauge-name">${fi?.icon||''} ${f.name}</div><div class="gauge-badge ${badgeCls}">${badgeText}</div></div>
+      <div class="gauge-header"><div class="gauge-name">${f.icon} ${f.name}</div><div class="gauge-badge ${badgeCls}">${badgeText}</div></div>
       <div class="gauge-bar-bg"><div class="gauge-bar-fill ${cls}" style="width:${pct}%"></div></div>
       <div class="gauge-stats">
         <div class="gauge-stat"><div class="num" style="color:var(--primary)">${f.capacity}</div><div class="label">定員</div></div>
@@ -410,10 +410,10 @@ function initDashboard() {
   window.occChart = new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: data.facilities.map(f => f.name),
+      labels: facilities.map(f => f.name),
       datasets: [
-        { label: '入居中', data: data.facilities.map(f => f.occupied), backgroundColor: 'rgba(45,90,142,.7)', borderRadius: 8 },
-        { label: '空き', data: data.facilities.map(f => f.capacity - f.occupied), backgroundColor: 'rgba(76,175,125,.4)', borderRadius: 8 }
+        { label: '入居中', data: facilities.map(f => f.occupied), backgroundColor: 'rgba(45,90,142,.7)', borderRadius: 8 },
+        { label: '空き', data: facilities.map(f => f.capacity - f.occupied), backgroundColor: 'rgba(76,175,125,.4)', borderRadius: 8 }
       ]
     },
     options: {
@@ -423,253 +423,91 @@ function initDashboard() {
   });
 }
 
-// ===== RESIDENTS =====
-function getResidents() {
-  const stored = localStorage.getItem('residents_data');
-  return stored ? JSON.parse(stored) : [];
-}
-
-function saveResidents(data) {
-  localStorage.setItem('residents_data', JSON.stringify(data));
-}
-
-function loadResidents() {
-  const residents = getResidents();
+// ===== RESIDENTS FROM API =====
+function loadResidentsFromApi() {
   ['HOME1','HOME2','HOME3'].forEach(homeId => {
-    const filtered = residents.filter(r => r.facility === homeId);
-    renderResidentTable(homeId, filtered);
+    const residents = aimanaPersons.filter(p => p.facilityName === homeId);
+    renderResidentTable(homeId, residents);
   });
 }
 
 function renderResidentTable(homeId, residents) {
   const container = document.getElementById('table-' + homeId);
   if (!residents.length) {
-    container.innerHTML = '<p style="color:var(--text-light);font-size:13px;padding:12px;">CSVを取り込むと入居者一覧が表示されます。</p>';
+    container.innerHTML = '<p style="color:var(--text-light);font-size:13px;padding:12px;">この拠点に利用中の入居者はいません。</p>';
     return;
   }
 
+  const careMap = {
+    'careNeededPerson01': '要介護1', 'careNeededPerson02': '要介護2',
+    'careNeededPerson03': '要介護3', 'careNeededPerson04': '要介護4',
+    'careNeededPerson05': '要介護5', 'none': '-'
+  };
   const careClass = c => {
-    if (c.includes('１') || c.includes('1')) return 'care1';
-    if (c.includes('２') || c.includes('2')) return 'care2';
-    if (c.includes('３') || c.includes('3')) return 'care3';
-    if (c.includes('４') || c.includes('4')) return 'care4';
-    if (c.includes('５') || c.includes('5')) return 'care5';
+    if (c.includes('01') || c.includes('1')) return 'care1';
+    if (c.includes('02') || c.includes('2')) return 'care2';
+    if (c.includes('03') || c.includes('3')) return 'care3';
+    if (c.includes('04') || c.includes('4')) return 'care4';
+    if (c.includes('05') || c.includes('5')) return 'care5';
     return 'care1';
   };
+  const genderMap = { 'male': '男', 'female': '女', 'none': '-' };
 
   container.innerHTML = `
     <table>
-      <thead><tr><th>#</th><th>氏名</th><th>フリガナ</th><th>性別</th><th>生年月日</th><th>要介護度</th></tr></thead>
+      <thead><tr><th>#</th><th>氏名</th><th>フリガナ</th><th>性別</th><th>要介護度</th></tr></thead>
       <tbody>${residents.map((r, i) => `
         <tr>
           <td>${i+1}</td>
-          <td><strong>${r.name}</strong></td>
-          <td style="font-size:11px;color:var(--text-light)">${r.kana||''}</td>
-          <td><span class="badge ${r.gender==='男'?'m':'f'}">${r.gender}</span></td>
-          <td style="font-size:12px">${r.birthday||''}</td>
-          <td><span class="badge ${careClass(r.careLevel)}">${r.careLevel}</span></td>
+          <td><strong>${r.insuredName || ''}</strong></td>
+          <td style="font-size:11px;color:var(--text-light)">${r.insuredNameKana || ''}</td>
+          <td><span class="badge ${r.gender==='male'?'m':'f'}">${genderMap[r.gender] || '-'}</span></td>
+          <td><span class="badge ${careClass(r.careStatusClassification||'')}">${careMap[r.careStatusClassification] || r.careStatusClassification || '-'}</span></td>
         </tr>`).join('')}
       </tbody>
     </table>
-    <p style="font-size:12px;color:var(--text-light);margin-top:12px;">合計 ${residents.length}名</p>
+    <p style="font-size:12px;color:var(--text-light);margin-top:12px;">合計 ${residents.length}名（介護のまなAPI連携）</p>
   `;
 }
 
-// ===== CSV IMPORT =====
-let pendingImport = [];
-const dropZone = document.getElementById('dropZone');
-const csvFile = document.getElementById('csvFile');
-
-['dragover','dragenter'].forEach(e => {
-  dropZone.addEventListener(e, ev => { ev.preventDefault(); dropZone.classList.add('dragover'); });
-});
-['dragleave','drop'].forEach(e => {
-  dropZone.addEventListener(e, ev => { ev.preventDefault(); dropZone.classList.remove('dragover'); });
-});
-dropZone.addEventListener('drop', ev => { handleFiles(ev.dataTransfer.files); });
-csvFile.addEventListener('change', ev => { handleFiles(ev.target.files); });
-
-function handleFiles(files) {
-  pendingImport = [];
-  let processed = 0;
-  Array.from(files).forEach(file => {
-    Papa.parse(file, {
-      header: true,
-      skipEmptyLines: true,
-      complete: result => {
-        result.data.forEach(row => {
-          if (row['氏名'] && row['拠点']) {
-            pendingImport.push({
-              facility: row['拠点'].trim(),
-              id: row['利用者ID'] || '',
-              name: row['氏名'].trim(),
-              kana: row['フリガナ'] || '',
-              birthday: row['生年月日（和暦）'] || '',
-              gender: row['性別'] || '',
-              careLevel: row['要介護度'] || '',
-              phone: row['電話番号'] || '',
-              address: row['住所'] || ''
-            });
-          }
-        });
-        processed++;
-        if (processed === files.length) showImportPreview();
-      }
-    });
-  });
-}
-
-function showImportPreview() {
-  if (!pendingImport.length) return;
-  document.getElementById('importPreview').style.display = 'block';
-
-  const byFacility = {};
-  pendingImport.forEach(r => {
-    if (!byFacility[r.facility]) byFacility[r.facility] = [];
-    byFacility[r.facility].push(r);
-  });
-
-  document.getElementById('importSummary').innerHTML =
-    Object.entries(byFacility).map(([k,v]) => `<div class="import-chip">${k}: ${v.length}名</div>`).join('') +
-    `<div class="import-chip" style="background:var(--green-bg);color:var(--green)">合計: ${pendingImport.length}名</div>`;
-
-  document.getElementById('importTable').innerHTML = `
-    <table>
-      <thead><tr><th>拠点</th><th>氏名</th><th>フリガナ</th><th>性別</th><th>要介護度</th></tr></thead>
-      <tbody>${pendingImport.slice(0,20).map(r => `
-        <tr><td>${r.facility}</td><td>${r.name}</td><td>${r.kana}</td><td>${r.gender}</td><td>${r.careLevel}</td></tr>
-      `).join('')}
-      ${pendingImport.length > 20 ? `<tr><td colspan="5" style="text-align:center;color:var(--text-light)">...他 ${pendingImport.length-20}名</td></tr>` : ''}
-      </tbody>
-    </table>`;
-}
-
-function confirmImport() {
-  saveResidents(pendingImport);
-
-  // Auto-update vacancy
-  const vacData = getVacancyData();
-  const byFacility = {};
-  pendingImport.forEach(r => {
-    if (!byFacility[r.facility]) byFacility[r.facility] = 0;
-    byFacility[r.facility]++;
-  });
-  vacData.facilities.forEach(f => {
-    if (byFacility[f.id] !== undefined) f.occupied = byFacility[f.id];
-  });
-  vacData.lastUpdated = new Date().toISOString().split('T')[0];
-  localStorage.setItem('vacancy_data', JSON.stringify(vacData));
-
-  // Refresh
-  loadResidents();
-  initDashboard();
-  initVacancyEditor();
-  cancelImport();
-
-  const msg = document.getElementById('importMsg');
-  msg.className = 'msg success';
-  msg.textContent = `✅ ${pendingImport.length}名のデータを取り込みました！空床状況も自動更新されました。`;
-  pendingImport = [];
-  setTimeout(() => { msg.className = 'msg'; }, 5000);
-}
-
-function cancelImport() {
-  document.getElementById('importPreview').style.display = 'none';
-  pendingImport = [];
-}
-
-// ===== VACANCY EDITOR =====
-function initVacancyEditor() {
-  const data = getVacancyData();
-  document.getElementById('vacancyEditor').innerHTML = data.facilities.map(f => {
-    const fi = FACILITIES.find(x => x.id === f.id);
-    const vacancy = f.capacity - f.occupied;
+// ===== VACANCY DISPLAY =====
+function initVacancyDisplay(facilityCounts) {
+  document.getElementById('vacancyEditor').innerHTML = FACILITIES.map(f => {
+    const occupied = facilityCounts[f.id] || 0;
+    const vacancy = f.capacity - occupied;
+    const pct = Math.round((occupied / f.capacity) * 100);
+    let statusColor = 'var(--green)';
+    if (vacancy <= 0) statusColor = 'var(--red)';
+    else if (vacancy <= 3) statusColor = 'var(--orange)';
     return `
     <div class="vacancy-item">
-      <h3>${fi?.icon||''} ${f.name}</h3>
-      <div class="vacancy-input-row">
-        <label style="font-size:13px;font-weight:700;">入居者数</label>
-        <input type="number" class="vacancy-input" id="vac-${f.id}" value="${f.occupied}" min="0" max="${f.capacity}">
-        <span class="vacancy-cap">/ ${f.capacity}名</span>
-      </div>
-      <div style="font-size:12px;color:var(--text-light);margin-top:6px;">空き: ${vacancy}床</div>
+      <h3>${f.icon} ${f.name}</h3>
+      <div style="font-size:36px;font-weight:900;color:var(--primary);margin:8px 0;">${occupied}<small style="font-size:14px;font-weight:500;color:var(--text-mid)"> / ${f.capacity}名</small></div>
+      <div style="font-size:13px;font-weight:700;color:${statusColor};margin-bottom:4px;">空き: ${vacancy}床</div>
+      <div style="font-size:11px;color:var(--text-light);">稼働率 ${pct}%</div>
     </div>`;
   }).join('');
 }
 
-// Save to localStorage (fallback)
-function saveVacancyLocal() {
-  const data = getVacancyData();
-  data.facilities.forEach(f => {
-    const input = document.getElementById('vac-' + f.id);
-    if (input) f.occupied = parseInt(input.value) || 0;
-  });
-  data.lastUpdated = new Date().toISOString().split('T')[0];
-  localStorage.setItem('vacancy_data', JSON.stringify(data));
-  initDashboard();
-  return data;
-}
-
-// Save via API (GitHub auto-push)
-async function saveVacancyToAPI() {
-  const btn = document.getElementById('saveBtn');
-  const msg = document.getElementById('vacancyMsg');
-  const statusEl = document.getElementById('saveStatus');
-
-  btn.disabled = true;
-  btn.textContent = '⏳ 保存中...';
-
-  // Save locally
-  const data = saveVacancyLocal();
-
-  // Also auto-download the JSON for easy update
-  const json = JSON.stringify(data, null, 2);
-  const blob = new Blob([json], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'vacancy.json';
-  a.click();
-  URL.revokeObjectURL(url);
-
-  msg.className = 'msg success';
-  msg.textContent = '✅ 保存完了！vacancy.json がダウンロードされました。プロジェクトの data/ フォルダに上書きして Git Push すると公開ページに反映されます。';
-  statusEl.textContent = '最終保存: ' + new Date().toLocaleString('ja-JP');
-
-  btn.disabled = false;
-  btn.textContent = '💾 保存して公開ページに反映';
-  setTimeout(() => { msg.className = 'msg'; }, 8000);
-}
-
-function downloadVacancyJSON() {
-  const data = getVacancyData();
-  const json = JSON.stringify(data, null, 2);
-  const blob = new Blob([json], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'vacancy.json';
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
 // ===== AIMANA SYNC =====
-const AIMANA_API = 'https://asia-northeast1-aimana-8a09c.cloudfunctions.net/getCompanyData';
 
-async function loadAimanaData() {
+async function loadAimanaData(data, facilityCounts) {
   const statusEl = document.getElementById('aimanaStatus');
   const statsEl = document.getElementById('aimanaStats');
   const diffEl = document.getElementById('aimanaDiff');
 
   try {
-    const res = await fetch(AIMANA_API);
-    const data = await res.json();
-
-    if (!data.success || !data.company) throw new Error('データ形式が不正です');
+    if (!data || !data.success || !data.company) throw new Error('データ形式が不正です');
 
     const c = data.company;
     statusEl.textContent = '✅ 接続中';
     statusEl.className = 'aimana-status ok';
+
+    const home1 = facilityCounts['HOME1'] || 0;
+    const home2 = facilityCounts['HOME2'] || 0;
+    const home3 = facilityCounts['HOME3'] || 0;
+    const home123Total = home1 + home2 + home3;
+    const allTotal = aimanaPersons.length;
 
     // Last activity
     let lastActivity = '-';
@@ -679,16 +517,24 @@ async function loadAimanaData() {
 
     statsEl.innerHTML = `
       <div class="aimana-stat">
-        <div class="num">${c.insuredPersonCount || 0}</div>
-        <div class="label">登録利用者数（全施設）</div>
+        <div class="num">${home1}</div>
+        <div class="label">🏠 ホーム1</div>
       </div>
       <div class="aimana-stat">
-        <div class="num">${c.thisMonth || 0}</div>
-        <div class="label">今月</div>
+        <div class="num">${home2}</div>
+        <div class="label">🏡 ホーム2</div>
       </div>
       <div class="aimana-stat">
-        <div class="num">${c.lastMonth || 0}</div>
-        <div class="label">先月</div>
+        <div class="num">${home3}</div>
+        <div class="label">🏘️ ホーム3</div>
+      </div>
+      <div class="aimana-stat">
+        <div class="num">${home123Total}</div>
+        <div class="label">3施設 合計</div>
+      </div>
+      <div class="aimana-stat">
+        <div class="num">${allTotal}</div>
+        <div class="label">全拠点 合計</div>
       </div>
       <div class="aimana-stat">
         <div class="num" style="font-size:14px;">${lastActivity}</div>
@@ -696,27 +542,18 @@ async function loadAimanaData() {
       </div>
     `;
 
-    // Compare with local vacancy data
-    const vacData = getVacancyData();
-    const localTotal = vacData.facilities.reduce((s, f) => s + f.occupied, 0);
-    const diff = c.insuredPersonCount - localTotal;
-
+    // Show sync status
     diffEl.style.display = 'flex';
-    if (diff === 0) {
-      diffEl.className = 'aimana-diff match';
-      diffEl.innerHTML = '✅ 介護のまなの利用者数と施設合計が一致しています';
-    } else {
-      diffEl.className = 'aimana-diff mismatch';
-      diffEl.innerHTML = `⚠️ 介護のまな: ${c.insuredPersonCount}名（全5施設） / 下記3施設の合計: ${localTotal}名（差: ${diff}名はホーム4・5の利用者と推測）`;
-    }
+    diffEl.className = 'aimana-diff match';
+    diffEl.innerHTML = '✅ 介護のまなAPIからリアルタイムでデータを取得しています。公開ページにも同じデータが反映されています。';
 
     // Store for change detection
     const prevCount = localStorage.getItem('aimana_prev_count');
-    if (prevCount && parseInt(prevCount) !== c.insuredPersonCount) {
-      diffEl.innerHTML += '<br>🔔 <strong>前回確認時から利用者数が変化しています！</strong> 空床状況を確認してください。';
+    if (prevCount && parseInt(prevCount) !== home123Total) {
+      diffEl.innerHTML += '<br>🔔 <strong>前回確認時から利用者数が変化しています！</strong>';
       diffEl.className = 'aimana-diff mismatch';
     }
-    localStorage.setItem('aimana_prev_count', c.insuredPersonCount);
+    localStorage.setItem('aimana_prev_count', home123Total);
 
   } catch (e) {
     statusEl.textContent = '❌ 接続失敗';

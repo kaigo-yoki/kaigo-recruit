@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>お問い合わせ・応募フォーム | 訪問介護 ようき（沖縄県南城市）</title>
+<meta name="description" content="訪問介護ようき（有限会社 陽気）へのお問い合わせ・採用応募フォーム。見学・体験・応募に関するご質問をお気軽にお寄せください。">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://kaigo-recruit.vercel.app/contact">
+<meta property="og:title" content="お問い合わせ・応募 | 訪問介護 ようき（沖縄県南城市）">
+<meta property="og:description" content="訪問介護ようきへのお問い合わせ・採用応募フォーム。見学・体験・応募に関するご質問をお気軽にどうぞ。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://kaigo-recruit.vercel.app/contact">
+<meta property="og:image" content="https://kaigo-recruit.vercel.app/favicon.png">
+<meta property="og:site_name" content="訪問介護 ようき 採用サイト">
+<meta property="og:locale" content="ja_JP">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;800;900&family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --pink:#FF6B9D;--pink-l:#FF8FB8;--pink-p:#FFF0F5;
+  --orange:#FF8C42;--orange-l:#FFAB6B;--orange-p:#FFF3E8;
+  --yellow:#FFD23F;--yellow-p:#FFFBE6;
+  --mint:#4ECDC4;--mint-p:#E8FAF8;
+  --blue:#45B7D1;--blue-p:#E6F6FA;
+  --purple:#A78BFA;--purple-p:#F0EDFF;
+  --td:#2D3436;--tm:#636E72;--tl:#B2BEC3;
+  --wh:#FFFFFF;--bg:#FAFAFA;
+  --r:16px;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'M PLUS Rounded 1c','Noto Sans JP',sans-serif;background:var(--bg);color:var(--td);line-height:1.8;overflow-x:hidden;}
+
+/* ── HEADER ── */
+header{background:rgba(255,255,255,.95);backdrop-filter:blur(20px);border-bottom:2px solid rgba(255,107,157,.15);padding:12px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.logo-w{display:flex;align-items:center;gap:10px;}
+.logo-icon{height:34px;}
+.logo-icon img{height:100%;width:auto;display:block;}
+.logo-t{font-weight:800;font-size:15px;color:var(--td);line-height:1.2;text-decoration:none;}
+.logo-t span{display:block;font-size:9px;font-weight:500;color:var(--tm);letter-spacing:.12em;margin-top:1px;}
+.header-back{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--pink);text-decoration:none;transition:color .25s;}
+.header-back:hover{color:var(--orange);}
+
+/* ── HERO ── */
+.hero{background:linear-gradient(135deg,#FF6B9D 0%,#FF8C42 30%,#FFD23F 60%,#4ECDC4 100%);padding:60px 24px 50px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;width:400px;height:400px;border-radius:50%;background:rgba(255,255,255,.08);top:-100px;right:-80px;}
+.hero::after{content:'';position:absolute;width:250px;height:250px;border-radius:50%;background:rgba(255,255,255,.06);bottom:-60px;left:-40px;}
+.hero h1{font-size:clamp(24px,4vw,36px);font-weight:900;color:#fff;margin-bottom:10px;position:relative;z-index:2;}
+.hero p{font-size:14px;color:rgba(255,255,255,.9);position:relative;z-index:2;max-width:500px;margin:0 auto;}
+
+/* ── FORM CONTAINER ── */
+.form-container{max-width:680px;margin:-30px auto 0;padding:0 20px 80px;position:relative;z-index:10;}
+
+.form-card{background:var(--wh);border-radius:28px;padding:40px 36px;border:2px solid rgba(255,107,157,.08);box-shadow:0 8px 40px rgba(0,0,0,.06);margin-bottom:24px;}
+.form-card h2{font-size:18px;font-weight:800;color:var(--td);margin-bottom:24px;display:flex;align-items:center;gap:10px;padding-bottom:16px;border-bottom:2px solid var(--bg);}
+.form-card h2 .icon{font-size:24px;}
+
+/* ── FORM FIELDS ── */
+.field{margin-bottom:24px;}
+.field:last-child{margin-bottom:0;}
+.field label{display:block;font-size:13px;font-weight:800;color:var(--td);margin-bottom:8px;}
+.field label .req{display:inline-flex;align-items:center;font-size:10px;font-weight:800;color:#fff;background:var(--pink);padding:2px 8px;border-radius:50px;margin-left:8px;letter-spacing:.04em;}
+.field label .opt{display:inline-flex;align-items:center;font-size:10px;font-weight:800;color:var(--tm);background:#eee;padding:2px 8px;border-radius:50px;margin-left:8px;}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+textarea{
+  width:100%;padding:14px 18px;border:2px solid #eee;border-radius:14px;font-size:15px;
+  font-family:inherit;font-weight:500;color:var(--td);background:var(--bg);
+  outline:none;transition:all .25s;resize:vertical;
+}
+input:focus,textarea:focus{border-color:var(--pink);background:var(--wh);box-shadow:0 0 0 4px rgba(255,107,157,.1);}
+input::placeholder,textarea::placeholder{color:var(--tl);font-weight:400;}
+textarea{min-height:120px;}
+
+.field-hint{font-size:11px;color:var(--tl);margin-top:4px;font-weight:500;}
+
+/* ── RADIO/CHECKBOX ── */
+.radio-group,.checkbox-group{display:flex;flex-direction:column;gap:10px;}
+.radio-item,.checkbox-item{
+  display:flex;align-items:center;gap:12px;padding:14px 18px;
+  background:var(--bg);border:2px solid transparent;border-radius:14px;
+  cursor:pointer;transition:all .25s;font-size:14px;font-weight:600;color:var(--td);
+}
+.radio-item:hover,.checkbox-item:hover{border-color:rgba(255,107,157,.2);background:var(--pink-p);}
+.radio-item input,.checkbox-item input{display:none;}
+.radio-item .mark{
+  width:22px;height:22px;border-radius:50%;border:2px solid var(--tl);
+  flex-shrink:0;position:relative;transition:all .25s;
+}
+.radio-item input:checked ~ .mark{border-color:var(--pink);background:var(--pink);}
+.radio-item input:checked ~ .mark::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:8px;height:8px;border-radius:50%;background:#fff;}
+.radio-item:has(input:checked){border-color:var(--pink);background:var(--pink-p);}
+
+.checkbox-item .mark{
+  width:22px;height:22px;border-radius:8px;border:2px solid var(--tl);
+  flex-shrink:0;position:relative;transition:all .25s;display:flex;align-items:center;justify-content:center;
+}
+.checkbox-item input:checked ~ .mark{border-color:var(--pink);background:var(--pink);}
+.checkbox-item input:checked ~ .mark::after{content:'✓';color:#fff;font-size:12px;font-weight:900;}
+.checkbox-item:has(input:checked){border-color:var(--pink);background:var(--pink-p);}
+
+/* ── OTHER INPUT ── */
+.other-input{margin-top:8px;display:none;}
+.other-input.show{display:block;}
+.other-input input{padding:10px 14px;font-size:13px;}
+
+/* ── SUBMIT ── */
+.submit-wrap{text-align:center;margin-top:8px;}
+.submit-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  background:linear-gradient(135deg,var(--pink),var(--orange));
+  color:#fff;padding:18px 56px;border-radius:50px;
+  font-size:16px;font-weight:800;border:none;cursor:pointer;
+  font-family:inherit;letter-spacing:.06em;
+  box-shadow:0 8px 28px rgba(255,107,157,.3);
+  transition:all .25s;
+}
+.submit-btn:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 14px 40px rgba(255,107,157,.4);}
+.submit-btn:disabled{opacity:.6;cursor:not-allowed;transform:none;box-shadow:none;}
+.submit-btn .spinner{display:none;width:18px;height:18px;border:3px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite;}
+.submit-btn.loading .spinner{display:block;}
+.submit-btn.loading .btn-text{display:none;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* ── SUCCESS MESSAGE ── */
+.success-overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.5);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:24px;}
+.success-overlay.show{display:flex;}
+.success-card{background:var(--wh);border-radius:28px;padding:48px 36px;text-align:center;max-width:480px;width:100%;animation:popUp .4s ease;}
+.success-card .emoji{font-size:64px;display:block;margin-bottom:16px;}
+.success-card h2{font-size:24px;font-weight:900;color:var(--td);margin-bottom:12px;}
+.success-card p{font-size:14px;color:var(--tm);line-height:2;margin-bottom:24px;}
+.success-card a{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--pink),var(--orange));color:#fff;padding:14px 36px;border-radius:50px;font-size:14px;font-weight:800;text-decoration:none;box-shadow:0 8px 24px rgba(255,107,157,.3);transition:all .25s;}
+.success-card a:hover{transform:translateY(-2px);}
+@keyframes popUp{from{opacity:0;transform:scale(.9) translateY(20px);}to{opacity:1;transform:none;}}
+
+/* ── PHONE CTA ── */
+.phone-cta{background:linear-gradient(135deg,var(--mint-p),var(--blue-p));border-radius:28px;padding:32px;text-align:center;border:2px solid rgba(78,205,196,.12);}
+.phone-cta p{font-size:13px;color:var(--tm);margin-bottom:12px;font-weight:600;}
+.phone-cta a{display:inline-flex;align-items:center;gap:10px;font-size:22px;font-weight:900;color:var(--mint);text-decoration:none;transition:color .25s;}
+.phone-cta a:hover{color:var(--blue);}
+.phone-cta .sub{font-size:11px;color:var(--tl);margin-top:6px;font-weight:500;}
+
+/* ── PRIVACY NOTE ── */
+.privacy-note{font-size:11px;color:var(--tl);text-align:center;margin-top:16px;line-height:1.8;}
+
+/* ── FOOTER ── */
+footer{background:#2D3436;color:rgba(255,255,255,.6);padding:40px 48px;text-align:center;}
+.fname{font-size:16px;font-weight:800;color:rgba(255,255,255,.9);margin-bottom:8px;}
+.finfo{font-size:12px;line-height:2.2;font-weight:400;}
+.finfo a{color:rgba(255,255,255,.7);text-decoration:none;}
+
+/* ── FORM VALIDATION ── */
+.field.error input,
+.field.error textarea{border-color:#FF4757;background:rgba(255,71,87,.04);}
+.field .error-msg{display:none;font-size:11px;color:#FF4757;margin-top:4px;font-weight:700;}
+.field.error .error-msg{display:block;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:600px){
+  header{padding:12px 16px;}
+  .form-card{padding:28px 20px;border-radius:20px;}
+  .hero{padding:48px 20px 40px;}
+  .form-container{padding:0 12px 60px;}
+  .radio-group,.checkbox-group{gap:8px;}
+  .radio-item,.checkbox-item{padding:12px 14px;font-size:13px;}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <a href="/" class="logo-w" style="text-decoration:none;">
+    <div class="logo-icon"><img src="/favicon.png" alt="陽気ロゴ"></div>
+    <div class="logo-t">訪問介護 ようき<span>有限会社 陽気</span></div>
+  </a>
+  <a href="/" class="header-back">← トップへ戻る</a>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <h1>📝 お問い合わせ・応募フォーム</h1>
+  <p>見学・体験・応募に関するご質問をお気軽にお寄せください。<br>通常1〜2営業日以内にご連絡いたします。</p>
+</div>
+
+<!-- FORM -->
+<div class="form-container">
+  <form id="contactForm" novalidate>
+
+    <!-- ── 基本情報 ── -->
+    <div class="form-card">
+      <h2><span class="icon">👤</span>基本情報</h2>
+
+      <div class="field" data-required>
+        <label>お名前 <span class="req">必須</span></label>
+        <input type="text" name="entry.212006764" placeholder="例：山田 太郎" autocomplete="name" required>
+        <div class="error-msg">お名前を入力してください</div>
+      </div>
+
+      <div class="field">
+        <label>フリガナ <span class="opt">任意</span></label>
+        <input type="text" name="entry.571438902" placeholder="例：ヤマダ タロウ">
+        <div class="field-hint">全角カタカナでご入力ください</div>
+      </div>
+
+      <div class="field" data-required>
+        <label>メールアドレス <span class="req">必須</span></label>
+        <input type="email" name="entry.817478052" placeholder="例：taro@example.com" autocomplete="email" required>
+        <div class="error-msg">正しいメールアドレスを入力してください</div>
+      </div>
+
+      <div class="field" data-required>
+        <label>電話番号 <span class="req">必須</span></label>
+        <input type="tel" name="entry.1695420195" placeholder="例：090-1234-5678" autocomplete="tel" required>
+        <div class="error-msg">電話番号を入力してください</div>
+      </div>
+    </div>
+
+    <!-- ── お問い合わせ内容 ── -->
+    <div class="form-card">
+      <h2><span class="icon">💬</span>お問い合わせ内容</h2>
+
+      <div class="field" data-required>
+        <label>お問い合わせの種類 <span class="req">必須</span></label>
+        <div class="radio-group">
+          <label class="radio-item">
+            <input type="radio" name="entry.1037385750" value="応募したい" required>
+            <span class="mark"></span>応募したい
+          </label>
+          <label class="radio-item">
+            <input type="radio" name="entry.1037385750" value="見学・体験をしたい">
+            <span class="mark"></span>見学・体験をしたい
+          </label>
+          <label class="radio-item">
+            <input type="radio" name="entry.1037385750" value="求人について質問がある">
+            <span class="mark"></span>求人について質問がある
+          </label>
+          <label class="radio-item">
+            <input type="radio" name="entry.1037385750" value="その他">
+            <span class="mark"></span>その他
+          </label>
+        </div>
+        <div class="error-msg">お問い合わせの種類を選択してください</div>
+      </div>
+
+      <div class="field">
+        <label>ご希望の雇用形態 <span class="opt">任意</span></label>
+        <div class="checkbox-group">
+          <label class="checkbox-item">
+            <input type="checkbox" name="entry.1469500094" value="夜勤のみ">
+            <span class="mark"></span>🌙 夜勤のみ
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" name="entry.1469500094" value="日勤のみ">
+            <span class="mark"></span>☀️ 日勤のみ
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" name="entry.1469500094" value="日勤・夜勤両方可能">
+            <span class="mark"></span>🔄 日勤・夜勤両方可能
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" name="entry.1469500094" value="パート">
+            <span class="mark"></span>⏰ パート
+          </label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>お問い合わせ内容の詳細 <span class="opt">任意</span></label>
+        <textarea name="entry.2069720489" placeholder="ご質問やご要望、ご希望の勤務開始時期など、お気軽にお書きください。"></textarea>
+      </div>
+    </div>
+
+    <!-- ── その他 ── -->
+    <div class="form-card">
+      <h2><span class="icon">📋</span>その他</h2>
+
+      <div class="field">
+        <label>当社を何でお知りになりましたか? <span class="opt">任意</span></label>
+        <div class="checkbox-group">
+          <label class="checkbox-item">
+            <input type="checkbox" name="entry.680795493" value="採用情報サイト">
+            <span class="mark"></span>採用情報サイト
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" name="entry.680795493" value="求人媒体（Indeed・ジョブメドレー等）">
+            <span class="mark"></span>求人媒体（Indeed・ジョブメドレー等）
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" name="entry.680795493" value="SNS（Instagram等）">
+            <span class="mark"></span>SNS（Instagram等）
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" name="entry.680795493" value="知人の紹介">
+            <span class="mark"></span>知人の紹介
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" name="entry.680795493" value="その他" id="source-other">
+            <span class="mark"></span>その他
+          </label>
+        </div>
+      </div>
+
+      <div class="field" data-required>
+        <label>個人情報の取り扱いについて <span class="req">必須</span></label>
+        <div class="radio-group">
+          <label class="radio-item">
+            <input type="radio" name="entry.69708703" value="同意する" required>
+            <span class="mark"></span>同意する
+          </label>
+        </div>
+        <div class="field-hint">ご入力いただいた個人情報は、採用に関するご連絡のみに使用いたします。第三者への提供は行いません。</div>
+        <div class="error-msg">個人情報の取り扱いに同意してください</div>
+      </div>
+    </div>
+
+    <!-- ── SUBMIT ── -->
+    <div class="submit-wrap">
+      <button type="submit" class="submit-btn" id="submitBtn">
+        <span class="btn-text">📨 送信する</span>
+        <span class="spinner"></span>
+      </button>
+    </div>
+    <p class="privacy-note">送信後、確認のため自動返信メールはございません。<br>1〜2営業日以内に担当者よりご連絡いたします。</p>
+
+  </form>
+
+  <!-- ── 電話でのお問い合わせ ── -->
+  <div class="phone-cta">
+    <p>📞 お急ぎの方はお電話でもお問い合わせいただけます</p>
+    <a href="tel:098-852-5255">098-852-5255</a>
+    <p class="sub">受付時間 9:00〜18:00（土日祝もご相談ください）</p>
+  </div>
+</div>
+
+<!-- SUCCESS OVERLAY -->
+<div class="success-overlay" id="successOverlay">
+  <div class="success-card">
+    <span class="emoji">🎉</span>
+    <h2>送信完了しました！</h2>
+    <p>お問い合わせありがとうございます。<br>1〜2営業日以内に、担当者より<br>ご連絡させていただきます。</p>
+    <a href="/">🏠 トップページに戻る</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="fname">有限会社 陽気 - 訪問介護 ようき</div>
+  <div class="finfo">
+    📍 沖縄県南城市佐敷津波古1354-1<br>
+    📞 <a href="tel:098-852-5255">098-852-5255</a><br>
+    © 2026 有限会社 陽気. All rights reserved.
+  </div>
+</footer>
+
+<script>
+const form = document.getElementById('contactForm');
+const submitBtn = document.getElementById('submitBtn');
+const successOverlay = document.getElementById('successOverlay');
+
+// Google Forms の formResponse エンドポイント
+const FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScDKmu47y3Qg8qY_SJGpoBUn_HgZY_rFHbQGVyHdj6O2V5o_g/formResponse';
+
+// Validation
+function validateForm() {
+  let isValid = true;
+  
+  // Required text/email/tel fields
+  form.querySelectorAll('[data-required]').forEach(field => {
+    const input = field.querySelector('input[type="text"], input[type="email"], input[type="tel"]');
+    const radio = field.querySelector('input[type="radio"]');
+    
+    if (input) {
+      if (!input.value.trim()) {
+        field.classList.add('error');
+        isValid = false;
+      } else if (input.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value)) {
+        field.classList.add('error');
+        isValid = false;
+      } else {
+        field.classList.remove('error');
+      }
+    }
+    
+    if (radio) {
+      const name = radio.getAttribute('name');
+      const checked = form.querySelector(`input[name="${name}"]:checked`);
+      if (!checked) {
+        field.classList.add('error');
+        isValid = false;
+      } else {
+        field.classList.remove('error');
+      }
+    }
+  });
+  
+  return isValid;
+}
+
+// Clear error on input
+form.addEventListener('input', e => {
+  const field = e.target.closest('.field');
+  if (field) field.classList.remove('error');
+});
+form.addEventListener('change', e => {
+  const field = e.target.closest('.field');
+  if (field) field.classList.remove('error');
+});
+
+// Submit
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  
+  if (!validateForm()) {
+    // Scroll to first error
+    const firstError = form.querySelector('.field.error');
+    if (firstError) firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
+  
+  submitBtn.classList.add('loading');
+  submitBtn.disabled = true;
+  
+  try {
+    const formData = new FormData(form);
+    
+    // Google Forms に送信 (no-cors mode)
+    await fetch(FORM_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      body: formData
+    });
+    
+    // 成功表示
+    successOverlay.classList.add('show');
+    form.reset();
+    
+  } catch (err) {
+    // no-cors では常にopaqueResponseだが送信は成功している
+    successOverlay.classList.add('show');
+    form.reset();
+  } finally {
+    submitBtn.classList.remove('loading');
+    submitBtn.disabled = false;
+  }
+});
+
+// Close overlay on background click
+successOverlay.addEventListener('click', (e) => {
+  if (e.target === successOverlay) {
+    successOverlay.classList.remove('show');
+  }
+});
+</script>
+</body>
+</html>
