@@ -144,6 +144,25 @@ tr:hover td{background:rgba(45,90,142,.02);}
 .msg{padding:12px 20px;border-radius:10px;font-size:13px;font-weight:700;margin-bottom:16px;display:none;}
 .msg.success{display:block;background:var(--green-bg);color:var(--green);}
 .msg.error{display:block;background:var(--red-bg);color:var(--red);}
+.msg.warn{display:block;background:var(--orange-bg);color:var(--orange);}
+.msg.info{display:block;background:var(--primary-bg);color:var(--primary);}
+
+/* Aimana Sync Panel */
+.aimana-panel{background:linear-gradient(135deg,#1A1A2E,#16213E);border-radius:16px;padding:24px;margin-bottom:20px;color:#fff;}
+.aimana-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.aimana-header h3{font-size:16px;font-weight:800;display:flex;align-items:center;gap:8px;}
+.aimana-status{padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;}
+.aimana-status.ok{background:rgba(76,175,125,.2);color:#66BB6A;}
+.aimana-status.warn{background:rgba(255,140,66,.2);color:#FFB74D;}
+.aimana-status.err{background:rgba(232,89,79,.2);color:#EF5350;}
+.aimana-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;}
+.aimana-stat{background:rgba(255,255,255,.08);border-radius:12px;padding:16px;text-align:center;}
+.aimana-stat .num{font-size:28px;font-weight:900;color:#fff;}
+.aimana-stat .label{font-size:11px;color:rgba(255,255,255,.6);font-weight:600;margin-top:4px;}
+.aimana-diff{margin-top:12px;padding:12px 16px;border-radius:10px;font-size:13px;font-weight:700;display:flex;align-items:center;gap:8px;}
+.aimana-diff.match{background:rgba(76,175,125,.15);color:#66BB6A;}
+.aimana-diff.mismatch{background:rgba(255,140,66,.15);color:#FFB74D;}
+.save-status{font-size:12px;color:var(--text-light);margin-top:8px;text-align:center;}
 
 /* Responsive */
 @media(max-width:768px){
@@ -152,6 +171,7 @@ tr:hover td{background:rgba(45,90,142,.02);}
   .content{padding:20px 16px;}
   .stats-grid{grid-template-columns:1fr 1fr;}
   .gauge-grid{grid-template-columns:1fr;}
+  .aimana-stats{grid-template-columns:1fr 1fr;}
 }
 </style>
 </head>
@@ -252,23 +272,29 @@ tr:hover td{background:rgba(45,90,142,.02);}
 
     <!-- ===== VACANCY EDITOR ===== -->
     <div class="tab-panel" id="panel-vacancy">
+
+      <!-- Aimana Sync Panel -->
+      <div class="aimana-panel" id="aimanaPanel">
+        <div class="aimana-header">
+          <h3>📡 介護のまな連携データ</h3>
+          <span class="aimana-status" id="aimanaStatus">読み込み中...</span>
+        </div>
+        <div class="aimana-stats" id="aimanaStats">
+          <div class="aimana-stat"><div class="num">-</div><div class="label">読み込み中...</div></div>
+        </div>
+        <div class="aimana-diff" id="aimanaDiff" style="display:none;"></div>
+      </div>
+
       <div class="card">
         <div class="card-title">✏️ 空床状況の更新</div>
-        <p style="font-size:13px;color:var(--text-mid);margin-bottom:20px;">公開ページに表示される空床状況を更新します。入居者数を変更して「保存」を押してください。</p>
+        <p style="font-size:13px;color:var(--text-mid);margin-bottom:20px;">入居者数を変更して「保存」を押すと、公開ページに自動で反映されます。</p>
         <div class="vacancy-grid" id="vacancyEditor"></div>
         <div style="text-align:center;margin-top:24px;">
-          <button class="btn btn-primary" onclick="saveVacancy()" style="padding:14px 48px;">💾 空床状況を保存</button>
+          <button class="btn btn-primary" onclick="saveVacancyToAPI()" id="saveBtn" style="padding:14px 48px;">💾 保存して公開ページに反映</button>
           <button class="btn btn-secondary" onclick="downloadVacancyJSON()" style="margin-left:12px;">📥 JSONダウンロード</button>
         </div>
         <div class="msg" id="vacancyMsg" style="margin-top:16px;"></div>
-        <div class="card" style="margin-top:20px;background:var(--bg);">
-          <div class="card-title">💡 複数端末での空床更新について</div>
-          <p style="font-size:12px;color:var(--text-mid);line-height:1.8;">
-            「JSONダウンロード」ボタンで <code>vacancy.json</code> をダウンロードし、<br>
-            プロジェクトの <code>data/vacancy.json</code> に上書きしてGitHub Pushすると、<br>
-            公開ページの空床状況が更新されます。どの端末からでも変更を反映できます。
-          </p>
-        </div>
+        <div class="save-status" id="saveStatus"></div>
       </div>
     </div>
 
@@ -319,6 +345,7 @@ function showApp() {
   initDashboard();
   initVacancyEditor();
   loadResidents();
+  loadAimanaData();
 }
 
 // Check session
@@ -556,6 +583,7 @@ function initVacancyEditor() {
   const data = getVacancyData();
   document.getElementById('vacancyEditor').innerHTML = data.facilities.map(f => {
     const fi = FACILITIES.find(x => x.id === f.id);
+    const vacancy = f.capacity - f.occupied;
     return `
     <div class="vacancy-item">
       <h3>${fi?.icon||''} ${f.name}</h3>
@@ -564,11 +592,13 @@ function initVacancyEditor() {
         <input type="number" class="vacancy-input" id="vac-${f.id}" value="${f.occupied}" min="0" max="${f.capacity}">
         <span class="vacancy-cap">/ ${f.capacity}名</span>
       </div>
+      <div style="font-size:12px;color:var(--text-light);margin-top:6px;">空き: ${vacancy}床</div>
     </div>`;
   }).join('');
 }
 
-function saveVacancy() {
+// Save to localStorage (fallback)
+function saveVacancyLocal() {
   const data = getVacancyData();
   data.facilities.forEach(f => {
     const input = document.getElementById('vac-' + f.id);
@@ -577,11 +607,53 @@ function saveVacancy() {
   data.lastUpdated = new Date().toISOString().split('T')[0];
   localStorage.setItem('vacancy_data', JSON.stringify(data));
   initDashboard();
+  return data;
+}
 
+// Save via API (GitHub auto-push)
+async function saveVacancyToAPI() {
+  const btn = document.getElementById('saveBtn');
   const msg = document.getElementById('vacancyMsg');
-  msg.className = 'msg success';
-  msg.textContent = '✅ 空床状況を保存しました！公開ページに反映するには「JSONダウンロード」でファイルを更新してください。';
-  setTimeout(() => { msg.className = 'msg'; }, 5000);
+  const statusEl = document.getElementById('saveStatus');
+
+  btn.disabled = true;
+  btn.textContent = '⏳ 保存中...';
+
+  // Always save locally first
+  const data = saveVacancyLocal();
+
+  try {
+    const res = await fetch('/api/update-vacancy', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer youki8131'
+      },
+      body: JSON.stringify({ facilities: data.facilities })
+    });
+
+    const result = await res.json();
+
+    if (result.success) {
+      msg.className = 'msg success';
+      msg.textContent = '✅ ' + result.message;
+      statusEl.textContent = '最終保存: ' + new Date().toLocaleString('ja-JP');
+    } else {
+      // API failed, but local save worked
+      msg.className = 'msg warn';
+      msg.textContent = '⚠️ ローカル保存は完了。公開ページへの自動反映に失敗: ' + result.error;
+      statusEl.textContent = 'JSONダウンロードで手動更新してください';
+    }
+  } catch (e) {
+    // API not available (local dev or GITHUB_TOKEN not set)
+    msg.className = 'msg warn';
+    msg.textContent = '⚠️ ローカル保存は完了。自動反映が未設定の場合は「JSONダウンロード」をご利用ください。';
+    statusEl.textContent = '';
+  }
+
+  btn.disabled = false;
+  btn.textContent = '💾 保存して公開ページに反映';
+  setTimeout(() => { msg.className = 'msg'; }, 8000);
 }
 
 function downloadVacancyJSON() {
@@ -594,6 +666,76 @@ function downloadVacancyJSON() {
   a.download = 'vacancy.json';
   a.click();
   URL.revokeObjectURL(url);
+}
+
+// ===== AIMANA SYNC =====
+async function loadAimanaData() {
+  const statusEl = document.getElementById('aimanaStatus');
+  const statsEl = document.getElementById('aimanaStats');
+  const diffEl = document.getElementById('aimanaDiff');
+
+  try {
+    const res = await fetch('/api/aimana-sync');
+    const result = await res.json();
+
+    if (!result.success) throw new Error(result.error);
+
+    const d = result.data;
+    statusEl.textContent = '✅ 接続中';
+    statusEl.className = 'aimana-status ok';
+
+    // Last activity
+    let lastActivity = '-';
+    if (d.lastActivityAt && d.lastActivityAt._seconds) {
+      lastActivity = new Date(d.lastActivityAt._seconds * 1000).toLocaleString('ja-JP');
+    }
+
+    statsEl.innerHTML = `
+      <div class="aimana-stat">
+        <div class="num">${d.insuredPersonCount}</div>
+        <div class="label">登録利用者数（全施設）</div>
+      </div>
+      <div class="aimana-stat">
+        <div class="num">${d.thisMonth}</div>
+        <div class="label">今月</div>
+      </div>
+      <div class="aimana-stat">
+        <div class="num">${d.lastMonth}</div>
+        <div class="label">先月</div>
+      </div>
+      <div class="aimana-stat">
+        <div class="num" style="font-size:14px;">${lastActivity}</div>
+        <div class="label">最終操作日時</div>
+      </div>
+    `;
+
+    // Compare with local vacancy data
+    const vacData = getVacancyData();
+    const localTotal = vacData.facilities.reduce((s, f) => s + f.occupied, 0);
+    const diff = d.insuredPersonCount - localTotal;
+
+    diffEl.style.display = 'flex';
+    if (diff === 0) {
+      diffEl.className = 'aimana-diff match';
+      diffEl.innerHTML = '✅ 介護のまなの利用者数と施設合計が一致しています';
+    } else {
+      diffEl.className = 'aimana-diff mismatch';
+      diffEl.innerHTML = `⚠️ 介護のまな: ${d.insuredPersonCount}名（全5施設） / 下記3施設の合計: ${localTotal}名（差: ${diff}名はホーム4・5の利用者と推測）`;
+    }
+
+    // Store for change detection
+    const prevCount = localStorage.getItem('aimana_prev_count');
+    if (prevCount && parseInt(prevCount) !== d.insuredPersonCount) {
+      diffEl.innerHTML += '<br>🔔 <strong>前回確認時から利用者数が変化しています！</strong> 空床状況を確認してください。';
+      diffEl.className = 'aimana-diff mismatch';
+    }
+    localStorage.setItem('aimana_prev_count', d.insuredPersonCount);
+
+  } catch (e) {
+    statusEl.textContent = '❌ 接続失敗';
+    statusEl.className = 'aimana-status err';
+    statsEl.innerHTML = `<div class="aimana-stat"><div class="num" style="font-size:14px;">データ取得に失敗</div><div class="label">${e.message}</div></div>`;
+  }
 }
 </script>
 </body>

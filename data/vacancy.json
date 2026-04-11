@@ -1,8 +1,8 @@
 {
-  "lastUpdated": "2026-04-10",
+  "lastUpdated": "2026-04-11",
   "facilities": [
-    { "id": "HOME1", "name": "ホーム1", "capacity": 18, "occupied": 15 },
-    { "id": "HOME2", "name": "ホーム2", "capacity": 16, "occupied": 12 },
-    { "id": "HOME3", "name": "ホーム3", "capacity": 19, "occupied": 12 }
+    { "id": "HOME1", "name": "ホーム1", "capacity": 18, "occupied": 16 },
+    { "id": "HOME2", "name": "ホーム2", "capacity": 16, "occupied": 13 },
+    { "id": "HOME3", "name": "ホーム3", "capacity": 19, "occupied": 16 }
   ]
 }
