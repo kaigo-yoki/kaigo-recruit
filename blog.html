@@ -238,10 +238,8 @@ async function loadBlog() {
     allPosts = [];
   }
 
-  // Stats
-  document.getElementById('post-count').textContent = allPosts.length;
+  // Stats (elements removed)
   const categories = [...new Set(allPosts.map(p => p.category))];
-  document.getElementById('cat-count').textContent = categories.length;
 
   // Filter buttons
   const bar = document.getElementById('filter-bar');
