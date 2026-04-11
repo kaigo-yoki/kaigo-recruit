@@ -92,13 +92,20 @@ nav a:hover{background:var(--pink-p);color:var(--pink);}
 .hamburger.open span:nth-child(2){opacity:0;}
 .hamburger.open span:nth-child(3){transform:rotate(-45deg);top:19px;background:var(--pink);}
 
-.mobile-menu{display:none;position:fixed;inset:0;z-index:150;background:rgba(255,255,255,.98);backdrop-filter:blur(24px);flex-direction:column;align-items:center;justify-content:center;gap:0;opacity:0;transform:scale(.95);transition:opacity .35s,transform .35s;}
-.mobile-menu.open{display:flex;opacity:1;transform:none;}
-.mobile-menu a{font-size:17px;font-weight:700;color:var(--td);text-decoration:none;padding:16px 32px;border-radius:16px;transition:all .25s;display:flex;align-items:center;gap:10px;width:280px;justify-content:center;}
+.mm-overlay{display:none;position:fixed;inset:0;z-index:140;background:rgba(0,0,0,.4);opacity:0;transition:opacity .3s;}
+.mm-overlay.open{display:block;opacity:1;}
+.mobile-menu{position:fixed;top:0;right:-300px;bottom:0;width:280px;z-index:150;background:var(--wh);box-shadow:-4px 0 24px rgba(0,0,0,.1);transition:right .35s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;overflow-y:auto;padding:0;}
+.mobile-menu.open{right:0;}
+.mm-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:2px solid var(--bg);flex-shrink:0;}
+.mm-header span{font-size:14px;font-weight:800;color:var(--td);}
+.mm-close{background:none;border:none;cursor:pointer;width:36px;height:36px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:background .25s;font-size:20px;color:var(--tm);}
+.mm-close:hover{background:var(--pink-p);color:var(--pink);}
+.mm-body{flex:1;padding:12px 16px 32px;display:flex;flex-direction:column;gap:2px;}
+.mobile-menu a{font-size:15px;font-weight:700;color:var(--td);text-decoration:none;padding:14px 20px;border-radius:14px;transition:all .25s;display:flex;align-items:center;gap:10px;}
 .mobile-menu a:hover,.mobile-menu a:active{background:var(--pink-p);color:var(--pink);}
-.mobile-menu .mm-cta{margin-top:12px;background:linear-gradient(135deg,var(--pink),var(--orange));color:#fff;font-weight:800;font-size:16px;box-shadow:0 6px 24px rgba(255,107,157,.3);padding:18px 40px;}
+.mobile-menu .mm-cta{margin-top:8px;background:linear-gradient(135deg,var(--pink),var(--orange));color:#fff;font-weight:800;font-size:15px;box-shadow:0 6px 24px rgba(255,107,157,.3);padding:16px 24px;justify-content:center;border-radius:50px;}
 .mobile-menu .mm-cta:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(255,107,157,.4);}
-.mobile-menu .mm-divider{width:200px;height:1px;background:linear-gradient(90deg,transparent,rgba(255,107,157,.2),transparent);margin:6px 0;}
+.mobile-menu .mm-divider{height:1px;background:linear-gradient(90deg,rgba(255,107,157,.15),transparent);margin:6px 16px;}
 
 /* ── HERO ── */
 #hero{min-height:100vh;background:linear-gradient(135deg,#FF6B9D 0%,#FF8C42 25%,#FFD23F 50%,#4ECDC4 75%,#45B7D1 100%);display:flex;align-items:center;padding:120px 60px 80px;position:relative;overflow:hidden;}
@@ -386,20 +393,27 @@ footer{background:#2D3436;color:rgba(255,255,255,.6);padding:56px 48px;text-alig
 </header>
 
 <!-- MOBILE MENU -->
+<div class="mm-overlay" id="mm-overlay"></div>
 <div class="mobile-menu" id="mobile-menu">
-  <a href="#message" onclick="closeMenu()">💭 想い</a>
-  <a href="#salary" onclick="closeMenu()">💰 給与・待遇</a>
-  <a href="#shifts" onclick="closeMenu()">🕐 シフト</a>
-  <a href="#features" onclick="closeMenu()">✨ 特徴</a>
-  <a href="#requirements" onclick="closeMenu()">📋 募集要項</a>
-  <div class="mm-divider"></div>
-  <a href="./shindan.html">🔮 適性診断</a>
-  <a href="./kenshu.html">📚 研修制度</a>
-  <a href="./career-path.html">🚀 キャリアパス</a>
-  <a href="./blog.html">📝 ブログ</a>
-  <a href="./vacancy.html">🏠 空床情報</a>
-  <div class="mm-divider"></div>
-  <a href="./contact.html" class="mm-cta">📝 お問い合わせ・応募</a>
+  <div class="mm-header">
+    <span>メニュー</span>
+    <button class="mm-close" id="mm-close" aria-label="メニューを閉じる">✕</button>
+  </div>
+  <div class="mm-body">
+    <a href="#message" onclick="closeMenu()">💭 想い</a>
+    <a href="#salary" onclick="closeMenu()">💰 給与・待遇</a>
+    <a href="#shifts" onclick="closeMenu()">🕐 シフト</a>
+    <a href="#features" onclick="closeMenu()">✨ 特徴</a>
+    <a href="#requirements" onclick="closeMenu()">📋 募集要項</a>
+    <div class="mm-divider"></div>
+    <a href="./shindan.html">🔮 適性診断</a>
+    <a href="./kenshu.html">📚 研修制度</a>
+    <a href="./career-path.html">🚀 キャリアパス</a>
+    <a href="./blog.html">📝 ブログ</a>
+    <a href="./vacancy.html">🏠 空床情報</a>
+    <div class="mm-divider"></div>
+    <a href="./contact.html" class="mm-cta">📝 お問い合わせ・応募</a>
+  </div>
 </div>
 
 
@@ -798,17 +812,23 @@ footer{background:#2D3436;color:rgba(255,255,255,.6);padding:56px 48px;text-alig
 // Hamburger menu
 const hamburger = document.getElementById('hamburger');
 const mobileMenu = document.getElementById('mobile-menu');
+const mmOverlay = document.getElementById('mm-overlay');
+const mmClose = document.getElementById('mm-close');
 function toggleMenu() {
   hamburger.classList.toggle('open');
   mobileMenu.classList.toggle('open');
+  mmOverlay.classList.toggle('open');
   document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
 }
 function closeMenu() {
   hamburger.classList.remove('open');
   mobileMenu.classList.remove('open');
+  mmOverlay.classList.remove('open');
   document.body.style.overflow = '';
 }
 hamburger.addEventListener('click', toggleMenu);
+mmOverlay.addEventListener('click', closeMenu);
+mmClose.addEventListener('click', closeMenu);
 
 const els=document.querySelectorAll('.reveal');
 const obs=new IntersectionObserver(entries=>{
