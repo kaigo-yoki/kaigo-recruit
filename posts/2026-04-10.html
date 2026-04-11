@@ -48,6 +48,20 @@ time{font-size:13px;color:#B2BEC3;font-weight:500;}
 .sticky-bar{position:fixed;bottom:0;left:0;right:0;z-index:50;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-top:2px solid rgba(255,107,157,.1);padding:12px 16px;}
 .sticky-bar a{display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,#FF6B9D,#FF8C42);color:#fff;font-weight:800;border-radius:16px;padding:14px;font-size:14px;text-decoration:none;max-width:480px;margin:0 auto;box-shadow:0 8px 24px rgba(255,107,157,.3);transition:all .25s;}
 .sticky-bar a:hover{transform:translateY(-2px);}
+
+.post-nav{margin-top:40px;display:flex;flex-direction:column;gap:12px;}
+.post-nav-links{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.post-nav-link{display:flex;align-items:center;gap:10px;padding:16px 18px;background:#fff;border:2px solid rgba(255,107,157,.08);border-radius:16px;text-decoration:none;transition:all .3s;min-height:72px;}
+.post-nav-link:hover{border-color:rgba(255,107,157,.2);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.06);}
+.post-nav-link.prev{justify-content:flex-start;}
+.post-nav-link.next{justify-content:flex-end;text-align:right;}
+.post-nav-arrow{font-size:18px;color:#FF6B9D;flex-shrink:0;font-weight:900;}
+.post-nav-info{display:flex;flex-direction:column;gap:2px;overflow:hidden;min-width:0;}
+.post-nav-label{font-size:10px;font-weight:700;color:#B2BEC3;letter-spacing:.08em;}
+.post-nav-title{font-size:13px;font-weight:700;color:#2D3436;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.post-nav-list{display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 24px;background:linear-gradient(135deg,#FFF0F5,#FFF3E8);border:2px solid rgba(255,107,157,.1);border-radius:50px;text-decoration:none;font-size:14px;font-weight:800;color:#FF6B9D;transition:all .25s;}
+.post-nav-list:hover{background:linear-gradient(135deg,#FF6B9D,#FF8C42);color:#fff;transform:translateY(-2px);box-shadow:0 6px 20px rgba(255,107,157,.3);}
+@media(max-width:480px){.post-nav-links{grid-template-columns:1fr;}.post-nav-link.next{text-align:left;justify-content:flex-start;}}
 </style>
 </head>
 <body>
@@ -64,16 +78,51 @@ time{font-size:13px;color:#B2BEC3;font-weight:500;}
   <div class="content">
     <article><h2>認知症ケアの基本とは？</h2><p>認知症ケアは、高齢者が抱える様々な問題に対処するための重要なスキルです。認知症の方は記憶や判断力が低下するため、安心して生活できる環境を整えることが求められます。まず、日常生活におけるサポートが基本となりますが、個々の状態に応じたアプローチが重要です。</p><h2>私たちの取り組み</h2><p>「ホームいこい」では、専門的なトレーニングを受けたスタッフが、認知症の方に寄り添ったケアを提供しています。例えば、定期的に行うレクリエーション活動では、認知症の方が楽しめるよう工夫を凝らしています。また、入居者の方々とのコミュニケーションを大切にし、小さな変化に気付くことができるよう心掛けています。</p><h2>介護職の求人情報</h2><p>沖縄県南城市で介護職を目指す方には、訪問介護サービスを提供する「ホームいこい」がおすすめです。未経験の方でも丁寧にサポートし、資格取得を全額補助する制度もあります。私たちと一緒に、やりがいのある介護の世界に飛び込んでみませんか？</p></article>
   </div>
+  <div class="post-nav" id="post-nav"></div>
   <div class="cta-box">
     <p class="title">訪問介護 ようきに興味がありますか?</p>
     <p class="sub">見学も大歓迎! お電話またはWebフォームからお気軽にどうぞ。</p>
     <a href="../contact.html" class="cta-btn">📝 Webでお問い合わせ</a>
     <p class="cta-tel"><a href="tel:098-852-5255">📞 098-852-5255</a>（電話受付 9:00〜18:00）</p>
   </div>
-  <a href="../" class="back">&#x2190; 採用トップページへ戻る</a>
+  <a href="../blog.html" class="back">📝 ブログ一覧へ</a>
 </main>
 <div class="sticky-bar">
   <a href="../contact.html">📝 Webでお問い合わせ・応募する</a>
 </div>
+<script>
+(function(){
+  var currentFile = location.pathname.split('/').pop();
+  fetch('./posts.json?_t='+Date.now()).then(function(r){return r.json()}).then(function(posts){
+    var idx = -1;
+    for(var i=0;i<posts.length;i++){if(posts[i].file===currentFile){idx=i;break;}}
+    if(idx===-1) return;
+    var prev = idx < posts.length-1 ? posts[idx+1] : null;
+    var next = idx > 0 ? posts[idx-1] : null;
+    var navEl = document.getElementById('post-nav');
+    if(!navEl) return;
+    var html = '<div class="post-nav-links">';
+    if(prev){
+      html += '<a class="post-nav-link prev" href="'+prev.file+'">' +
+        '<span class="post-nav-arrow">\u2190</span>' +
+        '<div class="post-nav-info"><span class="post-nav-label">\u524d\u306e\u8a18\u4e8b</span>' +
+        '<span class="post-nav-title">'+prev.title+'</span></div></a>';
+    } else {
+      html += '<div></div>';
+    }
+    if(next){
+      html += '<a class="post-nav-link next" href="'+next.file+'">' +
+        '<div class="post-nav-info"><span class="post-nav-label">\u6b21\u306e\u8a18\u4e8b</span>' +
+        '<span class="post-nav-title">'+next.title+'</span></div>' +
+        '<span class="post-nav-arrow">\u2192</span></a>';
+    } else {
+      html += '<div></div>';
+    }
+    html += '</div>';
+    html += '<a href="../blog.html" class="post-nav-list">\ud83d\udcdd \u30d6\u30ed\u30b0\u4e00\u89a7\u3092\u898b\u308b</a>';
+    navEl.innerHTML = html;
+  }).catch(function(){});
+})();
+</script>
 </body>
 </html>
