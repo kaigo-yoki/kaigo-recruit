@@ -1589,8 +1589,8 @@ footer {
 }
 
 /* ── SECTION INTERNAL LINK BANNERS ── */
-.sec-link{display:flex;align-items:center;gap:16px;background:var(--wh);border:2px solid rgba(255,107,157,.12);border-radius:20px;padding:20px 28px;text-decoration:none;transition:all .3s;margin:40px auto 0;max-width:560px;}
-.sec-link:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(255,107,157,.12);border-color:rgba(255,107,157,.25);}
+.sec-link{display:flex;align-items:center;gap:16px;background:linear-gradient(135deg,#FFF0F5,#FFF3E8);border:2.5px solid rgba(255,107,157,.25);border-radius:50px;padding:18px 32px;text-decoration:none;transition:all .3s;margin:40px auto 0;max-width:560px;box-shadow:0 4px 16px rgba(255,107,157,.1);}
+.sec-link:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(255,107,157,.2);border-color:rgba(255,107,157,.4);background:linear-gradient(135deg,#FFE8F0,#FFE8D8);}
 .sec-link-icon{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
 .sec-link-icon.pink{background:linear-gradient(135deg,var(--pink-p),var(--orange-p));}
 .sec-link-icon.mint{background:linear-gradient(135deg,var(--mint-p),var(--blue-p));}
