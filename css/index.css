@@ -1587,3 +1587,17 @@ footer {
     grid-template-columns: 1fr;
   }
 }
+
+/* ── SECTION INTERNAL LINK BANNERS ── */
+.sec-link{display:flex;align-items:center;gap:16px;background:var(--wh);border:2px solid rgba(255,107,157,.12);border-radius:20px;padding:20px 28px;text-decoration:none;transition:all .3s;margin-top:40px;max-width:560px;}
+.sec-link:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(255,107,157,.12);border-color:rgba(255,107,157,.25);}
+.sec-link-icon{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
+.sec-link-icon.pink{background:linear-gradient(135deg,var(--pink-p),var(--orange-p));}
+.sec-link-icon.mint{background:linear-gradient(135deg,var(--mint-p),var(--blue-p));}
+.sec-link-icon.purple{background:linear-gradient(135deg,var(--purple-p),var(--pink-p));}
+.sec-link-body{flex:1;}
+.sec-link-title{font-size:14px;font-weight:800;color:var(--td);line-height:1.4;margin-bottom:2px;}
+.sec-link-desc{font-size:11px;color:var(--tm);font-weight:500;line-height:1.5;}
+.sec-link-arrow{font-size:18px;color:var(--pink);font-weight:900;flex-shrink:0;transition:transform .3s;}
+.sec-link:hover .sec-link-arrow{transform:translateX(4px);}
+@media(max-width:600px){.sec-link{padding:16px 20px;gap:12px;}.sec-link-icon{width:44px;height:44px;font-size:20px;}.sec-link-title{font-size:13px;}}
