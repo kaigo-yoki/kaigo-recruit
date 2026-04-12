@@ -80,7 +80,7 @@
   /* ── スライドメニュー ── */
   var menu = document.createElement('div');
   menu.className = 'sh-menu';
-  menu.innerHTML = '<div class="sh-menu-head"><span>メニュー</span><button class="sh-menu-close" aria-label="閉じる">✕</button></div><div class="sh-menu-body"><a href="./">🏠 トップへ戻る</a><div class="sh-divider"></div><a href="./shindan.html">🔮 適性診断</a><a href="./kenshu.html">📚 研修制度</a><a href="./career-path.html">💰 処遇改善・キャリアパス</a><a href="./blog.html">📝 ブログ</a><a href="./vacancy.html">🏠 空床情報</a><div class="sh-divider"></div><a href="./contact.html" class="sh-menu-cta">📝 お問い合わせ・応募</a></div>';
+  menu.innerHTML = '<div class="sh-menu-head"><span>メニュー</span><button class="sh-menu-close" aria-label="閉じる">✕</button></div><div class="sh-menu-body"><a href="./">🏠 採用トップへ</a><div class="sh-divider"></div><a href="./kenshu.html">📚 研修制度</a><a href="./career-path.html">💰 処遇改善・キャリアパス</a><a href="./shindan.html">🔮 適性診断</a><div class="sh-divider"></div><a href="./contact.html" class="sh-menu-cta">📝 お問い合わせ・応募</a></div>';
   document.body.appendChild(menu);
 
   /* ── イベント ── */
