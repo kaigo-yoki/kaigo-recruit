@@ -6,10 +6,8 @@
   css.textContent = `
 /* SHARED HEADER */
 .sh-header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.95);backdrop-filter:blur(20px);border-bottom:2px solid rgba(255,107,157,.15);padding:12px 32px;display:flex;align-items:center;justify-content:space-between;}
-.sh-logo{display:flex;align-items:center;gap:10px;text-decoration:none;flex-shrink:0;}
-.sh-logo img{height:34px;width:auto;display:block;}
-.sh-logo-t{font-weight:800;font-size:15px;color:#2D3436;line-height:1.2;}
-.sh-logo-t span{display:block;font-size:9px;font-weight:500;color:#636E72;letter-spacing:.12em;margin-top:1px;}
+.sh-back{display:flex;align-items:center;gap:6px;font-size:14px;font-weight:700;color:#FF6B9D;text-decoration:none;transition:color .25s;flex-shrink:0;}
+.sh-back:hover{color:#FF8C42;}
 .sh-nav{display:flex;align-items:center;gap:6px;}
 .sh-nav a{font-size:12px;font-weight:700;color:#636E72;text-decoration:none;padding:8px 16px;border-radius:50px;transition:all .25s;white-space:nowrap;}
 .sh-nav a:hover{background:#FFF0F5;color:#FF6B9D;}
@@ -50,16 +48,22 @@
   var existingHeader = document.querySelector('.header, header, .site-header');
   if (!existingHeader) return;
 
-  // blog.htmlなど既にheader-navがあるページはPCナビ注入をスキップ
-  var hasNav = existingHeader.querySelector('.header-nav, .sh-nav');
+  // 既存のヘッダー内容をクリアして統一ヘッダーに置換
+  existingHeader.className = 'sh-header';
+  existingHeader.innerHTML = '';
 
-  if (!hasNav) {
-    // PCナビゲーションを注入
-    var nav = document.createElement('div');
-    nav.className = 'sh-nav';
-    nav.innerHTML = '<a href="./">トップ</a><a href="./shindan.html">適性診断</a><a href="./kenshu.html">研修</a><a href="./career-path.html">処遇改善・キャリアパス</a><a href="./vacancy.html">🏠 空床情報</a><a href="./contact.html" class="sh-cta">📝 お問い合わせ</a>';
-    existingHeader.appendChild(nav);
-  }
+  // ← 採用トップへ リンク
+  var backLink = document.createElement('a');
+  backLink.className = 'sh-back';
+  backLink.href = './';
+  backLink.textContent = '← 採用トップへ';
+  existingHeader.appendChild(backLink);
+
+  // PCナビゲーション
+  var nav = document.createElement('div');
+  nav.className = 'sh-nav';
+  nav.innerHTML = '<a href="./shindan.html">適性診断</a><a href="./kenshu.html">研修</a><a href="./career-path.html">処遇改善・キャリアパス</a><a href="./contact.html" class="sh-cta">📝 お問い合わせ</a>';
+  existingHeader.appendChild(nav);
 
   /* ── ハンバーガーボタン ── */
   var btn = document.createElement('button');
