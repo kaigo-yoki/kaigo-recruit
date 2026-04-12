@@ -4,9 +4,9 @@
   "description": "デイサービスはいさい 採用特設ページ - ブログ自動生成",
   "scripts": {
     "dev": "npx -y serve@latest -l 3000",
-    "generate": "node scripts/generate-post.js",
-    "generate-training": "node scripts/generate-training.js",
-    "generate-individual": "node scripts/generate-individual.js"
+    "generate": "node scripts/build/generate-post.js",
+    "generate-training": "node scripts/build/generate-training.js",
+    "generate-individual": "node scripts/build/generate-individual.js"
   },
   "dependencies": {
     "openai": "^4.58.0"
