@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 // ===== 設定 =====
-const TRAININGS_DIR = path.join(__dirname, '..', 'trainings');
+const TRAININGS_DIR = path.join(__dirname, '..', '..', 'trainings');
 const TRAININGS_JSON = path.join(TRAININGS_DIR, 'trainings.json');
 const SITE_URL = 'https://kaigo-yoki.jp/recruit';
 

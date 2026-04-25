@@ -5,7 +5,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const POSTS_DIR = path.join(__dirname, '..', 'posts');
+const POSTS_DIR = path.join(__dirname, '..', '..', 'posts');
 
 // 追加するCSS
 const NAV_CSS = `

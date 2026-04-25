@@ -3,9 +3,9 @@ const fs = require('fs');
 const path = require('path');
 
 // ===== 設定 =====
-const POSTS_DIR = path.join(__dirname, '..', 'posts');
+const POSTS_DIR = path.join(__dirname, '..', '..', 'posts');
 const POSTS_JSON = path.join(POSTS_DIR, 'posts.json');
-const SITEMAP_PATH = path.join(__dirname, '..', 'sitemap.xml');
+const SITEMAP_PATH = path.join(__dirname, '..', '..', 'sitemap.xml');
 const SITE_URL = 'https://kaigo-yoki.jp/recruit';
 
 // ===== テーマプール =====

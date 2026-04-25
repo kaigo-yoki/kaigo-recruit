@@ -9,8 +9,8 @@
 const fs = require('fs');
 const path = require('path');
 
-const TRAININGS_DIR = path.join(__dirname, '..', 'trainings');
-const INDIVIDUAL_DIR = path.join(__dirname, '..', 'individual-training');
+const TRAININGS_DIR = path.join(__dirname, '..', '..', 'trainings');
+const INDIVIDUAL_DIR = path.join(__dirname, '..', '..', 'individual-training');
 
 // 追加するCSS
 const CERTIFICATE_CSS = `
