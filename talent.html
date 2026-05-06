@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ようきタレント診断 β | 社内専用</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="./favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --pri:#1A6B5C;--pri2:#2E9D8F;--acc:#D4A017;
+  --pink:#FF6B9D;--orange:#FF8C42;--yellow:#FFD23F;
+  --mint:#4ECDC4;--blue:#45B7D1;--purple:#A78BFA;
+  --td:#1F2A3A;--tm:#5A6B7B;--tl:#A8B2BC;
+  --bg:#F4F6F4;--wh:#FFFFFF;--soft:#EFF5F2;
+  --r:16px;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'M PLUS Rounded 1c',sans-serif;background:var(--bg);color:var(--td);line-height:1.8;overflow-x:hidden;-webkit-text-size-adjust:100%;}
+
+header{background:rgba(255,255,255,.95);backdrop-filter:blur(20px);border-bottom:2px solid rgba(26,107,92,.15);padding:12px 24px;position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;}
+header .logo{font-weight:800;font-size:14px;color:var(--pri);text-decoration:none;}
+header .sub{font-size:11px;color:var(--tl);font-weight:500;}
+
+.hero{text-align:center;padding:42px 24px 32px;background:linear-gradient(135deg,#1A6B5C 0%,#2E9D8F 60%,#D4A017 100%);color:#fff;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.08);top:-80px;right:-60px;}
+.hero h1{font-size:clamp(20px,4vw,28px);font-weight:900;margin-bottom:8px;position:relative;}
+.hero p{font-size:13px;opacity:.95;max-width:520px;margin:0 auto;position:relative;}
+
+.container{max-width:680px;margin:0 auto;padding:28px 20px 100px;}
+
+.beta-info{background:#fff8e6;border:2px solid #ffd23f;border-radius:14px;padding:14px 18px;margin-bottom:20px;font-size:12px;color:#a87900;font-weight:700;}
+
+.progress-wrap{margin-bottom:20px;display:none;}
+.progress-bar{height:8px;background:#eee;border-radius:8px;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--pri),var(--pri2),var(--acc));border-radius:8px;transition:width .4s ease;width:0%;}
+.progress-text{font-size:12px;font-weight:700;color:var(--tm);margin-top:8px;text-align:center;}
+
+.card{background:#fff;border-radius:24px;padding:32px 24px;border:2px solid rgba(26,107,92,.08);box-shadow:0 4px 20px rgba(0,0,0,.04);}
+
+.start .emoji{font-size:56px;display:block;text-align:center;margin-bottom:12px;}
+.start h2{font-size:22px;font-weight:900;text-align:center;margin-bottom:12px;}
+.start p{font-size:14px;color:var(--tm);text-align:center;margin-bottom:8px;}
+.features{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:20px 0;}
+.feat{background:var(--soft);border-radius:14px;padding:14px;font-size:12px;font-weight:700;color:var(--tm);display:flex;align-items:center;gap:10px;}
+.feat .i{font-size:20px;}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,var(--pri),var(--pri2));color:#fff;padding:16px 40px;border-radius:50px;font-size:15px;font-weight:800;border:none;cursor:pointer;font-family:inherit;box-shadow:0 8px 24px rgba(26,107,92,.3);transition:transform .25s,box-shadow .25s;}
+.btn:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(26,107,92,.4);}
+.btn:disabled{opacity:.5;cursor:not-allowed;}
+.btn-c{display:flex;justify-content:center;margin-top:24px;}
+
+.field{margin-bottom:18px;}
+.field label{display:block;font-size:13px;font-weight:800;color:var(--td);margin-bottom:8px;}
+.field label .req{color:var(--pri2);font-size:11px;margin-left:4px;}
+.field input,.field select{width:100%;padding:12px 16px;border:2px solid #eee;border-radius:14px;font-size:14px;font-family:inherit;font-weight:600;outline:none;transition:border-color .25s;background:#fff;color:var(--td);}
+.field input:focus,.field select:focus{border-color:var(--pri2);}
+.field.error input,.field.error select{border-color:#ff4757;background:#fff5f6;}
+
+.section-banner{background:linear-gradient(135deg,var(--pri),var(--pri2));color:#fff;border-radius:18px;padding:18px 22px;margin-bottom:20px;text-align:center;}
+.section-banner h3{font-size:16px;font-weight:900;margin-bottom:4px;}
+.section-banner p{font-size:12px;opacity:.92;}
+
+.q-num{font-size:11px;font-weight:800;color:var(--pri2);background:rgba(46,157,143,.1);display:inline-block;padding:4px 14px;border-radius:50px;margin-bottom:12px;}
+.q-block{font-size:11px;font-weight:700;color:var(--tm);margin-bottom:8px;letter-spacing:.05em;}
+.q-text{font-size:17px;font-weight:800;line-height:1.6;margin-bottom:24px;color:var(--td);}
+.q-scale{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:8px;}
+.q-scale button{padding:18px 6px;border-radius:14px;border:2px solid #eee;background:#fff;font-size:13px;font-weight:800;cursor:pointer;transition:all .2s;font-family:inherit;color:var(--tm);line-height:1.3;}
+.q-scale button:hover{border-color:var(--pri2);background:rgba(46,157,143,.05);transform:translateY(-2px);}
+.q-scale button.selected{border-color:var(--pri2);background:var(--pri2);color:#fff;}
+.q-scale-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--tl);margin-top:6px;padding:0 4px;}
+
+.q-nav{display:flex;justify-content:space-between;margin-top:24px;gap:12px;}
+.q-nav button{flex:1;padding:14px;border-radius:14px;border:2px solid #eee;background:#fff;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;color:var(--tm);transition:all .2s;}
+.q-nav button:hover:not(:disabled){border-color:var(--pri2);color:var(--pri2);}
+.q-nav button:disabled{opacity:.4;cursor:not-allowed;}
+.q-nav .next{background:linear-gradient(135deg,var(--pri),var(--pri2));color:#fff;border-color:transparent;}
+
+/* Calc test */
+.calc-intro{text-align:center;}
+.calc-intro h2{font-size:22px;font-weight:900;margin-bottom:14px;}
+.calc-intro .lead{font-size:14px;color:var(--tm);margin-bottom:14px;line-height:2;}
+.calc-rules{background:var(--soft);border-radius:14px;padding:16px 18px;text-align:left;font-size:13px;color:var(--td);font-weight:700;line-height:2;margin:18px 0;}
+.calc-rules ul{padding-left:18px;}
+
+.calc-screen{text-align:center;}
+.calc-timer{font-size:48px;font-weight:900;color:var(--pri);margin-bottom:16px;letter-spacing:0.04em;font-variant-numeric:tabular-nums;}
+.calc-progress{font-size:13px;color:var(--tm);font-weight:700;margin-bottom:24px;}
+.calc-prob{font-size:60px;font-weight:900;color:var(--td);margin:24px 0;letter-spacing:0.05em;font-variant-numeric:tabular-nums;}
+.calc-input{width:100%;max-width:240px;margin:0 auto 18px;padding:18px;font-size:32px;font-weight:900;text-align:center;border:3px solid var(--pri2);border-radius:16px;outline:none;font-family:inherit;background:#fff;}
+.calc-input:focus{box-shadow:0 0 0 4px rgba(46,157,143,.15);}
+.calc-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px;}
+.calc-stat{background:var(--soft);border-radius:12px;padding:10px 6px;}
+.calc-stat .num{font-size:22px;font-weight:900;color:var(--pri);}
+.calc-stat .label{font-size:10px;color:var(--tm);font-weight:700;}
+.numpad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:280px;margin:0 auto 16px;}
+.numpad button{padding:18px 0;font-size:22px;font-weight:900;border-radius:12px;border:2px solid #eee;background:#fff;cursor:pointer;font-family:inherit;color:var(--td);transition:all .15s;}
+.numpad button:hover{border-color:var(--pri2);background:rgba(46,157,143,.05);}
+.numpad button:active{transform:scale(.96);}
+.numpad button.del{color:var(--orange);}
+.numpad button.ok{background:var(--pri2);color:#fff;border-color:var(--pri2);}
+
+/* Result */
+.result{padding:8px 4px;}
+.result h2{font-size:24px;font-weight:900;margin-bottom:8px;text-align:center;}
+.result .name{font-size:14px;color:var(--tm);text-align:center;margin-bottom:24px;}
+.score-card{background:linear-gradient(135deg,var(--pri),var(--pri2));color:#fff;border-radius:18px;padding:24px;margin-bottom:18px;text-align:center;}
+.score-card .label{font-size:13px;opacity:.85;margin-bottom:6px;font-weight:700;}
+.score-card .num{font-size:54px;font-weight:900;line-height:1;}
+.score-card .num small{font-size:18px;opacity:.8;}
+.score-card .desc{font-size:13px;margin-top:8px;opacity:.92;}
+.factor-grid{display:grid;grid-template-columns:1fr;gap:8px;margin-bottom:20px;}
+.factor-row{background:#fff;border:2px solid var(--soft);border-radius:14px;padding:14px 16px;display:grid;grid-template-columns:140px 1fr 50px;align-items:center;gap:12px;}
+.factor-row .name{font-size:13px;font-weight:800;}
+.factor-row .bar-bg{height:10px;background:#eee;border-radius:6px;overflow:hidden;}
+.factor-row .bar{height:100%;background:linear-gradient(90deg,var(--pri),var(--pri2));border-radius:6px;}
+.factor-row .val{font-size:16px;font-weight:900;text-align:right;color:var(--pri);}
+.advice-card{background:#fff;border:2px solid var(--soft);border-radius:14px;padding:18px;margin-bottom:14px;}
+.advice-card h4{font-size:14px;font-weight:900;color:var(--pri);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.advice-card ul{padding-left:20px;}
+.advice-card li{font-size:13px;color:var(--td);margin-bottom:6px;}
+
+footer{text-align:center;padding:32px 20px;font-size:11px;color:var(--tl);}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.fade{animation:fadeIn .35s ease;}
+
+@media (max-width:480px){
+  .features{grid-template-columns:1fr;}
+  .q-scale button{padding:14px 4px;font-size:11px;}
+  .q-text{font-size:16px;}
+  .factor-row{grid-template-columns:110px 1fr 44px;gap:8px;}
+  .calc-prob{font-size:48px;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="./">← トップへ</a>
+  <span class="sub">ようきタレント診断 β（社内専用）</span>
+</header>
+
+<div class="hero">
+  <h1>ようきタレント診断</h1>
+  <p>あなたの強み・価値観・適性を可視化し、最適な活躍の場を見つけます</p>
+</div>
+
+<div class="container">
+
+  <!-- ========== Screen 1: Start ========== -->
+  <div id="screen-start" class="card start fade">
+    <span class="emoji">🌿</span>
+    <h2>お疲れ様です</h2>
+    <p>陽気で働く皆様の強み・価値観・適性を見える化する診断です。</p>
+    <p style="font-size:12px;color:var(--tl);margin-top:8px;">所要時間：約20分　/　全80問＋簡易処理能力テスト60秒</p>
+
+    <div class="features">
+      <div class="feat"><span class="i">⏱</span>約20分で完了</div>
+      <div class="feat"><span class="i">🌱</span>性格・価値観・適性を可視化</div>
+      <div class="feat"><span class="i">🔒</span>結果は社内限定</div>
+      <div class="feat"><span class="i">💡</span>正解はありません</div>
+    </div>
+
+    <div class="beta-info">
+      ⚠️ <strong>β版（社内検証）</strong><br>
+      陽気独自の人材診断モデル校正のための受検です。結果は代表・SM・CHROのみが拝見します。
+    </div>
+
+    <div class="btn-c">
+      <button class="btn" onclick="goDemographics()">スタート →</button>
+    </div>
+  </div>
+
+  <!-- ========== Screen 2: Demographics ========== -->
+  <div id="screen-demo" class="card fade" style="display:none;">
+    <h2 style="font-size:20px;font-weight:900;margin-bottom:8px;">基本情報</h2>
+    <p style="font-size:13px;color:var(--tm);margin-bottom:24px;">代表・SM・CHROのみが拝見します</p>
+
+    <div class="field" data-required>
+      <label>お名前 <span class="req">必須</span></label>
+      <input type="text" id="d-name" placeholder="例：嶺井 美幸">
+    </div>
+    <div class="field" data-required>
+      <label>所属 <span class="req">必須</span></label>
+      <select id="d-home">
+        <option value="">選択してください</option>
+        <option value="HOME1">ホーム1（佐敷津波古）</option>
+        <option value="HOME2">ホーム2（佐敷津波古）</option>
+        <option value="HOME3">ホーム3（佐敷津波古）</option>
+        <option value="大里1">大里HOME1</option>
+        <option value="大里2">大里HOME2</option>
+        <option value="通所">通所介護</option>
+        <option value="訪問介護">訪問介護</option>
+        <option value="訪問看護">訪問看護</option>
+        <option value="介護タクシー">介護タクシー</option>
+        <option value="保育園">保育園</option>
+        <option value="本部">本部・事務</option>
+        <option value="その他">その他</option>
+      </select>
+    </div>
+    <div class="field" data-required>
+      <label>職種 <span class="req">必須</span></label>
+      <select id="d-position">
+        <option value="">選択してください</option>
+        <option value="介護職員">介護職員</option>
+        <option value="サービス提供責任者">サービス提供責任者</option>
+        <option value="看護師">看護師</option>
+        <option value="ケアマネ">ケアマネジャー</option>
+        <option value="管理者">管理者</option>
+        <option value="リーダー">リーダー</option>
+        <option value="保育士">保育士</option>
+        <option value="調理">調理</option>
+        <option value="運転手">運転手</option>
+        <option value="事務">事務</option>
+        <option value="役員">役員</option>
+        <option value="その他">その他</option>
+      </select>
+    </div>
+    <div class="field" data-required>
+      <label>勤続年数 <span class="req">必須</span></label>
+      <select id="d-tenure">
+        <option value="">選択してください</option>
+        <option value="<1">1年未満</option>
+        <option value="1-3">1〜3年</option>
+        <option value="3-5">3〜5年</option>
+        <option value="5-10">5〜10年</option>
+        <option value="10+">10年以上</option>
+      </select>
+    </div>
+    <div class="field" data-required>
+      <label>年代 <span class="req">必須</span></label>
+      <select id="d-age">
+        <option value="">選択してください</option>
+        <option value="20s">20代</option>
+        <option value="30s">30代</option>
+        <option value="40s">40代</option>
+        <option value="50s">50代</option>
+        <option value="60s+">60代以上</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>雇用形態</label>
+      <select id="d-emp">
+        <option value="">選択してください</option>
+        <option value="正社員">正社員</option>
+        <option value="パート">パート・アルバイト</option>
+        <option value="契約">契約社員</option>
+        <option value="技能実習">技能実習生</option>
+        <option value="特定技能">特定技能</option>
+      </select>
+    </div>
+
+    <div class="q-nav">
+      <button onclick="backToStart()">← 戻る</button>
+      <button class="next" onclick="startQuestions()">診断を開始 →</button>
+    </div>
+  </div>
+
+  <!-- ========== Screen 3: Questions ========== -->
+  <div class="progress-wrap" id="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    <div class="progress-text" id="progress-text"></div>
+  </div>
+
+  <div id="screen-q" style="display:none;"></div>
+
+  <!-- ========== Screen 4: Calc Intro ========== -->
+  <div id="screen-calc-intro" class="card fade" style="display:none;">
+    <div class="calc-intro">
+      <span class="emoji" style="font-size:56px;display:block;margin-bottom:12px;">🧮</span>
+      <h2>処理能力テスト</h2>
+      <p class="lead">最後に、簡単な足し算テストを行います。<br>所要時間：60秒</p>
+      <div class="calc-rules">
+        <strong>ルール</strong>
+        <ul>
+          <li>1桁＋1桁の足し算が次々と出題されます</li>
+          <li>答えが2桁になる場合は、<strong>1の位</strong>を入力（例：8+5=13 → 「3」）</li>
+          <li>60秒間で何問正解できるかを測定します</li>
+          <li>分からない問題はスキップ可能</li>
+        </ul>
+      </div>
+      <div class="btn-c">
+        <button class="btn" onclick="startCalcTest()">テスト開始 →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== Screen 5: Calc Test ========== -->
+  <div id="screen-calc" class="card fade" style="display:none;">
+    <div class="calc-screen">
+      <div class="calc-timer" id="calc-timer">60</div>
+      <div class="calc-progress" id="calc-progress">残り時間（秒）</div>
+      <div class="calc-prob" id="calc-prob">— + — = ?</div>
+      <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="2" class="calc-input" id="calc-input" autocomplete="off">
+      <div class="numpad" id="numpad">
+        <button onclick="numpadInput('1')">1</button>
+        <button onclick="numpadInput('2')">2</button>
+        <button onclick="numpadInput('3')">3</button>
+        <button onclick="numpadInput('4')">4</button>
+        <button onclick="numpadInput('5')">5</button>
+        <button onclick="numpadInput('6')">6</button>
+        <button onclick="numpadInput('7')">7</button>
+        <button onclick="numpadInput('8')">8</button>
+        <button onclick="numpadInput('9')">9</button>
+        <button class="del" onclick="numpadDel()">⌫</button>
+        <button onclick="numpadInput('0')">0</button>
+        <button class="ok" onclick="calcSkip()">skip</button>
+      </div>
+      <div class="calc-stats">
+        <div class="calc-stat"><div class="num" id="calc-correct">0</div><div class="label">正解</div></div>
+        <div class="calc-stat"><div class="num" id="calc-error">0</div><div class="label">誤答</div></div>
+        <div class="calc-stat"><div class="num" id="calc-total">0</div><div class="label">解答数</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== Screen 6: Result ========== -->
+  <div id="screen-result" class="card fade" style="display:none;">
+    <div class="result" id="result-content"></div>
+  </div>
+
+</div>
+
+<footer>
+  © 有限会社 陽気　ようきタレント診断 β（社内専用）
+</footer>
+
+<script>
+// ============================================================
+// 質問データ（80問）
+// ============================================================
+// block: P=性格傾向 / V=価値観 / E=エンゲージメント・適性
+// factor: 因子コード
+// reverse: 逆転項目フラグ
+// ============================================================
+
+const QUESTIONS = [
+  // ===== 性格傾向 (50問) =====
+  // P-O 開放性（5）
+  { id:1,  block:'P', factor:'P_O', reverse:false, text:'新しい介護技術や考え方を学ぶことに興味がある' },
+  { id:2,  block:'P', factor:'P_O', reverse:false, text:'ルーティンワークよりも変化のある仕事を好む' },
+  { id:3,  block:'P', factor:'P_O', reverse:false, text:'想像力を働かせて物事を考えるのが好きだ' },
+  { id:4,  block:'P', factor:'P_O', reverse:false, text:'「いつも通り」より「もっと良い方法」を探したい' },
+  { id:5,  block:'P', factor:'P_O', reverse:true,  text:'抽象的な議論より具体的な手順を好む' },
+  // P-C 誠実性（6）
+  { id:6,  block:'P', factor:'P_C', reverse:false, text:'一度決めたことは最後までやり遂げる' },
+  { id:7,  block:'P', factor:'P_C', reverse:false, text:'約束した時間は必ず守る' },
+  { id:8,  block:'P', factor:'P_C', reverse:false, text:'物事を計画的に進めるタイプだ' },
+  { id:9,  block:'P', factor:'P_C', reverse:false, text:'仕事の段取りを大切にする' },
+  { id:10, block:'P', factor:'P_C', reverse:false, text:'細かいミスにも気づく方だ' },
+  { id:11, block:'P', factor:'P_C', reverse:true,  text:'締切ギリギリで仕上げることが多い' },
+  // P-E 外向性（6）
+  { id:12, block:'P', factor:'P_E', reverse:false, text:'初対面の人とも会話が弾む' },
+  { id:13, block:'P', factor:'P_E', reverse:false, text:'グループの中心になることが多い' },
+  { id:14, block:'P', factor:'P_E', reverse:false, text:'エネルギッシュで活動的だ' },
+  { id:15, block:'P', factor:'P_E', reverse:false, text:'1人の時間より人と過ごす時間が好き' },
+  { id:16, block:'P', factor:'P_E', reverse:false, text:'自分から声をかけるのが得意だ' },
+  { id:17, block:'P', factor:'P_E', reverse:true,  text:'大勢の場ではどっと疲れる' },
+  // P-A 協調性（6）
+  { id:18, block:'P', factor:'P_A', reverse:false, text:'困っている人を見ると放っておけない' },
+  { id:19, block:'P', factor:'P_A', reverse:false, text:'チームの輪を大切にする' },
+  { id:20, block:'P', factor:'P_A', reverse:false, text:'相手の立場に立って考える方だ' },
+  { id:21, block:'P', factor:'P_A', reverse:false, text:'言いにくいことでも相手のためなら伝えられる' },
+  { id:22, block:'P', factor:'P_A', reverse:false, text:'人の気持ちに敏感だ' },
+  { id:23, block:'P', factor:'P_A', reverse:true,  text:'自分の意見を最後まで通すことが多い' },
+  // P-S 情緒安定性（6）
+  { id:24, block:'P', factor:'P_S', reverse:false, text:'困難な状況でも冷静さを保てる' },
+  { id:25, block:'P', factor:'P_S', reverse:false, text:'ご利用者様の急変時もパニックにならない' },
+  { id:26, block:'P', factor:'P_S', reverse:false, text:'心配事があっても引きずらない' },
+  { id:27, block:'P', factor:'P_S', reverse:false, text:'失敗しても気持ちを切り替えられる' },
+  { id:28, block:'P', factor:'P_S', reverse:false, text:'ストレスを溜めにくい方だ' },
+  { id:29, block:'P', factor:'P_S', reverse:true,  text:'人から指摘されると傷つきやすい' },
+  // P-Ld リーダー志向（4）
+  { id:30, block:'P', factor:'P_Ld', reverse:false, text:'リーダーを任されると力を発揮できる' },
+  { id:31, block:'P', factor:'P_Ld', reverse:false, text:'後輩や部下を育てることにやりがいを感じる' },
+  { id:32, block:'P', factor:'P_Ld', reverse:false, text:'チームをまとめる役回りが向いている' },
+  { id:33, block:'P', factor:'P_Ld', reverse:false, text:'人前で意見を述べることに抵抗がない' },
+  // P-Em 感情労働耐性（4）
+  { id:34, block:'P', factor:'P_Em', reverse:false, text:'暴言や拒絶的な言葉を受けても、その背景を理解しようとできる' },
+  { id:35, block:'P', factor:'P_Em', reverse:false, text:'プライベートで嫌なことがあっても職場では切り替えられる' },
+  { id:36, block:'P', factor:'P_Em', reverse:false, text:'認知症ご利用者様の同じ話を何度聞いても初めてのように接せる' },
+  { id:37, block:'P', factor:'P_Em', reverse:false, text:'介護中の排泄物や臭いに過度に反応しない' },
+  // P-Ep 共感性（4）
+  { id:38, block:'P', factor:'P_Ep', reverse:false, text:'ご利用者様の表情から気持ちを察するのが得意だ' },
+  { id:39, block:'P', factor:'P_Ep', reverse:false, text:'言葉にされない不安や痛みに気づく方だ' },
+  { id:40, block:'P', factor:'P_Ep', reverse:false, text:'ご家族様の心配を共有できる' },
+  { id:41, block:'P', factor:'P_Ep', reverse:false, text:'スタッフの体調変化や元気のなさに気づける' },
+  // P-Ng 夜勤・1人判断適性（5）
+  { id:42, block:'P', factor:'P_Ng', reverse:false, text:'不規則勤務でも体調管理ができる' },
+  { id:43, block:'P', factor:'P_Ng', reverse:false, text:'1人で判断する場面でも冷静さを保てる' },
+  { id:44, block:'P', factor:'P_Ng', reverse:false, text:'緊急時に的確に外部（救急・看護師）と連携できる' },
+  { id:45, block:'P', factor:'P_Ng', reverse:false, text:'夜間でも集中力を維持できる' },
+  { id:46, block:'P', factor:'P_Ng', reverse:false, text:'一晩中の責任を負う仕事に抵抗がない' },
+  // P-Ft フットワーク（4）
+  { id:47, block:'P', factor:'P_Ft', reverse:false, text:'頼まれた仕事はすぐに動き出せる' },
+  { id:48, block:'P', factor:'P_Ft', reverse:false, text:'予定変更にも柔軟に対応できる' },
+  { id:49, block:'P', factor:'P_Ft', reverse:false, text:'手が空いたら自分から動くタイプだ' },
+  { id:50, block:'P', factor:'P_Ft', reverse:false, text:'体を動かす仕事が苦にならない' },
+
+  // ===== 重視価値観 (15問) =====
+  // V-Cn ご利用者貢献（3）
+  { id:51, block:'V', factor:'V_Cn', reverse:false, text:'ご利用者様の笑顔を見られることが何より大切だ' },
+  { id:52, block:'V', factor:'V_Cn', reverse:false, text:'自分の仕事が誰かの人生を支えていると実感したい' },
+  { id:53, block:'V', factor:'V_Cn', reverse:false, text:'給与より、ご利用者様への貢献感を優先したい' },
+  // V-Tm チーム協調（3）
+  { id:54, block:'V', factor:'V_Tm', reverse:false, text:'仲間と協力して目標を達成することにやりがいを感じる' },
+  { id:55, block:'V', factor:'V_Tm', reverse:false, text:'職場の和を保つことを最も大切にしたい' },
+  { id:56, block:'V', factor:'V_Tm', reverse:false, text:'個人の成果より、チーム全体の成果を優先したい' },
+  // V-Gr 成長機会（3）
+  { id:57, block:'V', factor:'V_Gr', reverse:false, text:'新しい知識や技術を学べる職場で働きたい' },
+  { id:58, block:'V', factor:'V_Gr', reverse:false, text:'自分の能力を伸ばす機会が多い仕事を選びたい' },
+  { id:59, block:'V', factor:'V_Gr', reverse:false, text:'変化や挑戦のある仕事の方がやりがいを感じる' },
+  // V-Sb 経済安定（3）
+  { id:60, block:'V', factor:'V_Sb', reverse:false, text:'安定した収入が得られることを最重視する' },
+  { id:61, block:'V', factor:'V_Sb', reverse:false, text:'将来の生活設計が立てやすい職場を選びたい' },
+  { id:62, block:'V', factor:'V_Sb', reverse:false, text:'給与・福利厚生の充実が仕事選びの最重要要素だ' },
+  // V-Wl ワークライフ（3）
+  { id:63, block:'V', factor:'V_Wl', reverse:false, text:'プライベートの時間を確保できる働き方を重視する' },
+  { id:64, block:'V', factor:'V_Wl', reverse:false, text:'家族との時間を大切にできる職場が良い' },
+  { id:65, block:'V', factor:'V_Wl', reverse:false, text:'健康的に働き続けられる環境を最優先したい' },
+
+  // ===== エンゲージメント・適性 (15問) =====
+  // E-Ft 現業務適合（3）
+  { id:66, block:'E', factor:'E_Ft', reverse:false, text:'今の業務内容は自分に合っていると感じる' },
+  { id:67, block:'E', factor:'E_Ft', reverse:false, text:'自分の強みを今の仕事で活かせている' },
+  { id:68, block:'E', factor:'E_Ft', reverse:false, text:'日々の業務に手応えを感じている' },
+  // E-Cm 組織コミットメント（4）
+  { id:69, block:'E', factor:'E_Cm', reverse:false, text:'陽気で長く働きたいと思う' },
+  { id:70, block:'E', factor:'E_Cm', reverse:false, text:'陽気の経営理念に共感している' },
+  { id:71, block:'E', factor:'E_Cm', reverse:false, text:'他の人にも陽気で働くことを勧めたい' },
+  { id:72, block:'E', factor:'E_Cm', reverse:false, text:'3年後も陽気で働いている自分を想像できる' },
+  // E-Rt 離職リスク逆指標（4・全て逆転）
+  { id:73, block:'E', factor:'E_Rt', reverse:true, text:'最近、転職を考えることがある' },
+  { id:74, block:'E', factor:'E_Rt', reverse:true, text:'今の職場に不満を感じることが多い' },
+  { id:75, block:'E', factor:'E_Rt', reverse:true, text:'他の介護施設の方が良い環境に思える' },
+  { id:76, block:'E', factor:'E_Rt', reverse:true, text:'仕事のストレスで疲弊している' },
+  // E-Cr キャリア志向（4）
+  { id:77, block:'E', factor:'E_Cr', reverse:false, text:'将来は管理職やリーダーを目指したい' },
+  { id:78, block:'E', factor:'E_Cr', reverse:false, text:'資格取得や専門性向上に取り組みたい' },
+  { id:79, block:'E', factor:'E_Cr', reverse:false, text:'新しい役割や責任を引き受けたい' },
+  { id:80, block:'E', factor:'E_Cr', reverse:false, text:'5年後の自分が今より成長していると思える' },
+];
+
+const FACTOR_LABEL = {
+  P_O:'開放性', P_C:'誠実性', P_E:'外向性', P_A:'協調性', P_S:'情緒安定性',
+  P_Ld:'リーダー志向', P_Em:'感情労働耐性', P_Ep:'共感性', P_Ng:'夜勤・1人判断適性', P_Ft:'フットワーク',
+  V_Cn:'ご利用者貢献', V_Tm:'チーム協調', V_Gr:'成長機会', V_Sb:'経済安定', V_Wl:'ワークライフ',
+  E_Ft:'現業務適合', E_Cm:'組織コミットメント', E_Rt:'定着志向（逆=離職リスク）', E_Cr:'キャリア志向'
+};
+
+const SCALE_LABELS = ['全くそう思わない','そう思わない','どちらとも','そう思う','非常にそう思う'];
+
+// ============================================================
+// Google Sheets 連携
+// ============================================================
+// Apps Script Web App のURLを下記に貼り付けてください
+// scripts/talent-sheets-bridge.gs をAppsScriptに配置→デプロイで取得
+// ============================================================
+const SHEETS_CONFIG = {
+  url: 'https://script.google.com/a/macros/kaigo-yoki.jp/s/AKfycbzxAOm1yHOgimf8Ofq1SNz4XhfHyq-HhvdkJ2eCQSODXGvOkuBrexBK32s8tPN9wcyo/exec'
+};
+
+// ============================================================
+// State
+// ============================================================
+const STORAGE_KEY = 'yohki_talent_v1';
+
+let state = {
+  step:'start',
+  currentQ:0,
+  demo:{ name:'', home:'', position:'', tenure:'', age:'', emp:'' },
+  answers: new Array(QUESTIONS.length).fill(null),
+  calc: { correct:0, error:0, total:0, history:[] },
+};
+
+let calcState = { running:false, current:null, timer:60, intervalId:null, startedAt:0 };
+
+// 復元
+try {
+  const saved = sessionStorage.getItem(STORAGE_KEY);
+  if (saved) {
+    const parsed = JSON.parse(saved);
+    if (parsed && parsed.demo) Object.assign(state, parsed);
+  }
+} catch(e){}
+
+function persist(){
+  try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e){}
+}
+
+// ============================================================
+// Screen control
+// ============================================================
+function show(id){
+  ['screen-start','screen-demo','screen-q','screen-calc-intro','screen-calc','screen-result'].forEach(s=>{
+    const el=document.getElementById(s);
+    if(el) el.style.display = (s===id) ? 'block' : 'none';
+  });
+  document.getElementById('progress-wrap').style.display = (id==='screen-q') ? 'block' : 'none';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function goDemographics(){ state.step='demo'; persist(); show('screen-demo'); }
+function backToStart(){ state.step='start'; persist(); show('screen-start'); }
+
+function startQuestions(){
+  if(!validateDemographics()) return;
+  state.step='q'; state.currentQ=0; persist();
+  show('screen-q');
+  renderQuestion();
+}
+
+function validateDemographics(){
+  const fields=['d-name','d-home','d-position','d-tenure','d-age'];
+  let ok=true;
+  fields.forEach(id=>{
+    const el=document.getElementById(id);
+    const wrap=el.closest('.field');
+    if(!el.value.trim()){ wrap.classList.add('error'); ok=false; }
+    else wrap.classList.remove('error');
+  });
+  if(!ok){
+    const first=document.querySelector('.field.error');
+    if(first) first.scrollIntoView({behavior:'smooth',block:'center'});
+    return false;
+  }
+  state.demo = {
+    name:document.getElementById('d-name').value.trim(),
+    home:document.getElementById('d-home').value,
+    position:document.getElementById('d-position').value,
+    tenure:document.getElementById('d-tenure').value,
+    age:document.getElementById('d-age').value,
+    emp:document.getElementById('d-emp').value,
+  };
+  persist();
+  return true;
+}
+
+// ============================================================
+// Questions
+// ============================================================
+function renderQuestion(){
+  const i = state.currentQ;
+  const q = QUESTIONS[i];
+  const sel = state.answers[i];
+
+  document.getElementById('progress-fill').style.width = ((i)/QUESTIONS.length*100)+'%';
+  document.getElementById('progress-text').textContent = `Q${i+1} / ${QUESTIONS.length}`;
+
+  const blockName = {P:'性格・行動傾向',V:'重視価値観',E:'業務適性・エンゲージメント'}[q.block];
+
+  const html = `
+    <div class="card fade">
+      <div class="q-block">${blockName}</div>
+      <span class="q-num">Q${i+1}</span>
+      <div class="q-text">${q.text}</div>
+      <div class="q-scale">
+        ${[1,2,3,4,5].map(v=>`<button class="${sel===v?'selected':''}" onclick="selectAnswer(${v})">${v}</button>`).join('')}
+      </div>
+      <div class="q-scale-labels">
+        <span>← そう思わない</span><span>そう思う →</span>
+      </div>
+      <div class="q-nav">
+        <button onclick="prevQ()" ${i===0?'disabled':''}>← 前へ</button>
+        <button class="next" onclick="nextQ()" ${sel===null?'disabled':''}>${i===QUESTIONS.length-1?'処理能力テストへ':'次へ →'}</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('screen-q').innerHTML = html;
+}
+
+function selectAnswer(v){
+  state.answers[state.currentQ] = v;
+  persist();
+  renderQuestion();
+}
+
+function prevQ(){
+  if(state.currentQ>0){ state.currentQ--; persist(); renderQuestion(); }
+}
+
+function nextQ(){
+  if(state.answers[state.currentQ]===null) return;
+  if(state.currentQ < QUESTIONS.length-1){
+    state.currentQ++; persist(); renderQuestion();
+  } else {
+    state.step='calc'; persist();
+    show('screen-calc-intro');
+  }
+}
+
+// ============================================================
+// Calc Test
+// ============================================================
+function genProblem(){
+  const a = Math.floor(Math.random()*9)+1;
+  const b = Math.floor(Math.random()*9)+1;
+  const ans = (a+b) % 10;
+  return { a, b, ans, t0: Date.now() };
+}
+
+function startCalcTest(){
+  state.calc = { correct:0, error:0, total:0, history:[] };
+  calcState = { running:true, current:genProblem(), timer:60, intervalId:null, startedAt:Date.now() };
+  show('screen-calc');
+  renderCalc();
+  document.getElementById('calc-input').focus();
+  document.getElementById('calc-input').value = '';
+  document.getElementById('calc-input').addEventListener('input', onCalcInput);
+  document.getElementById('calc-input').addEventListener('keydown', onCalcKey);
+  calcState.intervalId = setInterval(tickCalc, 100);
+}
+
+function tickCalc(){
+  if(!calcState.running) return;
+  const elapsed = (Date.now()-calcState.startedAt)/1000;
+  const remain = Math.max(0, 60 - elapsed);
+  document.getElementById('calc-timer').textContent = Math.ceil(remain);
+  if(remain<=0){
+    finishCalc();
+  }
+}
+
+function renderCalc(){
+  const c = calcState.current;
+  document.getElementById('calc-prob').textContent = `${c.a} + ${c.b} = ?`;
+  document.getElementById('calc-correct').textContent = state.calc.correct;
+  document.getElementById('calc-error').textContent = state.calc.error;
+  document.getElementById('calc-total').textContent = state.calc.total;
+}
+
+function onCalcInput(e){
+  const v = e.target.value;
+  // 1桁の答えなので即座に判定
+  if(v.length>=1){
+    submitCalcAnswer(v);
+  }
+}
+
+function onCalcKey(e){
+  if(e.key==='Enter'){
+    submitCalcAnswer(e.target.value);
+  }
+}
+
+function numpadInput(d){
+  const inp = document.getElementById('calc-input');
+  inp.value = d;
+  submitCalcAnswer(d);
+}
+
+function numpadDel(){
+  document.getElementById('calc-input').value = '';
+}
+
+function calcSkip(){
+  if(!calcState.running) return;
+  state.calc.total++;
+  state.calc.history.push({ a:calcState.current.a, b:calcState.current.b, ans:calcState.current.ans, user:null, dt: Date.now()-calcState.current.t0, ok:false });
+  calcState.current = genProblem();
+  document.getElementById('calc-input').value = '';
+  renderCalc();
+}
+
+function submitCalcAnswer(v){
+  if(!calcState.running) return;
+  const num = parseInt(v,10);
+  if(isNaN(num)) return;
+  const c = calcState.current;
+  const ok = (num === c.ans);
+  state.calc.total++;
+  if(ok) state.calc.correct++;
+  else state.calc.error++;
+  state.calc.history.push({ a:c.a, b:c.b, ans:c.ans, user:num, dt: Date.now()-c.t0, ok });
+  calcState.current = genProblem();
+  document.getElementById('calc-input').value = '';
+  renderCalc();
+  setTimeout(()=>document.getElementById('calc-input').focus(), 10);
+}
+
+function finishCalc(){
+  calcState.running = false;
+  if(calcState.intervalId){ clearInterval(calcState.intervalId); calcState.intervalId=null; }
+  state.step='result'; persist();
+  showResult();
+}
+
+// ============================================================
+// Score & Result
+// ============================================================
+function calculateScores(){
+  const factorScores = {};
+  const factorCounts = {};
+  QUESTIONS.forEach((q,i)=>{
+    const raw = state.answers[i] || 3;
+    const score = q.reverse ? (6 - raw) : raw;
+    factorScores[q.factor] = (factorScores[q.factor]||0) + score;
+    factorCounts[q.factor] = (factorCounts[q.factor]||0) + 1;
+  });
+  const normalized = {};
+  Object.keys(factorScores).forEach(f=>{
+    normalized[f] = Math.round((factorScores[f]/factorCounts[f]) * 20);
+  });
+
+  // 処理能力スコア
+  const calc = state.calc;
+  const fpRate = calc.total > 0 ? Math.round((calc.error/calc.total)*1000)/10 : 0;
+  const avgDt = calc.history.length > 0 ? Math.round(calc.history.reduce((a,h)=>a+h.dt,0)/calc.history.length) : 0;
+  const calcScore = calc.correct; // 60秒で何問正解か
+
+  // 配属推奨
+  const placement = recommendPlacement(normalized);
+
+  // 離職リスク（E_Rtは逆転で計算済みなので、低いほどリスク高）
+  const retention = normalized.E_Rt || 50;
+  const retentionRisk = retention < 50 ? 'HIGH' : retention < 65 ? 'MID' : 'LOW';
+
+  // 管理者適性
+  const mgrScore = Math.round(((normalized.P_Ld||0)*0.35 + (normalized.P_C||0)*0.25 + (normalized.P_E||0)*0.20 + (normalized.E_Cr||0)*0.20));
+
+  return { factorScores: normalized, calcScore, fpRate, avgDt, placement, retention, retentionRisk, mgrScore };
+}
+
+function recommendPlacement(n){
+  const scores = {
+    'ホーム介護（日勤中心）': (n.P_A||0)*0.25 + (n.P_Ep||0)*0.25 + (n.P_Em||0)*0.25 + (n.V_Cn||0)*0.25,
+    'ホーム介護（夜勤対応）': (n.P_Ng||0)*0.40 + (n.P_S||0)*0.30 + (n.P_C||0)*0.30,
+    '訪問介護': (n.P_E||0)*0.25 + (n.P_Ft||0)*0.25 + (n.P_S||0)*0.25 + (n.V_Cn||0)*0.25,
+    'サービス提供責任者': (n.P_Ld||0)*0.30 + (n.P_C||0)*0.25 + (n.P_E||0)*0.25 + (n.E_Cr||0)*0.20,
+    '管理者・リーダー候補': (n.P_Ld||0)*0.35 + (n.P_C||0)*0.25 + (n.P_E||0)*0.20 + (n.E_Cr||0)*0.20,
+    '看取り・終末期ケア': (n.P_S||0)*0.30 + (n.P_Ep||0)*0.30 + (n.P_Em||0)*0.20 + (n.V_Cn||0)*0.20,
+    '事務・バックオフィス': (n.P_C||0)*0.40 + (n.P_S||0)*0.30 + (n.P_O||0)*0.30,
+    '教育・新人育成': (n.P_Ld||0)*0.30 + (n.P_Ep||0)*0.30 + (n.P_E||0)*0.20 + (n.E_Cr||0)*0.20,
+  };
+  return Object.entries(scores).sort((a,b)=>b[1]-a[1]).slice(0,3).map(([k,v])=>({name:k, score:Math.round(v)}));
+}
+
+function generateAdvice(r){
+  const strengths = [];
+  const cautions = [];
+  const n = r.factorScores;
+
+  if((n.V_Cn||0)>=80) strengths.push('ご利用者貢献意欲が非常に高く、現場での活躍が期待できます');
+  if((n.P_Ep||0)>=80) strengths.push('共感性が高く、ご利用者・ご家族との信頼関係構築が得意');
+  if((n.P_Ld||0)>=75) strengths.push('リーダー志向が強く、管理職候補として有望');
+  if((n.P_S||0)>=75) strengths.push('情緒が安定しており、緊急時・看取り対応に向いています');
+  if((n.P_Em||0)>=80) strengths.push('感情労働耐性が高く、長期的に介護の現場で活躍可能');
+  if((n.E_Cm||0)>=80) strengths.push('組織への帰属意識が強く、定着が見込まれます');
+  if((n.E_Cr||0)>=75) strengths.push('キャリア志向が明確で、成長機会の提供で更に伸びます');
+
+  if((n.P_S||0)<50) cautions.push('情緒安定性が低め — ストレスケアやメンタルサポートの提供を推奨');
+  if((n.P_Em||0)<55) cautions.push('感情労働耐性が低め — クレーム対応など負荷の高い業務は配慮が必要');
+  if((n.E_Rt||0)<50) cautions.push('⚠️ 離職リスクが高め — 早期面談で動機・不満を確認することを推奨');
+  if((n.E_Ft||0)<55) cautions.push('現業務とのフィット感が低め — 配置換えや役割再設計を検討');
+  if((n.V_Sb||0)>=80 && (n.E_Cm||0)<60) cautions.push('経済安定志向が強く組織コミットメント低め — 給与処遇の納得感確認を');
+
+  if(strengths.length===0) strengths.push('全因子が標準的な範囲です。今後の経験・育成で強みを伸ばしていけます。');
+  if(cautions.length===0) cautions.push('現時点で目立った懸念点はありません。');
+
+  return { strengths, cautions };
+}
+
+function showResult(){
+  const r = calculateScores();
+  const advice = generateAdvice(r);
+  const n = r.factorScores;
+
+  // ペイロード保存
+  const payload = {
+    timestamp: new Date().toISOString(),
+    demo: state.demo,
+    answers: state.answers,
+    scores: n,
+    calc: { correct: r.calcScore, error: state.calc.error, total: state.calc.total, fpRate: r.fpRate, avgDt: r.avgDt },
+    placement: r.placement,
+    retentionRisk: r.retentionRisk,
+    mgrScore: r.mgrScore,
+  };
+  try {
+    const log = JSON.parse(localStorage.getItem('yohki_talent_log')||'[]');
+    log.push(payload);
+    localStorage.setItem('yohki_talent_log', JSON.stringify(log.slice(-200)));
+  } catch(e){}
+
+  // Google Sheets 送信（URLが未設定ならスキップ）
+  let sheetsStatus = 'skip';
+  if(SHEETS_CONFIG.url && !SHEETS_CONFIG.url.startsWith('PLACEHOLDER')){
+    sheetsStatus = 'sending';
+    try {
+      payload.userAgent = navigator.userAgent;
+      // Content-Type を text/plain にすることでpreflight回避
+      // Apps Script は text/plain でもJSON.parseで読み取れる
+      fetch(SHEETS_CONFIG.url, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+      }).then(r=>r.json()).then(j=>{
+        sheetsStatus = j.status==='ok' ? 'ok' : 'error';
+        updateSheetsStatus(sheetsStatus, j);
+      }).catch(err=>{
+        sheetsStatus = 'error';
+        updateSheetsStatus(sheetsStatus, { message: err.message });
+      });
+    } catch(e){ sheetsStatus='error'; }
+  }
+
+  const factorOrder = ['P_O','P_C','P_E','P_A','P_S','P_Ld','P_Em','P_Ep','P_Ng','P_Ft','V_Cn','V_Tm','V_Gr','V_Sb','V_Wl','E_Ft','E_Cm','E_Rt','E_Cr'];
+  const factorRows = factorOrder.map(f=>{
+    const v = n[f]||0;
+    return `
+      <div class="factor-row">
+        <div class="name">${FACTOR_LABEL[f]}</div>
+        <div class="bar-bg"><div class="bar" style="width:${v}%"></div></div>
+        <div class="val">${v}</div>
+      </div>
+    `;
+  }).join('');
+
+  const placeRows = r.placement.map((p,i)=>{
+    const medal = ['🥇','🥈','🥉'][i] || '';
+    return `<li><strong>${medal} ${p.name}</strong>（適性スコア ${p.score}）</li>`;
+  }).join('');
+
+  const riskColor = r.retentionRisk==='HIGH' ? '#ff4757' : r.retentionRisk==='MID' ? '#FF8C42' : '#4CAF7D';
+  const riskLabel = { HIGH:'⚠️ 高', MID:'△ 中', LOW:'✓ 低' }[r.retentionRisk];
+
+  document.getElementById('result-content').innerHTML = `
+    <h2>🌿 診断結果</h2>
+    <p class="name">${state.demo.name} 様（${state.demo.home}・${state.demo.position}）</p>
+
+    <div class="score-card">
+      <div class="label">処理能力テスト</div>
+      <div class="num">${r.calcScore}<small> / 60秒</small></div>
+      <div class="desc">正解${r.calcScore}問・誤答${state.calc.error}問・FP率${r.fpRate}%・平均応答${r.avgDt}ms</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;">
+      <div style="background:#fff;border:2px solid var(--soft);border-radius:14px;padding:14px;text-align:center;">
+        <div style="font-size:11px;color:var(--tm);font-weight:700;margin-bottom:4px;">管理者適性</div>
+        <div style="font-size:28px;font-weight:900;color:var(--pri);">${r.mgrScore}</div>
+      </div>
+      <div style="background:#fff;border:2px solid var(--soft);border-radius:14px;padding:14px;text-align:center;">
+        <div style="font-size:11px;color:var(--tm);font-weight:700;margin-bottom:4px;">離職リスク</div>
+        <div style="font-size:24px;font-weight:900;color:${riskColor};">${riskLabel}</div>
+      </div>
+    </div>
+
+    <div class="advice-card">
+      <h4>🎯 配属推奨 TOP3</h4>
+      <ol style="padding-left:20px;font-size:13px;line-height:2;">${placeRows}</ol>
+    </div>
+
+    <div class="advice-card">
+      <h4>✨ 強み</h4>
+      <ul>${advice.strengths.map(s=>`<li>${s}</li>`).join('')}</ul>
+    </div>
+
+    <div class="advice-card">
+      <h4>💡 育成・サポート観点</h4>
+      <ul>${advice.cautions.map(c=>`<li>${c}</li>`).join('')}</ul>
+    </div>
+
+    <div class="advice-card">
+      <h4>📊 因子スコア（0-100）</h4>
+      <div class="factor-grid">${factorRows}</div>
+    </div>
+
+    <div style="background:#fff8e6;border:2px solid #ffd23f;border-radius:14px;padding:14px;font-size:12px;color:#a87900;font-weight:700;text-align:left;margin-top:20px;">
+      ⚠️ <strong>β版・社内検証用</strong><br>
+      この結果は陽気独自モデル校正のための参考値です。代表・SM・CHROで内容を確認後、面談等でフィードバックします。
+    </div>
+
+    <div id="sheets-status" style="margin-top:14px;padding:10px 14px;border-radius:10px;font-size:12px;font-weight:700;text-align:center;background:#f0f0f0;color:#666;">
+      ${sheetsStatus==='skip' ? '💾 ローカル保存のみ（Google Sheets未連携）' :
+        sheetsStatus==='sending' ? '☁️ Google Sheetsに送信中...' :
+        sheetsStatus==='ok' ? '✅ Google Sheetsに保存しました' :
+        '⚠️ Google Sheets送信に失敗（ローカルには保存されています）'}
+    </div>
+
+    <div class="btn-c" style="margin-top:20px;">
+      <button class="btn" onclick="exportResult()">📥 JSONで保存</button>
+    </div>
+  `;
+  show('screen-result');
+
+  // セッションクリア
+  sessionStorage.removeItem(STORAGE_KEY);
+}
+
+function updateSheetsStatus(status, info){
+  const el = document.getElementById('sheets-status');
+  if(!el) return;
+  if(status==='ok'){
+    el.style.background = '#e8f5e9';
+    el.style.color = '#2e7d32';
+    el.innerHTML = `✅ Google Sheetsに保存しました（行 ${info.row||'?'}）`;
+  } else if(status==='error'){
+    el.style.background = '#ffebee';
+    el.style.color = '#c62828';
+    el.innerHTML = `⚠️ Google Sheets送信に失敗：${info.message||'unknown'}<br><span style="font-size:10px;font-weight:500;">ローカル保存は完了しています。JSONダウンロードで個別取得可能です。</span>`;
+  }
+}
+
+function exportResult(){
+  try {
+    const log = JSON.parse(localStorage.getItem('yohki_talent_log')||'[]');
+    if(log.length===0) return;
+    const latest = log[log.length-1];
+    const blob = new Blob([JSON.stringify(latest,null,2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `talent_${(latest.demo.name||'unknown').replace(/\s+/g,'_')}_${latest.timestamp.split('T')[0]}.json`;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  } catch(e){ alert('エクスポートに失敗しました: '+e.message); }
+}
+
+// ============================================================
+// Init
+// ============================================================
+function init(){
+  if(state.step==='demo'){
+    document.getElementById('d-name').value = state.demo.name||'';
+    document.getElementById('d-home').value = state.demo.home||'';
+    document.getElementById('d-position').value = state.demo.position||'';
+    document.getElementById('d-tenure').value = state.demo.tenure||'';
+    document.getElementById('d-age').value = state.demo.age||'';
+    document.getElementById('d-emp').value = state.demo.emp||'';
+    show('screen-demo');
+  } else if(state.step==='q'){
+    show('screen-q');
+    renderQuestion();
+  } else if(state.step==='calc'){
+    show('screen-calc-intro');
+  } else {
+    show('screen-start');
+  }
+}
+init();
+</script>
+
+</body>
+</html>

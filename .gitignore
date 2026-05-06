@@ -6,3 +6,10 @@
 node_modules/
 .DS_Store
 .env*.local
+
+# 内部資料 - 公開禁止
+採用戦略/
+benchmark_*.html
+_tmp_*
+READY.txt
+*_社内専用*
