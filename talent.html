@@ -5,7 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ようきタレント診断 β | 社内専用</title>
 <meta name="robots" content="noindex, nofollow">
+
+<!-- PWA: ホーム画面追加対応 -->
+<link rel="manifest" href="./talent-manifest.json">
+<meta name="theme-color" content="#1A6B5C">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="陽気タレント">
+<link rel="apple-touch-icon" sizes="192x192" href="./talent-icon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="./talent-icon-512.png">
+<link rel="icon" type="image/png" sizes="192x192" href="./talent-icon-192.png">
 <link rel="icon" type="image/png" href="./favicon.png">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800;900&display=swap" rel="stylesheet">
@@ -85,24 +96,56 @@ header .sub{font-size:11px;color:var(--tl);font-weight:500;}
 .calc-intro h2{font-size:22px;font-weight:900;margin-bottom:14px;}
 .calc-intro .lead{font-size:14px;color:var(--tm);margin-bottom:14px;line-height:2;}
 .calc-rules{background:var(--soft);border-radius:14px;padding:16px 18px;text-align:left;font-size:13px;color:var(--td);font-weight:700;line-height:2;margin:18px 0;}
-.calc-rules ul{padding-left:18px;}
+.calc-rules ol{padding-left:20px;}
+.calc-rules ol li{margin-bottom:4px;}
+
+/* 例の表示 */
+.calc-examples{background:#fff;border:2px solid var(--pri2);border-radius:14px;padding:16px;margin:18px 0;text-align:left;}
+.calc-examples-title{font-size:13px;font-weight:900;color:var(--pri);margin-bottom:10px;text-align:center;}
+.calc-example-row{display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 0;font-size:15px;font-weight:800;border-bottom:1px dashed #eee;flex-wrap:wrap;}
+.calc-example-row:last-child{border-bottom:none;}
+.ex-q{color:var(--td);font-variant-numeric:tabular-nums;}
+.ex-arrow{color:var(--tl);font-size:13px;}
+.ex-mid{color:var(--tm);font-size:14px;}
+.ex-a{color:var(--pri2);font-weight:900;font-size:18px;background:rgba(46,157,143,.1);padding:2px 10px;border-radius:6px;}
+.ex-note{font-size:11px;color:var(--tm);font-weight:700;width:100%;text-align:center;margin-top:4px;}
 
 .calc-screen{text-align:center;}
-.calc-timer{font-size:48px;font-weight:900;color:var(--pri);margin-bottom:16px;letter-spacing:0.04em;font-variant-numeric:tabular-nums;}
-.calc-progress{font-size:13px;color:var(--tm);font-weight:700;margin-bottom:24px;}
-.calc-prob{font-size:60px;font-weight:900;color:var(--td);margin:24px 0;letter-spacing:0.05em;font-variant-numeric:tabular-nums;}
-.calc-input{width:100%;max-width:240px;margin:0 auto 18px;padding:18px;font-size:32px;font-weight:900;text-align:center;border:3px solid var(--pri2);border-radius:16px;outline:none;font-family:inherit;background:#fff;}
-.calc-input:focus{box-shadow:0 0 0 4px rgba(46,157,143,.15);}
-.calc-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px;}
-.calc-stat{background:var(--soft);border-radius:12px;padding:10px 6px;}
-.calc-stat .num{font-size:22px;font-weight:900;color:var(--pri);}
+.calc-timer-wrap{display:inline-flex;align-items:baseline;gap:6px;margin-bottom:8px;}
+.calc-timer-label{font-size:13px;color:var(--tm);font-weight:700;}
+.calc-timer{font-size:42px;font-weight:900;color:var(--pri);font-variant-numeric:tabular-nums;min-width:70px;display:inline-block;}
+.calc-timer.warn{color:var(--orange);}
+.calc-timer-unit{font-size:14px;color:var(--tm);font-weight:700;}
+.calc-prob-wrap{min-height:90px;display:flex;align-items:center;justify-content:center;margin:16px 0;}
+.calc-prob{font-size:54px;font-weight:900;color:var(--td);letter-spacing:0.04em;font-variant-numeric:tabular-nums;line-height:1.2;}
+.calc-prob.flash-ok{color:#2e7d32;animation:flashOk .25s;}
+.calc-prob.flash-ng{color:#c62828;animation:flashNg .25s;}
+@keyframes flashOk{0%{transform:scale(1);}50%{transform:scale(1.1);}100%{transform:scale(1);}}
+@keyframes flashNg{0%,100%{transform:translateX(0);}25%{transform:translateX(-6px);}75%{transform:translateX(6px);}}
+
+/* 答え表示エリア */
+.calc-answer{min-height:64px;width:140px;margin:0 auto 16px;padding:12px;font-size:36px;font-weight:900;text-align:center;border:3px solid #eee;border-radius:14px;background:#fff;color:var(--td);font-variant-numeric:tabular-nums;display:flex;align-items:center;justify-content:center;transition:border-color .15s;}
+.calc-answer.empty{color:var(--tl);font-size:24px;}
+.calc-answer.typing{border-color:var(--pri2);color:var(--pri2);}
+
+.calc-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px;}
+.calc-stat{background:var(--soft);border-radius:12px;padding:8px 6px;}
+.calc-stat .num{font-size:20px;font-weight:900;color:var(--pri);font-variant-numeric:tabular-nums;}
 .calc-stat .label{font-size:10px;color:var(--tm);font-weight:700;}
+
 .numpad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:280px;margin:0 auto 16px;}
-.numpad button{padding:18px 0;font-size:22px;font-weight:900;border-radius:12px;border:2px solid #eee;background:#fff;cursor:pointer;font-family:inherit;color:var(--td);transition:all .15s;}
+.numpad button{padding:16px 0;font-size:22px;font-weight:900;border-radius:12px;border:2px solid #eee;background:#fff;cursor:pointer;font-family:inherit;color:var(--td);transition:all .12s;-webkit-tap-highlight-color:transparent;}
 .numpad button:hover{border-color:var(--pri2);background:rgba(46,157,143,.05);}
-.numpad button:active{transform:scale(.96);}
+.numpad button:active{transform:scale(.95);background:rgba(46,157,143,.15);}
 .numpad button.del{color:var(--orange);}
-.numpad button.ok{background:var(--pri2);color:#fff;border-color:var(--pri2);}
+.numpad button.skip{background:#fff;border-color:#ddd;color:var(--tm);font-size:14px;}
+.numpad button.skip:hover{background:#f5f5f5;border-color:#bbb;}
+
+/* 練習モード */
+.practice-banner{background:#fff8e6;border:2px solid #ffd23f;border-radius:14px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#a87900;font-weight:800;text-align:center;}
+.practice-feedback{min-height:32px;font-size:14px;font-weight:800;margin:8px 0;}
+.practice-feedback.ok{color:#2e7d32;}
+.practice-feedback.ng{color:#c62828;}
 
 /* Result */
 .result{padding:8px 4px;}
@@ -274,18 +317,71 @@ footer{text-align:center;padding:32px 20px;font-size:11px;color:var(--tl);}
     <div class="calc-intro">
       <span class="emoji" style="font-size:56px;display:block;margin-bottom:12px;">🧮</span>
       <h2>処理能力テスト</h2>
-      <p class="lead">最後に、簡単な足し算テストを行います。<br>所要時間：60秒</p>
+      <p class="lead">最後に、簡単な足し算テストを行います。<br>所要時間：60秒（本番は1問1〜2秒）</p>
+
       <div class="calc-rules">
         <strong>ルール</strong>
-        <ul>
+        <ol>
           <li>1桁＋1桁の足し算が次々と出題されます</li>
-          <li>答えが2桁になる場合は、<strong>1の位</strong>を入力（例：8+5=13 → 「3」）</li>
-          <li>60秒間で何問正解できるかを測定します</li>
-          <li>分からない問題はスキップ可能</li>
-        </ul>
+          <li>下の数字パッドをタップして答えを入力</li>
+          <li>答えが2桁になる場合は、<strong>1の位</strong>（最後の数字）を入力</li>
+          <li>分からない問題は「skip」ボタンで飛ばせます</li>
+        </ol>
       </div>
-      <div class="btn-c">
-        <button class="btn" onclick="startCalcTest()">テスト開始 →</button>
+
+      <div class="calc-examples">
+        <div class="calc-examples-title">📝 例</div>
+        <div class="calc-example-row">
+          <span class="ex-q">3 + 4 =</span>
+          <span class="ex-arrow">→</span>
+          <span class="ex-a">7</span>
+        </div>
+        <div class="calc-example-row">
+          <span class="ex-q">8 + 5 =</span>
+          <span class="ex-arrow">→</span>
+          <span class="ex-mid">13</span>
+          <span class="ex-arrow">の1の位</span>
+          <span class="ex-a">3</span>
+        </div>
+        <div class="calc-example-row">
+          <span class="ex-q">9 + 7 =</span>
+          <span class="ex-arrow">→</span>
+          <span class="ex-mid">16</span>
+          <span class="ex-arrow">の1の位</span>
+          <span class="ex-a">6</span>
+        </div>
+        <div class="ex-note">※「1の位」とは答えの最後の桁のことです</div>
+      </div>
+
+      <div class="btn-c" style="flex-direction:column;gap:10px;">
+        <button class="btn" onclick="startPracticeRound()">練習を1問やってみる</button>
+        <button onclick="startCalcTest(false)" style="background:none;border:none;color:var(--tm);font-size:13px;font-weight:700;text-decoration:underline;cursor:pointer;font-family:inherit;">→ 練習をスキップして本番を開始</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== Screen 4b: Calc Practice ========== -->
+  <div id="screen-calc-practice" class="card fade" style="display:none;">
+    <div class="calc-screen">
+      <div class="practice-banner">📝 練習問題（本番ではありません）</div>
+      <div class="calc-prob-wrap">
+        <div class="calc-prob" id="practice-prob">— + — = ?</div>
+      </div>
+      <div class="calc-answer empty" id="practice-answer">_</div>
+      <div class="practice-feedback" id="practice-feedback"></div>
+      <div class="numpad">
+        <button onclick="practiceInput('7')">7</button>
+        <button onclick="practiceInput('8')">8</button>
+        <button onclick="practiceInput('9')">9</button>
+        <button onclick="practiceInput('4')">4</button>
+        <button onclick="practiceInput('5')">5</button>
+        <button onclick="practiceInput('6')">6</button>
+        <button onclick="practiceInput('1')">1</button>
+        <button onclick="practiceInput('2')">2</button>
+        <button onclick="practiceInput('3')">3</button>
+        <button class="del" onclick="practiceDel()">⌫</button>
+        <button onclick="practiceInput('0')">0</button>
+        <button class="skip" onclick="startCalcTest(true)">本番へ</button>
       </div>
     </div>
   </div>
@@ -293,23 +389,28 @@ footer{text-align:center;padding:32px 20px;font-size:11px;color:var(--tl);}
   <!-- ========== Screen 5: Calc Test ========== -->
   <div id="screen-calc" class="card fade" style="display:none;">
     <div class="calc-screen">
-      <div class="calc-timer" id="calc-timer">60</div>
-      <div class="calc-progress" id="calc-progress">残り時間（秒）</div>
-      <div class="calc-prob" id="calc-prob">— + — = ?</div>
-      <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="2" class="calc-input" id="calc-input" autocomplete="off">
-      <div class="numpad" id="numpad">
-        <button onclick="numpadInput('1')">1</button>
-        <button onclick="numpadInput('2')">2</button>
-        <button onclick="numpadInput('3')">3</button>
-        <button onclick="numpadInput('4')">4</button>
-        <button onclick="numpadInput('5')">5</button>
-        <button onclick="numpadInput('6')">6</button>
+      <div class="calc-timer-wrap">
+        <span class="calc-timer-label">残り</span>
+        <span class="calc-timer" id="calc-timer">60</span>
+        <span class="calc-timer-unit">秒</span>
+      </div>
+      <div class="calc-prob-wrap">
+        <div class="calc-prob" id="calc-prob">— + — = ?</div>
+      </div>
+      <div class="calc-answer empty" id="calc-answer">_</div>
+      <div class="numpad">
         <button onclick="numpadInput('7')">7</button>
         <button onclick="numpadInput('8')">8</button>
         <button onclick="numpadInput('9')">9</button>
+        <button onclick="numpadInput('4')">4</button>
+        <button onclick="numpadInput('5')">5</button>
+        <button onclick="numpadInput('6')">6</button>
+        <button onclick="numpadInput('1')">1</button>
+        <button onclick="numpadInput('2')">2</button>
+        <button onclick="numpadInput('3')">3</button>
         <button class="del" onclick="numpadDel()">⌫</button>
         <button onclick="numpadInput('0')">0</button>
-        <button class="ok" onclick="calcSkip()">skip</button>
+        <button class="skip" onclick="calcSkip()">skip</button>
       </div>
       <div class="calc-stats">
         <div class="calc-stat"><div class="num" id="calc-correct">0</div><div class="label">正解</div></div>
@@ -478,7 +579,7 @@ let state = {
   calc: { correct:0, error:0, total:0, history:[] },
 };
 
-let calcState = { running:false, current:null, timer:60, intervalId:null, startedAt:0 };
+let calcState = { running:false, current:null, timer:60, intervalId:null, startedAt:0, typed:'' };
 
 // 復元
 try {
@@ -497,7 +598,7 @@ function persist(){
 // Screen control
 // ============================================================
 function show(id){
-  ['screen-start','screen-demo','screen-q','screen-calc-intro','screen-calc','screen-result'].forEach(s=>{
+  ['screen-start','screen-demo','screen-q','screen-calc-intro','screen-calc-practice','screen-calc','screen-result'].forEach(s=>{
     const el=document.getElementById(s);
     if(el) el.style.display = (s===id) ? 'block' : 'none';
   });
@@ -604,23 +705,97 @@ function genProblem(){
   return { a, b, ans, t0: Date.now() };
 }
 
-function startCalcTest(){
+// ============================================================
+// 練習モード
+// ============================================================
+let practiceState = { current:null, typed:'' };
+
+function startPracticeRound(){
+  practiceState = { current: genProblem(), typed:'' };
+  show('screen-calc-practice');
+  renderPractice();
+}
+
+function renderPractice(){
+  const c = practiceState.current;
+  document.getElementById('practice-prob').textContent = `${c.a} + ${c.b} = ?`;
+  const ans = document.getElementById('practice-answer');
+  if(practiceState.typed){
+    ans.textContent = practiceState.typed;
+    ans.classList.remove('empty');
+    ans.classList.add('typing');
+  } else {
+    ans.textContent = '_';
+    ans.classList.add('empty');
+    ans.classList.remove('typing');
+  }
+}
+
+function practiceInput(d){
+  practiceState.typed = d;
+  renderPractice();
+  // 600ms後に判定
+  setTimeout(()=>practiceJudge(), 600);
+}
+
+function practiceDel(){
+  practiceState.typed = '';
+  document.getElementById('practice-feedback').textContent = '';
+  renderPractice();
+}
+
+function practiceJudge(){
+  const c = practiceState.current;
+  const num = parseInt(practiceState.typed, 10);
+  const fb = document.getElementById('practice-feedback');
+  const probEl = document.getElementById('practice-prob');
+  if(num === c.ans){
+    fb.textContent = `✅ 正解！ 「${c.a} + ${c.b} = ${c.a+c.b}」 の1の位は ${c.ans} ですね`;
+    fb.className = 'practice-feedback ok';
+    probEl.classList.add('flash-ok');
+    setTimeout(()=>{
+      probEl.classList.remove('flash-ok');
+      // 次の練習問題
+      practiceState = { current: genProblem(), typed:'' };
+      fb.textContent = '';
+      fb.className = 'practice-feedback';
+      renderPractice();
+    }, 1500);
+  } else {
+    fb.textContent = `❌ 残念。「${c.a} + ${c.b} = ${c.a+c.b}」 の1の位は ${c.ans} です。もう一度お試しください`;
+    fb.className = 'practice-feedback ng';
+    probEl.classList.add('flash-ng');
+    setTimeout(()=>{
+      probEl.classList.remove('flash-ng');
+      practiceState.typed = '';
+      renderPractice();
+    }, 800);
+  }
+}
+
+// ============================================================
+// 本番テスト
+// ============================================================
+let calcLock = false;  // 入力ロック（フィードバック表示中）
+
+function startCalcTest(skipPractice){
   state.calc = { correct:0, error:0, total:0, history:[] };
-  calcState = { running:true, current:genProblem(), timer:60, intervalId:null, startedAt:Date.now() };
+  calcState = { running:true, current:genProblem(), timer:60, intervalId:null, startedAt:Date.now(), typed:'' };
+  calcLock = false;
   show('screen-calc');
   renderCalc();
-  document.getElementById('calc-input').focus();
-  document.getElementById('calc-input').value = '';
-  document.getElementById('calc-input').addEventListener('input', onCalcInput);
-  document.getElementById('calc-input').addEventListener('keydown', onCalcKey);
-  calcState.intervalId = setInterval(tickCalc, 100);
+  // ハードウェアキーボード対応（モバイルキーボードはポップアップしない）
+  document.addEventListener('keydown', onCalcKey);
+  calcState.intervalId = setInterval(tickCalc, 500);  // 500msに緩和してチラつき防止
 }
 
 function tickCalc(){
   if(!calcState.running) return;
   const elapsed = (Date.now()-calcState.startedAt)/1000;
   const remain = Math.max(0, 60 - elapsed);
-  document.getElementById('calc-timer').textContent = Math.ceil(remain);
+  const timerEl = document.getElementById('calc-timer');
+  timerEl.textContent = Math.ceil(remain);
+  if(remain<=10){ timerEl.classList.add('warn'); } else { timerEl.classList.remove('warn'); }
   if(remain<=0){
     finishCalc();
   }
@@ -632,59 +807,86 @@ function renderCalc(){
   document.getElementById('calc-correct').textContent = state.calc.correct;
   document.getElementById('calc-error').textContent = state.calc.error;
   document.getElementById('calc-total').textContent = state.calc.total;
+  renderCalcAnswer();
 }
 
-function onCalcInput(e){
-  const v = e.target.value;
-  // 1桁の答えなので即座に判定
-  if(v.length>=1){
-    submitCalcAnswer(v);
+function renderCalcAnswer(){
+  const ans = document.getElementById('calc-answer');
+  if(calcState.typed){
+    ans.textContent = calcState.typed;
+    ans.classList.remove('empty');
+    ans.classList.add('typing');
+  } else {
+    ans.textContent = '_';
+    ans.classList.add('empty');
+    ans.classList.remove('typing');
   }
 }
 
 function onCalcKey(e){
-  if(e.key==='Enter'){
-    submitCalcAnswer(e.target.value);
+  if(!calcState.running || calcLock) return;
+  if(e.key>='0' && e.key<='9'){
+    numpadInput(e.key);
+  } else if(e.key==='Backspace' || e.key==='Delete'){
+    numpadDel();
+  } else if(e.key==='Enter' || e.key===' '){
+    if(calcState.typed) submitCalcAnswer(calcState.typed);
   }
 }
 
 function numpadInput(d){
-  const inp = document.getElementById('calc-input');
-  inp.value = d;
-  submitCalcAnswer(d);
+  if(!calcState.running || calcLock) return;
+  calcState.typed = d;
+  renderCalcAnswer();
+  // 350ms後に自動送信（視覚フィードバック確保）
+  calcLock = true;
+  setTimeout(()=>{
+    submitCalcAnswer(calcState.typed);
+  }, 350);
 }
 
 function numpadDel(){
-  document.getElementById('calc-input').value = '';
+  if(!calcState.running) return;
+  calcState.typed = '';
+  renderCalcAnswer();
 }
 
 function calcSkip(){
-  if(!calcState.running) return;
+  if(!calcState.running || calcLock) return;
   state.calc.total++;
   state.calc.history.push({ a:calcState.current.a, b:calcState.current.b, ans:calcState.current.ans, user:null, dt: Date.now()-calcState.current.t0, ok:false });
   calcState.current = genProblem();
-  document.getElementById('calc-input').value = '';
+  calcState.typed = '';
   renderCalc();
 }
 
 function submitCalcAnswer(v){
   if(!calcState.running) return;
   const num = parseInt(v,10);
-  if(isNaN(num)) return;
+  if(isNaN(num)){ calcLock=false; return; }
   const c = calcState.current;
   const ok = (num === c.ans);
   state.calc.total++;
   if(ok) state.calc.correct++;
   else state.calc.error++;
   state.calc.history.push({ a:c.a, b:c.b, ans:c.ans, user:num, dt: Date.now()-c.t0, ok });
-  calcState.current = genProblem();
-  document.getElementById('calc-input').value = '';
-  renderCalc();
-  setTimeout(()=>document.getElementById('calc-input').focus(), 10);
+
+  // フィードバック
+  const probEl = document.getElementById('calc-prob');
+  probEl.classList.add(ok ? 'flash-ok' : 'flash-ng');
+
+  setTimeout(()=>{
+    probEl.classList.remove('flash-ok','flash-ng');
+    calcState.current = genProblem();
+    calcState.typed = '';
+    calcLock = false;
+    renderCalc();
+  }, 250);
 }
 
 function finishCalc(){
   calcState.running = false;
+  document.removeEventListener('keydown', onCalcKey);
   if(calcState.intervalId){ clearInterval(calcState.intervalId); calcState.intervalId=null; }
   state.step='result'; persist();
   showResult();

@@ -11,5 +11,6 @@ node_modules/
 採用戦略/
 benchmark_*.html
 _tmp_*
+_internal/
 READY.txt
 *_社内専用*
