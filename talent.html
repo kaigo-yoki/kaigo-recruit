@@ -205,6 +205,11 @@ body { overscroll-behavior-y: none; }
   <span class="sub">ようきタレント診断 β（社内専用）</span>
 </header>
 
+<div id="dev-banner" style="display:none;background:#a87900;color:#fff;text-align:center;padding:6px;font-size:12px;font-weight:800;letter-spacing:1px;">
+  ⚙ DEV MODE ACTIVE — クール=10秒・休憩=2秒（本番:60/5）
+</div>
+<script>if(new URLSearchParams(location.search).get('dev')==='fast'){document.getElementById('dev-banner').style.display='block';}</script>
+
 <div class="hero">
   <h1>ようきタレント診断</h1>
   <p>あなたの個性と処理タイプを可視化し、最適な活躍の場を見つけます</p>
@@ -217,7 +222,7 @@ body { overscroll-behavior-y: none; }
     <span class="emoji">🌿</span>
     <h2>お疲れ様です</h2>
     <p>個性5項目と処理能力タイプを見える化する診断です。</p>
-    <p style="font-size:12px;color:var(--tl);margin-top:8px;">所要時間：約12分　/　個性5項目50問＋処理能力テスト60秒</p>
+    <p style="font-size:12px;color:var(--tl);margin-top:8px;">所要時間：約14分　/　個性5項目50問＋処理能力テスト60秒×3クール</p>
 
     <div class="features">
       <div class="feat"><span class="i">⏱</span>約12分で完了</div>
@@ -319,6 +324,11 @@ body { overscroll-behavior-y: none; }
       <button onclick="backToStart()">← 戻る</button>
       <button class="next" onclick="startQuestions()">診断を開始 →</button>
     </div>
+    <div id="dev-skip-wrap" style="display:none;margin-top:14px;padding:12px;background:#fff8e6;border:2px dashed #ffd23f;border-radius:12px;text-align:center;">
+      <div style="font-size:11px;color:#a87900;font-weight:800;margin-bottom:8px;">⚙ DEV MODE (?dev=fast)</div>
+      <button onclick="devAutoFillAndJumpToCalc()" style="background:#a87900;color:#fff;padding:10px 20px;border:none;border-radius:10px;font-weight:800;cursor:pointer;font-family:inherit;font-size:13px;">50問ランダム自動入力 → 計算テストへ</button>
+      <div style="font-size:10px;color:#a87900;font-weight:700;margin-top:6px;">クール=10秒・休憩=2秒で短縮実行</div>
+    </div>
   </div>
 
   <!-- ========== Screen 3: Questions ========== -->
@@ -334,7 +344,7 @@ body { overscroll-behavior-y: none; }
     <div class="calc-intro">
       <span class="emoji" style="font-size:56px;display:block;margin-bottom:12px;">🧮</span>
       <h2>処理能力テスト</h2>
-      <p class="lead">最後に、簡単な足し算テストを行います。<br>所要時間：60秒（本番は1問1〜2秒）</p>
+      <p class="lead">最後に、簡単な足し算テストを行います。<br><strong>60秒×3クール</strong>（クール間に5秒休憩）／合計約3分10秒</p>
 
       <div class="calc-rules">
         <strong>ルール</strong>
@@ -343,6 +353,7 @@ body { overscroll-behavior-y: none; }
           <li>下の数字パッドをタップして答えを入力</li>
           <li>答えが2桁になる場合は、<strong>1の位</strong>（最後の数字）を入力</li>
           <li>分からない問題は「skip」ボタンで飛ばせます</li>
+          <li><strong>3クール</strong>で持久性・作業曲線を測定します</li>
         </ol>
       </div>
 
@@ -406,6 +417,9 @@ body { overscroll-behavior-y: none; }
   <!-- ========== Screen 5: Calc Test ========== -->
   <div id="screen-calc" class="card fade" style="display:none;">
     <div class="calc-screen">
+      <div style="text-align:center;margin-bottom:8px;">
+        <span id="calc-cycle-badge" style="display:inline-block;background:linear-gradient(135deg,var(--pri),var(--pri2));color:#fff;font-weight:900;font-size:13px;padding:4px 14px;border-radius:50px;letter-spacing:.5px;">クール 1 / 3</span>
+      </div>
       <div class="calc-timer-wrap">
         <span class="calc-timer-label">残り</span>
         <span class="calc-timer" id="calc-timer">60</span>
@@ -434,6 +448,25 @@ body { overscroll-behavior-y: none; }
         <div class="calc-stat"><div class="num" id="calc-error">0</div><div class="label">誤答</div></div>
         <div class="calc-stat"><div class="num" id="calc-total">0</div><div class="label">解答数</div></div>
       </div>
+    </div>
+  </div>
+
+  <!-- ========== Screen 5b: Cycle Rest ========== -->
+  <div id="screen-calc-rest" class="card fade" style="display:none;">
+    <div class="calc-screen" style="text-align:center;padding:30px 12px;">
+      <span style="font-size:64px;display:block;margin-bottom:8px;">☕</span>
+      <h2 style="color:var(--pri);margin-bottom:8px;">クール <span id="rest-just-finished">1</span> 終了</h2>
+      <p style="color:var(--tm);font-weight:700;margin-bottom:20px;">5秒後に次のクールが始まります</p>
+      <div style="background:var(--soft);border-radius:18px;padding:20px;margin-bottom:18px;">
+        <div style="font-size:13px;color:var(--tm);font-weight:700;margin-bottom:6px;">このクールの結果</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;font-size:13px;">
+          <div><div style="font-size:11px;color:var(--tm);">正解</div><div style="font-size:24px;font-weight:900;color:var(--pri);" id="rest-correct">0</div></div>
+          <div><div style="font-size:11px;color:var(--tm);">誤答</div><div style="font-size:24px;font-weight:900;color:var(--orange);" id="rest-error">0</div></div>
+          <div><div style="font-size:11px;color:var(--tm);">解答数</div><div style="font-size:24px;font-weight:900;color:var(--pri2);" id="rest-total">0</div></div>
+        </div>
+      </div>
+      <div style="font-size:48px;font-weight:900;color:var(--pri2);" id="rest-countdown">5</div>
+      <div style="font-size:13px;color:var(--tm);font-weight:700;margin-top:10px;">次は <strong>クール <span id="rest-next-cycle">2</span> / 3</strong></div>
     </div>
   </div>
 
@@ -540,8 +573,12 @@ const SCALE_LABELS = ['全くそう思わない','そう思わない','どちら
 // Apps Script Web App のURLを下記に貼り付けてください
 // scripts/talent-sheets-bridge.gs をAppsScriptに配置→デプロイで取得
 // ============================================================
+// DEV mode判定（Sheets送信skip用に先行定義）
+const __DEV_FAST_PRECHECK = new URLSearchParams(location.search).get('dev') === 'fast';
 const SHEETS_CONFIG = {
-  url: 'https://script.google.com/a/macros/kaigo-yoki.jp/s/AKfycbzxAOm1yHOgimf8Ofq1SNz4XhfHyq-HhvdkJ2eCQSODXGvOkuBrexBK32s8tPN9wcyo/exec'
+  url: __DEV_FAST_PRECHECK
+    ? 'PLACEHOLDER_DEV_NO_SEND'
+    : 'https://script.google.com/a/macros/kaigo-yoki.jp/s/AKfycbzxAOm1yHOgimf8Ofq1SNz4XhfHyq-HhvdkJ2eCQSODXGvOkuBrexBK32s8tPN9wcyo/exec'
 };
 
 // ============================================================
@@ -549,15 +586,23 @@ const SHEETS_CONFIG = {
 // ============================================================
 const STORAGE_KEY = 'yohki_talent_v1';
 
+// DEV mode: ?dev=fast でクール時間と休憩を短縮（テスト用）
+const DEV_FAST = new URLSearchParams(location.search).get('dev') === 'fast';
+
+// クレペリン式3クール構成（本格版／DEV時は短縮）
+const CYCLE_DURATION_SEC = DEV_FAST ? 10 : 60;  // 1クール60秒（DEV:10秒）
+const CYCLE_COUNT = 3;                           // 3クール
+const REST_SEC = DEV_FAST ? 2 : 5;               // クール間休憩5秒（DEV:2秒）
+
 let state = {
   step:'start',
   currentQ:0,
   demo:{ name:'', home:'', position:'', tenure:'', age:'', emp:'' },
   answers: new Array(QUESTIONS.length).fill(null),
-  calc: { correct:0, error:0, total:0, history:[] },
+  calc: { correct:0, error:0, total:0, history:[], cycleResults:[] },
 };
 
-let calcState = { running:false, current:null, timer:60, intervalId:null, startedAt:0, typed:'' };
+let calcState = { running:false, current:null, timer:CYCLE_DURATION_SEC, intervalId:null, startedAt:0, typed:'', cycle:1, restTimer:0, restIntervalId:null };
 
 // 復元
 try {
@@ -576,7 +621,7 @@ function persist(){
 // Screen control
 // ============================================================
 function show(id){
-  ['screen-start','screen-demo','screen-q','screen-calc-intro','screen-calc-practice','screen-calc','screen-result'].forEach(s=>{
+  ['screen-start','screen-demo','screen-q','screen-calc-intro','screen-calc-practice','screen-calc','screen-calc-rest','screen-result'].forEach(s=>{
     const el=document.getElementById(s);
     if(el) el.style.display = (s===id) ? 'block' : 'none';
   });
@@ -584,8 +629,34 @@ function show(id){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
-function goDemographics(){ state.step='demo'; persist(); show('screen-demo'); }
+function goDemographics(){
+  state.step='demo';
+  persist();
+  show('screen-demo');
+  // DEVモード時はスキップボタンを表示＋デフォルト値を埋める
+  if(DEV_FAST){
+    document.getElementById('dev-skip-wrap').style.display='block';
+    if(!document.getElementById('d-name').value) document.getElementById('d-name').value='DEV テスト';
+    if(!document.getElementById('d-home').value) document.getElementById('d-home').selectedIndex=1;
+    if(!document.getElementById('d-position').value) document.getElementById('d-position').selectedIndex=1;
+    if(!document.getElementById('d-tenure').value) document.getElementById('d-tenure').selectedIndex=1;
+    if(!document.getElementById('d-age').value) document.getElementById('d-age').selectedIndex=2;
+    if(!document.getElementById('d-emp').value) document.getElementById('d-emp').selectedIndex=1;
+  }
+}
 function backToStart(){ state.step='start'; persist(); show('screen-start'); }
+
+// DEV専用: 50問をランダム回答→計算テスト直行
+function devAutoFillAndJumpToCalc(){
+  if(!DEV_FAST) return;
+  if(!validateDemographics()) return;
+  for(let i=0;i<QUESTIONS.length;i++){
+    state.answers[i] = Math.floor(Math.random()*5)+1;
+  }
+  state.step='calc';
+  persist();
+  show('screen-calc-intro');
+}
 
 function startQuestions(){
   if(!validateDemographics()) return;
@@ -757,26 +828,94 @@ function practiceJudge(){
 let calcLock = false;  // 入力ロック（フィードバック表示中）
 
 function startCalcTest(skipPractice){
-  state.calc = { correct:0, error:0, total:0, history:[] };
-  calcState = { running:true, current:genProblem(), timer:60, intervalId:null, startedAt:Date.now(), typed:'' };
+  state.calc = { correct:0, error:0, total:0, history:[], cycleResults:[] };
+  calcState = { running:false, current:null, timer:CYCLE_DURATION_SEC, intervalId:null, startedAt:0, typed:'', cycle:1, restTimer:0, restIntervalId:null };
   calcLock = false;
-  show('screen-calc');
-  renderCalc();
+  startCycle(1);
   // ハードウェアキーボード対応（モバイルキーボードはポップアップしない）
   document.addEventListener('keydown', onCalcKey);
-  calcState.intervalId = setInterval(tickCalc, 500);  // 500msに緩和してチラつき防止
+}
+
+// クール開始（1〜3）
+function startCycle(cycleNum){
+  calcState.cycle = cycleNum;
+  calcState.running = true;
+  calcState.current = genProblem();
+  calcState.startedAt = Date.now();
+  calcState.typed = '';
+  calcLock = false;
+  // クール内集計用のスナップショットを保存
+  calcState._snapshotAtStart = {
+    correct: state.calc.correct,
+    error: state.calc.error,
+    total: state.calc.total,
+    historyLen: state.calc.history.length
+  };
+  document.getElementById('calc-cycle-badge').textContent = `クール ${cycleNum} / ${CYCLE_COUNT}`;
+  show('screen-calc');
+  renderCalc();
+  if(calcState.intervalId){ clearInterval(calcState.intervalId); }
+  calcState.intervalId = setInterval(tickCalc, 500);
 }
 
 function tickCalc(){
   if(!calcState.running) return;
   const elapsed = (Date.now()-calcState.startedAt)/1000;
-  const remain = Math.max(0, 60 - elapsed);
+  const remain = Math.max(0, CYCLE_DURATION_SEC - elapsed);
   const timerEl = document.getElementById('calc-timer');
   timerEl.textContent = Math.ceil(remain);
   if(remain<=10){ timerEl.classList.add('warn'); } else { timerEl.classList.remove('warn'); }
   if(remain<=0){
-    finishCalc();
+    finishCycle();
   }
+}
+
+// クール終了 → 最終クールなら結果へ、そうでなければ休憩へ
+function finishCycle(){
+  calcState.running = false;
+  if(calcState.intervalId){ clearInterval(calcState.intervalId); calcState.intervalId=null; }
+  // このクールの結果をスナップショット差分から算出
+  const snap = calcState._snapshotAtStart || { correct:0, error:0, total:0, historyLen:0 };
+  const cycleResult = {
+    cycle: calcState.cycle,
+    correct: state.calc.correct - snap.correct,
+    error: state.calc.error - snap.error,
+    total: state.calc.total - snap.total,
+    history: state.calc.history.slice(snap.historyLen)
+  };
+  cycleResult.fpRate = cycleResult.total > 0 ? Math.round((cycleResult.error/cycleResult.total)*1000)/10 : 0;
+  cycleResult.avgDt = cycleResult.history.length > 0 ? Math.round(cycleResult.history.reduce((a,h)=>a+h.dt,0)/cycleResult.history.length) : 0;
+  state.calc.cycleResults.push(cycleResult);
+  persist();
+
+  if(calcState.cycle >= CYCLE_COUNT){
+    finishCalc();
+  } else {
+    startRest(calcState.cycle, cycleResult);
+  }
+}
+
+// クール間休憩（5秒）
+function startRest(justFinishedCycle, cycleResult){
+  document.getElementById('rest-just-finished').textContent = justFinishedCycle;
+  document.getElementById('rest-next-cycle').textContent = justFinishedCycle + 1;
+  document.getElementById('rest-correct').textContent = cycleResult.correct;
+  document.getElementById('rest-error').textContent = cycleResult.error;
+  document.getElementById('rest-total').textContent = cycleResult.total;
+  document.getElementById('rest-countdown').textContent = REST_SEC;
+  show('screen-calc-rest');
+
+  let remain = REST_SEC;
+  if(calcState.restIntervalId){ clearInterval(calcState.restIntervalId); }
+  calcState.restIntervalId = setInterval(()=>{
+    remain--;
+    document.getElementById('rest-countdown').textContent = Math.max(0, remain);
+    if(remain<=0){
+      clearInterval(calcState.restIntervalId);
+      calcState.restIntervalId = null;
+      startCycle(justFinishedCycle + 1);
+    }
+  }, 1000);
 }
 
 function renderCalc(){
@@ -894,11 +1033,14 @@ function calculateScores(){
   const avgDt = calc.history.length > 0 ? Math.round(calc.history.reduce((a,h)=>a+h.dt,0)/calc.history.length) : 0;
   const calcScore = calc.correct;
 
-  // 60秒を3フェーズ（0-20s/20-40s/40-60s）に分けて作業曲線を分析
+  // 60秒を3フェーズ（0-20s/20-40s/40-60s）に分けて作業曲線を分析（1クール内）
   const phaseAnalysis = analyzeCalcPhases(calc.history);
 
-  // 処理タイプ判定（マルチタスク/シングルタスク等）
-  const processType = determineProcessType(calcScore, fpRate, phaseAnalysis);
+  // 3クール推移を分析（クレペリン式・中長期持久性）
+  const cycleAnalysis = analyzeCalcCycles(calc.cycleResults || []);
+
+  // 処理タイプ判定（マルチタスク/シングルタスク＋3クール持久性タイプ）
+  const processType = determineProcessType(calcScore, fpRate, phaseAnalysis, cycleAnalysis);
 
   // 介護・看護現場での適性推奨（5因子＋処理タイプから導出）
   const placement = recommendPlacement(normalized, processType);
@@ -921,6 +1063,7 @@ function calculateScores(){
     factorScores: normalized,
     calcScore, fpRate, avgDt,
     phaseAnalysis,
+    cycleAnalysis,
     processType,
     placement,
     mgrScore,
@@ -954,70 +1097,127 @@ function analyzeCalcPhases(history){
   return { phase1:counts[0], phase2:counts[1], phase3:counts[2], trend, stability };
 }
 
-// 処理タイプ判定（マルチタスク/シングルタスク/慎重型等）
-function determineProcessType(score, fpRate, phase){
-  // 高速・高正確・高安定 → マルチタスク対応型
+// 3クール推移分析（クレペリン式・中長期持久性タイプ判定）
+function analyzeCalcCycles(cycleResults){
+  if(!cycleResults || cycleResults.length<3){
+    return { c1:0, c2:0, c3:0, gap:0, curveType:'N/A', curveCode:'NA', cycleStability:0 };
+  }
+  const c1 = cycleResults[0].correct || 0;
+  const c2 = cycleResults[1].correct || 0;
+  const c3 = cycleResults[2].correct || 0;
+  // 持久性ギャップ: C1→C3の変化率(%)
+  const gap = c1 > 0 ? Math.round(((c3-c1)/c1)*100) : 0;
+  // クール間ばらつき → 安定度
+  const avg = (c1+c2+c3)/3;
+  const variance = (Math.pow(c1-avg,2) + Math.pow(c2-avg,2) + Math.pow(c3-avg,2)) / 3;
+  const stdev = Math.sqrt(variance);
+  const cycleStability = avg > 0 ? Math.max(0, Math.round(100 - (stdev/avg)*100)) : 0;
+
+  // 曲線型判定（クレペリン式・優先順位順）
+  let curveType, curveCode;
+  // ① V字型（中だるみ）— パターンが明確なので最優先
+  if(c1 > c2 && c3 > c2 && (c1-c2)>=3 && (c3-c2)>=3){
+    curveType = '中だるみ型'; curveCode = 'V_SHAPE';
+  // ② 山型（中盤ピーク）
+  } else if(c2 > c1 && c2 > c3 && (c2-c1)>=3 && (c2-c3)>=3){
+    curveType = '山型';     curveCode = 'PEAK_MID';
+  // ③ 上昇型（持続・慣熟）— C1→C3が10%以上UP
+  } else if(gap >= 10){
+    curveType = '上昇型';   curveCode = 'ENDURANCE';
+  // ④ 下降型（疲労）— C1→C3が15%以上DOWN
+  } else if(gap <= -15){
+    curveType = '下降型';   curveCode = 'FATIGUE';
+  // ⑤ 高水準・安定 — 全クール20問以上＆ばらつき少
+  } else if(c1>=20 && c2>=20 && c3>=20 && cycleStability>=85){
+    curveType = '高水準型'; curveCode = 'HIGH_FLAT';
+  // ⑥ 低水準 — 全クール10問未満
+  } else if(c1<10 && c2<10 && c3<10){
+    curveType = '低水準型'; curveCode = 'LOW_FLAT';
+  // ⑦ 標準・安定
+  } else if(cycleStability >= 80){
+    curveType = '標準型';   curveCode = 'STANDARD';
+  // ⑧ それ以外（ばらつき大）
+  } else {
+    curveType = '変動型';   curveCode = 'VARIABLE';
+  }
+  return { c1, c2, c3, gap, curveType, curveCode, cycleStability };
+}
+
+// 処理タイプ判定（クレペリン式3クール推移を最優先、フェーズ分割は補助）
+function determineProcessType(score, fpRate, phase, cycle){
+  // 3クール持久性タイプを最優先
+  if(cycle && cycle.curveCode && cycle.curveCode !== 'NA'){
+    if(cycle.curveCode === 'HIGH_FLAT'){
+      return { type:'高水準・エキスパート型', desc:'3クール通じて高水準で安定 — リーダー候補', code:'HIGH_FLAT' };
+    }
+    if(cycle.curveCode === 'ENDURANCE'){
+      return { type:'持続・慣熟型', desc:'時間とともに調子が上がる — 夜勤・長時間業務に強い', code:'ENDURANCE' };
+    }
+    if(cycle.curveCode === 'FATIGUE'){
+      return { type:'疲労型（短時間集中型）', desc:'最初は強いが疲れやすい — 短時間シフト推奨', code:'FATIGUE' };
+    }
+    if(cycle.curveCode === 'V_SHAPE'){
+      return { type:'中だるみ型', desc:'集中ムラあり — 環境整備や休憩設計が鍵', code:'V_SHAPE' };
+    }
+    if(cycle.curveCode === 'PEAK_MID'){
+      return { type:'山型（中盤ピーク）', desc:'慣れてから本領発揮、終盤は疲労気味 — 中時間業務向き', code:'PEAK_MID' };
+    }
+    if(cycle.curveCode === 'LOW_FLAT'){
+      return { type:'要注意・低水準型', desc:'全クール低水準 — 業務分担の工夫を推奨', code:'LOW_FLAT' };
+    }
+    if(cycle.curveCode === 'STANDARD'){
+      // 標準型は精度・速度で更に細分化
+      if(score>=60 && fpRate<10) return { type:'標準・高速型', desc:'安定した処理速度と精度を兼ね備えるタイプ', code:'STANDARD_FAST' };
+      if(fpRate<5) return { type:'標準・慎重型', desc:'1つひとつ確実に、ミスが少ないタイプ', code:'STANDARD_CAREFUL' };
+      return { type:'標準・バランス型', desc:'安定したペースで業務を遂行できるタイプ', code:'STANDARD' };
+    }
+    if(cycle.curveCode === 'VARIABLE'){
+      return { type:'変動型', desc:'クール間でばらつきあり — 集中できる環境作りが有効', code:'VARIABLE' };
+    }
+  }
+  // 旧ロジック（cycleAnalysisがNAの場合のみ／後方互換）
   if(score>=30 && fpRate<10 && phase.stability>=70){
     return { type:'マルチタスク対応型', desc:'同時並行の業務でも安定して処理できるタイプ', code:'MULTI' };
   }
-  // 中速・低誤答・高安定 → シングルタスク集中型
   if(score>=20 && fpRate<5 && phase.stability>=80){
     return { type:'シングルタスク集中型', desc:'1つのことに集中して正確に取り組むタイプ', code:'SINGLE' };
   }
-  // フェーズ3が大幅増加 → ウォームアップ型
-  if(phase.trend>=20){
-    return { type:'ウォームアップ型', desc:'時間とともに調子が上がる立ち上がり型', code:'WARMUP' };
-  }
-  // フェーズ3が大幅減少 → 短期集中型
-  if(phase.trend<=-20){
-    return { type:'短期集中型', desc:'最初に集中しやすく、長時間は疲れやすいタイプ', code:'SPRINT' };
-  }
-  // 高速・誤答多 → エネルギッシュ型
-  if(score>=25 && fpRate>=15){
-    return { type:'エネルギッシュ型', desc:'スピード重視。確認の習慣化で精度向上', code:'ENERGETIC' };
-  }
-  // 低速・低誤答 → 慎重型
-  if(score<20 && fpRate<10){
-    return { type:'慎重型', desc:'1つひとつ確実に。ミスが少ないタイプ', code:'CAREFUL' };
-  }
-  // 低速・誤答多 → 注意散漫型
-  if(score<15 && fpRate>=15){
-    return { type:'注意分散型', desc:'集中しやすい環境作りや業務分担の工夫が有効', code:'SCATTERED' };
-  }
-  // デフォルト
   return { type:'バランス型', desc:'平均的な処理特性', code:'BALANCED' };
 }
 
-// 介護・看護現場での適性推奨（5因子＋処理タイプから）
+// 介護・看護現場での適性推奨（5因子＋3クール持久性タイプから）
 function recommendPlacement(n, pt){
   const code = pt.code;
-  const bonus = (typeCode, points) => (code === typeCode) ? points : 0;
+  const bonus = (typeCodes, points) => {
+    const arr = Array.isArray(typeCodes) ? typeCodes : [typeCodes];
+    return arr.includes(code) ? points : 0;
+  };
 
   const scores = {
     'ホーム日勤介護（対人ケア）':
       (n.P_A||0)*0.30 + (n.P_S||0)*0.25 + (n.P_C||0)*0.25 + (n.P_E||0)*0.20
-      + bonus('SINGLE', 5) + bonus('CAREFUL', 5),
+      + bonus(['STANDARD','STANDARD_CAREFUL'], 5) + bonus('HIGH_FLAT', 5),
     'ホーム夜勤介護（緊急対応）':
       (n.P_S||0)*0.40 + (n.P_C||0)*0.30 + (n.P_A||0)*0.20 + (n.P_E||0)*0.10
-      + bonus('SINGLE', 8) + bonus('MULTI', 5),
+      + bonus('ENDURANCE', 10) + bonus('HIGH_FLAT', 8) + bonus('FATIGUE', -8),
     '訪問介護（個別対応）':
       (n.P_E||0)*0.30 + (n.P_A||0)*0.25 + (n.P_O||0)*0.25 + (n.P_S||0)*0.20
-      + bonus('MULTI', 5),
+      + bonus('STANDARD_FAST', 5) + bonus('FATIGUE', 3),
     '訪問看護・施設内看護':
       (n.P_C||0)*0.30 + (n.P_S||0)*0.30 + (n.P_A||0)*0.25 + (n.P_O||0)*0.15
-      + bonus('CAREFUL', 8) + bonus('SINGLE', 5),
+      + bonus('STANDARD_CAREFUL', 8) + bonus('HIGH_FLAT', 5),
     'リーダー・管理職候補':
       (n.P_C||0)*0.30 + (n.P_E||0)*0.25 + (n.P_S||0)*0.25 + (n.P_A||0)*0.20
-      + bonus('MULTI', 8) + bonus('WARMUP', 5),
+      + bonus('HIGH_FLAT', 10) + bonus('ENDURANCE', 5),
     '看取り・終末期ケア':
       (n.P_S||0)*0.35 + (n.P_A||0)*0.35 + (n.P_C||0)*0.20 + (n.P_E||0)*0.10
-      + bonus('SINGLE', 5) + bonus('CAREFUL', 5),
+      + bonus('STANDARD_CAREFUL', 5) + bonus('HIGH_FLAT', 5) + bonus('ENDURANCE', 3),
     '事務・バックオフィス':
       (n.P_C||0)*0.40 + (n.P_S||0)*0.30 + (n.P_O||0)*0.20 + (n.P_A||0)*0.10
-      + bonus('CAREFUL', 8) + bonus('SINGLE', 5),
+      + bonus('STANDARD_CAREFUL', 8) + bonus('FATIGUE', 5),
     '教育・新人サポート':
       (n.P_A||0)*0.30 + (n.P_E||0)*0.25 + (n.P_C||0)*0.25 + (n.P_O||0)*0.20
-      + bonus('MULTI', 5) + bonus('WARMUP', 5),
+      + bonus('HIGH_FLAT', 5) + bonus('ENDURANCE', 3),
   };
   return Object.entries(scores)
     .sort((a,b)=>b[1]-a[1])
@@ -1036,17 +1236,23 @@ function generateAdvice(r){
   if((n.P_E||0)>=75) strengths.push('外向性が高く、利用者・スタッフとのコミュニケーションが活発');
   if((n.P_A||0)>=75) strengths.push('協調性・共感性が高く、対人ケアや看取りに適性がある');
   if((n.P_S||0)>=75) strengths.push('情緒安定性が高く、緊急時・夜勤・看取りでも冷静に対応可能');
-  if(r.processType.code==='MULTI') strengths.push('処理能力テストで「マルチタスク対応型」と判定 — 並行業務に向く');
-  if(r.processType.code==='SINGLE') strengths.push('処理能力テストで「シングルタスク集中型」と判定 — 精密作業に向く');
-  if(r.processType.code==='WARMUP') strengths.push('処理能力テストで「ウォームアップ型」と判定 — 経験を積むほど伸びる');
+  // 3クール持久性タイプから強みを導出
+  const ptCode = r.processType.code;
+  if(ptCode==='HIGH_FLAT') strengths.push('3クール通じて高水準で安定 — リーダー・管理職候補としての持久性あり');
+  if(ptCode==='ENDURANCE') strengths.push('処理能力が時間とともに上昇する持続・慣熟型 — 夜勤や長時間業務で力を発揮');
+  if(ptCode==='STANDARD_FAST') strengths.push('安定した処理速度と高い精度を兼備 — 多様な業務に適応');
+  if(ptCode==='STANDARD_CAREFUL') strengths.push('ミスが少なく確実な作業 — 看取りや精密業務に向く');
+  if(ptCode==='STANDARD') strengths.push('安定したペースで継続的に業務を遂行できる');
 
   // 育成・サポート観点
   if((n.P_S||0)<50) cautions.push('情緒安定性が低め — ストレスケア・メンタルサポートの提供を推奨');
   if((n.P_A||0)<50) cautions.push('協調性が低め — 個人で完結する業務の方が向く可能性');
   if((n.P_C||0)<50) cautions.push('誠実性が低め — タスク管理ツールやチェックリストの活用が有効');
   if((n.P_E||0)<40) cautions.push('外向性が低め — 1人で集中できる業務環境を用意するとパフォーマンス向上');
-  if(r.processType.code==='SCATTERED') cautions.push('注意分散傾向 — 集中しやすい環境作りや業務分担の工夫を推奨');
-  if(r.processType.code==='SPRINT') cautions.push('短期集中型 — 長時間連続業務より、適度な休憩が成果につながる');
+  if(ptCode==='FATIGUE') cautions.push('疲労型（短時間集中型） — 長時間連続業務より、こまめな休憩や短時間シフトが成果につながる');
+  if(ptCode==='V_SHAPE') cautions.push('中だるみ型 — 集中力にムラあり。環境整備や業務リズム設計が鍵');
+  if(ptCode==='LOW_FLAT') cautions.push('全クール低水準 — 業務分担の工夫や、得意分野への配置転換を推奨');
+  if(ptCode==='VARIABLE') cautions.push('クール間でばらつき大 — 集中できる環境作り（音・温度・人の出入り）が有効');
 
   if(strengths.length===0) strengths.push('全因子がバランス良く、幅広い業務に適応可能なタイプ');
   if(cautions.length===0) cautions.push('現時点で目立った育成課題はありません');
@@ -1066,7 +1272,9 @@ function showResult(){
     answers: state.answers,
     scores: n,
     calc: { correct: r.calcScore, error: state.calc.error, total: state.calc.total, fpRate: r.fpRate, avgDt: r.avgDt },
+    cycleResults: state.calc.cycleResults || [],
     phaseAnalysis: r.phaseAnalysis,
+    cycleAnalysis: r.cycleAnalysis,
     processType: r.processType,
     placement: r.placement,
     mgrScore: r.mgrScore,
@@ -1119,6 +1327,7 @@ function showResult(){
   }).join('');
 
   const ph = r.phaseAnalysis || {phase1:0,phase2:0,phase3:0,trend:0,stability:0};
+  const cy = r.cycleAnalysis || {c1:0,c2:0,c3:0,gap:0,curveType:'N/A',curveCode:'NA',cycleStability:0};
 
   document.getElementById('result-content').innerHTML = `
     <h2>🌿 診断結果</h2>
@@ -1134,7 +1343,7 @@ function showResult(){
       <h4>🧮 処理能力テスト 詳細</h4>
       <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;font-size:13px;text-align:center;">
         <div style="background:var(--soft);border-radius:10px;padding:10px 4px;">
-          <div style="font-size:11px;color:var(--tm);font-weight:700;">正解</div>
+          <div style="font-size:11px;color:var(--tm);font-weight:700;">合計正解</div>
           <div style="font-size:22px;font-weight:900;color:var(--pri);">${r.calcScore}</div>
         </div>
         <div style="background:var(--soft);border-radius:10px;padding:10px 4px;">
@@ -1142,13 +1351,44 @@ function showResult(){
           <div style="font-size:22px;font-weight:900;color:var(--orange);">${r.fpRate}%</div>
         </div>
         <div style="background:var(--soft);border-radius:10px;padding:10px 4px;">
-          <div style="font-size:11px;color:var(--tm);font-weight:700;">安定度</div>
-          <div style="font-size:22px;font-weight:900;color:var(--pri2);">${ph.stability}</div>
+          <div style="font-size:11px;color:var(--tm);font-weight:700;">クール間安定度</div>
+          <div style="font-size:22px;font-weight:900;color:var(--pri2);">${cy.cycleStability}</div>
         </div>
       </div>
       <div style="font-size:12px;color:var(--tm);margin-top:10px;text-align:center;">
-        作業曲線（20秒ごと）: 前半 ${ph.phase1} → 中盤 ${ph.phase2} → 後半 ${ph.phase3}
-        <br>傾向：${ph.trend>=10?'⤴ 上昇':ph.trend<=-10?'⤵ 下降':'→ 安定'}（${ph.trend>0?'+':''}${ph.trend}%）
+        1クール内作業曲線（20秒ごと）: 前半 ${ph.phase1} → 中盤 ${ph.phase2} → 後半 ${ph.phase3}
+      </div>
+    </div>
+
+    <div class="advice-card" style="border:2px solid var(--pri2);">
+      <h4>📈 3クール推移（クレペリン式持久性分析）</h4>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;">
+        <div style="background:linear-gradient(135deg,#e8f5f1,#fff);border:2px solid var(--soft);border-radius:14px;padding:14px 6px;text-align:center;">
+          <div style="font-size:11px;color:var(--tm);font-weight:800;">クール 1</div>
+          <div style="font-size:11px;color:var(--tl);">0〜60秒</div>
+          <div style="font-size:32px;font-weight:900;color:var(--pri);margin-top:4px;">${cy.c1}</div>
+          <div style="font-size:11px;color:var(--tm);">問正解</div>
+        </div>
+        <div style="background:linear-gradient(135deg,#e8f5f1,#fff);border:2px solid var(--soft);border-radius:14px;padding:14px 6px;text-align:center;">
+          <div style="font-size:11px;color:var(--tm);font-weight:800;">クール 2</div>
+          <div style="font-size:11px;color:var(--tl);">休憩後</div>
+          <div style="font-size:32px;font-weight:900;color:var(--pri2);margin-top:4px;">${cy.c2}</div>
+          <div style="font-size:11px;color:var(--tm);">問正解</div>
+        </div>
+        <div style="background:linear-gradient(135deg,#e8f5f1,#fff);border:2px solid var(--soft);border-radius:14px;padding:14px 6px;text-align:center;">
+          <div style="font-size:11px;color:var(--tm);font-weight:800;">クール 3</div>
+          <div style="font-size:11px;color:var(--tl);">最終</div>
+          <div style="font-size:32px;font-weight:900;color:var(--acc);margin-top:4px;">${cy.c3}</div>
+          <div style="font-size:11px;color:var(--tm);">問正解</div>
+        </div>
+      </div>
+      <div style="background:var(--soft);border-radius:12px;padding:12px;text-align:center;">
+        <div style="font-size:13px;color:var(--tm);font-weight:700;margin-bottom:4px;">曲線型判定</div>
+        <div style="font-size:18px;font-weight:900;color:var(--pri);">${cy.curveType}</div>
+        <div style="font-size:13px;color:var(--td);margin-top:6px;">
+          持久性ギャップ（C1→C3）: <strong style="color:${cy.gap>=10?'var(--pri2)':cy.gap<=-15?'var(--orange)':'var(--td)'};">${cy.gap>0?'+':''}${cy.gap}%</strong>
+          ${cy.gap>=10?' ⤴ 上昇傾向（持続型）':cy.gap<=-15?' ⤵ 下降傾向（疲労型）':' → 安定'}
+        </div>
       </div>
     </div>
 
