@@ -28,6 +28,9 @@
 // v2.1で新シートに切替（旧「回答」シートはv1のデータ保管用に残す）
 const SHEET_NAME = '回答_v21';
 
+// 対象スプレッドシートID（スタンドアロン型対応）
+const SPREADSHEET_ID = '11Qln0OG4sCF2Vn_DK8zvpQDWACEvA2b9jLt1V9N3zZs';
+
 const HEADERS = [
   'timestamp', '氏名', '所属', '職種', '勤続年数', '年代', '雇用形態',
   // 個性5項目 (Big Five)
@@ -52,7 +55,7 @@ const HEADERS = [
 
 function doPost(e) {
   try {
-    const ss = SpreadsheetApp.getActiveSpreadsheet();
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
     let sheet = ss.getSheetByName(SHEET_NAME);
     if (!sheet) {
       sheet = ss.insertSheet(SHEET_NAME);
@@ -151,7 +154,7 @@ function notifyByEmail(data) {
     ? '[要注意] ようきタレント診断 受検完了 - ' + (d.name || '')
     : 'ようきタレント診断 受検完了 - ' + (d.name || '');
 
-  const sheetUrl = SpreadsheetApp.getActiveSpreadsheet().getUrl();
+  const sheetUrl = SpreadsheetApp.openById(SPREADSHEET_ID).getUrl();
   const ts = new Date(data.timestamp || Date.now());
   const tsStr = Utilities.formatDate(ts, 'Asia/Tokyo', 'yyyy/MM/dd HH:mm');
 
