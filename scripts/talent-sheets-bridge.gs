@@ -230,6 +230,35 @@ function num(v) {
 }
 
 /**
+ * メール送信単体テスト用：Apps Script のエディタで関数選択 → 実行
+ * 実行ログでエラー詳細が分かる
+ */
+function testMailOnly() {
+  try {
+    MailApp.sendEmail({
+      to: NOTIFY_TO,
+      subject: '[テスト] ようきタレント診断 メール送信確認',
+      body: 'これはメール送信機能の単体テストです。\n\n' +
+            '実行時刻: ' + new Date().toString() + '\n' +
+            'スクリプト: talent-sheets-bridge.gs',
+      name: 'ようきタレント診断'
+    });
+    Logger.log('✅ メール送信成功 → ' + NOTIFY_TO);
+  } catch (e) {
+    Logger.log('❌ メール送信失敗: ' + e.toString());
+    Logger.log('スタック: ' + (e.stack || 'no stack'));
+  }
+}
+
+/**
+ * メール送信クォータ確認
+ */
+function checkMailQuota() {
+  const remain = MailApp.getRemainingDailyQuota();
+  Logger.log('本日の残りメール送信枠: ' + remain + ' 通');
+}
+
+/**
  * 動作テスト用：Apps Script のエディタで関数選択 → 実行
  * 「回答」シートにテスト行が1行追加されればOK
  */
