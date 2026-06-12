@@ -196,6 +196,14 @@ const normPath = p => String(p || '').replace(/\.html$/, '');
 // 記録データは外部から送信されるため、表示時は必ずエスケープする
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+// スプレッドシートが修了日を日付型に自動変換するため、YYYY-MM-DDに正規化する
+const normDate = s => {
+  const str = String(s || '').trim();
+  if (/^\d{4}-\d{2}-\d{2}/.test(str)) return str.slice(0, 10);
+  const d = new Date(str);
+  if (isNaN(d)) return str;
+  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+};
 
 function demoData() {
   const staff = [
@@ -284,7 +292,7 @@ async function loadData() {
 
 function apply(data) {
   STAFF = (data.staff || []).filter(s => s.status !== '退職');
-  RECORDS = data.records || [];
+  RECORDS = (data.records || []).map(r => ({ ...r, date: normDate(r.date) }));
   document.getElementById('gate').style.display = 'none';
   document.getElementById('dash').style.display = 'block';
   renderFilters();

@@ -35,6 +35,12 @@ function getSS() {
   return SpreadsheetApp.getActiveSpreadsheet();
 }
 
+// スプレッドシートは 'YYYY-MM-DD' 文字列を日付型に自動変換するため、読み出し時に文字列へ戻す
+function asDateStr(v) {
+  if (v instanceof Date) return Utilities.formatDate(v, 'Asia/Tokyo', 'yyyy-MM-dd');
+  return String(v || '').trim();
+}
+
 /** 初期セットアップ：シート作成＋閲覧キー生成（再実行しても既存データは消えません） */
 function setup() {
   const ss = getSS();
@@ -96,7 +102,7 @@ function doPost(e) {
       const checkRows = Math.min(lastRow - 1, 200);
       const recent = sheet.getRange(lastRow - checkRows + 1, 2, checkRows, 4).getValues();
       const dup = recent.some(r =>
-        String(r[0]).trim() === name && String(r[2]).trim() === path && String(r[3]).trim() === date
+        String(r[0]).trim() === name && String(r[2]).trim() === path && asDateStr(r[3]) === date
       );
       if (dup) return jsonOut({ status: 'ok', dedup: true });
     }
@@ -139,7 +145,7 @@ function doGet(e) {
           name: String(r[1]).trim(),
           training: String(r[2]).trim(),
           path: String(r[3]).trim(),
-          date: String(r[4]).trim()
+          date: asDateStr(r[4])
         });
       });
     }
