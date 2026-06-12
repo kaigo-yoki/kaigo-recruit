@@ -10,7 +10,7 @@ window.CERT_MAIL_CONFIG = {
 // endpoint には scripts/kenshu-progress.gs をデプロイしたウェブアプリURLを設定する。
 // 未設定（空文字）の間は記録せず、修了証発行は通常どおり動作する。
 window.KENSHU_PROGRESS_CONFIG = {
-  endpoint: ''
+  endpoint: 'https://script.google.com/macros/s/AKfycbx-kNzYLAfzzu1Swee5EYVsLWQZfsHHgJ0pxAXfA_DHQpTQ5BvByZfqFQ7XwT1mxX4p/exec'
 };
 
 // 修了証発行（generateCert）をフックして、発行時に進捗を自動送信する。
