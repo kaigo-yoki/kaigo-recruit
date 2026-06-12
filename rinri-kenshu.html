@@ -370,6 +370,15 @@ body {
   .speech-bubble { font-size: 13px; }
   .gag-text { font-size: 17px; }
 }
+
+.cert-issue { text-align: center; margin: 24px auto 0; max-width: 500px; padding: 24px 20px; background: #fff; border: 2px solid #EEE; border-radius: 16px; }
+.cert-issue p { font-size: 13px; color: #666; margin-bottom: 14px; line-height: 1.7; }
+.cert-issue label { display: block; font-size: 13px; font-weight: 700; margin-bottom: 6px; }
+.cert-issue input { width: 100%; max-width: 300px; padding: 12px 18px; border: 3px solid #DDD; border-radius: 12px; font-size: 16px; font-family: inherit; font-weight: 700; text-align: center; outline: none; }
+.cert-issue input:focus { border-color: var(--warm, #F9A826); }
+.cert-issue button { display: inline-block; margin-top: 14px; padding: 12px 36px; background: linear-gradient(135deg, #F9A826, #FF8F00); color: #fff; border: none; border-radius: 50px; font-size: 15px; font-weight: 800; font-family: inherit; cursor: pointer; }
+#certIssuedMsg { margin: 14px 0 10px; font-size: 14px; font-weight: 700; color: #2E7D32; }
+#certMailBtn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 28px; background: linear-gradient(135deg, #4CAF7D, #43A047); color: #fff; border-radius: 50px; font-size: 14px; font-weight: 800; text-decoration: none; }
 </style>
 </head>
 <body>
@@ -1030,6 +1039,17 @@ body {
           <span id="completionDate"></span>
         </div>
       </div>
+      <div class="cert-issue" id="certIssue">
+        <p>お名前を入力して修了証を発行すると、施設長への修了報告メールを作成できます。</p>
+        <label for="certName">受講者名</label>
+        <input type="text" id="certName" placeholder="例: 山田 太郎" autocomplete="name">
+        <br>
+        <button id="certGenBtn" onclick="generateCert()">📜 修了証書を発行する</button>
+        <div id="certIssued" style="display:none;">
+          <div id="certIssuedMsg"></div>
+          <a id="certMailBtn" href="#">✉️ 修了報告メールを送信</a>
+        </div>
+      </div>
     </div>
 
     <div class="speech">
@@ -1106,7 +1126,36 @@ function checkQuiz(id,btn,ok){
   }
   f.classList.add('show');
 }
+
+// === 修了証発行・修了報告 ===
+const TRAINING_TITLE = "倫理・法令遵守（コンプライアンス）研修";
+
+function generateCert() {
+  const nameInput = document.getElementById('certName');
+  const name = nameInput.value.trim();
+  if (!name) { nameInput.style.borderColor = '#E8594F'; nameInput.focus(); return; }
+  nameInput.style.borderColor = '#4CAF7D';
+
+  const today = new Date();
+  const dateStr = today.getFullYear() + '年' + (today.getMonth()+1) + '月' + today.getDate() + '日';
+  document.getElementById('certIssuedMsg').textContent = name + ' 殿の修了証を発行しました（修了日: ' + dateStr + '）';
+  document.getElementById('certIssued').style.display = 'block';
+
+  // メールリンク生成（宛先は ./scripts/cert-config.js で一元管理）
+  const mailCfg = window.CERT_MAIL_CONFIG || { to: 'rina@kaigo-yoki.jp', cc: 'info@kaigo-yoki.jp', honorific: '施設長 様' };
+  const subject = encodeURIComponent('【研修修了報告】' + TRAINING_TITLE + ' - ' + name);
+  const body = encodeURIComponent(
+    mailCfg.honorific + '\n\n' +
+    '研修修了のご報告をいたします。\n\n' +
+    '受講者名: ' + name + '\n' +
+    '研修テーマ: ' + TRAINING_TITLE + '\n' +
+    '修了日: ' + dateStr + '\n\n' +
+    '以上、ご確認をお願いいたします。'
+  );
+  document.getElementById('certMailBtn').href = 'mailto:' + mailCfg.to + '?cc=' + mailCfg.cc + '&subject=' + subject + '&body=' + body;
+}
 </script>
+<script src="./scripts/cert-config.js"></script>
 <script src="./scripts/sub-menu.js"></script>
 </body>
 </html>

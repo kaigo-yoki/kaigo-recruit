@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>研修進捗確認（管理者用）| 訪問介護 ようき</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="./favicon.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap');
+
+:root {
+  --primary: #2D5A8E;
+  --primary-light: #4A8FD4;
+  --accent: #E8594F;
+  --warm: #F9A826;
+  --green: #4CAF7D;
+  --bg: #FFF8F0;
+  --text: #2C2C2C;
+  --text-light: #666666;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Zen Maru Gothic', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  padding: 20px 14px 60px;
+}
+
+.wrap { max-width: 1080px; margin: 0 auto; }
+
+h1 {
+  font-size: clamp(20px, 4vw, 28px);
+  font-weight: 900;
+  color: var(--primary);
+  text-align: center;
+  margin: 16px 0 4px;
+}
+.sub { text-align: center; font-size: 13px; color: var(--text-light); margin-bottom: 24px; }
+
+.panel {
+  background: #fff; border: 2px solid #EEE; border-radius: 16px;
+  padding: 24px 20px; margin-bottom: 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+
+/* キー入力ゲート */
+#gate { max-width: 440px; margin: 40px auto; text-align: center; }
+#gate label { display: block; font-size: 14px; font-weight: 700; margin-bottom: 10px; }
+#gate input {
+  width: 100%; padding: 13px 18px; border: 3px solid #DDD; border-radius: 12px;
+  font-size: 16px; font-family: inherit; font-weight: 700; text-align: center; outline: none;
+}
+#gate input:focus { border-color: var(--primary-light); }
+#gate button {
+  margin-top: 14px; padding: 12px 40px; background: var(--primary); color: #fff;
+  border: none; border-radius: 50px; font-size: 15px; font-weight: 800;
+  font-family: inherit; cursor: pointer;
+}
+.gate-error { color: var(--accent); font-size: 13px; font-weight: 700; margin-top: 12px; display: none; }
+.gate-note { font-size: 12px; color: var(--text-light); margin-top: 16px; line-height: 1.8; text-align: left; }
+
+/* サマリーカード */
+.summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 20px; }
+.sum-card { background: #fff; border: 2px solid #EEE; border-radius: 14px; padding: 16px; text-align: center; }
+.sum-num { font-size: 28px; font-weight: 900; color: var(--primary); }
+.sum-label { font-size: 12px; color: var(--text-light); font-weight: 700; margin-top: 4px; }
+
+/* フィルタ */
+.filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; align-items: center; }
+.chip {
+  padding: 7px 18px; border-radius: 30px; border: 2px solid #DDD; background: #fff;
+  font-size: 13px; font-weight: 700; font-family: inherit; cursor: pointer; color: var(--text-light);
+}
+.chip.on { background: var(--primary); border-color: var(--primary); color: #fff; }
+.toolbar { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; margin-bottom: 14px; }
+.tool-btn {
+  padding: 8px 18px; border-radius: 30px; border: 2px solid #DDD; background: #fff;
+  font-size: 12px; font-weight: 700; font-family: inherit; cursor: pointer; color: var(--text-light);
+}
+.tool-btn:hover { border-color: var(--primary-light); color: var(--primary); }
+
+/* マトリクス表 */
+h2 { font-size: 17px; font-weight: 900; color: var(--primary); margin: 4px 0 12px; }
+.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { border: 1px solid #EEE; padding: 8px 6px; text-align: center; white-space: nowrap; }
+thead th {
+  background: var(--primary); color: #fff; font-weight: 700; font-size: 11px;
+  max-width: 86px; white-space: normal; line-height: 1.4; vertical-align: middle; padding: 8px 4px;
+}
+thead th.name-col, td.name-col {
+  position: sticky; left: 0; z-index: 2; min-width: 110px;
+  background: var(--primary); color: #fff; text-align: left; padding-left: 10px;
+}
+tbody td.name-col { background: #F6F9FC; color: var(--text); font-weight: 700; }
+tbody tr:nth-child(even) td:not(.name-col) { background: #FCFCFC; }
+.cell-done { color: var(--green); font-weight: 900; }
+.cell-date { display: block; font-size: 10px; color: var(--text-light); font-weight: 400; }
+.cell-none { color: #CCC; }
+.rate-cell { min-width: 110px; }
+.rate-bar { background: #EEE; border-radius: 8px; height: 10px; overflow: hidden; margin-top: 3px; }
+.rate-fill { height: 100%; background: linear-gradient(90deg, var(--green), #7BD4A3); border-radius: 8px; }
+.rate-txt { font-size: 11px; font-weight: 700; }
+
+.group-row td {
+  background: #FFF3E0 !important; color: #B45F04; font-weight: 900; font-size: 12px;
+  text-align: left; padding-left: 10px;
+}
+
+/* 最近の記録・名簿外 */
+.recent-list { list-style: none; }
+.recent-list li { padding: 8px 4px; border-bottom: 1px solid #F0F0F0; font-size: 13px; }
+.recent-list .d { color: var(--text-light); font-size: 12px; margin-right: 10px; }
+.unmatched { background: #FFF8E6; border: 2px dashed var(--warm); }
+.unmatched li { font-size: 13px; padding: 6px 4px; }
+.empty-msg { font-size: 13px; color: var(--text-light); text-align: center; padding: 16px; }
+
+.setup-box { background: #F0F6FF; border: 2px solid #C9DEF5; border-radius: 14px; padding: 20px; font-size: 13px; line-height: 2; }
+.setup-box ol { padding-left: 20px; }
+.footer { text-align: center; margin-top: 30px; font-size: 12px; color: var(--text-light); }
+.footer a { color: var(--primary); }
+#dash { display: none; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>📊 研修進捗確認</h1>
+  <div class="sub">管理者用 — 職員ごとの研修修了状況（訪問介護 ようき）</div>
+
+  <!-- 閲覧キー入力 -->
+  <div class="panel" id="gate">
+    <label for="keyInput">🔑 閲覧キーを入力してください</label>
+    <input type="password" id="keyInput" placeholder="閲覧キー" autocomplete="off">
+    <br>
+    <button onclick="enter()">表示する</button>
+    <div class="gate-error" id="gateError"></div>
+    <div class="gate-note">
+      ※ 閲覧キーは進捗管理スプレッドシートの「設定」シート B1 に記載されています。<br>
+      ※ キーはこの端末に保存され、次回からは自動で表示されます。
+    </div>
+    <div class="setup-box" id="setupBox" style="display:none; margin-top:18px;">
+      <strong>⚙️ 初期設定がまだ完了していません</strong><br>
+      記録用スプレッドシートとの接続が未設定です。<code>scripts/kenshu-progress.gs</code> の冒頭にあるセットアップ手順（約5分）に従って Google スプレッドシートを作成・デプロイし、ウェブアプリURLを <code>scripts/cert-config.js</code> に設定してください。<br>
+      画面のイメージは <a href="?demo=1">デモ表示</a> で確認できます。
+    </div>
+  </div>
+
+  <!-- ダッシュボード -->
+  <div id="dash">
+    <div class="summary" id="summary"></div>
+
+    <div class="panel">
+      <div class="toolbar">
+        <button class="tool-btn" onclick="loadData()">🔄 再読み込み</button>
+        <button class="tool-btn" onclick="changeKey()">🔑 キーを変更</button>
+      </div>
+      <div class="filters" id="deptFilters"></div>
+
+      <h2>法定研修（全11研修）</h2>
+      <div class="table-scroll" id="legalTable"></div>
+
+      <h2 style="margin-top:28px;">個別研修（役職別・四半期）</h2>
+      <div class="table-scroll" id="indivTable"></div>
+    </div>
+
+    <div class="panel">
+      <h2>🕒 最近の修了記録</h2>
+      <ul class="recent-list" id="recentList"></ul>
+    </div>
+
+    <div class="panel unmatched" id="unmatchedPanel" style="display:none;">
+      <h2>⚠️ 名簿にない名前の記録</h2>
+      <p style="font-size:12px;color:var(--text-light);margin-bottom:8px;">
+        入力された名前が職員名簿と一致しませんでした。表記ゆれの場合は名簿の氏名に合わせるか、名簿に追加してください。</p>
+      <ul id="unmatchedList"></ul>
+    </div>
+  </div>
+
+  <div class="footer">
+    <a href="./kenshu.html">📚 研修一覧へ</a>　|　<a href="./">🏠 採用トップ</a><br><br>
+    訪問介護 ようき（有限会社 陽気）
+  </div>
+</div>
+
+<script src="./scripts/cert-config.js"></script>
+<script>
+const KEY_STORE = 'kenshu_shinchoku_key';
+const DEMO = new URLSearchParams(location.search).get('demo') === '1';
+let LEGAL = [], INDIV = [], STAFF = [], RECORDS = [], deptFilter = '全て';
+
+const norm = s => String(s || '').replace(/[\s　]/g, '');
+const normPath = p => String(p || '').replace(/\.html$/, '');
+// 記録データは外部から送信されるため、表示時は必ずエスケープする
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+  ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+function demoData() {
+  const staff = [
+    { name: '山田 太郎', dept: '訪問介護', status: '在籍' },
+    { name: '佐藤 花子', dept: '訪問介護', status: '在籍' },
+    { name: '金城 一郎', dept: 'デイサービス', status: '在籍' },
+    { name: '比嘉 美咲', dept: 'デイサービス', status: '在籍' }
+  ];
+  const records = [
+    { name: '山田太郎', training: '高齢者虐待防止・人権擁護 研修', path: '/trainings/abuse-prevention', date: '2026-05-10', ts: '2026-05-10T10:00:00Z' },
+    { name: '山田 太郎', training: '感染症・食中毒の予防と蔓延防止 研修', path: '/trainings/infection-control', date: '2026-05-24', ts: '2026-05-24T10:00:00Z' },
+    { name: '山田 太郎', training: '身体拘束等の適正化 研修', path: '/trainings/restraint', date: '2026-06-12', ts: '2026-06-12T10:00:00Z' },
+    { name: '佐藤 花子', training: '倫理・法令遵守（コンプライアンス）研修', path: '/rinri-kenshu', date: '2026-06-01', ts: '2026-06-01T09:00:00Z' },
+    { name: '佐藤 花子', training: '基本介護技術と訪問介護のルール', path: '/individual-training/new-q1', date: '2026-06-05', ts: '2026-06-05T09:00:00Z' },
+    { name: '金城 一郎', training: '業務継続計画（BCP）・災害対応 研修', path: '/trainings/bcp', date: '2026-06-08', ts: '2026-06-08T15:00:00Z' },
+    { name: '上原 健', training: '接遇・マナー 研修', path: '/trainings/hospitality', date: '2026-06-09', ts: '2026-06-09T11:00:00Z' }
+  ];
+  return { status: 'ok', staff, records };
+}
+
+async function loadTrainingDefs() {
+  const [tRes, iRes] = await Promise.all([
+    fetch('./trainings/trainings.json?_t=' + Date.now()),
+    fetch('./individual-training/individual.json?_t=' + Date.now())
+  ]);
+  const trainings = await tRes.json();
+  const indiv = await iRes.json();
+  LEGAL = [
+    { id: 'rinri', title: '倫理・法令遵守', icon: '⚖️', path: '/rinri-kenshu' },
+    ...trainings.map(t => ({ id: t.id, title: t.title, icon: t.icon, path: '/trainings/' + t.id }))
+  ];
+  INDIV = indiv.map(t => ({
+    id: t.id, title: t.title, level: t.level, levelIcon: t.levelIcon,
+    quarter: (t.quarter || '').split('（')[0], path: '/individual-training/' + t.id
+  }));
+}
+
+function enter() {
+  const key = document.getElementById('keyInput').value.trim();
+  if (!key) return;
+  localStorage.setItem(KEY_STORE, key);
+  loadData();
+}
+
+function changeKey() {
+  localStorage.removeItem(KEY_STORE);
+  document.getElementById('dash').style.display = 'none';
+  document.getElementById('gate').style.display = 'block';
+  document.getElementById('keyInput').value = '';
+}
+
+function gateError(msg) {
+  const el = document.getElementById('gateError');
+  el.textContent = msg;
+  el.style.display = 'block';
+}
+
+async function loadData() {
+  const cfg = window.KENSHU_PROGRESS_CONFIG || {};
+  if (DEMO) {
+    await loadTrainingDefs();
+    apply(demoData());
+    return;
+  }
+  if (!cfg.endpoint) {
+    document.getElementById('setupBox').style.display = 'block';
+    return;
+  }
+  const key = localStorage.getItem(KEY_STORE);
+  if (!key) return;
+  try {
+    await loadTrainingDefs();
+    const res = await fetch(cfg.endpoint + '?action=progress&key=' + encodeURIComponent(key));
+    const data = await res.json();
+    if (data.status === 'unauthorized') {
+      localStorage.removeItem(KEY_STORE);
+      gateError('閲覧キーが違います。スプレッドシート「設定」シートB1のキーを確認してください。');
+      return;
+    }
+    if (data.status !== 'ok') { gateError('データ取得に失敗しました: ' + (data.message || '')); return; }
+    apply(data);
+  } catch (e) {
+    gateError('通信に失敗しました。時間をおいて再度お試しください。');
+  }
+}
+
+function apply(data) {
+  STAFF = (data.staff || []).filter(s => s.status !== '退職');
+  RECORDS = data.records || [];
+  document.getElementById('gate').style.display = 'none';
+  document.getElementById('dash').style.display = 'block';
+  renderFilters();
+  render();
+}
+
+// 職員名(正規化) → パス(正規化) → 最新修了日
+function buildIndex() {
+  const idx = {};
+  for (const r of RECORDS) {
+    const n = norm(r.name), p = normPath(r.path);
+    if (!n) continue;
+    if (!idx[n]) idx[n] = {};
+    if (!idx[n][p] || idx[n][p] < r.date) idx[n][p] = r.date;
+  }
+  return idx;
+}
+
+function renderFilters() {
+  const depts = ['全て', ...new Set(STAFF.map(s => s.dept).filter(Boolean))];
+  document.getElementById('deptFilters').innerHTML = depts.map(d =>
+    `<button class="chip ${d === deptFilter ? 'on' : ''}" data-dept="${esc(d)}">${esc(d)}</button>`
+  ).join('');
+  document.querySelectorAll('#deptFilters .chip').forEach(b =>
+    b.addEventListener('click', () => setDept(b.dataset.dept)));
+}
+
+function setDept(d) { deptFilter = d; renderFilters(); render(); }
+
+function cellHTML(date) {
+  if (!date) return '<span class="cell-none">・</span>';
+  const md = date.slice(5).replace('-', '/');
+  return `<span class="cell-done">✅<span class="cell-date">${md}</span></span>`;
+}
+
+function render() {
+  const idx = buildIndex();
+  const staff = STAFF.filter(s => deptFilter === '全て' || s.dept === deptFilter);
+
+  // --- 法定研修マトリクス ---
+  let doneCells = 0;
+  const legalRows = staff.map(s => {
+    const mine = idx[norm(s.name)] || {};
+    let done = 0;
+    const cells = LEGAL.map(t => {
+      const d = mine[t.path];
+      if (d) done++;
+      return `<td>${cellHTML(d)}</td>`;
+    }).join('');
+    doneCells += done;
+    const pct = Math.round(done / LEGAL.length * 100);
+    return `<tr><td class="name-col">${esc(s.name)}</td>${cells}
+      <td class="rate-cell"><span class="rate-txt">${done}/${LEGAL.length} (${pct}%)</span>
+      <div class="rate-bar"><div class="rate-fill" style="width:${pct}%"></div></div></td></tr>`;
+  }).join('');
+
+  document.getElementById('legalTable').innerHTML = staff.length ? `<table>
+    <thead><tr><th class="name-col">職員名</th>${LEGAL.map(t => `<th>${t.icon}<br>${t.title}</th>`).join('')}<th>修了率</th></tr></thead>
+    <tbody>${legalRows}</tbody></table>`
+    : '<div class="empty-msg">職員名簿が空です。スプレッドシートの「職員名簿」シートに職員を記入してください。</div>';
+
+  // --- 個別研修マトリクス（役職別にグループ化） ---
+  const levels = [...new Set(INDIV.map(t => t.level))];
+  let indivHTML = '';
+  if (staff.length && INDIV.length) {
+    const groups = levels.map(lv => {
+      const ts = INDIV.filter(t => t.level === lv);
+      const head = `<tr class="group-row"><td colspan="${ts.length + 1}">${ts[0].levelIcon || ''} ${lv}</td></tr>
+        <tr><th class="name-col">職員名</th>${ts.map(t => `<th>${t.quarter}<br>${t.title}</th>`).join('')}</tr>`;
+      const rows = staff.map(s => {
+        const mine = idx[norm(s.name)] || {};
+        return `<tr><td class="name-col">${esc(s.name)}</td>${ts.map(t => `<td>${cellHTML(mine[t.path])}</td>`).join('')}</tr>`;
+      }).join('');
+      return head + rows;
+    }).join('');
+    indivHTML = `<table><tbody>${groups}</tbody></table>`;
+  } else {
+    indivHTML = '<div class="empty-msg">表示するデータがありません。</div>';
+  }
+  document.getElementById('indivTable').innerHTML = indivHTML;
+
+  // --- サマリー ---
+  const totalPct = staff.length ? Math.round(doneCells / (staff.length * LEGAL.length) * 100) : 0;
+  const lastRec = RECORDS.length ? RECORDS.map(r => r.date).sort().slice(-1)[0] : '—';
+  document.getElementById('summary').innerHTML = `
+    <div class="sum-card"><div class="sum-num">${staff.length}</div><div class="sum-label">在籍職員数${deptFilter !== '全て' ? '（' + deptFilter + '）' : ''}</div></div>
+    <div class="sum-card"><div class="sum-num">${totalPct}%</div><div class="sum-label">法定研修 修了率</div></div>
+    <div class="sum-card"><div class="sum-num">${RECORDS.length}</div><div class="sum-label">修了記録 件数</div></div>
+    <div class="sum-card"><div class="sum-num" style="font-size:18px;">${esc(lastRec)}</div><div class="sum-label">最終修了日</div></div>`;
+
+  // --- 最近の記録 ---
+  const recent = [...RECORDS].sort((a, b) => (b.ts || '').localeCompare(a.ts || '')).slice(0, 8);
+  document.getElementById('recentList').innerHTML = recent.length
+    ? recent.map(r => `<li><span class="d">${esc(r.date)}</span><strong>${esc(r.name)}</strong>　${esc(r.training)}</li>`).join('')
+    : '<li class="empty-msg">まだ修了記録がありません。</li>';
+
+  // --- 名簿外の記録 ---
+  const rosterNames = new Set(STAFF.map(s => norm(s.name)));
+  const unmatched = RECORDS.filter(r => norm(r.name) && !rosterNames.has(norm(r.name)));
+  const panel = document.getElementById('unmatchedPanel');
+  if (unmatched.length) {
+    panel.style.display = 'block';
+    const byName = {};
+    unmatched.forEach(r => { (byName[r.name] = byName[r.name] || []).push(r.training); });
+    document.getElementById('unmatchedList').innerHTML = Object.entries(byName)
+      .map(([n, ts]) => `<li><strong>${esc(n)}</strong>（${ts.length}件）</li>`).join('');
+  } else {
+    panel.style.display = 'none';
+  }
+}
+
+// 起動
+(function init() {
+  if (DEMO) { loadData(); return; }
+  const cfg = window.KENSHU_PROGRESS_CONFIG || {};
+  if (!cfg.endpoint) { document.getElementById('setupBox').style.display = 'block'; return; }
+  if (localStorage.getItem(KEY_STORE)) loadData();
+})();
+
+document.getElementById('keyInput').addEventListener('keydown', e => { if (e.key === 'Enter') enter(); });
+</script>
+</body>
+</html>

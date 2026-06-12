@@ -5,3 +5,47 @@ window.CERT_MAIL_CONFIG = {
   cc: 'info@kaigo-yoki.jp',   // 本部（控え）
   honorific: '施設長 様'       // メール冒頭の宛名
 };
+
+// 研修進捗の自動記録（Google スプレッドシート連携）
+// endpoint には scripts/kenshu-progress.gs をデプロイしたウェブアプリURLを設定する。
+// 未設定（空文字）の間は記録せず、修了証発行は通常どおり動作する。
+window.KENSHU_PROGRESS_CONFIG = {
+  endpoint: ''
+};
+
+// 修了証発行（generateCert）をフックして、発行時に進捗を自動送信する。
+// このファイルは各研修ページの最後で読み込まれるため、ページ側の定義を上書きできる。
+(function () {
+  var orig = window.generateCert;
+  if (typeof orig !== 'function') return;
+  window.generateCert = function () {
+    orig.apply(this, arguments);
+    try {
+      var cfg = window.KENSHU_PROGRESS_CONFIG;
+      if (!cfg || !cfg.endpoint) return;
+      var nameEl = document.getElementById('certName');
+      var name = nameEl ? nameEl.value.trim() : '';
+      if (!name) return;
+      var title = (typeof TRAINING_TITLE !== 'undefined') ? TRAINING_TITLE : document.title;
+      var d = new Date();
+      var dateStr = d.getFullYear() + '-' +
+        String(d.getMonth() + 1).padStart(2, '0') + '-' +
+        String(d.getDate()).padStart(2, '0');
+      var dedupKey = name + '|' + location.pathname + '|' + dateStr;
+      if (window.__kenshuLogged === dedupKey) return;
+      window.__kenshuLogged = dedupKey;
+      // Content-Type を text/plain にすることでpreflight回避（talent.html と同方式）
+      fetch(cfg.endpoint, {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'log',
+          name: name,
+          training: title,
+          path: location.pathname,
+          date: dateStr
+        }),
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+      }).catch(function () {});
+    } catch (e) { /* 記録失敗でも修了証発行は妨げない */ }
+  };
+})();
