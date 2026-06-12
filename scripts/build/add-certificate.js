@@ -166,14 +166,16 @@ function processFile(filePath) {
   // 1. CSS追加 (</style>直前)
   html = html.replace('</style>', CERTIFICATE_CSS + '</style>');
 
-  // 2. HTML追加 (</body>直前)
-  html = html.replace('</body>', getCertificateHTML() + '</body>');
-
-  // 3. JS追加 (</script>の最後の出現の直前)
+  // 2. JS追加 (</script>の最後の出現の直前)
+  //    HTML追加より先に行うこと。後だと cert-config.js の <script src> タグが
+  //    「最後の </script>」になり、外部スクリプトタグの中にJSが入ってしまう
   const lastScriptEnd = html.lastIndexOf('</script>');
   if (lastScriptEnd !== -1) {
     html = html.slice(0, lastScriptEnd) + getCertificateJS(trainingTitle) + html.slice(lastScriptEnd);
   }
+
+  // 3. HTML追加 (</body>直前)
+  html = html.replace('</body>', getCertificateHTML() + '</body>');
 
   fs.writeFileSync(filePath, html, 'utf8');
   console.log(`  ✅ 追加完了: ${path.basename(filePath)} (テーマ: ${trainingTitle})`);

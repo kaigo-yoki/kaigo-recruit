@@ -79,5 +79,14 @@
     "description": "感染症や災害発生時の業務継続計画について学びます。",
     "file": "bcp.html",
     "date": "2026-04-08"
+  },
+  {
+    "id": "restraint",
+    "title": "身体拘束等の適正化",
+    "subtitle": "〜 しばるより、しんじる介護！ 〜",
+    "icon": "🙅",
+    "description": "身体拘束の原則禁止と緊急やむを得ない場合の3要件、スピーチロック防止を学びます。",
+    "file": "restraint.html",
+    "date": "2026-06-12"
   }
 ]
