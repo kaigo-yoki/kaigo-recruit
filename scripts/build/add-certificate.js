@@ -3,7 +3,7 @@
  * 全研修ページに修了証書機能を追加するスクリプト
  * - 名前入力欄
  * - 修了証書（名前・研修名・日付入り）
- * - info@kaigo-yoki.jp へのメール送信ボタン
+ * - 施設長へのメール送信ボタン（宛先は scripts/cert-config.js で一元管理）
  */
 
 const fs = require('fs');
@@ -75,6 +75,7 @@ function getCertificateHTML() {
     <a class="cert-back-btn" href="../">🏠 トップページ</a>
   </div>
 </div>
+<script src="../scripts/cert-config.js"></script>
 `;
 }
 
@@ -111,17 +112,18 @@ function generateCert() {
   document.getElementById('certCard').classList.add('show');
   document.getElementById('certActions').style.display = 'flex';
 
-  // メールリンク生成
+  // メールリンク生成（宛先は ../scripts/cert-config.js で一元管理）
+  const mailCfg = window.CERT_MAIL_CONFIG || { to: 'rina@kaigo-yoki.jp', cc: 'info@kaigo-yoki.jp', honorific: '施設長 様' };
   const subject = encodeURIComponent('【研修修了報告】' + TRAINING_TITLE + ' - ' + name);
   const body = encodeURIComponent(
-    '訪問介護ようき 管理者様\\n\\n' +
+    mailCfg.honorific + '\\n\\n' +
     '研修修了のご報告をいたします。\\n\\n' +
     '受講者名: ' + name + '\\n' +
     '研修テーマ: ' + TRAINING_TITLE + '\\n' +
     '修了日: ' + dateStr + '\\n\\n' +
     '以上、ご確認をお願いいたします。'
   );
-  document.getElementById('certMailBtn').href = 'mailto:info@kaigo-yoki.jp?subject=' + subject + '&body=' + body;
+  document.getElementById('certMailBtn').href = 'mailto:' + mailCfg.to + '?cc=' + mailCfg.cc + '&subject=' + subject + '&body=' + body;
 }
 
 // nextPage を拡張: 最終ページで「完了！」を押したら証書セクション表示
