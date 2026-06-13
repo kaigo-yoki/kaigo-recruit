@@ -41,7 +41,8 @@ window.KENSHU_PROGRESS_CONFIG = {
           action: 'log',
           name: name,
           training: title,
-          path: location.pathname,
+          // 翻訳版ページは KENSHU_LOG_PATH に日本語版のパスを設定し、進捗上は同じ研修として扱う
+          path: window.KENSHU_LOG_PATH || location.pathname,
           date: dateStr
         }),
         headers: { 'Content-Type': 'text/plain;charset=utf-8' }
