@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="fil">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pagsasanay: Pag-iwas sa impeksyon at food poisoning | 感染症・食中毒の予防と蔓延防止 研修（フィリピン語版）</title>
+<meta name="description" content="感染症・食中毒の予防と蔓延防止 研修のフィリピン語版。訪問介護ようき（有限会社 陽気）の法定研修コンテンツ。">
+<link rel="canonical" href="https://kaigo-yoki.jp/recruit/trainings/infection-control-tl">
+<link rel="icon" type="image/png" href="../favicon.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&display=swap');
+
+:root {
+  --primary: #2D5A8E;
+  --accent: #E8594F;
+  --warm: #F9A826;
+  --green: #4CAF7D;
+  --bg: #FFF8F0;
+  --text: #2C2C2C;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Zen Maru Gothic', sans-serif;
+  background: var(--bg); color: var(--text);
+  padding: 20px 14px 60px; line-height: 1.9;
+}
+.wrap { max-width: 720px; margin: 0 auto; }
+.lang-switch { text-align: center; font-size: 13px; margin-bottom: 14px; }
+.lang-switch a { color: var(--primary); font-weight: 700; margin: 0 8px; }
+.header {
+  background: linear-gradient(135deg, #FF6B35, #F7C948);
+  border-radius: 18px; padding: 30px 22px; text-align: center; color: #fff; margin-bottom: 20px;
+}
+.header .badge { display: inline-block; background: var(--accent); padding: 5px 20px; border-radius: 30px; font-size: 12px; font-weight: 700; margin-bottom: 12px; }
+.header h1 { font-size: clamp(20px, 5vw, 30px); font-weight: 700; line-height: 1.7; text-shadow: 0 2px 8px rgba(0,0,0,.2); }
+.header .ja { font-size: 13px; opacity: .95; margin-top: 8px; font-family: 'Zen Maru Gothic', sans-serif; }
+.sec {
+  background: #fff; border: 2px solid #EEE; border-radius: 16px;
+  padding: 22px 20px; margin-bottom: 18px; box-shadow: 0 2px 10px rgba(0,0,0,.05);
+}
+.sec h2 { font-size: 18px; color: var(--primary); font-weight: 700; margin-bottom: 4px; }
+.sec .ja-label { font-size: 12px; color: #999; font-family: 'Zen Maru Gothic', sans-serif; margin-bottom: 12px; }
+.points { list-style: none; }
+.points li { padding: 8px 0 8px 34px; position: relative; border-bottom: 1px solid #F2F2F2; font-size: 15px; }
+.points li::before {
+  content: '✓'; position: absolute; left: 0; top: 12px; width: 22px; height: 22px;
+  background: var(--green); color: #fff; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700;
+}
+.box { border-radius: 12px; padding: 14px 16px; margin: 12px 0; font-size: 14px; }
+.box-ng { background: #FFEBEE; border-left: 5px solid var(--accent); }
+.box-ok { background: #E8F5E9; border-left: 5px solid var(--green); }
+.box-law { background: #E8EAF6; border-left: 5px solid #3F51B5; }
+.box b { display: block; margin-bottom: 4px; }
+.swap { background: #F5F5F5; border-radius: 10px; padding: 10px 14px; margin: 8px 0; font-size: 14px; }
+.swap .from { color: var(--accent); font-weight: 700; }
+.swap .to { color: #2E7D32; font-weight: 700; }
+.quiz-box { border: 3px solid var(--primary); border-radius: 14px; padding: 18px; margin: 14px 0; background: #fff; }
+.quiz-q { font-weight: 700; color: var(--primary); margin-bottom: 12px; font-size: 15px; }
+.quiz-opt {
+  display: block; width: 100%; text-align: left; padding: 12px 14px; margin-bottom: 8px;
+  background: #F5F5F5; border: 2px solid #DDD; border-radius: 10px;
+  font-family: inherit; font-size: 14px; cursor: pointer; line-height: 1.8;
+}
+.quiz-opt.correct { background: #E8F5E9; border-color: var(--green); }
+.quiz-opt.wrong { background: #FFEBEE; border-color: var(--accent); }
+.quiz-fb { display: none; margin-top: 10px; padding: 12px; border-radius: 8px; font-size: 13px; }
+.quiz-fb.show { display: block; }
+.cert-area { text-align: center; }
+.cert-area input {
+  width: 100%; max-width: 320px; padding: 13px 18px; border: 3px solid #DDD; border-radius: 12px;
+  font-size: 16px; font-family: inherit; font-weight: 700; text-align: center; outline: none; margin: 10px 0;
+}
+.cert-area input:focus { border-color: var(--warm); }
+.btn-gen {
+  display: inline-block; padding: 13px 38px; background: linear-gradient(135deg, #F9A826, #FF8F00);
+  color: #fff; border: none; border-radius: 50px; font-size: 15px; font-weight: 700; font-family: inherit; cursor: pointer;
+}
+.cert-card {
+  display: none; background: linear-gradient(135deg, #FFFDF0, #FFF8E1); border: 4px double #D4A017;
+  border-radius: 18px; padding: 30px 22px; margin: 18px auto; max-width: 480px;
+}
+.cert-card.show { display: block; }
+.cert-card .c-title { font-size: 22px; font-weight: 900; color: #D4A017; letter-spacing: 2px; font-family: 'Zen Maru Gothic', sans-serif; }
+.cert-card .c-name { font-size: 22px; font-weight: 700; margin: 14px 0 6px; border-bottom: 2px solid rgba(212,160,23,.3); padding-bottom: 8px; }
+.cert-card .c-body { font-size: 13px; color: #4A4A68; margin: 10px 0; }
+.cert-card .c-org { font-size: 13px; font-weight: 700; margin-top: 14px; font-family: 'Zen Maru Gothic', sans-serif; }
+.btn-mail {
+  display: none; margin: 8px auto 0; padding: 13px 30px; background: linear-gradient(135deg, #4CAF7D, #43A047);
+  color: #fff; border-radius: 50px; font-size: 14px; font-weight: 700; text-decoration: none;
+}
+.btn-mail.show { display: inline-block; }
+.footer { text-align: center; font-size: 13px; margin-top: 26px; }
+.footer a { color: var(--primary); margin: 0 8px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="lang-switch">🌐 <a href="./infection-control.html">日本語</a>｜<a href="./infection-control-my.html">မြန်မာ</a>｜<strong>Filipino</strong></div>
+
+<div class="header">
+  <div class="badge">訪問介護 法定研修</div>
+  <h1>Pagsasanay: Pag-iwas sa<br>impeksyon at food poisoning</h1>
+  <div class="ja">感染症・食中毒の予防と蔓延防止 研修（フィリピン語版）</div>
+</div>
+
+<div class="sec">
+  <h2>Matututunan sa pagsasanay na ito</h2>
+  <div class="ja-label">この研修で学ぶこと</div>
+  <ul class="points">
+    <li>Ang <strong>paghuhugas ng kamay</strong> ang pinakabatayan.</li>
+    <li>Alamin ang standard precautions（標準予防策）.</li>
+    <li>Paano linisin nang ligtas ang suka (vomit).</li>
+  </ul>
+</div>
+
+<div class="sec">
+  <h2>1. Mga batayan ng impeksyon</h2>
+  <div class="ja-label">第1章 感染症の基本</div>
+  <ul class="points">
+    <li>Nagkakasakit dahil sa virus at bacteria na pumapasok sa katawan.</li>
+    <li>Ang <strong>paghuhugas ng kamay at pagmumog</strong> ang pinakamabisang pag-iwas.</li>
+    <li>Sundin ang "1 care, 1 hand wash"（1ケア1手洗い）.</li>
+  </ul>
+
+</div>
+
+<div class="sec">
+  <h2>2. Standard precautions</h2>
+  <div class="ja-label">第2章 標準予防策</div>
+  <ul class="points">
+    <li>Ituring ang lahat ng dugo, body fluids, at dumi bilang "<strong>maaaring may impeksyon</strong>."</li>
+    <li>Magsuot ng disposable gloves kapag hahawak.</li>
+    <li>Kung kailangan, magsuot din ng mask at apron.</li>
+  </ul>
+
+</div>
+
+<div class="sec">
+  <h2>3. Paglilinis ng suka (vomit)</h2>
+  <div class="ja-label">第3章 嘔吐物の処理</div>
+  <ul class="points">
+    <li>① Magsuot ng gloves, mask, at apron.</li>
+    <li>② Punasan ng paper towel <strong>mula sa labas papasok sa loob</strong>.</li>
+    <li>③ I-disinfect gamit ang sodium hypochlorite（次亜塩素酸ナトリウム 0.1%）.</li>
+    <li>④ Isara sa plastic bag at itapon.</li>
+    <li>⑤ Maghugas ng kamay gamit ang sabon.</li>
+  </ul>
+  <div class="box box-ng"><b>⚠️ Tandaan</b>Ang norovirus ay hindi namamatay sa alcohol. Gumamit ng sodium hypochlorite.</div>
+</div>
+
+<div class="sec">
+  <h2>4. Pag-iwas sa food poisoning</h2>
+  <div class="ja-label">第4章 食中毒予防</div>
+  <ul class="points">
+    <li>Lutuin nang mabuti ang pagkain (<strong>painitin nang husto</strong>).</li>
+    <li>Itago sa refrigerator. Huwag gumamit ng expired na pagkain.</li>
+    <li>Alagaan din ang sariling kalusugan. Kapag may sakit, ipaalam sa opisina.</li>
+  </ul>
+
+</div>
+
+<div class="sec">
+  <h2>✏️ Quiz</h2>
+  <div class="ja-label">確認クイズ</div>
+
+  <div class="quiz-box">
+    <div class="quiz-q">Tanong 1 — Ano ang pinakabatayan ng pag-iwas sa impeksyon?</div>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">A. Hindi kumain</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,true)">B. Paghuhugas ng kamay at pagmumog</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">C. Mag-ehersisyo</button>
+    <div class="quiz-fb">Ang paghuhugas ng kamay ang pinakasimple at pinakamabisang paraan.</div>
+  </div>
+
+  <div class="quiz-box">
+    <div class="quiz-q">Tanong 2 — Ano ang tamang paraan ng paglilinis ng suka?</div>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">A. Punasan agad gamit ang kamay</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">B. Alcohol spray lang</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,true)">C. Magsuot ng gloves at mask, at mag-disinfect ng sodium hypochlorite</button>
+    <div class="quiz-fb">Hindi namamatay ang norovirus sa alcohol, kaya sodium hypochlorite ang gamitin.</div>
+  </div>
+
+  <div class="quiz-box">
+    <div class="quiz-q">Tanong 3 — Ano ang pinakamahalaga sa pag-iwas sa food poisoning?</div>
+    <button class="quiz-opt" onclick="checkQuiz(this,true)">A. Lutuin nang mabuti ang pagkain</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">B. Kumain nang mabilis</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">C. Uminom ng malamig</button>
+    <div class="quiz-fb">Pagluluto nang mabuti at pagtatago sa refrigerator ang susi.</div>
+  </div>
+</div>
+
+<div class="sec cert-area">
+  <h2>🎓 Congratulations! Tapos na ang pagsasanay!</h2>
+  <div class="ja-label">修了証の発行</div>
+  <p style="font-size:14px;">Isulat ang pangalan mo at i-issue ang certificate.<br><small>Isulat ito katulad ng nakasulat sa staff list（職員名簿と同じ名前で）</small></p>
+  <input type="text" id="certName" placeholder="Halimbawa: ITOKAZU JOANNA" autocomplete="name">
+  <br>
+  <button class="btn-gen" id="certGenBtn" onclick="generateCert()">📜 I-issue ang certificate</button>
+
+  <div class="cert-card" id="certCard">
+    <div class="c-title">研修修了証</div>
+    <div class="c-name" id="certDisplayName"></div>
+    <div class="c-body" id="certDisplayBody"></div>
+    <div class="c-org">有限会社 陽気<br>訪問介護 ようき</div>
+  </div>
+
+  <a class="btn-mail" id="certMailBtn" href="#">✉️ Ipadala ang completion report（修了報告メール）</a>
+</div>
+
+<div class="footer">
+  <a href="../kenshu.html">📚 研修一覧</a>｜<a href="./infection-control.html">🇯🇵 日本語版</a>
+</div>
+</div>
+
+<script>
+const TRAINING_TITLE = "感染症・食中毒の予防と蔓延防止 研修（フィリピン語版で受講）";
+// 進捗記録上は日本語版と同じ研修として扱う
+window.KENSHU_LOG_PATH = "/trainings/infection-control";
+
+function checkQuiz(btn, isCorrect) {
+  const box = btn.closest('.quiz-box');
+  box.querySelectorAll('.quiz-opt').forEach(o => { o.disabled = true; o.style.pointerEvents = 'none'; });
+  if (isCorrect) { btn.classList.add('correct'); }
+  else {
+    btn.classList.add('wrong');
+    box.querySelectorAll('.quiz-opt').forEach(o => { if ((o.getAttribute('onclick') || '').includes('true')) o.classList.add('correct'); });
+  }
+  const fb = box.querySelector('.quiz-fb');
+  fb.classList.add('show');
+  fb.style.background = isCorrect ? '#E8F5E9' : '#FFEBEE';
+}
+
+function generateCert() {
+  const nameInput = document.getElementById('certName');
+  const name = nameInput.value.trim();
+  if (!name) { nameInput.style.borderColor = '#E8594F'; nameInput.focus(); return; }
+  nameInput.style.borderColor = '#4CAF7D';
+
+  const today = new Date();
+  const dateStr = today.getFullYear() + '年' + (today.getMonth() + 1) + '月' + today.getDate() + '日';
+  document.getElementById('certDisplayName').textContent = name;
+  document.getElementById('certDisplayBody').textContent = '上記の者は「' + "感染症・食中毒の予防と蔓延防止" + '」研修（' + "フィリピン語版" + '）を修了したことを証します。 修了日: ' + dateStr;
+  document.getElementById('certCard').classList.add('show');
+
+  // メールリンク生成（宛先は ../scripts/cert-config.js で一元管理）
+  const mailCfg = window.CERT_MAIL_CONFIG || { to: 'rina@kaigo-yoki.jp', cc: 'info@kaigo-yoki.jp', honorific: '施設長 様' };
+  const subject = encodeURIComponent('【研修修了報告】' + TRAINING_TITLE + ' - ' + name);
+  const body = encodeURIComponent(
+    mailCfg.honorific + '\n\n' +
+    '研修修了のご報告をいたします。\n\n' +
+    '受講者名: ' + name + '\n' +
+    '研修テーマ: ' + TRAINING_TITLE + '\n' +
+    '修了日: ' + dateStr + '\n\n' +
+    '以上、ご確認をお願いいたします。'
+  );
+  document.getElementById('certMailBtn').href = 'mailto:' + mailCfg.to + '?cc=' + mailCfg.cc + '&subject=' + subject + '&body=' + body;
+  document.getElementById('certMailBtn').classList.add('show');
+}
+</script>
+<script src="../scripts/cert-config.js"></script>
+</body>
+</html>

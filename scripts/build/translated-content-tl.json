@@ -1,0 +1,861 @@
+[
+  {
+    "id": "rinri",
+    "ja": "倫理・法令遵守（コンプライアンス）",
+    "jaFull": "倫理・法令遵守（コンプライアンス）研修",
+    "logPath": "/rinri-kenshu",
+    "title": ["Pagsasanay: Ethics at", "pagsunod sa batas (Compliance)"],
+    "intro": [
+      "Unawain ang compliance — pagsunod sa batas, panuntunan, at ethics.",
+      "Panatilihing **kumpidensyal** ang impormasyon ng mga user.",
+      "Isulat nang tama ang record, at kumonsulta kapag may problema."
+    ],
+    "sections": [
+      {
+        "h": "Ano ang compliance?",
+        "ja": "第1章 コンプライアンスとは",
+        "points": [
+          "Pagsunod hindi lang sa batas, kundi pati sa panuntunan ng lipunan at ethics ng propesyon.",
+          "Bilang care worker, responsibilidad natin ito.",
+          "Kapag hindi sigurado, magtanong muna bago kumilos."
+        ],
+        "boxes": [
+          { "type": "ng", "t": "Mag-isip ng \"OK lang, walang nakakakita naman.\"" },
+          { "type": "ok", "t": "Kapag nag-aalinlangan, itanong muna sa supervisor（サ責）." }
+        ]
+      },
+      {
+        "h": "Tungkulin sa kumpidensyalidad",
+        "ja": "第2章 守秘義務",
+        "points": [
+          "**Huwag pag-usapan** ang mga user sa labas ng trabaho.",
+          "Huwag isulat sa SNS (Facebook, atbp.).",
+          "Nagpapatuloy ang tungkuling ito **habambuhay**, kahit umalis ka na sa trabaho."
+        ],
+        "boxes": [
+          { "type": "ng", "t": "Ikuwento sa pamilya o kaibigan ang tungkol sa user." },
+          { "type": "ok", "t": "Ang usapan tungkol sa trabaho ay sa loob lang ng trabaho." }
+        ]
+      },
+      {
+        "h": "Pag-iwas sa abuse at physical restraint",
+        "ja": "第3章 虐待防止と身体拘束",
+        "points": [
+          "5 uri ng abuse — pisikal, sikolohikal, sekswal, pinansyal, at neglect (pagpapabaya).",
+          "Ang physical restraint ay **ipinagbabawal** bilang panuntunan.",
+          "Kapag nakakita ng abuse, may tungkulin kang mag-ulat."
+        ],
+        "boxes": []
+      },
+      {
+        "h": "Record at pag-uulat",
+        "ja": "第4章 記録と報告",
+        "points": [
+          "Isulat ang record nang **totoo at agad**.",
+          "Kapag nagkamali sa pagsulat: gumuhit ng dalawang linya at maglagay ng hanko. Bawal ang correction fluid.",
+          "ホウレンソウ — pag-uulat（報告）, pagpapaalam（連絡）, pagkonsulta（相談）."
+        ],
+        "boxes": []
+      }
+    ],
+    "quiz": [
+      {
+        "q": "Nagpapatuloy ba ang tungkulin sa kumpidensyalidad pagkatapos umalis sa trabaho?",
+        "opts": [
+          { "t": "Hindi na", "ok": false },
+          { "t": "Oo, habambuhay itong nagpapatuloy", "ok": true },
+          { "t": "Isang taon lang", "ok": false }
+        ],
+        "fb": "Kahit umalis ka na sa trabaho, habambuhay ang tungkuling ito."
+      },
+      {
+        "q": "Ano ang pagsigaw sa user?",
+        "opts": [
+          { "t": "Walang problema", "ok": false },
+          { "t": "Sikolohikal na abuse", "ok": true },
+          { "t": "Normal na instruksyon", "ok": false }
+        ],
+        "fb": "Ang pagsigaw at pananakot ay sikolohikal na abuse."
+      },
+      {
+        "q": "Kapag nagkamali sa pagsulat ng record, ano ang dapat gawin?",
+        "opts": [
+          { "t": "Burahin ng correction fluid", "ok": false },
+          { "t": "Punitin ang pahina", "ok": false },
+          { "t": "Gumuhit ng dalawang linya at maglagay ng hanko", "ok": true }
+        ],
+        "fb": "Para makita pa rin ang orihinal, dalawang linya + hanko ang tamang paraan."
+      }
+    ]
+  },
+  {
+    "id": "privacy",
+    "ja": "プライバシー保護・個人情報保護",
+    "jaFull": "プライバシー保護・個人情報保護 研修",
+    "logPath": "/trainings/privacy",
+    "title": ["Pagsasanay: Proteksyon ng", "personal na impormasyon"],
+    "intro": [
+      "Unawain kung ano ang personal na impormasyon.",
+      "Itago nang ligtas ang mga dokumento.",
+      "**Huwag** magsulat tungkol sa trabaho sa SNS."
+    ],
+    "sections": [
+      {
+        "h": "Ano ang personal na impormasyon?",
+        "ja": "第1章 個人情報とは",
+        "points": [
+          "Pangalan, address, impormasyon tungkol sa sakit — lahat ng makakapagpakilala sa isang tao.",
+          "Ang care record ay personal na impormasyon din."
+        ],
+        "boxes": [
+          { "type": "law", "b": "Batas（個人情報保護法）", "t": "Kailangan ng pahintulot ng tao bago kolektahin o gamitin ang kanyang impormasyon." }
+        ]
+      },
+      {
+        "h": "Pag-iingat sa araw-araw na trabaho",
+        "ja": "第2章 現場での注意",
+        "points": [
+          "Itago ang mga dokumento sa lugar na **may susi**.",
+          "Huwag pag-usapan ang ibang user sa bahay ng isang user.",
+          "Huwag banggitin ang pangalan ng user sa labas (bus, restaurant, atbp.)."
+        ],
+        "boxes": []
+      },
+      {
+        "h": "Panganib ng SNS",
+        "ja": "第3章 SNSの危険",
+        "points": [
+          "Huwag mag-post ng litrato o kuwento tungkol sa user sa SNS.",
+          "Isang aksidenteng post ay maaaring maging malaking problema."
+        ],
+        "boxes": [
+          { "type": "ng", "t": "Kumuha ng litrato sa bahay ng user at i-post sa SNS." },
+          { "type": "ok", "t": "Huwag talagang magsulat tungkol sa trabaho sa SNS." }
+        ]
+      },
+      {
+        "h": "Pahintulot ang batayan",
+        "ja": "第4章 同意が基本",
+        "points": [
+          "Kailangan ng pahintulot ng user bago gamitin ang kanyang impormasyon.",
+          "May mga bagay na hindi maaaring sabihin kahit sa pamilya.",
+          "Kapag hindi sigurado, itanong sa supervisor."
+        ],
+        "boxes": []
+      }
+    ],
+    "quiz": [
+      {
+        "q": "Ang care record ba ay personal na impormasyon?",
+        "opts": [
+          { "t": "Oo", "ok": true },
+          { "t": "Hindi", "ok": false },
+          { "t": "Minsan lang", "ok": false }
+        ],
+        "fb": "Lahat ng record at litrato ay personal na impormasyon."
+      },
+      {
+        "q": "Maaari bang magsulat tungkol sa user sa SNS?",
+        "opts": [
+          { "t": "Puwede kung walang pangalan", "ok": false },
+          { "t": "Hindi talaga puwede", "ok": true },
+          { "t": "Puwede kung kaibigan lang ang makakakita", "ok": false }
+        ],
+        "fb": "Kahit walang pangalan, maaaring mahulaan. Huwag talagang magsulat."
+      },
+      {
+        "q": "Saan dapat itago ang mga dokumento?",
+        "opts": [
+          { "t": "Sa ibabaw ng mesa", "ok": false },
+          { "t": "Sa lugar na may susi", "ok": true },
+          { "t": "Iuwi sa sariling bahay", "ok": false }
+        ],
+        "fb": "Itago sa lugar na may susi, at huwag ilabas."
+      }
+    ]
+  },
+  {
+    "id": "dementia",
+    "ja": "認知症及び認知症ケア",
+    "jaFull": "認知症及び認知症ケア 研修",
+    "logPath": "/trainings/dementia",
+    "title": ["Pagsasanay: Dementia（認知症）", "at tamang pag-aalaga"],
+    "intro": [
+      "Unawain na ang dementia ay sakit ng utak.",
+      "Magsalita nang mabagal, simple, at mabait.",
+      "**Huwag itanggi, huwag pagalitan.** Bigyan ng kapanatagan."
+    ],
+    "sections": [
+      {
+        "h": "Ano ang dementia?",
+        "ja": "第1章 認知症とは",
+        "points": [
+          "Sakit ng utak na nagpapahina sa memorya at pagpapasya.",
+          "Hindi ito pagiging masama ng ugali — **sakit** ito.",
+          "Ang user mismo ang pinaka-nag-aalala."
+        ],
+        "boxes": []
+      },
+      {
+        "h": "Mga batayan ng pakikitungo",
+        "ja": "第2章 接し方の基本",
+        "points": [
+          "Magsalita nang mabagal, maikli, at malinaw.",
+          "Lumapit mula sa harapan at tumingin sa mata.",
+          "Sumabay sa bilis (pace) ng user."
+        ],
+        "boxes": []
+      },
+      {
+        "h": "Kapag paulit-ulit ang tanong",
+        "ja": "第3章 同じ質問の繰り返し",
+        "points": [
+          "Sagutin nang mabait, parang unang beses mo itong narinig.",
+          "Huwag sabihing \"Sinabi ko na kanina.\"",
+          "Mas mahalaga ang kapanatagan kaysa pagtatama."
+        ],
+        "boxes": [
+          { "type": "ng", "t": "Sabihing \"Huwag ka nang magtanong ulit!\"" },
+          { "type": "ok", "t": "Sagutin ulit nang may ngiti." }
+        ]
+      },
+      {
+        "h": "May dahilan ang bawat kilos",
+        "ja": "第4章 行動には理由がある",
+        "points": [
+          "Ang paggala o pagkabalisa ay maaaring senyales ng pag-aalala o hindi magandang pakiramdam.",
+          "Hanapin ang dahilan. Huwag pigilan nang sapilitan (maaaring maging restraint)."
+        ],
+        "boxes": []
+      }
+    ],
+    "quiz": [
+      {
+        "q": "Bakit nagkakaroon ng dementia?",
+        "opts": [
+          { "t": "Dahil sumama ang ugali", "ok": false },
+          { "t": "Dahil sa sakit ng utak", "ok": true },
+          { "t": "Dahil sa katamaran", "ok": false }
+        ],
+        "fb": "Kapag naunawaan nating sakit ito, magiging mas mabait ang ating pakikitungo."
+      },
+      {
+        "q": "Paano sasagutin ang paulit-ulit na tanong?",
+        "opts": [
+          { "t": "Sabihing \"Sinabi ko na kanina\"", "ok": false },
+          { "t": "Huwag nang sagutin", "ok": false },
+          { "t": "Sagutin nang mabait, parang unang beses", "ok": true }
+        ],
+        "fb": "Para sa user, unang beses niya itong itinatanong. Sagutin nang mabait."
+      },
+      {
+        "q": "Kapag gustong lumabas ng user, ano ang gagawin?",
+        "opts": [
+          { "t": "Ikandado ang pinto", "ok": false },
+          { "t": "Tanungin ang dahilan at samahan siya", "ok": true },
+          { "t": "Huwag pansinin", "ok": false }
+        ],
+        "fb": "Ang pagkandado ay restraint. Unawain ang dahilan ng user."
+      }
+    ]
+  },
+  {
+    "id": "abuse-prevention",
+    "ja": "高齢者虐待防止・人権擁護",
+    "jaFull": "高齢者虐待防止・人権擁護 研修",
+    "logPath": "/trainings/abuse-prevention",
+    "title": ["Pagsasanay: Pag-iwas sa", "abuse ng matatanda"],
+    "intro": [
+      "Alamin ang **5 uri** ng abuse.",
+      "Unawain na maaaring maging abuse kahit hindi sinasadya.",
+      "Mag-ulat agad kapag nakakita."
+    ],
+    "sections": [
+      {
+        "h": "5 uri ng abuse",
+        "ja": "第1章 虐待の5種類",
+        "points": [
+          "**Pisikal** — pananakit, sapilitang paghila.",
+          "**Sikolohikal** — pagsigaw, pagbabalewala, nakakahiyang salita.",
+          "**Sekswal** — hindi angkop na paghipo o salita.",
+          "**Pinansyal** — paggamit ng pera nang walang pahintulot.",
+          "**Neglect** — hindi pagbibigay ng kinakailangang pag-aalaga."
+        ],
+        "boxes": []
+      },
+      {
+        "h": "Ito rin ay maaaring abuse",
+        "ja": "第2章 これも虐待",
+        "points": [
+          "Sapilitang pagpapakain.",
+          "Pagbabalewala sa kagustuhan ng user.",
+          "Maaaring maging abuse **kahit hindi sinasadya**."
+        ],
+        "boxes": [
+          { "type": "law", "b": "Batas（高齢者虐待防止法）", "t": "May batas na nagpoprotekta sa karapatan ng matatanda. Ang physical restraint ay ipinagbabawal din bilang panuntunan." }
+        ]
+      },
+      {
+        "h": "Kapag nakakita ng abuse",
+        "ja": "第3章 見つけたら",
+        "points": [
+          "Huwag itago mag-isa. **Iulat agad** sa supervisor.",
+          "Ang pagbabalewala (hindi pagpansin) ang pinakamasama.",
+          "Ang pag-uulat ay pagprotekta sa user."
+        ],
+        "boxes": []
+      },
+      {
+        "h": "Igalang ang dignidad",
+        "ja": "第4章 人権と尊厳",
+        "points": [
+          "Pakinggan nang mabuti ang user.",
+          "Huwag itapon ang gamit niya nang walang pahintulot.",
+          "Igalang ang kanyang privacy."
+        ],
+        "boxes": []
+      }
+    ],
+    "quiz": [
+      {
+        "q": "Ilan ang uri ng abuse?",
+        "opts": [
+          { "t": "3", "ok": false },
+          { "t": "5", "ok": true },
+          { "t": "2", "ok": false }
+        ],
+        "fb": "Pisikal, sikolohikal, sekswal, pinansyal, at neglect — 5 uri."
+      },
+      {
+        "q": "Ano ang pagbabalewala sa kagustuhan ng user?",
+        "opts": [
+          { "t": "Walang problema", "ok": false },
+          { "t": "Maaaring maging sikolohikal na abuse", "ok": true },
+          { "t": "OK kung mabilis ang trabaho", "ok": false }
+        ],
+        "fb": "Ang pagbabalewala sa kagustuhan ay maaaring sikolohikal na abuse."
+      },
+      {
+        "q": "Kapag nakakita ng abuse, ano ang dapat gawin?",
+        "opts": [
+          { "t": "Magkunwaring walang nakita", "ok": false },
+          { "t": "Ayusin mag-isa", "ok": false },
+          { "t": "Iulat sa supervisor o sa munisipyo", "ok": true }
+        ],
+        "fb": "Huwag ayusin mag-isa. Mag-ulat agad."
+      }
+    ]
+  },
+  {
+    "id": "accident-prevention",
+    "ja": "事故発生又は再発防止",
+    "jaFull": "事故発生又は再発防止 研修",
+    "logPath": "/trainings/accident-prevention",
+    "title": ["Pagsasanay: Pag-iwas", "sa aksidente"],
+    "intro": [
+      "Alamin ang mga karaniwang aksidente.",
+      "**Mag-ulat agad** kapag may nangyari.",
+      "Pag-isipan nang sama-sama para hindi na maulit."
+    ],
+    "sections": [
+      {
+        "h": "Mga karaniwang aksidente",
+        "ja": "第1章 起きやすい事故",
+        "points": [
+          "**Pagkahulog/pagkatumba**（転倒）— pinakakaraniwan.",
+          "Pagkasamid o pagkabulunan（誤嚥）.",
+          "Pagkakamali sa gamot."
+        ],
+        "boxes": []
+      },
+      {
+        "h": "Paano iwasan",
+        "ja": "第2章 防ぐには",
+        "points": [
+          "Mapansin agad ang panganib（ヒヤリハット）.",
+          "Ayusin ang kapaligiran — basang sahig, mga nakaharang na gamit.",
+          "**Huwag magmadali.** Kapag nagmamadali, madaling magkaaksidente."
+        ],
+        "boxes": []
+      },
+      {
+        "h": "Kapag nangyari na",
+        "ja": "第3章 起きてしまったら",
+        "points": [
+          "Unahin ang **kaligtasan at kondisyon** ng user.",
+          "Iulat agad sa supervisor.",
+          "Huwag itago kailanman."
+        ],
+        "boxes": [
+          { "type": "ng", "t": "Hindi mag-ulat dahil \"maliit lang naman.\"" },
+          { "type": "ok", "t": "Iulat kahit maliit — naiiwasan nito ang malaking aksidente." }
+        ]
+      },
+      {
+        "h": "Para hindi na maulit",
+        "ja": "第4章 再発防止",
+        "points": [
+          "Isulat ang accident report.",
+          "Pag-isipan ng buong team ang dahilan.",
+          "Ang layunin ay hindi paghahanap ng may kasalanan, kundi **pag-iwas sa pag-ulit**."
+        ],
+        "boxes": []
+      }
+    ],
+    "quiz": [
+      {
+        "q": "Ano ang pinakakaraniwang aksidente sa pag-aalaga?",
+        "opts": [
+          { "t": "Pagkahulog/pagkatumba", "ok": true },
+          { "t": "Sunog", "ok": false },
+          { "t": "Pagkalunod", "ok": false }
+        ],
+        "fb": "Pagkatumba ang pinakakaraniwan. Bantayan ang kapaligiran."
+      },
+      {
+        "q": "Kapag may aksidente, ano ang unang gagawin?",
+        "opts": [
+          { "t": "Suriin ang kaligtasan ng user", "ok": true },
+          { "t": "Maglinis", "ok": false },
+          { "t": "Wala", "ok": false }
+        ],
+        "fb": "Unahin ang kaligtasan at kondisyon ng user, pagkatapos ay mag-ulat agad."
+      },
+      {
+        "q": "Para saan ang accident report?",
+        "opts": [
+          { "t": "Para maghanap ng may kasalanan", "ok": false },
+          { "t": "Para hindi na maulit ang aksidente", "ok": true },
+          { "t": "Wala lang", "ok": false }
+        ],
+        "fb": "Inaalam ang dahilan para maiwasan ang parehong aksidente."
+      }
+    ]
+  },
+  {
+    "id": "emergency",
+    "ja": "緊急時の対応",
+    "jaFull": "緊急時の対応 研修",
+    "logPath": "/trainings/emergency",
+    "title": ["Pagsasanay: Pagtugon", "sa emergency"],
+    "intro": [
+      "Manatiling kalmado at suriin ang sitwasyon.",
+      "Kapag walang malay ang user, tumawag sa **119**.",
+      "Alamin ang pagkakasunod ng dapat tawagan."
+    ],
+    "sections": [
+      {
+        "h": "Mga batayan sa emergency",
+        "ja": "第1章 緊急時の基本",
+        "points": [
+          "Huminga nang malalim at **manatiling kalmado**.",
+          "Suriin: may malay ba, humihinga ba, may sugat ba.",
+          "Huwag gawin lahat mag-isa. Humingi ng tulong."
+        ],
+        "boxes": []
+      },
+      {
+        "h": "Kapag walang malay",
+        "ja": "第2章 意識がないとき",
+        "points": [
+          "Tawagin siya at tapikin nang dahan-dahan ang balikat.",
+          "Kapag walang tugon, tumawag sa **119** (ambulansya).",
+          "Pagkatapos, tawagan ang supervisor（サ責）at ang opisina."
+        ],
+        "boxes": []
+      },
+      {
+        "h": "Ano ang sasabihin sa telepono",
+        "ja": "第3章 連絡すること",
+        "points": [
+          "**Lugar** (address).",
+          "**Pangalan** ng user.",
+          "**Sitwasyon** — ano ang nangyari, kailan nagsimula."
+        ],
+        "boxes": [
+          { "type": "ok", "t": "OK lang kahit hindi pa magaling sa Nihongo. Magsalita nang dahan-dahan, gamit ang simpleng salita." }
+        ]
+      },
+      {
+        "h": "Paghahanda araw-araw",
+        "ja": "第4章 ふだんの備え",
+        "points": [
+          "Alamin nang maaga ang mga emergency contact number.",
+          "Alamin ang sakit at gamot ng user."
+        ],
+        "boxes": []
+      }
+    ],
+    "quiz": [
+      {
+        "q": "Sa emergency, ano ang unang gagawin?",
+        "opts": [
+          { "t": "Sumigaw", "ok": false },
+          { "t": "Manatiling kalmado at suriin ang sitwasyon", "ok": true },
+          { "t": "Umuwi", "ok": false }
+        ],
+        "fb": "Huminga nang malalim, kumalma, at suriin ang sitwasyon."
+      },
+      {
+        "q": "Kapag walang malay ang user, ano ang gagawin?",
+        "opts": [
+          { "t": "Tumawag sa 119 at sa opisina", "ok": true },
+          { "t": "Maghintay na magising", "ok": false },
+          { "t": "Painumin ng tubig", "ok": false }
+        ],
+        "fb": "Kapag walang tugon, tumawag agad sa 119 at ipaalam din sa opisina."
+      },
+      {
+        "q": "Ano ang dapat ihanda araw-araw?",
+        "opts": [
+          { "t": "Wala", "ok": false },
+          { "t": "Alamin ang contact numbers at sakit ng user", "ok": true },
+          { "t": "Magdala ng pera", "ok": false }
+        ],
+        "fb": "Kapag handa, mabilis kang makakakilos sa oras ng emergency."
+      }
+    ]
+  },
+  {
+    "id": "infection-control",
+    "ja": "感染症・食中毒の予防と蔓延防止",
+    "jaFull": "感染症・食中毒の予防と蔓延防止 研修",
+    "logPath": "/trainings/infection-control",
+    "title": ["Pagsasanay: Pag-iwas sa", "impeksyon at food poisoning"],
+    "intro": [
+      "Ang **paghuhugas ng kamay** ang pinakabatayan.",
+      "Alamin ang standard precautions（標準予防策）.",
+      "Paano linisin nang ligtas ang suka (vomit)."
+    ],
+    "sections": [
+      {
+        "h": "Mga batayan ng impeksyon",
+        "ja": "第1章 感染症の基本",
+        "points": [
+          "Nagkakasakit dahil sa virus at bacteria na pumapasok sa katawan.",
+          "Ang **paghuhugas ng kamay at pagmumog** ang pinakamabisang pag-iwas.",
+          "Sundin ang \"1 care, 1 hand wash\"（1ケア1手洗い）."
+        ],
+        "boxes": []
+      },
+      {
+        "h": "Standard precautions",
+        "ja": "第2章 標準予防策",
+        "points": [
+          "Ituring ang lahat ng dugo, body fluids, at dumi bilang \"**maaaring may impeksyon**.\"",
+          "Magsuot ng disposable gloves kapag hahawak.",
+          "Kung kailangan, magsuot din ng mask at apron."
+        ],
+        "boxes": []
+      },
+      {
+        "h": "Paglilinis ng suka (vomit)",
+        "ja": "第3章 嘔吐物の処理",
+        "points": [
+          "① Magsuot ng gloves, mask, at apron.",
+          "② Punasan ng paper towel **mula sa labas papasok sa loob**.",
+          "③ I-disinfect gamit ang sodium hypochlorite（次亜塩素酸ナトリウム 0.1%）.",
+          "④ Isara sa plastic bag at itapon.",
+          "⑤ Maghugas ng kamay gamit ang sabon."
+        ],
+        "boxes": [
+          { "type": "warn", "t": "Ang norovirus ay hindi namamatay sa alcohol. Gumamit ng sodium hypochlorite." }
+        ]
+      },
+      {
+        "h": "Pag-iwas sa food poisoning",
+        "ja": "第4章 食中毒予防",
+        "points": [
+          "Lutuin nang mabuti ang pagkain (**painitin nang husto**).",
+          "Itago sa refrigerator. Huwag gumamit ng expired na pagkain.",
+          "Alagaan din ang sariling kalusugan. Kapag may sakit, ipaalam sa opisina."
+        ],
+        "boxes": []
+      }
+    ],
+    "quiz": [
+      {
+        "q": "Ano ang pinakabatayan ng pag-iwas sa impeksyon?",
+        "opts": [
+          { "t": "Hindi kumain", "ok": false },
+          { "t": "Paghuhugas ng kamay at pagmumog", "ok": true },
+          { "t": "Mag-ehersisyo", "ok": false }
+        ],
+        "fb": "Ang paghuhugas ng kamay ang pinakasimple at pinakamabisang paraan."
+      },
+      {
+        "q": "Ano ang tamang paraan ng paglilinis ng suka?",
+        "opts": [
+          { "t": "Punasan agad gamit ang kamay", "ok": false },
+          { "t": "Alcohol spray lang", "ok": false },
+          { "t": "Magsuot ng gloves at mask, at mag-disinfect ng sodium hypochlorite", "ok": true }
+        ],
+        "fb": "Hindi namamatay ang norovirus sa alcohol, kaya sodium hypochlorite ang gamitin."
+      },
+      {
+        "q": "Ano ang pinakamahalaga sa pag-iwas sa food poisoning?",
+        "opts": [
+          { "t": "Lutuin nang mabuti ang pagkain", "ok": true },
+          { "t": "Kumain nang mabilis", "ok": false },
+          { "t": "Uminom ng malamig", "ok": false }
+        ],
+        "fb": "Pagluluto nang mabuti at pagtatago sa refrigerator ang susi."
+      }
+    ]
+  },
+  {
+    "id": "hospitality",
+    "ja": "接遇・マナー",
+    "jaFull": "接遇・マナー 研修",
+    "logPath": "/trainings/hospitality",
+    "title": ["Pagsasanay: Magandang", "asal at serbisyo (Setsugu)"],
+    "intro": [
+      "Ang **ngiti** ang pinakamahusay na pag-aalaga.",
+      "Magalang na pananalita.",
+      "Malinis at maayos na hitsura."
+    ],
+    "sections": [
+      {
+        "h": "Ang lakas ng ngiti",
+        "ja": "第1章 笑顔の力",
+        "points": [
+          "Ang ngiti ay nagbibigay ng **kapanatagan** sa user.",
+          "Magsimula sa pagbati（おはようございます！）.",
+          "Mahalaga ang unang impression."
+        ],
+        "boxes": []
+      },
+      {
+        "h": "Pananalita",
+        "ja": "第2章 言葉づかい",
+        "points": [
+          "Magsalita nang magalang（敬語）.",
+          "**Huwag kausapin na parang bata** ang matatanda.",
+          "Sundin ang gustong tawag ng user sa kanya."
+        ],
+        "boxes": []
+      },
+      {
+        "h": "Asal at kilos",
+        "ja": "第3章 態度",
+        "points": [
+          "Sumabay sa **bilis (pace)** ng user.",
+          "Tingnan nang mabuti ang ekspresyon ng mukha.",
+          "Kahit abala, huwag maging padalos-dalos sa pag-aalaga."
+        ],
+        "boxes": [
+          { "type": "ng", "t": "Magmadali habang nakatingin sa orasan." },
+          { "type": "ok", "t": "Tumingin sa mukha at kumustahin: \"Kumusta po kayo ngayon?\"" }
+        ]
+      },
+      {
+        "h": "Hitsura at kalinisan",
+        "ja": "第4章 身だしなみ",
+        "points": [
+          "Malinis na uniporme.",
+          "Maikling kuko, maayos na buhok.",
+          "**Igalang ang oras** (huwag mahuli)."
+        ],
+        "boxes": []
+      }
+    ],
+    "quiz": [
+      {
+        "q": "Ano ang pinakabatayan ng magandang serbisyo?",
+        "opts": [
+          { "t": "Mabilis na trabaho", "ok": false },
+          { "t": "Ngiti at pagbati", "ok": true },
+          { "t": "Hindi pagsasalita", "ok": false }
+        ],
+        "fb": "Ang ngiti at pagbati ang simula ng tiwala."
+      },
+      {
+        "q": "Paano dapat kausapin ang user?",
+        "opts": [
+          { "t": "Parang bata", "ok": false },
+          { "t": "Magalang at may respeto", "ok": true },
+          { "t": "Mabilis", "ok": false }
+        ],
+        "fb": "Kausapin ang matatanda nang may paggalang."
+      },
+      {
+        "q": "Sa anong bilis dapat mag-alaga?",
+        "opts": [
+          { "t": "Sa sariling bilis", "ok": false },
+          { "t": "Sa bilis ng user", "ok": true },
+          { "t": "Pinakamabilis", "ok": false }
+        ],
+        "fb": "Ang pagsabay sa bilis ng user ay tanda ng paggalang."
+      }
+    ]
+  },
+  {
+    "id": "harassment",
+    "ja": "ハラスメント防止",
+    "jaFull": "ハラスメント防止 研修",
+    "logPath": "/trainings/harassment",
+    "title": ["Pagsasanay: Pag-iwas", "sa harassment"],
+    "intro": [
+      "Alamin ang mga uri ng harassment.",
+      "**Huwag magtiis**（我慢しない）.",
+      "Itala at kumonsulta."
+    ],
+    "sections": [
+      {
+        "h": "Mga uri ng harassment",
+        "ja": "第1章 ハラスメントの種類",
+        "points": [
+          "**Pawahara (power harassment)** — pang-aapi gamit ang posisyon, pagsigaw.",
+          "**Sekuhara (sexual harassment)** — hindi angkop na salita o paghipo.",
+          "**Kasuhara (customer harassment)** — karahasan o pagmumura mula sa user o pamilya."
+        ],
+        "boxes": []
+      },
+      {
+        "h": "Sa loob ng trabaho",
+        "ja": "第2章 職場で",
+        "points": [
+          "Pagsigaw, pagbabalewala, paninirang-puri — lahat bawal.",
+          "Kapag nakakita, mag-ulat."
+        ],
+        "boxes": []
+      },
+      {
+        "h": "Mula sa user o pamilya",
+        "ja": "第3章 利用者・家族から",
+        "points": [
+          "Kapag sinaktan, sinigawan, o hinipo — **huwag magtiis**.",
+          "Kapag may panganib, maaari kang umalis sa lugar.",
+          "Itala ang petsa, lugar, at nangyari, at iulat sa opisina."
+        ],
+        "boxes": [
+          { "type": "ng", "t": "Isipin na \"kasalanan ko ito\" at magtiis mag-isa." },
+          { "type": "ok", "t": "Itala at iulat agad. Poprotektahan ka ng opisina." }
+        ]
+      },
+      {
+        "h": "Kumonsulta tayo",
+        "ja": "第4章 相談しよう",
+        "points": [
+          "Huwag magtiis mag-isa.",
+          "Poprotektahan ka ng supervisor at ng opisina.",
+          "Ang pagkonsulta ay hindi kahinaan."
+        ],
+        "boxes": []
+      }
+    ],
+    "quiz": [
+      {
+        "q": "Ano ang kasuhara (customer harassment)?",
+        "opts": [
+          { "t": "Harassment mula sa user o pamilya", "ok": true },
+          { "t": "Harassment mula sa supervisor", "ok": false },
+          { "t": "Problema sa computer", "ok": false }
+        ],
+        "fb": "Ang kasuhara ay karahasan, pagmumura, o panghihipo mula sa user o pamilya."
+      },
+      {
+        "q": "Kapag nakaranas ng harassment, ano ang gagawin?",
+        "opts": [
+          { "t": "Magtiis at magpatuloy sa trabaho", "ok": false },
+          { "t": "Itala at iulat sa opisina", "ok": true },
+          { "t": "Gumanti", "ok": false }
+        ],
+        "fb": "Itala ang petsa, lugar, at nangyari, at iulat agad."
+      },
+      {
+        "q": "Kailangan bang magtiis ng care worker sa harassment?",
+        "opts": [
+          { "t": "Oo, trabaho ito", "ok": false },
+          { "t": "Hindi. May karapatan kang protektahan", "ok": true },
+          { "t": "Oo, kung malaki ang sahod", "ok": false }
+        ],
+        "fb": "Walang dapat magtiis ng harassment. Poprotektahan ka."
+      }
+    ]
+  },
+  {
+    "id": "bcp",
+    "ja": "業務継続計画（BCP）・災害対応",
+    "jaFull": "業務継続計画（BCP）・災害対応 研修",
+    "logPath": "/trainings/bcp",
+    "title": ["Pagsasanay: BCP at", "pagtugon sa sakuna"],
+    "intro": [
+      "Alamin kung ano ang BCP.",
+      "Ano ang gagawin sa lindol o bagyo.",
+      "Maghanda araw-araw."
+    ],
+    "sections": [
+      {
+        "h": "Ano ang BCP?",
+        "ja": "第1章 BCPとは",
+        "points": [
+          "BCP = Business Continuity Plan（業務継続計画）.",
+          "Plano para **maipagpatuloy ang pag-aalaga** kahit may sakuna o pandemya.",
+          "Mahalaga ito para protektahan ang buhay ng mga user."
+        ],
+        "boxes": []
+      },
+      {
+        "h": "Sa lindol o bagyo",
+        "ja": "第2章 地震・台風のとき",
+        "points": [
+          "Unahin ang **sariling kaligtasan**.",
+          "Pagkatapos, suriin ang kaligtasan ng user.",
+          "Ipaalam sa opisina.",
+          "Alamin nang maaga ang evacuation route."
+        ],
+        "boxes": []
+      },
+      {
+        "h": "Kapag kumalat ang impeksyon",
+        "ja": "第3章 感染症のとき",
+        "points": [
+          "Suriin ang sariling kalusugan araw-araw (lagnat, atbp.).",
+          "Gamitin nang tama ang mask at gloves.",
+          "Sundin ang instruksyon ng opisina."
+        ],
+        "boxes": []
+      },
+      {
+        "h": "Paghahanda araw-araw",
+        "ja": "第4章 ふだんの備え",
+        "points": [
+          "Sumali sa mga drill（訓練）.",
+          "Suriin ang paraan ng pakikipag-ugnayan sa emergency.",
+          "Kapag handa, hindi kailangang matakot."
+        ],
+        "boxes": []
+      }
+    ],
+    "quiz": [
+      {
+        "q": "Ano ang BCP?",
+        "opts": [
+          { "t": "Plano para sa bakasyon", "ok": false },
+          { "t": "Plano para maipagpatuloy ang pag-aalaga sa oras ng sakuna", "ok": true },
+          { "t": "Plano sa pera", "ok": false }
+        ],
+        "fb": "Plano ito para maipagpatuloy ang pag-aalaga kahit may sakuna o pandemya."
+      },
+      {
+        "q": "Sa lindol, ano ang unang gagawin?",
+        "opts": [
+          { "t": "Unahin ang sariling kaligtasan", "ok": true },
+          { "t": "Kumuha ng litrato", "ok": false },
+          { "t": "Mag-imis ng gamit", "ok": false }
+        ],
+        "fb": "Kapag ligtas ka, saka mo matutulungan ang user."
+      },
+      {
+        "q": "Ano ang dapat gawin araw-araw?",
+        "opts": [
+          { "t": "Wala", "ok": false },
+          { "t": "Sumali sa drill at suriin ang contact list", "ok": true },
+          { "t": "Matakot", "ok": false }
+        ],
+        "fb": "Ang pagsali sa drill ay nagliligtas ng buhay sa oras ng emergency."
+      }
+    ]
+  }
+]

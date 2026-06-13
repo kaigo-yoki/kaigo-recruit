@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="fil">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pagsasanay: Pag-iwas sa aksidente | 事故発生又は再発防止 研修（フィリピン語版）</title>
+<meta name="description" content="事故発生又は再発防止 研修のフィリピン語版。訪問介護ようき（有限会社 陽気）の法定研修コンテンツ。">
+<link rel="canonical" href="https://kaigo-yoki.jp/recruit/trainings/accident-prevention-tl">
+<link rel="icon" type="image/png" href="../favicon.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&display=swap');
+
+:root {
+  --primary: #2D5A8E;
+  --accent: #E8594F;
+  --warm: #F9A826;
+  --green: #4CAF7D;
+  --bg: #FFF8F0;
+  --text: #2C2C2C;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Zen Maru Gothic', sans-serif;
+  background: var(--bg); color: var(--text);
+  padding: 20px 14px 60px; line-height: 1.9;
+}
+.wrap { max-width: 720px; margin: 0 auto; }
+.lang-switch { text-align: center; font-size: 13px; margin-bottom: 14px; }
+.lang-switch a { color: var(--primary); font-weight: 700; margin: 0 8px; }
+.header {
+  background: linear-gradient(135deg, #FF6B35, #F7C948);
+  border-radius: 18px; padding: 30px 22px; text-align: center; color: #fff; margin-bottom: 20px;
+}
+.header .badge { display: inline-block; background: var(--accent); padding: 5px 20px; border-radius: 30px; font-size: 12px; font-weight: 700; margin-bottom: 12px; }
+.header h1 { font-size: clamp(20px, 5vw, 30px); font-weight: 700; line-height: 1.7; text-shadow: 0 2px 8px rgba(0,0,0,.2); }
+.header .ja { font-size: 13px; opacity: .95; margin-top: 8px; font-family: 'Zen Maru Gothic', sans-serif; }
+.sec {
+  background: #fff; border: 2px solid #EEE; border-radius: 16px;
+  padding: 22px 20px; margin-bottom: 18px; box-shadow: 0 2px 10px rgba(0,0,0,.05);
+}
+.sec h2 { font-size: 18px; color: var(--primary); font-weight: 700; margin-bottom: 4px; }
+.sec .ja-label { font-size: 12px; color: #999; font-family: 'Zen Maru Gothic', sans-serif; margin-bottom: 12px; }
+.points { list-style: none; }
+.points li { padding: 8px 0 8px 34px; position: relative; border-bottom: 1px solid #F2F2F2; font-size: 15px; }
+.points li::before {
+  content: '✓'; position: absolute; left: 0; top: 12px; width: 22px; height: 22px;
+  background: var(--green); color: #fff; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700;
+}
+.box { border-radius: 12px; padding: 14px 16px; margin: 12px 0; font-size: 14px; }
+.box-ng { background: #FFEBEE; border-left: 5px solid var(--accent); }
+.box-ok { background: #E8F5E9; border-left: 5px solid var(--green); }
+.box-law { background: #E8EAF6; border-left: 5px solid #3F51B5; }
+.box b { display: block; margin-bottom: 4px; }
+.swap { background: #F5F5F5; border-radius: 10px; padding: 10px 14px; margin: 8px 0; font-size: 14px; }
+.swap .from { color: var(--accent); font-weight: 700; }
+.swap .to { color: #2E7D32; font-weight: 700; }
+.quiz-box { border: 3px solid var(--primary); border-radius: 14px; padding: 18px; margin: 14px 0; background: #fff; }
+.quiz-q { font-weight: 700; color: var(--primary); margin-bottom: 12px; font-size: 15px; }
+.quiz-opt {
+  display: block; width: 100%; text-align: left; padding: 12px 14px; margin-bottom: 8px;
+  background: #F5F5F5; border: 2px solid #DDD; border-radius: 10px;
+  font-family: inherit; font-size: 14px; cursor: pointer; line-height: 1.8;
+}
+.quiz-opt.correct { background: #E8F5E9; border-color: var(--green); }
+.quiz-opt.wrong { background: #FFEBEE; border-color: var(--accent); }
+.quiz-fb { display: none; margin-top: 10px; padding: 12px; border-radius: 8px; font-size: 13px; }
+.quiz-fb.show { display: block; }
+.cert-area { text-align: center; }
+.cert-area input {
+  width: 100%; max-width: 320px; padding: 13px 18px; border: 3px solid #DDD; border-radius: 12px;
+  font-size: 16px; font-family: inherit; font-weight: 700; text-align: center; outline: none; margin: 10px 0;
+}
+.cert-area input:focus { border-color: var(--warm); }
+.btn-gen {
+  display: inline-block; padding: 13px 38px; background: linear-gradient(135deg, #F9A826, #FF8F00);
+  color: #fff; border: none; border-radius: 50px; font-size: 15px; font-weight: 700; font-family: inherit; cursor: pointer;
+}
+.cert-card {
+  display: none; background: linear-gradient(135deg, #FFFDF0, #FFF8E1); border: 4px double #D4A017;
+  border-radius: 18px; padding: 30px 22px; margin: 18px auto; max-width: 480px;
+}
+.cert-card.show { display: block; }
+.cert-card .c-title { font-size: 22px; font-weight: 900; color: #D4A017; letter-spacing: 2px; font-family: 'Zen Maru Gothic', sans-serif; }
+.cert-card .c-name { font-size: 22px; font-weight: 700; margin: 14px 0 6px; border-bottom: 2px solid rgba(212,160,23,.3); padding-bottom: 8px; }
+.cert-card .c-body { font-size: 13px; color: #4A4A68; margin: 10px 0; }
+.cert-card .c-org { font-size: 13px; font-weight: 700; margin-top: 14px; font-family: 'Zen Maru Gothic', sans-serif; }
+.btn-mail {
+  display: none; margin: 8px auto 0; padding: 13px 30px; background: linear-gradient(135deg, #4CAF7D, #43A047);
+  color: #fff; border-radius: 50px; font-size: 14px; font-weight: 700; text-decoration: none;
+}
+.btn-mail.show { display: inline-block; }
+.footer { text-align: center; font-size: 13px; margin-top: 26px; }
+.footer a { color: var(--primary); margin: 0 8px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="lang-switch">🌐 <a href="./accident-prevention.html">日本語</a>｜<a href="./accident-prevention-my.html">မြန်မာ</a>｜<strong>Filipino</strong></div>
+
+<div class="header">
+  <div class="badge">訪問介護 法定研修</div>
+  <h1>Pagsasanay: Pag-iwas<br>sa aksidente</h1>
+  <div class="ja">事故発生又は再発防止 研修（フィリピン語版）</div>
+</div>
+
+<div class="sec">
+  <h2>Matututunan sa pagsasanay na ito</h2>
+  <div class="ja-label">この研修で学ぶこと</div>
+  <ul class="points">
+    <li>Alamin ang mga karaniwang aksidente.</li>
+    <li><strong>Mag-ulat agad</strong> kapag may nangyari.</li>
+    <li>Pag-isipan nang sama-sama para hindi na maulit.</li>
+  </ul>
+</div>
+
+<div class="sec">
+  <h2>1. Mga karaniwang aksidente</h2>
+  <div class="ja-label">第1章 起きやすい事故</div>
+  <ul class="points">
+    <li><strong>Pagkahulog/pagkatumba</strong>（転倒）— pinakakaraniwan.</li>
+    <li>Pagkasamid o pagkabulunan（誤嚥）.</li>
+    <li>Pagkakamali sa gamot.</li>
+  </ul>
+
+</div>
+
+<div class="sec">
+  <h2>2. Paano iwasan</h2>
+  <div class="ja-label">第2章 防ぐには</div>
+  <ul class="points">
+    <li>Mapansin agad ang panganib（ヒヤリハット）.</li>
+    <li>Ayusin ang kapaligiran — basang sahig, mga nakaharang na gamit.</li>
+    <li><strong>Huwag magmadali.</strong> Kapag nagmamadali, madaling magkaaksidente.</li>
+  </ul>
+
+</div>
+
+<div class="sec">
+  <h2>3. Kapag nangyari na</h2>
+  <div class="ja-label">第3章 起きてしまったら</div>
+  <ul class="points">
+    <li>Unahin ang <strong>kaligtasan at kondisyon</strong> ng user.</li>
+    <li>Iulat agad sa supervisor.</li>
+    <li>Huwag itago kailanman.</li>
+  </ul>
+  <div class="box box-ng"><b>⚠️ Bawal (NG)</b>Hindi mag-ulat dahil "maliit lang naman."</div>
+  <div class="box box-ok"><b>👍 Tamang paraan</b>Iulat kahit maliit — naiiwasan nito ang malaking aksidente.</div>
+</div>
+
+<div class="sec">
+  <h2>4. Para hindi na maulit</h2>
+  <div class="ja-label">第4章 再発防止</div>
+  <ul class="points">
+    <li>Isulat ang accident report.</li>
+    <li>Pag-isipan ng buong team ang dahilan.</li>
+    <li>Ang layunin ay hindi paghahanap ng may kasalanan, kundi <strong>pag-iwas sa pag-ulit</strong>.</li>
+  </ul>
+
+</div>
+
+<div class="sec">
+  <h2>✏️ Quiz</h2>
+  <div class="ja-label">確認クイズ</div>
+
+  <div class="quiz-box">
+    <div class="quiz-q">Tanong 1 — Ano ang pinakakaraniwang aksidente sa pag-aalaga?</div>
+    <button class="quiz-opt" onclick="checkQuiz(this,true)">A. Pagkahulog/pagkatumba</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">B. Sunog</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">C. Pagkalunod</button>
+    <div class="quiz-fb">Pagkatumba ang pinakakaraniwan. Bantayan ang kapaligiran.</div>
+  </div>
+
+  <div class="quiz-box">
+    <div class="quiz-q">Tanong 2 — Kapag may aksidente, ano ang unang gagawin?</div>
+    <button class="quiz-opt" onclick="checkQuiz(this,true)">A. Suriin ang kaligtasan ng user</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">B. Maglinis</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">C. Wala</button>
+    <div class="quiz-fb">Unahin ang kaligtasan at kondisyon ng user, pagkatapos ay mag-ulat agad.</div>
+  </div>
+
+  <div class="quiz-box">
+    <div class="quiz-q">Tanong 3 — Para saan ang accident report?</div>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">A. Para maghanap ng may kasalanan</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,true)">B. Para hindi na maulit ang aksidente</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">C. Wala lang</button>
+    <div class="quiz-fb">Inaalam ang dahilan para maiwasan ang parehong aksidente.</div>
+  </div>
+</div>
+
+<div class="sec cert-area">
+  <h2>🎓 Congratulations! Tapos na ang pagsasanay!</h2>
+  <div class="ja-label">修了証の発行</div>
+  <p style="font-size:14px;">Isulat ang pangalan mo at i-issue ang certificate.<br><small>Isulat ito katulad ng nakasulat sa staff list（職員名簿と同じ名前で）</small></p>
+  <input type="text" id="certName" placeholder="Halimbawa: ITOKAZU JOANNA" autocomplete="name">
+  <br>
+  <button class="btn-gen" id="certGenBtn" onclick="generateCert()">📜 I-issue ang certificate</button>
+
+  <div class="cert-card" id="certCard">
+    <div class="c-title">研修修了証</div>
+    <div class="c-name" id="certDisplayName"></div>
+    <div class="c-body" id="certDisplayBody"></div>
+    <div class="c-org">有限会社 陽気<br>訪問介護 ようき</div>
+  </div>
+
+  <a class="btn-mail" id="certMailBtn" href="#">✉️ Ipadala ang completion report（修了報告メール）</a>
+</div>
+
+<div class="footer">
+  <a href="../kenshu.html">📚 研修一覧</a>｜<a href="./accident-prevention.html">🇯🇵 日本語版</a>
+</div>
+</div>
+
+<script>
+const TRAINING_TITLE = "事故発生又は再発防止 研修（フィリピン語版で受講）";
+// 進捗記録上は日本語版と同じ研修として扱う
+window.KENSHU_LOG_PATH = "/trainings/accident-prevention";
+
+function checkQuiz(btn, isCorrect) {
+  const box = btn.closest('.quiz-box');
+  box.querySelectorAll('.quiz-opt').forEach(o => { o.disabled = true; o.style.pointerEvents = 'none'; });
+  if (isCorrect) { btn.classList.add('correct'); }
+  else {
+    btn.classList.add('wrong');
+    box.querySelectorAll('.quiz-opt').forEach(o => { if ((o.getAttribute('onclick') || '').includes('true')) o.classList.add('correct'); });
+  }
+  const fb = box.querySelector('.quiz-fb');
+  fb.classList.add('show');
+  fb.style.background = isCorrect ? '#E8F5E9' : '#FFEBEE';
+}
+
+function generateCert() {
+  const nameInput = document.getElementById('certName');
+  const name = nameInput.value.trim();
+  if (!name) { nameInput.style.borderColor = '#E8594F'; nameInput.focus(); return; }
+  nameInput.style.borderColor = '#4CAF7D';
+
+  const today = new Date();
+  const dateStr = today.getFullYear() + '年' + (today.getMonth() + 1) + '月' + today.getDate() + '日';
+  document.getElementById('certDisplayName').textContent = name;
+  document.getElementById('certDisplayBody').textContent = '上記の者は「' + "事故発生又は再発防止" + '」研修（' + "フィリピン語版" + '）を修了したことを証します。 修了日: ' + dateStr;
+  document.getElementById('certCard').classList.add('show');
+
+  // メールリンク生成（宛先は ../scripts/cert-config.js で一元管理）
+  const mailCfg = window.CERT_MAIL_CONFIG || { to: 'rina@kaigo-yoki.jp', cc: 'info@kaigo-yoki.jp', honorific: '施設長 様' };
+  const subject = encodeURIComponent('【研修修了報告】' + TRAINING_TITLE + ' - ' + name);
+  const body = encodeURIComponent(
+    mailCfg.honorific + '\n\n' +
+    '研修修了のご報告をいたします。\n\n' +
+    '受講者名: ' + name + '\n' +
+    '研修テーマ: ' + TRAINING_TITLE + '\n' +
+    '修了日: ' + dateStr + '\n\n' +
+    '以上、ご確認をお願いいたします。'
+  );
+  document.getElementById('certMailBtn').href = 'mailto:' + mailCfg.to + '?cc=' + mailCfg.cc + '&subject=' + subject + '&body=' + body;
+  document.getElementById('certMailBtn').classList.add('show');
+}
+</script>
+<script src="../scripts/cert-config.js"></script>
+</body>
+</html>
