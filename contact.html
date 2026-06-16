@@ -362,6 +362,23 @@ const successOverlay = document.getElementById('successOverlay');
 // Google Forms の formResponse エンドポイント
 const FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScDKmu47y3Qg8qY_SJGpoBUn_HgZY_rFHbQGVyHdj6O2V5o_g/formResponse';
 
+// ── 実フォームの正しい項目ID（2026-06-16 フォーム解析で確定）──
+// ※ 旧来のフォーム内 name 属性とは別物。送信時はこのIDへマッピングする。
+const GF = {
+  name:    'entry.30839255',   // お名前（短文）
+  kana:    'entry.589992744',  // フリガナ（短文）
+  email:   'entry.1801089887', // メールアドレス（短文）
+  tel:     'entry.1756391612', // 電話番号（短文）
+  details: 'entry.1885403258', // お問い合わせ内容の詳細（段落）← 種類/雇用形態/きっかけ/本文をまとめて格納
+  consent: 'entry.1601722215', // 個人情報同意（ラジオ：同意する/同意しない）
+};
+// 画面フォーム側の name 属性（入力値の読み取り用）
+const SRC = {
+  name: 'entry.212006764', kana: 'entry.571438902', email: 'entry.817478052',
+  tel: 'entry.1695420195', type: 'entry.1037385750', employ: 'entry.1469500094',
+  message: 'entry.2069720489', source: 'entry.680795493', consent: 'entry.69708703',
+};
+
 // Validation
 function validateForm() {
   let isValid = true;
@@ -421,21 +438,46 @@ form.addEventListener('submit', async (e) => {
   
   submitBtn.classList.add('loading');
   submitBtn.disabled = true;
-  
+
   try {
-    const formData = new FormData(form);
-    
+    // 画面フォームの入力値を取得
+    const val = (name) => { const el = form.querySelector(`[name="${name}"]`); return el ? el.value.trim() : ''; };
+    const checkedOne = (name) => { const el = form.querySelector(`[name="${name}"]:checked`); return el ? el.value : ''; };
+    const checkedMany = (name) => Array.from(form.querySelectorAll(`[name="${name}"]:checked`)).map(el => el.value);
+
+    const inquiryType = checkedOne(SRC.type);
+    const employ = checkedMany(SRC.employ);
+    const message = val(SRC.message);
+    const source = checkedMany(SRC.source);
+    const consent = checkedOne(SRC.consent);
+
+    // 選択肢のズレで消えないよう、種類/雇用形態/きっかけ/本文を「詳細」欄へ集約
+    const details = [];
+    if (inquiryType) details.push(`【お問い合わせの種類】${inquiryType}`);
+    if (employ.length) details.push(`【ご希望の雇用形態】${employ.join('・')}`);
+    if (source.length) details.push(`【当社を知ったきっかけ】${source.join('・')}`);
+    if (message) details.push(`【ご相談・ご質問】\n${message}`);
+
+    // 正しい項目IDへマッピング（x-www-form-urlencoded で送信）
+    const params = new URLSearchParams();
+    params.append(GF.name, val(SRC.name));
+    params.append(GF.kana, val(SRC.kana));
+    params.append(GF.email, val(SRC.email));
+    params.append(GF.tel, val(SRC.tel));
+    if (details.length) params.append(GF.details, details.join('\n'));
+    if (consent) params.append(GF.consent, consent);
+
     // Google Forms に送信 (no-cors mode)
     await fetch(FORM_URL, {
       method: 'POST',
       mode: 'no-cors',
-      body: formData
+      body: params
     });
-    
+
     // 成功表示
     successOverlay.classList.add('show');
     form.reset();
-    
+
   } catch (err) {
     // no-cors では常にopaqueResponseだが送信は成功している
     successOverlay.classList.add('show');
