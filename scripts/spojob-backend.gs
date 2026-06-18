@@ -23,6 +23,10 @@
  * ▼ 認証の考え方
  * - 働き手：LIFFで取得した line_user_id で本人を識別（パスワード不要）
  * - 施設側：管理パスコード（設定シートB1）を key として送る
+ *
+ * ▼ 前日リマインド（任意）
+ * - 関数 installReminderTrigger を1回だけ ▶実行 すると、毎日18時に sendReminders が自動実行され、
+ *   翌日の確定（承認）シフトの担当者へLINEでリマインドが届く（要：LINEトークン設定＆通知有効）
  */
 
 const SH_WORKER  = '登録者';
@@ -504,6 +508,34 @@ function pushNewShift(s) {
     }
   });
   return n;
+}
+
+/** 前日リマインド：翌日の確定（承認）シフトの担当者へLINE通知。時間主導トリガー（毎日）で実行する想定。戻り＝通知件数 */
+function sendReminders() {
+  if (!notifyOn()) return 0;
+  const tomorrow = Utilities.formatDate(new Date(Date.now() + 86400000), TZ, 'yyyy-MM-dd');
+  const shifts = readRows(SH_SHIFT).rows.filter(r => asDateStr(r['日付']) === tomorrow);
+  if (!shifts.length) return 0;
+  const apps = readRows(SH_APPLY).rows;
+  let n = 0;
+  shifts.forEach(s => {
+    const sid = String(s['募集ID']).trim();
+    const when = `${asDateStr(s['日付'])} ${s['開始']}〜${s['終了']}`;
+    apps.forEach(r => {
+      if (String(r['募集ID']).trim() === sid && String(r['ステータス']).trim() === '承認') {
+        if (linePush(String(r['line_user_id']).trim(),
+            `【明日のシフト】${when}（${s['サービス']}・${s['職種']}）です。お気をつけてお越しください。`)) n++;
+      }
+    });
+  });
+  return n;
+}
+
+/** 前日リマインドを毎日18時に自動実行するトリガーを登録（初回1回だけ実行。重複登録は防止） */
+function installReminderTrigger() {
+  ScriptApp.getProjectTriggers().forEach(t => { if (t.getHandlerFunction() === 'sendReminders') ScriptApp.deleteTrigger(t); });
+  ScriptApp.newTrigger('sendReminders').timeBased().everyDays(1).atHour(18).create();
+  return '前日リマインドのトリガーを毎日18時に登録しました。';
 }
 
 function lookupWage(service, kind) {
