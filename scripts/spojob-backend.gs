@@ -149,6 +149,7 @@ function doPost(e) {
       case 'approve':      return decide(d, '承認');
       case 'reject':       return decide(d, '却下');
       case 'record_work':  return recordWork(d);
+      case 'set_status':   return setShiftStatus(d);
       default:             return jsonOut({ status: 'error', message: 'unknown action: ' + action });
     }
   } catch (err) {
@@ -276,6 +277,32 @@ function decide(d, kind) {
     linePush(String(a['line_user_id']).trim(), msg);
   }
   return jsonOut({ status: 'ok', decided: kind });
+}
+
+/** 募集ステータス変更（施設側・管理キー必須）：募集中⇄締切、または中止。中止時は応募中／承認の応募をキャンセルし本人へLINE通知 */
+function setShiftStatus(d) {
+  if (!requireAdmin(d.key)) return jsonOut({ status: 'unauthorized' });
+  const sid = String(d.shift_id || '').trim();
+  const ns = String(d.status || '').trim();   // 募集中 / 締切 / 中止
+  if (['募集中', '締切', '中止'].indexOf(ns) < 0) return jsonOut({ status: 'error', message: 'invalid status' });
+  const sd = readRows(SH_SHIFT);
+  const s = sd.rows.find(r => String(r['募集ID']).trim() === sid);
+  if (!s) return jsonOut({ status: 'error', message: 'shift not found' });
+  setCell(sd.sh, s._row, sd.headers, 'ステータス', ns);
+
+  let notified = 0;
+  if (ns === '中止') {
+    const ap = readRows(SH_APPLY);
+    const when = `${asDateStr(s['日付'])} ${s['開始']}〜${s['終了']}`;
+    ap.rows.forEach(r => {
+      if (String(r['募集ID']).trim() === sid && ['応募中', '承認'].indexOf(String(r['ステータス']).trim()) >= 0) {
+        setCell(ap.sh, r._row, ap.headers, 'ステータス', 'キャンセル');
+        if (notifyOn() && linePush(String(r['line_user_id']).trim(),
+            `【募集中止のお知らせ】${when}（${s['サービス']}・${s['職種']}）の募集は中止になりました。ご応募ありがとうございました。`)) notified++;
+      }
+    });
+  }
+  return jsonOut({ status: 'ok', new_status: ns, notified: notified });
 }
 
 /** 勤務実績を記録し、登録者の累計勤務時間を加算。100時間ごとにボーナス自動判定＆LINE通知（施設側・管理キー必須） */
