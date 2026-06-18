@@ -151,6 +151,8 @@ code{background:#EEF2F7;padding:1px 6px;border-radius:5px;font-size:12px;}
 .st-ok{color:var(--green);font-weight:800;font-size:12px;}
 .st-ng{color:var(--text-light);font-weight:700;font-size:12px;}
 .empty-m{color:var(--text-light);font-size:13px;font-weight:600;padding:20px 0;text-align:center;}
+.pmonth{font-family:inherit;font-size:13px;font-weight:800;border:1.5px solid var(--bd);border-radius:10px;padding:8px 12px;background:#fff;color:var(--primary);outline:none;}
+.tbl td.yen{text-align:right;}
 @media(max-width:760px){.cre{grid-template-columns:1fr 1fr;}}
 </style>
 </head>
@@ -246,6 +248,18 @@ code{background:#EEF2F7;padding:1px 6px;border-radius:5px;font-size:12px;}
   <div class="panel">
     <div class="panel-h"><div class="ttl">🗂 募集と応募の管理</div><div class="desc">応募者を承認すると本人にLINEで確定通知</div></div>
     <div id="manage"></div>
+  </div>
+
+  <!-- 月次支給集計（給与処理用） -->
+  <div class="panel">
+    <div class="panel-h">
+      <div class="ttl">💰 月次支給集計（給与処理用）</div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <select id="pMonth" class="pmonth"><option>2026-06</option><option>2026-07</option></select>
+        <button class="btn" style="background:var(--primary);color:#fff" onclick="payrollCSV()">⬇ CSVダウンロード</button>
+      </div>
+    </div>
+    <div id="payroll"></div>
   </div>
 </div>
 
@@ -437,9 +451,11 @@ function renderApps(sid){
   const box=document.getElementById('apps-'+sid), apps=APPS[sid]||[];
   if(!apps.length){box.innerHTML='<div class="empty-m" style="padding:8px 0">応募はまだありません</div>';return;}
   box.innerHTML=apps.map(a=>{
-    const ctl=a.status==='応募中'
-      ? `<div class="act"><button class="btn btn-ok" onclick="decide('${sid}','${a.apply_id}','承認',this)">承認</button><button class="btn btn-ng" onclick="decide('${sid}','${a.apply_id}','却下',this)">却下</button></div>`
-      : (a.status==='承認'?'<span class="st-ok">✓ 承認済み</span>':'<span class="st-ng">却下</span>');
+    let ctl;
+    if(a.status==='応募中') ctl=`<div class="act"><button class="btn btn-ok" onclick="decide('${sid}','${a.apply_id}','承認',this)">承認</button><button class="btn btn-ng" onclick="decide('${sid}','${a.apply_id}','却下',this)">却下</button></div>`;
+    else if(a.status==='承認') ctl=`<div class="act"><span class="st-ok">✓ 承認済み</span><button class="btn btn-ok" onclick="recWork('${sid}','${a.apply_id}',this)">勤務完了を記録</button></div>`;
+    else if(a.status==='完了') ctl='<span class="st-ok">✓ 勤務済</span>';
+    else ctl='<span class="st-ng">却下</span>';
     return `<div class="appr"><div class="who">${a.name}<small>${a.job||''}・${a.license||''}・${a.years||''}</small></div>${ctl}</div>`;
   }).join('');
 }
@@ -452,10 +468,24 @@ async function decide(sid,aid,kind,btn){
   }
   (APPS[sid]||[]).forEach(a=>{if(a.apply_id===aid)a.status=kind;});
   const sh=SHIFTS.find(x=>x.shift_id===sid);
-  if(sh)sh.filled=(APPS[sid]||[]).filter(a=>a.status==='承認').length;
+  if(sh)sh.filled=filledCount(sid);
   toast(kind==='承認'?'承認しました。本人にLINEで確定通知':'却下しました');
   renderApps(sid);                         // 応募者リストを更新（開いたまま）
   updateBadges(sid);
+}
+function filledCount(sid){return (APPS[sid]||[]).filter(a=>a.status==='承認'||a.status==='完了').length;}
+
+async function recWork(sid,aid,btn){
+  btn.disabled=true;
+  if(ADMIN_LIVE){
+    try{const r=await sPost({action:'record_work',key:SKEY,apply_id:aid});
+      if(r.status!=='ok'){toast('記録に失敗しました');btn.disabled=false;return;}
+      toast(`勤務を記録（${r.hours}h）${r.bonus?'・ボーナス¥'+Number(r.bonus).toLocaleString()+'達成🎉':''}。本人の累計時間に加算`);
+    }catch(e){toast('通信エラー');btn.disabled=false;return;}
+  }else{toast('（サンプル）勤務を記録。本人の累計時間に加算＋100hでボーナス通知（本番）');}
+  (APPS[sid]||[]).forEach(a=>{if(a.apply_id===aid)a.status='完了';});
+  const sh=SHIFTS.find(x=>x.shift_id===sid); if(sh)sh.filled=filledCount(sid);
+  renderApps(sid); updateBadges(sid);
 }
 function updateBadges(sid){
   const box=document.getElementById('apps-'+sid); if(!box)return;
@@ -478,6 +508,53 @@ fService.addEventListener('change',fillPatterns);
 fPattern.addEventListener('change',updateWage);
 fillPatterns();
 loadManage();
+
+/* ── 月次支給集計 ＋ CSVエクスポート ── */
+const SAMPLE_PAYROLL={
+  '2026-06':[
+    {name:'大城 美咲',job:'看護師',count:8,hours:40,standby:0,pay:88000},
+    {name:'金城 涼',job:'介護',count:4,hours:64,standby:0,pay:96000},
+    {name:'比嘉 健太',job:'介護',count:6,hours:48,standby:0,pay:67200},
+    {name:'宮城 由香',job:'看護師',count:3,hours:15,standby:0,pay:33000}
+  ],
+  '2026-07':[
+    {name:'大城 美咲',job:'看護師',count:10,hours:50,standby:0,pay:110000},
+    {name:'比嘉 健太',job:'介護',count:5,hours:40,standby:0,pay:56000}
+  ]
+};
+let PAYROLL={month:'',rows:[],total:{count:0,hours:0,standby:0,pay:0}};
+function yen(n){return '¥'+Number(n||0).toString().replace(/\B(?=(\d{3})+(?!\d))/g,',');}
+async function loadPayroll(){
+  const m=document.getElementById('pMonth').value;
+  let rows;
+  if(ADMIN_LIVE){try{const r=await sGet({action:'payroll',key:SKEY,month:m});rows=r.status==='ok'?r.rows:[];}catch(e){rows=[];}}
+  else rows=(SAMPLE_PAYROLL[m]||[]).slice();
+  rows.sort((a,b)=>b.pay-a.pay);
+  const total={count:0,hours:0,standby:0,pay:0};
+  rows.forEach(r=>{total.count+=r.count;total.hours+=r.hours;total.standby+=r.standby;total.pay+=r.pay;});
+  total.hours=Math.round(total.hours*10)/10;
+  PAYROLL={month:m,rows:rows,total:total};renderPayroll();
+}
+function renderPayroll(){
+  const box=document.getElementById('payroll'),rows=PAYROLL.rows,total=PAYROLL.total;
+  if(!rows.length){box.innerHTML='<div class="empty-m">この月の勤務実績はまだありません。</div>';return;}
+  let h='<table class="tbl"><thead><tr><th>氏名</th><th>職種</th><th>勤務件数</th><th>実働時間</th><th>待機手当</th><th>支給額</th></tr></thead><tbody>';
+  rows.forEach(r=>{h+=`<tr><td>${r.name}</td><td>${r.job}</td><td>${r.count}件</td><td>${r.hours}h</td><td class="yen">${yen(r.standby)}</td><td class="yen">${yen(r.pay)}</td></tr>`;});
+  h+=`<tr style="font-weight:900;background:#FAFBFD"><td>合計</td><td></td><td>${total.count}件</td><td>${total.hours}h</td><td class="yen">${yen(total.standby)}</td><td class="yen">${yen(total.pay)}</td></tr>`;
+  box.innerHTML=h+'</tbody></table>';
+}
+function payrollCSV(){
+  const month=PAYROLL.month,rows=PAYROLL.rows,total=PAYROLL.total;
+  if(!rows.length){toast('この月のデータがありません');return;}
+  let csv='氏名,職種,勤務件数,実働時間,待機手当,支給額\n';
+  rows.forEach(r=>{csv+=`${r.name},${r.job},${r.count},${r.hours},${r.standby},${r.pay}\n`;});
+  csv+=`合計,,${total.count},${total.hours},${total.standby},${total.pay}\n`;
+  const blob=new Blob(['﻿'+csv],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='スポジョブ支給_'+month+'.csv';document.body.appendChild(a);a.click();a.remove();
+  toast('CSVをダウンロードしました');
+}
+document.getElementById('pMonth').addEventListener('change',loadPayroll);
+loadPayroll();
 </script>
 </body>
 </html>

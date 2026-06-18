@@ -114,6 +114,37 @@ body{font-family:'M PLUS Rounded 1c','Noto Sans JP',sans-serif;background:#E8EDF
 .apply:disabled{opacity:.6;box-shadow:none;}
 #toast{position:fixed;left:50%;bottom:88px;transform:translateX(-50%) translateY(20px);background:var(--text);color:#fff;font-size:12.5px;font-weight:700;padding:11px 20px;border-radius:24px;opacity:0;transition:all .3s;z-index:99;box-shadow:0 8px 24px rgba(0,0,0,.28);max-width:88%;text-align:center;}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+/* タブ共通 */
+.vhead{font-size:15px;font-weight:900;padding:18px 16px 8px;}
+/* 応募中 */
+.arow{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--white);margin:0 14px 11px;border-radius:14px;padding:14px 16px;box-shadow:0 2px 12px rgba(0,0,0,.04);border:1.5px solid rgba(0,0,0,.04);}
+.arow .ad{font-size:13px;font-weight:800;}
+.arow .at{font-size:11.5px;color:var(--text-mid);font-weight:600;margin-top:3px;}
+.stb{flex:0 0 auto;font-size:11px;font-weight:800;padding:5px 12px;border-radius:14px;white-space:nowrap;}
+.st-ok{background:var(--green-light);color:var(--green);}
+.st-wait{background:var(--orange-light);color:var(--orange);}
+.st-ng{background:#EEF0F4;color:var(--text-light);}
+/* ボーナス */
+.bcard{background:var(--white);margin:0 14px 14px;border-radius:18px;padding:22px;text-align:center;box-shadow:0 4px 18px rgba(0,0,0,.05);border:1.5px solid #FBF3DC;}
+.bbig{font-size:44px;font-weight:900;color:var(--gold);line-height:1;}
+.bbig small{font-size:16px;font-weight:800;}
+.blbl{font-size:12px;font-weight:700;color:var(--text-light);margin:4px 0 16px;}
+.bbar{height:14px;background:#EEF0F4;border-radius:10px;overflow:hidden;}
+.bbarf{height:100%;background:linear-gradient(90deg,#E6B422,#F5D061);border-radius:10px;}
+.bfoot{font-size:12.5px;font-weight:700;color:var(--text-mid);margin-top:12px;}
+.bgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 14px 14px;}
+.bg{background:var(--white);border-radius:14px;padding:16px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.04);}
+.bgn{font-size:24px;font-weight:900;color:var(--primary);}
+.bgn small{font-size:12px;}
+.bgl{font-size:11px;font-weight:700;color:var(--text-light);margin-top:5px;}
+.bnote{font-size:11px;color:var(--text-light);font-weight:600;margin:0 16px;line-height:1.6;}
+/* マイページ */
+.mp-card{display:flex;align-items:center;gap:14px;background:var(--white);margin:0 14px 14px;border-radius:18px;padding:18px;box-shadow:0 2px 12px rgba(0,0,0,.04);}
+.mp-ava{width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#E3F2FD,#BBDEFB);display:flex;align-items:center;justify-content:center;font-size:26px;}
+.mp-name{font-size:17px;font-weight:900;}
+.mp-job{font-size:12px;font-weight:700;color:var(--text-light);margin-top:2px;}
+.mp-btn{display:block;text-align:center;margin:0 14px 12px;padding:13px;border-radius:12px;font-size:14px;font-weight:800;text-decoration:none;background:#EAF1FA;color:var(--primary);border:none;font-family:inherit;cursor:pointer;}
+.mp-btn.out{background:#fff;color:var(--text-light);border:1.5px solid rgba(45,90,142,.14);}
 </style>
 </head>
 <body>
@@ -131,6 +162,7 @@ body{font-family:'M PLUS Rounded 1c','Noto Sans JP',sans-serif;background:#E8EDF
     <div class="bell">🔔</div>
   </div>
 
+  <div class="view" id="view-shifts">
   <!-- Hero -->
   <div class="hero">
     <span class="badge">⚡ 手数料0円だから高時給</span>
@@ -158,13 +190,18 @@ body{font-family:'M PLUS Rounded 1c','Noto Sans JP',sans-serif;background:#E8EDF
 
   <!-- List (rendered by JS from GAS shifts API, sample fallback) -->
   <div class="list" id="list"></div>
+  </div><!-- /view-shifts -->
+
+  <div class="view" id="view-applied" style="display:none"></div>
+  <div class="view" id="view-bonus" style="display:none"></div>
+  <div class="view" id="view-mypage" style="display:none"></div>
 
   <!-- Bottom nav -->
   <div class="nav">
-    <a class="on"><span class="i">📋</span>シフト</a>
-    <a><span class="i">✋</span>応募中</a>
-    <a><span class="i">🎁</span>ボーナス</a>
-    <a><span class="i">👤</span>マイページ</a>
+    <a class="on" data-tab="shifts"><span class="i">📋</span>シフト</a>
+    <a data-tab="applied"><span class="i">✋</span>応募中</a>
+    <a data-tab="bonus"><span class="i">🎁</span>ボーナス</a>
+    <a data-tab="mypage"><span class="i">👤</span>マイページ</a>
   </div>
 
 </div>
@@ -175,7 +212,7 @@ body{font-family:'M PLUS Rounded 1c','Noto Sans JP',sans-serif;background:#E8EDF
 <script>
 const CFG = window.SPOJOB_CONFIG || {};
 const GAS = CFG.gasUrl || '', LIFF_ID = CFG.liffId || '';
-let UID = null, ALL = [], FILTER = 'all';
+let UID = null, ALL = [], FILTER = 'all', MY = null;
 
 const SAMPLE = [
   {shift_id:'s1',service:'訪問看護',date:'2026-06-20',pattern:'午前',start:'8:00',end:'13:00',job:'看護師',night:false,oncall:false,wage:2200,duty:'服薬管理・バイタル・処置',seats:1,applied:false},
@@ -183,6 +220,12 @@ const SAMPLE = [
   {shift_id:'s3',service:'訪問介護ようき',date:'2026-06-22',pattern:'日勤(通し)',start:'8:00',end:'17:00',job:'介護',night:false,oncall:false,wage:1400,duty:'入浴介助・食事・レク',seats:1,applied:false,timenote:'（休憩60分）'},
   {shift_id:'s4',service:'訪問看護',date:'2026-06-22',pattern:'午後',start:'13:00',end:'18:00',job:'看護師',night:false,oncall:false,wage:2200,duty:'バイタル・服薬・処置',seats:1,applied:false}
 ];
+const MYPAGE = {registered:true,name:'陽気 花子',job:'看護師',total_hours:68,bonus_count:0,to_next:32,
+  applications:[
+    {status:'承認',date:'2026-06-15',pattern:'午前',start:'8:00',end:'13:00',wage:2200},
+    {status:'応募中',date:'2026-06-20',pattern:'午前',start:'8:00',end:'13:00',wage:2200},
+    {status:'却下',date:'2026-06-10',pattern:'午後',start:'13:00',end:'18:00',wage:2200}
+  ]};
 
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000);}
 function gasGet(p){return fetch(GAS+'?'+new URLSearchParams(p)).then(r=>r.json());}
@@ -242,14 +285,61 @@ async function doApply(sid,btn){
   }catch(e){toast('通信エラー');btn.disabled=false;}
 }
 
-async function loadBonus(){
-  try{const m=await gasGet({action:'mypage',uid:UID});
-    if(m.status==='ok'&&m.registered){const h=m.total_hours||0,next=m.to_next||(100-h%100);
-      document.getElementById('bHours').textContent=h+'時間';
-      document.getElementById('bNext').innerHTML=`あと<b>${next}時間</b>で¥10,000🎉`;
-      document.getElementById('bFill').style.width=((h%100)/100*100)+'%';}
-  }catch(e){}
+function updateBonusBar(){
+  const h=(MY&&MY.total_hours)||0, next=(MY&&MY.to_next)||(100-h%100);
+  document.getElementById('bHours').textContent=h+'時間';
+  document.getElementById('bNext').innerHTML=`あと<b>${next}時間</b>で¥10,000🎉`;
+  document.getElementById('bFill').style.width=((h%100)/100*100)+'%';
 }
+
+const STBADGE={'承認':['st-ok','✓ 確定'],'完了':['st-ok','✓ 勤務済'],'応募中':['st-wait','結果待ち'],'却下':['st-ng','見送り'],'キャンセル':['st-ng','取消']};
+function renderApplied(){
+  const apps=(MY&&MY.applications)||[];
+  let h='<div class="vhead">✋ 応募中・確定したシフト</div>';
+  if(!apps.length){h+='<div class="empty">まだ応募はありません。<br>「シフト」から気になる枠に応募してみましょう。</div>';}
+  else apps.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')).forEach(a=>{
+    const b=STBADGE[a.status]||['st-wait',a.status];
+    h+=`<div class="arow"><div><div class="ad">${fmtDate(a.date)}</div><div class="at">${a.pattern||''} ${a.start}〜${a.end} ・ ¥${Number(a.wage||0).toLocaleString()}/時</div></div><span class="stb ${b[0]}">${b[1]}</span></div>`;
+  });
+  document.getElementById('view-applied').innerHTML=h;
+}
+function renderBonus(){
+  const h=(MY&&MY.total_hours)||0, cnt=(MY&&MY.bonus_count)||Math.floor(h/100), next=(MY&&MY.to_next)||(100-h%100);
+  document.getElementById('view-bonus').innerHTML=`<div class="vhead">🎁 ボーナス</div>
+    <div class="bcard">
+      <div class="bbig">${h}<small>時間</small></div><div class="blbl">累計勤務時間</div>
+      <div class="bbar"><div class="bbarf" style="width:${h%100}%"></div></div>
+      <div class="bfoot">あと <b>${next}時間</b> で次の ¥10,000🎉</div>
+    </div>
+    <div class="bgrid">
+      <div class="bg"><div class="bgn">${cnt}<small>回</small></div><div class="bgl">達成回数</div></div>
+      <div class="bg"><div class="bgn">¥${(cnt*10000).toLocaleString()}</div><div class="bgl">獲得ボーナス</div></div>
+    </div>
+    <div class="bnote">100時間ごとに¥10,000。実働時間で自動集計され、達成時にLINEでお知らせします。</div>`;
+}
+function renderMypage(){
+  const name=(MY&&MY.name)||'ゲスト', job=(MY&&MY.job)||'-', h=(MY&&MY.total_hours)||0, cnt=(MY&&MY.bonus_count)||Math.floor(h/100);
+  document.getElementById('view-mypage').innerHTML=`<div class="vhead">👤 マイページ</div>
+    <div class="mp-card"><div class="mp-ava">${job==='看護師'?'🩺':'🤝'}</div><div><div class="mp-name">${name}</div><div class="mp-job">${job}</div></div></div>
+    <div class="bgrid">
+      <div class="bg"><div class="bgn">${h}<small>h</small></div><div class="bgl">累計勤務</div></div>
+      <div class="bg"><div class="bgn">¥${(cnt*10000).toLocaleString()}</div><div class="bgl">ボーナス</div></div>
+    </div>
+    <a class="mp-btn" href="register.html">登録情報を編集する</a>
+    ${(GAS&&LIFF_ID)?'<button class="mp-btn out" onclick="doLogout()">ログアウト</button>':''}`;
+}
+function doLogout(){try{if(window.liff&&liff.logout)liff.logout();}catch(e){}location.reload();}
+
+function showTab(tab){
+  document.querySelectorAll('.view').forEach(v=>{v.style.display='none';});
+  document.getElementById('view-'+tab).style.display='';
+  document.querySelectorAll('.nav a').forEach(a=>a.classList.toggle('on',a.dataset.tab===tab));
+  if(tab==='applied')renderApplied();
+  if(tab==='bonus')renderBonus();
+  if(tab==='mypage')renderMypage();
+  window.scrollTo(0,0);
+}
+document.querySelector('.nav').addEventListener('click',e=>{const a=e.target.closest('a');if(a&&a.dataset.tab)showTab(a.dataset.tab);});
 
 async function boot(){
   if(GAS&&LIFF_ID){
@@ -261,11 +351,13 @@ async function boot(){
       document.getElementById('mocknote').style.display='none';
       const m=await gasGet({action:'mypage',uid:UID});
       if(m.status==='ok'&&!m.registered){location.href='register.html';return;}
+      MY=m;
       const res=await gasGet({action:'shifts',uid:UID});
-      if(res.status==='ok'){ALL=res.shifts;render();loadBonus();return;}
+      if(res.status==='ok')ALL=res.shifts;
+      render();updateBonusBar();return;
     }catch(e){/* サンプルへフォールバック */}
   }
-  ALL=SAMPLE;render();
+  MY=MYPAGE;ALL=SAMPLE;render();updateBonusBar();
 }
 boot();
 </script>

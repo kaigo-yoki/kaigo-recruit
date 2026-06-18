@@ -144,6 +144,7 @@ function doPost(e) {
       case 'create_shift': return createShift(d);
       case 'approve':      return decide(d, '承認');
       case 'reject':       return decide(d, '却下');
+      case 'record_work':  return recordWork(d);
       default:             return jsonOut({ status: 'error', message: 'unknown action: ' + action });
     }
   } catch (err) {
@@ -246,6 +247,71 @@ function decide(d, kind) {
   return jsonOut({ status: 'ok', decided: kind });
 }
 
+/** 勤務実績を記録し、登録者の累計勤務時間を加算。100時間ごとにボーナス自動判定＆LINE通知（施設側・管理キー必須） */
+function recordWork(d) {
+  if (!requireAdmin(d.key)) return jsonOut({ status: 'unauthorized' });
+  const aid = String(d.apply_id || '').trim();
+  const ap = readRows(SH_APPLY);
+  const a = ap.rows.find(r => String(r['応募ID']).trim() === aid);
+  if (!a) return jsonOut({ status: 'error', message: 'apply not found' });
+  if (String(a['ステータス']).trim() !== '承認') return jsonOut({ status: 'error', message: '承認済みの応募のみ記録できます' });
+  const uid = String(a['line_user_id']).trim(), sid = String(a['募集ID']).trim();
+
+  // 重複記録の防止（同じ募集×同じ人）
+  const rec = readRows(SH_RECORD);
+  if (rec.rows.some(r => String(r['募集ID']).trim() === sid && String(r['line_user_id']).trim() === uid))
+    return jsonOut({ status: 'ok', already: true });
+
+  const sd = readRows(SH_SHIFT);
+  const s = sd.rows.find(r => String(r['募集ID']).trim() === sid) || {};
+  const wage = Number(s['時給'] || 0);
+  const hours = (d.hours != null && d.hours !== '') ? Number(d.hours)
+              : patternHours(s['サービス'], s['シフトパターン'], String(s['開始'] || ''), String(s['終了'] || ''));
+  const standby = String(d.standby || '').trim();              // '平日' / '日祝' / '' （オンコール待機）
+  const standbyPay = standby === '日祝' ? 4000 : (standby === '平日' ? 2000 : 0);
+  const pay = Math.round(hours * wage) + standbyPay;
+  const month = asDateStr(s['日付']).slice(0, 7);
+
+  const recSheet = rec.sh || mkSheet(getSS(), SH_RECORD, H_RECORD, '#8888A0');
+  recSheet.appendRow([newId('W'), sid, uid, s['シフトパターン'] || '', s['開始'] || '', s['終了'] || '',
+                      hours, standby, standbyPay, wage, pay, true, month]);
+  setCell(ap.sh, a._row, ap.headers, 'ステータス', '完了');
+
+  // 累計勤務時間の加算 ＋ 100時間ボーナス判定
+  const w = readRows(SH_WORKER);
+  const wr = w.rows.find(r => String(r['line_user_id']).trim() === uid);
+  let bonus = 0;
+  if (wr) {
+    const oldH = Number(wr['累計勤務時間'] || 0), newH = oldH + hours;
+    setCell(w.sh, wr._row, w.headers, '累計勤務時間', newH);
+    const milestones = Math.floor(newH / 100) - Math.floor(oldH / 100);
+    if (milestones > 0) {
+      bonus = milestones * 10000;
+      setCell(w.sh, wr._row, w.headers, '累計ボーナス', Number(wr['累計ボーナス'] || 0) + bonus);
+    }
+    if (notifyOn()) {
+      linePush(uid, `お疲れさまでした。${asDateStr(s['日付'])} の勤務（${hours}時間・${yen(pay)}）を記録しました。`);
+      if (bonus > 0) linePush(uid, `🎉 累計${Math.floor(newH / 100) * 100}時間達成！ボーナス${yen(bonus)}をプレゼントします。`);
+    }
+  }
+  return jsonOut({ status: 'ok', hours: hours, pay: pay, bonus: bonus });
+}
+
+/** シフトパターンの実働時間を返す（マスタ優先、無ければ開始-終了から算出。翌日跨ぎ対応） */
+function patternHours(service, pattern, start, end) {
+  const p = readRows(SH_PATTERN).rows.find(r => String(r['サービス']).trim() === String(service).trim()
+                                               && String(r['パターン']).trim() === String(pattern).trim());
+  if (p && p['実働'] !== '' && !isNaN(Number(p['実働']))) return Number(p['実働']);
+  const toMin = t => { t = String(t).replace('翌', ''); const m = t.split(':'); return m.length === 2 ? (+m[0]) * 60 + (+m[1]) : NaN; };
+  let sMin = toMin(start), eMin = toMin(end);
+  if (isNaN(sMin) || isNaN(eMin)) return 0;
+  if (String(end).indexOf('翌') >= 0 || eMin <= sMin) eMin += 24 * 60;
+  return Math.round((eMin - sMin) / 60 * 10) / 10;
+}
+
+/** 金額を ¥1,234 形式に */
+function yen(n) { return '¥' + Number(n || 0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+
 /* ───────────────── GET（参照系） ───────────────── */
 function doGet(e) {
   try {
@@ -257,6 +323,7 @@ function doGet(e) {
       case 'masters':      return masters();
       case 'admin_shifts': return adminShifts(e);
       case 'applications': return listApplications(e);
+      case 'payroll':      return payroll(e);
       default:             return jsonOut({ status: 'error', message: 'unknown action: ' + action });
     }
   } catch (err) {
@@ -355,6 +422,33 @@ function listApplications(e) {
                applied_at: String(r['応募日時']), status: String(r['ステータス']).trim() };
     });
   return jsonOut({ status: 'ok', applications: list });
+}
+
+/** 月次支給集計（施設側・管理キー必須）：勤務実績を対象月で絞り、働き手ごとに件数・実働時間・待機手当・支給額を合算 */
+function payroll(e) {
+  if (!requireAdmin(e.parameter.key)) return jsonOut({ status: 'unauthorized' });
+  const month = String(e.parameter.month || '').trim();
+  const workerById = {};
+  readRows(SH_WORKER).rows.forEach(r => workerById[String(r['line_user_id']).trim()] = r);
+  const agg = {};
+  readRows(SH_RECORD).rows.forEach(r => {
+    if (month && String(r['対象月'] || '').trim() !== month) return;
+    const uid = String(r['line_user_id']).trim();
+    if (!agg[uid]) agg[uid] = { uid: uid, count: 0, hours: 0, standby: 0, pay: 0 };
+    agg[uid].count++;
+    agg[uid].hours += Number(r['実働時間'] || 0);
+    agg[uid].standby += Number(r['待機手当'] || 0);
+    agg[uid].pay += Number(r['支給額'] || 0);
+  });
+  const rows = Object.keys(agg).map(uid => {
+    const w = workerById[uid] || {}, a = agg[uid];
+    return { name: w['氏名'] || uid, job: w['職種'] || '', count: a.count,
+             hours: Math.round(a.hours * 10) / 10, standby: a.standby, pay: a.pay };
+  }).sort((x, y) => y.pay - x.pay);
+  const total = { count: 0, hours: 0, standby: 0, pay: 0 };
+  rows.forEach(r => { total.count += r.count; total.hours += r.hours; total.standby += r.standby; total.pay += r.pay; });
+  total.hours = Math.round(total.hours * 10) / 10;
+  return jsonOut({ status: 'ok', month: month, rows: rows, total: total });
 }
 
 /* ───────────────── LINE 通知 ───────────────── */
