@@ -174,7 +174,7 @@ function register(d) {
   return jsonOut({ status: 'ok', registered: true });
 }
 
-/** 募集へ応募（重複防止） */
+/** 募集へ応募（同一募集の重複＋同日・時間帯の重複＝ダブルブッキングを防止） */
 function apply(d) {
   const uid = String(d.line_user_id || '').trim();
   const sid = String(d.shift_id || '').trim();
@@ -183,14 +183,41 @@ function apply(d) {
   const worker = readRows(SH_WORKER).rows.find(r => String(r['line_user_id']).trim() === uid);
   if (!worker) return jsonOut({ status: 'error', message: '未登録です。先に登録してください', need_register: true });
 
+  const sd = readRows(SH_SHIFT);
+  const target = sd.rows.find(r => String(r['募集ID']).trim() === sid);
+  if (!target) return jsonOut({ status: 'error', message: '募集が見つかりません' });
+
   const ap = readRows(SH_APPLY);
-  const dup = ap.rows.find(r => String(r['募集ID']).trim() === sid && String(r['line_user_id']).trim() === uid
-                                && String(r['ステータス']).trim() !== 'キャンセル' && String(r['ステータス']).trim() !== '却下');
-  if (dup) return jsonOut({ status: 'ok', already: true });
+  // 自分の有効な応募（応募中／承認／完了）
+  const mine = ap.rows.filter(r => String(r['line_user_id']).trim() === uid
+                                   && ['応募中', '承認', '完了'].indexOf(String(r['ステータス']).trim()) >= 0);
+  if (mine.some(r => String(r['募集ID']).trim() === sid)) return jsonOut({ status: 'ok', already: true });
+
+  // 同日・時間帯の重複チェック（夜勤の翌日跨ぎも考慮した絶対時間で判定）
+  const tIv = shiftInterval(asDateStr(target['日付']), String(target['開始']), String(target['終了']));
+  const shiftById = {}; sd.rows.forEach(r => shiftById[String(r['募集ID']).trim()] = r);
+  const conflict = mine.some(r => {
+    const s = shiftById[String(r['募集ID']).trim()]; if (!s) return false;
+    const iv = shiftInterval(asDateStr(s['日付']), String(s['開始']), String(s['終了']));
+    return tIv && iv && tIv.s < iv.e && iv.s < tIv.e;   // 区間が重なる
+  });
+  if (conflict) return jsonOut({ status: 'error', conflict: true,
+    message: '同じ時間帯に応募済み／確定済みのシフトがあります。先に取消してからご応募ください。' });
 
   const sheet = ap.sh || mkSheet(getSS(), SH_APPLY, H_APPLY, '#4CAF7D');
   sheet.appendRow([newId('A'), sid, uid, worker['氏名'], nowStr(), '応募中']);
   return jsonOut({ status: 'ok', applied: true });
+}
+
+/** 日付＋開始/終了を「絶対分（epoch日×1440＋分）」の区間に変換。夜勤(翌/跨ぎ)は終了に+1440 */
+function shiftInterval(dateStr, start, end) {
+  const toMin = t => { t = String(t).replace('翌', ''); const m = t.split(':'); return m.length === 2 ? (+m[0]) * 60 + (+m[1]) : NaN; };
+  const ms = Date.parse(String(dateStr) + 'T00:00:00');
+  let s = toMin(start), e = toMin(end);
+  if (isNaN(ms) || isNaN(s) || isNaN(e)) return null;
+  const day = Math.round(ms / 86400000);
+  if (String(end).indexOf('翌') >= 0 || e <= s) e += 1440;
+  return { s: day * 1440 + s, e: day * 1440 + e };
 }
 
 /** 応募キャンセル（本人） */

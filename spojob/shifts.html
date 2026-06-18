@@ -281,7 +281,7 @@ async function doApply(sid,btn){
     const res=await gasPost({action:'apply',line_user_id:UID,shift_id:sid});
     if(res.need_register){location.href='register.html';return;}
     if(res.status==='ok'){btn.outerHTML='<button class="apply done">✓ 応募済み</button>';toast(res.already?'すでに応募済みです':'応募しました！結果はLINEで届きます');}
-    else{toast('応募に失敗しました');btn.disabled=false;}
+    else{toast(res.message||'応募に失敗しました');btn.disabled=false;}
   }catch(e){toast('通信エラー');btn.disabled=false;}
 }
 
