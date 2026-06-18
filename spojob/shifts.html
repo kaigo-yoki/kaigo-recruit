@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>空きシフト一覧 | 陽気スポジョブ ようき</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800;900&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --primary:#2D5A8E;--primary-light:#4A8FD4;
+  --green:#4CAF7D;--green-light:#E8F5E9;
+  --orange:#FF8C42;--orange-light:#FFF3E8;
+  --red:#E8594F;--red-light:#FFEBEE;
+  --gold:#D4A017;--gold-light:#FBF3DC;
+  --line:#06C755;
+  --bg:#F7F9FC;--white:#FFFFFF;
+  --text:#1A1A2E;--text-mid:#4A4A68;--text-light:#8888A0;
+}
+body{font-family:'M PLUS Rounded 1c','Noto Sans JP',sans-serif;background:#E8EDF3;color:var(--text);display:flex;flex-direction:column;align-items:center;padding:16px 6px;-webkit-font-smoothing:antialiased;}
+
+/* ── PHONE FRAME ── */
+.phone{width:100%;max-width:412px;background:var(--bg);border-radius:32px;overflow:hidden;box-shadow:0 20px 60px rgba(45,90,142,.18),0 4px 12px rgba(0,0,0,.06);position:relative;min-height:840px;}
+
+/* ── LINE TOP BAR ── */
+.line-bar{background:var(--line);color:#fff;font-size:12px;font-weight:700;padding:7px 16px;display:flex;align-items:center;gap:6px;}
+.line-bar .dot{width:8px;height:8px;border-radius:50%;background:#fff;}
+
+/* ── HEADER ── */
+.header{background:var(--white);padding:14px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(45,90,142,.08);position:sticky;top:0;z-index:30;}
+.brand{display:flex;align-items:center;gap:9px;flex:1;min-width:0;}
+.brand .mark{flex:0 0 auto;width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#2D5A8E,#4A8FD4);display:flex;align-items:center;justify-content:center;font-size:18px;}
+.brand .t{font-size:15px;font-weight:900;line-height:1.15;white-space:nowrap;}
+.brand .t span{display:block;font-size:9px;font-weight:500;color:var(--text-light);letter-spacing:1px;}
+.bell{flex:0 0 auto;width:34px;height:34px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:16px;position:relative;}
+.bell::after{content:'';position:absolute;top:7px;right:8px;width:7px;height:7px;border-radius:50%;background:var(--red);border:2px solid var(--white);}
+
+/* ── OTOKU HERO ── */
+.hero{background:linear-gradient(135deg,#2D5A8E 0%,#4A8FD4 55%,#6FC8DD 100%);color:#fff;padding:20px 18px 22px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.06'%3E%3Ccircle cx='20' cy='20' r='3'/%3E%3C/g%3E%3C/svg%3E");}
+.hero .badge{display:inline-block;background:rgba(255,255,255,.2);backdrop-filter:blur(6px);padding:5px 14px;border-radius:20px;font-size:11px;font-weight:800;letter-spacing:1px;margin-bottom:10px;position:relative;}
+.hero h1{font-size:21px;font-weight:900;line-height:1.4;position:relative;z-index:1;}
+.hero h1 em{font-style:normal;color:#FFE08A;}
+.hero .sub{font-size:11.5px;opacity:.92;margin-top:6px;position:relative;z-index:1;}
+
+/* ── BONUS CARD ── */
+.bonus{background:var(--white);margin:-14px 14px 0;border-radius:16px;padding:14px 16px;box-shadow:0 6px 20px rgba(0,0,0,.06);position:relative;z-index:5;border:1.5px solid var(--gold-light);}
+.bonus-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px;}
+.bonus-top .lbl{font-size:12.5px;font-weight:800;display:flex;align-items:center;gap:6px;white-space:nowrap;}
+.bonus-top .lbl .ic{color:var(--gold);}
+.bonus-top .goal{flex:0 0 auto;font-size:10.5px;font-weight:800;color:var(--gold);background:var(--gold-light);padding:4px 10px;border-radius:12px;white-space:nowrap;}
+.bar-bg{height:11px;background:#EEF0F4;border-radius:8px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,#E6B422,#F5D061);width:68%;}
+.bonus-foot{display:flex;justify-content:space-between;gap:8px;font-size:11px;font-weight:600;color:var(--text-mid);margin-top:8px;white-space:nowrap;}
+.bonus-foot b{color:var(--gold);}
+
+/* ── FILTER CHIPS ── */
+.filters{display:flex;gap:8px;overflow-x:auto;padding:16px 14px 6px;scrollbar-width:none;}
+.filters::-webkit-scrollbar{display:none;}
+.chip{flex:0 0 auto;font-size:12px;font-weight:700;padding:8px 15px;border-radius:20px;background:var(--white);color:var(--text-mid);border:1.5px solid rgba(45,90,142,.12);white-space:nowrap;}
+.chip.on{background:var(--primary);color:#fff;border-color:var(--primary);}
+
+/* ── LIST ── */
+.list{padding:8px 14px 90px;}
+.day-label{font-size:11px;font-weight:800;color:var(--text-light);letter-spacing:1px;margin:14px 4px 8px;}
+
+.card{background:var(--white);border-radius:18px;padding:16px;margin-bottom:13px;box-shadow:0 3px 16px rgba(0,0,0,.05);border:1.5px solid rgba(0,0,0,.04);position:relative;}
+.card.night{border-color:rgba(45,90,142,.18);background:linear-gradient(180deg,#FBFCFF,#F4F7FC);}
+.c-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px;}
+.c-fac{display:flex;align-items:center;gap:8px;}
+.c-fac .ic{width:30px;height:30px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:15px;}
+.ic.h1{background:linear-gradient(135deg,#E3F2FD,#BBDEFB);}
+.ic.h2{background:linear-gradient(135deg,#E8F5E9,#C8E6C9);}
+.ic.h3{background:linear-gradient(135deg,#FFF3E0,#FFE0B2);}
+.c-fac .nm{font-size:13.5px;font-weight:800;line-height:1.2;}
+.c-fac .nm small{display:block;font-size:10px;font-weight:500;color:var(--text-light);}
+.seats{font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:12px;background:var(--green-light);color:var(--green);}
+.seats.few{background:var(--orange-light);color:var(--orange);}
+
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:11px;}
+.tag{font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:8px;}
+.tag.nurse{background:#EAF1FA;color:var(--primary);}
+.tag.care{background:var(--green-light);color:var(--green);}
+.tag.night{background:#23304A;color:#FFE08A;}
+
+.c-time{font-size:12.5px;font-weight:700;color:var(--text-mid);margin-bottom:12px;display:flex;align-items:center;gap:7px;}
+.c-time .dt{font-weight:900;color:var(--text);}
+
+.pay-row{display:flex;align-items:center;justify-content:space-between;gap:8px;background:var(--bg);border-radius:13px;padding:12px 14px;margin-bottom:9px;}
+.pay{flex:0 0 auto;min-width:0;}
+.pay .yen{font-size:24px;font-weight:900;color:var(--primary);line-height:1;white-space:nowrap;}
+.pay .yen small{font-size:12px;font-weight:700;}
+.duty{font-size:11.5px;color:var(--text-mid);font-weight:600;margin:0 2px 12px;display:flex;align-items:center;gap:6px;}
+.duty::before{content:'📝';font-size:12px;}
+.otoku{flex:0 0 auto;text-align:right;}
+.otoku .pill{display:inline-block;background:linear-gradient(135deg,#FF8C42,#FFB066);color:#fff;font-size:11px;font-weight:900;padding:5px 11px;border-radius:20px;box-shadow:0 3px 8px rgba(255,140,66,.3);white-space:nowrap;}
+.otoku .note{font-size:9.5px;color:var(--text-light);margin-top:5px;font-weight:600;white-space:nowrap;}
+.otoku .note s{color:var(--text-light);}
+
+.apply{display:block;width:100%;text-align:center;background:var(--line);color:#fff;font-size:14px;font-weight:900;padding:13px;border-radius:13px;border:none;font-family:inherit;box-shadow:0 4px 12px rgba(6,199,85,.28);letter-spacing:1px;}
+.apply .li{font-weight:700;font-size:11px;opacity:.9;}
+
+/* ── BOTTOM NAV ── */
+.nav{position:sticky;bottom:0;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-top:1px solid rgba(45,90,142,.1);display:flex;justify-content:space-around;padding:9px 0 12px;}
+.nav a{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;font-weight:700;color:var(--text-light);text-decoration:none;}
+.nav a .i{font-size:19px;}
+.nav a.on{color:var(--primary);}
+
+.mocknote{max-width:400px;margin:14px auto 0;font-size:11px;color:#6a7a90;text-align:center;line-height:1.6;}
+.empty{text-align:center;color:var(--text-light);font-size:13px;font-weight:700;padding:48px 16px;}
+.apply.done{background:#E7F6EC;color:var(--green);box-shadow:none;}
+.apply:disabled{opacity:.6;box-shadow:none;}
+#toast{position:fixed;left:50%;bottom:88px;transform:translateX(-50%) translateY(20px);background:var(--text);color:#fff;font-size:12.5px;font-weight:700;padding:11px 20px;border-radius:24px;opacity:0;transition:all .3s;z-index:99;box-shadow:0 8px 24px rgba(0,0,0,.28);max-width:88%;text-align:center;}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+<div class="phone">
+
+  <!-- LINE bar -->
+  <div class="line-bar"><span class="dot"></span>LINE で開いています ・ ようき公式</div>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="brand">
+      <div class="mark">🤝</div>
+      <div class="t">陽気スポジョブ<span>YOUKI SPOT WORK</span></div>
+    </div>
+    <div class="bell">🔔</div>
+  </div>
+
+  <!-- Hero -->
+  <div class="hero">
+    <span class="badge">⚡ 手数料0円だから高時給</span>
+    <h1>シェアフルより<em>高い時給</em>で<br>働けます。</h1>
+    <div class="sub">看護師 時給¥2,200／介護¥1,400／夜勤¥1,500 ・ 100時間ごとに¥10,000ボーナス</div>
+  </div>
+
+  <!-- Bonus progress -->
+  <div class="bonus">
+    <div class="bonus-top">
+      <div class="lbl"><span class="ic">🎁</span>ボーナスまであと少し</div>
+      <div class="goal">100時間で¥10,000</div>
+    </div>
+    <div class="bar-bg"><div class="bar-fill" id="bFill"></div></div>
+    <div class="bonus-foot"><span>累計 <b id="bHours">68時間</b></span><span id="bNext">あと<b>32時間</b>で¥10,000🎉</span></div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters" id="filters">
+    <div class="chip on" data-f="all">すべて</div>
+    <div class="chip" data-f="看護師">看護師</div>
+    <div class="chip" data-f="介護">介護</div>
+    <div class="chip" data-f="夜勤">介護夜勤</div>
+  </div>
+
+  <!-- List (rendered by JS from GAS shifts API, sample fallback) -->
+  <div class="list" id="list"></div>
+
+  <!-- Bottom nav -->
+  <div class="nav">
+    <a class="on"><span class="i">📋</span>シフト</a>
+    <a><span class="i">✋</span>応募中</a>
+    <a><span class="i">🎁</span>ボーナス</a>
+    <a><span class="i">👤</span>マイページ</a>
+  </div>
+
+</div>
+<div class="mocknote" id="mocknote">※ サンプル表示中。GAS（spojob-backend）とLIFFを設定すると、実データ・LINE応募で動きます。</div>
+<div id="toast"></div>
+
+<script src="../scripts/spojob-config.js"></script>
+<script>
+const CFG = window.SPOJOB_CONFIG || {};
+const GAS = CFG.gasUrl || '', LIFF_ID = CFG.liffId || '';
+let UID = null, ALL = [], FILTER = 'all';
+
+const SAMPLE = [
+  {shift_id:'s1',service:'訪問看護',date:'2026-06-20',pattern:'午前',start:'8:00',end:'13:00',job:'看護師',night:false,oncall:false,wage:2200,duty:'服薬管理・バイタル・処置',seats:1,applied:false},
+  {shift_id:'s2',service:'訪問介護ようき',date:'2026-06-21',pattern:'夜勤',start:'16:30',end:'翌8:30',job:'介護',night:true,oncall:false,wage:1500,duty:'見守り・排泄・記録',seats:2,applied:false,timenote:'（16時間・仮眠あり）'},
+  {shift_id:'s3',service:'訪問介護ようき',date:'2026-06-22',pattern:'日勤(通し)',start:'8:00',end:'17:00',job:'介護',night:false,oncall:false,wage:1400,duty:'入浴介助・食事・レク',seats:1,applied:false,timenote:'（休憩60分）'},
+  {shift_id:'s4',service:'訪問看護',date:'2026-06-22',pattern:'午後',start:'13:00',end:'18:00',job:'看護師',night:false,oncall:false,wage:2200,duty:'バイタル・服薬・処置',seats:1,applied:false}
+];
+
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000);}
+function gasGet(p){return fetch(GAS+'?'+new URLSearchParams(p)).then(r=>r.json());}
+function gasPost(b){return fetch(GAS,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(b)}).then(r=>r.json());}
+function fmtDate(iso){const d=new Date(iso+'T00:00:00');const w=['日','月','火','水','木','金','土'][d.getDay()];return `${d.getMonth()+1}月${d.getDate()}日（${w}）`;}
+function base(job){return job==='看護師'?2000:1300;}
+
+function cardHTML(s){
+  const jobCls=s.job==='看護師'?'nurse':'care';
+  const patTag=s.night?`<span class="tag night">🌙 ${s.pattern||'夜勤'}</span>`:`<span class="tag">${s.pattern||''}</span>`;
+  let otoku;
+  if(s.night)otoku=`<span class="pill">夜勤プレミア</span><div class="note">日勤より +¥100/時</div>`;
+  else if(s.oncall)otoku=`<span class="pill">待機＋実働</span><div class="note">待機手当あり</div>`;
+  else{const diff=s.wage-base(s.job);otoku=`<span class="pill">+¥${diff} お得</span><div class="note"><s>シェアフル ¥${base(s.job).toLocaleString()}</s></div>`;}
+  const seatsCls=s.seats<=1?'seats few':'seats';
+  const btn=s.applied?`<button class="apply done">✓ 応募済み</button>`
+    :`<button class="apply" onclick="doApply('${s.shift_id}',this)">応募する <span class="li">▶ LINEでかんたん</span></button>`;
+  return `<div class="card${s.night?' night':''}">
+    <div class="c-head"><div class="c-fac"><div class="ic ${s.night?'h3':(s.job==='看護師'?'h1':'h2')}">${s.night?'🌙':(s.job==='看護師'?'🩺':'🤝')}</div><div class="nm">${s.service||s.job}</div></div><div class="${seatsCls}">残り${s.seats}名</div></div>
+    <div class="tags"><span class="tag ${jobCls}">${s.job}</span>${patTag}</div>
+    <div class="c-time">${s.night?'🌙':'🕗'} <span class="dt">${s.start}〜${s.end}</span>${s.timenote||''}</div>
+    <div class="pay-row"><div class="pay"><div class="yen">¥${Number(s.wage).toLocaleString()}<small>/時</small></div></div><div class="otoku">${otoku}</div></div>
+    <div class="duty">${s.duty||''}</div>
+    ${btn}
+  </div>`;
+}
+
+function render(){
+  const items=ALL.filter(s=>{
+    if(FILTER==='all')return true;
+    if(FILTER==='看護師'||FILTER==='介護')return s.job===FILTER;
+    if(FILTER==='夜勤')return s.night;
+    return true;
+  });
+  const list=document.getElementById('list');
+  if(!items.length){list.innerHTML='<div class="empty">該当する募集はありません</div>';return;}
+  let html='',cur='';
+  items.forEach(s=>{if(s.date!==cur){cur=s.date;html+=`<div class="day-label">${fmtDate(s.date)}</div>`;}html+=cardHTML(s);});
+  list.innerHTML=html;
+}
+
+document.getElementById('filters').addEventListener('click',e=>{
+  const c=e.target.closest('.chip');if(!c)return;
+  document.querySelectorAll('#filters .chip').forEach(x=>x.classList.remove('on'));
+  c.classList.add('on');FILTER=c.dataset.f;render();
+});
+
+async function doApply(sid,btn){
+  if(!GAS){toast('（サンプル）応募しました。LINE連携後に本登録されます');btn.outerHTML='<button class="apply done">✓ 応募済み</button>';return;}
+  if(!UID){toast('LINEログインが必要です');return;}
+  btn.disabled=true;
+  try{
+    const res=await gasPost({action:'apply',line_user_id:UID,shift_id:sid});
+    if(res.need_register){location.href='register.html';return;}
+    if(res.status==='ok'){btn.outerHTML='<button class="apply done">✓ 応募済み</button>';toast(res.already?'すでに応募済みです':'応募しました！結果はLINEで届きます');}
+    else{toast('応募に失敗しました');btn.disabled=false;}
+  }catch(e){toast('通信エラー');btn.disabled=false;}
+}
+
+async function loadBonus(){
+  try{const m=await gasGet({action:'mypage',uid:UID});
+    if(m.status==='ok'&&m.registered){const h=m.total_hours||0,next=m.to_next||(100-h%100);
+      document.getElementById('bHours').textContent=h+'時間';
+      document.getElementById('bNext').innerHTML=`あと<b>${next}時間</b>で¥10,000🎉`;
+      document.getElementById('bFill').style.width=((h%100)/100*100)+'%';}
+  }catch(e){}
+}
+
+async function boot(){
+  if(GAS&&LIFF_ID){
+    await new Promise(res=>{const s=document.createElement('script');s.src='https://static.line-scdn.net/liff/edge/2/sdk.js';s.onload=res;s.onerror=res;document.head.appendChild(s);});
+    try{
+      await liff.init({liffId:LIFF_ID});
+      if(!liff.isLoggedIn()){liff.login();return;}
+      UID=(await liff.getProfile()).userId;
+      document.getElementById('mocknote').style.display='none';
+      const m=await gasGet({action:'mypage',uid:UID});
+      if(m.status==='ok'&&!m.registered){location.href='register.html';return;}
+      const res=await gasGet({action:'shifts',uid:UID});
+      if(res.status==='ok'){ALL=res.shifts;render();loadBonus();return;}
+    }catch(e){/* サンプルへフォールバック */}
+  }
+  ALL=SAMPLE;render();
+}
+boot();
+</script>
+</body>
+</html>

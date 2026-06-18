@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>スポット登録 | 陽気スポジョブ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800;900&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --primary:#2D5A8E;--primary-light:#4A8FD4;
+  --green:#4CAF7D;--green-light:#E8F5E9;
+  --gold:#D4A017;--line:#06C755;
+  --bg:#F7F9FC;--white:#FFFFFF;
+  --text:#1A1A2E;--text-mid:#4A4A68;--text-light:#8888A0;
+  --bd:rgba(45,90,142,.14);
+}
+body{font-family:'M PLUS Rounded 1c','Noto Sans JP',sans-serif;background:#E8EDF3;color:var(--text);display:flex;flex-direction:column;align-items:center;padding:16px 6px;-webkit-font-smoothing:antialiased;}
+.phone{width:100%;max-width:412px;background:var(--bg);border-radius:32px;overflow:hidden;box-shadow:0 20px 60px rgba(45,90,142,.18),0 4px 12px rgba(0,0,0,.06);min-height:840px;}
+.line-bar{background:var(--line);color:#fff;font-size:12px;font-weight:700;padding:7px 16px;display:flex;align-items:center;gap:6px;}
+.line-bar .dot{width:8px;height:8px;border-radius:50%;background:#fff;}
+.header{background:var(--white);padding:14px 18px;display:flex;align-items:center;gap:9px;border-bottom:1px solid rgba(45,90,142,.08);}
+.mark{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#2D5A8E,#4A8FD4);display:flex;align-items:center;justify-content:center;font-size:18px;}
+.brand .t{font-size:15px;font-weight:900;line-height:1.15;}
+.brand .t span{display:block;font-size:9px;font-weight:500;color:var(--text-light);letter-spacing:1px;}
+.hero{background:linear-gradient(135deg,#2D5A8E,#4A8FD4 60%,#6FC8DD);color:#fff;padding:22px 20px;}
+.hero h1{font-size:20px;font-weight:900;line-height:1.4;}
+.hero h1 em{font-style:normal;color:#FFE08A;}
+.hero p{font-size:12px;opacity:.93;margin-top:7px;}
+.form{padding:20px 18px 90px;}
+.fld{margin-bottom:18px;}
+.fld label{display:block;font-size:13px;font-weight:800;margin-bottom:8px;}
+.fld label .req{color:#E8594F;font-size:11px;margin-left:5px;}
+.fld input[type=text],.fld input[type=tel],.fld select{width:100%;font-family:inherit;font-size:15px;font-weight:600;padding:12px 14px;border:1.5px solid var(--bd);border-radius:12px;background:var(--white);outline:none;}
+.fld input:focus,.fld select:focus{border-color:var(--primary-light);}
+.radios{display:flex;gap:10px;}
+.radios label{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;font-size:14px;font-weight:800;padding:13px;border:1.5px solid var(--bd);border-radius:12px;background:var(--white);cursor:pointer;}
+.radios input{display:none;}
+.radios input:checked+span{color:var(--primary);}
+.radios label:has(input:checked){border-color:var(--primary);background:#EAF1FA;}
+.chk{display:flex;align-items:center;gap:10px;font-size:13px;font-weight:700;color:var(--text-mid);background:var(--white);border:1.5px solid var(--bd);border-radius:12px;padding:13px 14px;cursor:pointer;}
+.chk input{width:18px;height:18px;accent-color:var(--primary);}
+.hint{font-size:11px;color:var(--text-light);font-weight:600;margin-top:6px;}
+.submit{display:block;width:100%;text-align:center;background:var(--line);color:#fff;font-size:15px;font-weight:900;padding:15px;border-radius:14px;border:none;font-family:inherit;box-shadow:0 5px 14px rgba(6,199,85,.3);letter-spacing:1px;margin-top:6px;cursor:pointer;}
+.submit:disabled{opacity:.55;box-shadow:none;cursor:default;}
+.note{font-size:11px;color:var(--text-light);text-align:center;margin-top:14px;line-height:1.6;}
+.err{display:none;color:#E8594F;font-size:12px;font-weight:700;margin-top:6px;}
+.err.show{display:block;}
+.mocknote{max-width:412px;margin:14px auto 0;font-size:11px;color:#6a7a90;text-align:center;line-height:1.6;}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--text);color:#fff;font-size:12.5px;font-weight:700;padding:12px 22px;border-radius:30px;opacity:0;transition:all .3s;z-index:99;box-shadow:0 8px 24px rgba(0,0,0,.28);max-width:90%;text-align:center;}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="line-bar"><span class="dot"></span>LINE で開いています ・ ようき公式</div>
+  <div class="header">
+    <div class="mark">🤝</div>
+    <div class="brand"><div class="t">陽気スポジョブ<span>YOUKI SPOT WORK</span></div></div>
+  </div>
+  <div class="hero">
+    <h1>スポット勤務に<br><em>30秒で登録</em>。</h1>
+    <p>手数料0円だから高時給。看護師¥2,200／介護¥1,400／夜勤¥1,500・100時間ごとに¥10,000ボーナス。</p>
+  </div>
+
+  <form class="form" id="form">
+    <div class="fld">
+      <label>お名前<span class="req">必須</span></label>
+      <input type="text" id="name" placeholder="陽気 花子" autocomplete="name">
+      <div class="err" id="err-name">お名前を入力してください</div>
+    </div>
+    <div class="fld">
+      <label>ふりがな</label>
+      <input type="text" id="kana" placeholder="ようき はなこ">
+    </div>
+    <div class="fld">
+      <label>職種<span class="req">必須</span></label>
+      <div class="radios">
+        <label><input type="radio" name="job" value="看護師"><span>🩺 看護師</span></label>
+        <label><input type="radio" name="job" value="介護"><span>🤝 介護</span></label>
+      </div>
+    </div>
+    <div class="fld">
+      <label>保有資格</label>
+      <input type="text" id="license" placeholder="正看護師 / 准看護師 / 介護福祉士 など">
+    </div>
+    <div class="fld">
+      <label>介護・看護の経験</label>
+      <select id="years">
+        <option value="">選択してください</option>
+        <option>1年未満</option><option>1〜3年</option><option>3〜5年</option><option>5〜10年</option><option>10年以上</option>
+      </select>
+    </div>
+    <div class="fld">
+      <label>電話番号<span class="req">必須</span></label>
+      <input type="tel" id="tel" placeholder="090-0000-0000" autocomplete="tel">
+      <div class="err" id="err-tel">電話番号を入力してください</div>
+    </div>
+    <div class="fld">
+      <label class="chk"><input type="checkbox" id="via"> シェアフル経由で陽気を知りました</label>
+      <div class="hint">※ 任意。シェアフルで来てくれた方は優先的にご案内します。</div>
+    </div>
+    <button type="submit" class="submit" id="submit">この内容で登録する</button>
+    <div class="note">登録すると、あなたの職種に合った空きシフトが<br>LINEに届くようになります。</div>
+  </form>
+</div>
+<div class="mocknote" id="mocknote">※ サンプル表示中。GAS（spojob-backend）とLIFFを設定するとLINEログイン＋本登録で動きます。</div>
+<div id="toast"></div>
+
+<script src="../scripts/spojob-config.js"></script>
+<script>
+const CFG = window.SPOJOB_CONFIG || {};
+const GAS = CFG.gasUrl || '', LIFF_ID = CFG.liffId || '';
+let UID = null;
+
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+function gasPost(body){return fetch(GAS,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body)}).then(r=>r.json());}
+function gasGet(p){return fetch(GAS+'?'+new URLSearchParams(p)).then(r=>r.json());}
+function val(id){return (document.getElementById(id).value||'').trim();}
+function job(){const r=document.querySelector('input[name=job]:checked');return r?r.value:'';}
+
+function validate(){
+  let ok=true;
+  document.getElementById('err-name').classList.toggle('show', !val('name')); if(!val('name'))ok=false;
+  document.getElementById('err-tel').classList.toggle('show', !val('tel')); if(!val('tel'))ok=false;
+  if(!job()){toast('職種を選んでください');ok=false;}
+  return ok;
+}
+
+document.getElementById('form').addEventListener('submit', async e=>{
+  e.preventDefault();
+  if(!validate())return;
+  const data={action:'register',line_user_id:UID||('SAMPLE_'+Date.now()),name:val('name'),kana:val('kana'),
+    job:job(),license:val('license'),years:val('years'),tel:val('tel'),via_sharefull:document.getElementById('via').checked};
+  const btn=document.getElementById('submit');btn.disabled=true;btn.textContent='登録中…';
+  if(!GAS){
+    toast('（サンプル）登録しました。シフト一覧へ進みます');
+    setTimeout(()=>location.href='shifts.html',1200);return;
+  }
+  try{
+    const res=await gasPost(data);
+    if(res.status==='ok'){toast(res.updated?'登録を更新しました':'登録しました！');setTimeout(()=>location.href='shifts.html',1200);}
+    else{toast('登録に失敗しました');btn.disabled=false;btn.textContent='この内容で登録する';}
+  }catch(err){toast('通信エラー');btn.disabled=false;btn.textContent='この内容で登録する';}
+});
+
+async function boot(){
+  if(GAS&&LIFF_ID){
+    await new Promise((res)=>{const s=document.createElement('script');s.src='https://static.line-scdn.net/liff/edge/2/sdk.js';s.onload=res;s.onerror=res;document.head.appendChild(s);});
+    try{
+      await liff.init({liffId:LIFF_ID});
+      if(!liff.isLoggedIn()){liff.login();return;}
+      const p=await liff.getProfile();UID=p.userId;
+      document.getElementById('mocknote').style.display='none';
+      // 既に登録済みなら一覧へ
+      const m=await gasGet({action:'mypage',uid:UID});
+      if(m.status==='ok'&&m.registered){location.replace('shifts.html');return;}
+      if(p.displayName&&!val('name'))document.getElementById('name').value=p.displayName;
+    }catch(e){/* サンプルとして続行 */}
+  }
+}
+boot();
+</script>
+</body>
+</html>

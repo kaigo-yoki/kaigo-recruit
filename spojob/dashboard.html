@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>不足枠ダッシュボード | 陽気スポジョブ 管理</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800;900&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --primary:#2D5A8E;--primary-light:#4A8FD4;
+  --green:#4CAF7D;--green-light:#E8F5E9;
+  --orange:#FF8C42;--orange-light:#FFF3E8;
+  --red:#E8594F;--red-light:#FFEBEE;
+  --gold:#D4A017;--gold-light:#FBF3DC;
+  --line:#06C755;
+  --bg:#F2F5F9;--white:#FFFFFF;
+  --text:#1A1A2E;--text-mid:#4A4A68;--text-light:#8A8AA0;
+  --bd:rgba(45,90,142,.10);
+}
+body{font-family:'M PLUS Rounded 1c','Noto Sans JP',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;padding:0 0 60px;}
+
+/* Header */
+.top{background:var(--white);border-bottom:1px solid var(--bd);padding:14px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:30;flex-wrap:wrap;gap:12px;}
+.brand{display:flex;align-items:center;gap:11px;}
+.brand .mk{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#2D5A8E,#4A8FD4);display:flex;align-items:center;justify-content:center;font-size:20px;}
+.brand .t{font-size:17px;font-weight:900;line-height:1.15;}
+.brand .t span{display:block;font-size:10px;font-weight:600;color:var(--text-light);letter-spacing:1px;}
+.top-right{display:flex;align-items:center;gap:12px;}
+.link-pj{font-size:11px;font-weight:700;color:var(--primary);background:#EAF1FA;padding:7px 13px;border-radius:20px;}
+.month{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:800;background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:7px 14px;}
+.month select{font-family:inherit;font-weight:800;font-size:14px;border:none;background:transparent;color:var(--primary);outline:none;}
+
+.wrap{max-width:1000px;margin:0 auto;padding:24px 24px 0;}
+.h1{font-size:20px;font-weight:900;display:flex;align-items:center;gap:9px;margin-bottom:4px;}
+.sub{font-size:12.5px;color:var(--text-mid);margin-bottom:22px;}
+code{background:#EEF2F7;padding:1px 6px;border-radius:5px;font-size:12px;}
+
+/* Summary cards */
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px;}
+.card{background:var(--white);border:1px solid var(--bd);border-radius:16px;padding:16px 18px;box-shadow:0 2px 12px rgba(0,0,0,.03);}
+.card .lbl{font-size:11px;font-weight:700;color:var(--text-light);letter-spacing:.5px;margin-bottom:8px;}
+.card .val{font-size:28px;font-weight:900;color:var(--primary);line-height:1;}
+.card .val small{font-size:13px;font-weight:700;color:var(--text-mid);}
+.card .note{font-size:10.5px;color:var(--text-light);margin-top:7px;font-weight:600;}
+.card.short{border-color:rgba(255,140,66,.35);background:var(--orange-light);}
+.card.short .val{color:var(--orange);}
+.card.rep{border-color:rgba(212,160,23,.4);background:var(--gold-light);}
+.card.rep .val{color:#B8860B;}
+
+/* Panel */
+.panel{background:var(--white);border:1px solid var(--bd);border-radius:18px;padding:22px;margin-bottom:22px;box-shadow:0 2px 14px rgba(0,0,0,.03);}
+.panel-h{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px;flex-wrap:wrap;}
+.panel-h .ttl{font-size:15px;font-weight:900;display:flex;align-items:center;gap:8px;}
+.panel-h .desc{font-size:11.5px;color:var(--text-light);font-weight:600;}
+
+/* Block grid (曜日 × 午前/午後) */
+.blocks{display:grid;grid-template-columns:96px 1fr 1fr;gap:8px;margin-top:16px;}
+.blocks .bh{font-size:12px;font-weight:800;color:var(--text-mid);text-align:center;padding:6px 0;}
+.blocks .bh small{display:block;font-size:10px;font-weight:600;color:var(--text-light);}
+.blocks .wd{display:flex;align-items:center;font-size:13px;font-weight:800;color:var(--text-mid);padding-left:4px;}
+.blocks .wd.we{color:var(--red);}
+.blocks .wd small{font-weight:600;color:var(--text-light);font-size:10px;margin-left:5px;}
+.bcell{height:52px;border-radius:11px;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:900;background:#EDF1F6;color:var(--text-light);position:relative;}
+.bcell.n1{background:#FFE0C2;color:#C25A12;}
+.bcell.n2{background:#FF8C42;color:#fff;}
+.bcell.n3{background:#E8594F;color:#fff;}
+.bcell .big{font-size:20px;}
+.bcell .u{font-size:11px;font-weight:800;}
+.bcell .pk{position:absolute;top:5px;right:9px;font-size:9.5px;font-weight:800;opacity:.75;}
+.bcell .ok{position:absolute;bottom:4px;font-size:9px;font-weight:700;opacity:.85;}
+.legend{display:flex;align-items:center;gap:14px;font-size:11px;font-weight:700;color:var(--text-mid);margin-top:14px;flex-wrap:wrap;}
+.legend .sw{display:inline-flex;align-items:center;gap:6px;}
+.legend .box{width:15px;height:15px;border-radius:4px;}
+.cap-note{font-size:11px;color:var(--text-light);margin-top:11px;font-weight:600;}
+
+/* Rep offload */
+.rep-row{display:flex;align-items:center;gap:26px;margin-top:14px;flex-wrap:wrap;}
+.rep-total{text-align:center;}
+.rep-total .n{font-size:40px;font-weight:900;color:#B8860B;line-height:1;}
+.rep-total .l{font-size:11px;font-weight:700;color:var(--text-mid);margin-top:4px;}
+.rep-split{flex:1;min-width:240px;}
+.rep-line{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.rep-line .tag{font-size:12px;font-weight:800;width:42px;color:var(--text-mid);}
+.rep-line .track{flex:1;height:16px;background:#F0F2F6;border-radius:8px;overflow:hidden;}
+.rep-line .fill{height:100%;background:linear-gradient(90deg,#E6B422,#F5D061);border-radius:8px;}
+.rep-line .c{font-size:12px;font-weight:800;color:#B8860B;width:36px;text-align:right;}
+.rep-msg{font-size:11.5px;color:var(--text-mid);font-weight:600;margin-top:4px;}
+
+/* segmented */
+.seg{display:inline-flex;background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:3px;gap:3px;}
+.seg span{font-size:11.5px;font-weight:800;padding:6px 13px;border-radius:8px;color:var(--text-mid);}
+.seg span.on{background:var(--primary);color:#fff;}
+
+/* table */
+.tbl{width:100%;border-collapse:collapse;margin-top:14px;}
+.tbl th{font-size:11px;font-weight:700;color:var(--text-light);text-align:left;padding:9px 12px;border-bottom:2px solid var(--bd);letter-spacing:.5px;}
+.tbl td{font-size:13px;font-weight:600;padding:11px 12px;border-bottom:1px solid var(--bd);}
+.tbl tr:hover td{background:#FAFBFD;}
+.pill{display:inline-block;font-size:11px;font-weight:800;padding:3px 10px;border-radius:12px;}
+.pill.wd{background:#EAF1FA;color:var(--primary);}
+.pill.we{background:var(--red-light);color:var(--red);}
+.pill.need{background:var(--orange);color:#fff;}
+.pill.am{background:#E8F1FC;color:#2D5A8E;}
+.pill.pm{background:#FFF1E6;color:#C25A12;}
+.pill.day{background:#EDE7FB;color:#6A4FB5;}
+.yen{font-weight:900;color:var(--primary);}
+.btn{font-family:inherit;font-weight:800;font-size:12px;border:none;border-radius:9px;padding:8px 14px;cursor:pointer;transition:transform .15s;}
+.btn.line{background:var(--line);color:#fff;box-shadow:0 3px 9px rgba(6,199,85,.28);}
+.btn.line:hover{transform:translateY(-1px);}
+.btn.done{background:#E7F6EC;color:var(--green);}
+.bulk{display:flex;align-items:center;justify-content:space-between;gap:14px;background:#F0FAF3;border:1.5px solid rgba(76,175,125,.3);border-radius:14px;padding:14px 18px;margin-top:16px;flex-wrap:wrap;}
+.bulk .txt{font-size:12.5px;font-weight:700;color:var(--text-mid);}
+.bulk .txt b{color:var(--green);font-size:15px;}
+.btn.big{background:var(--line);color:#fff;font-size:14px;padding:12px 22px;border-radius:12px;box-shadow:0 5px 14px rgba(6,199,85,.3);}
+.btn.big:hover{transform:translateY(-1px);}
+
+.mocknote{max-width:1000px;margin:20px auto 0;padding:0 24px;font-size:11.5px;color:#7a89a0;line-height:1.7;}
+
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--text);color:#fff;font-size:13px;font-weight:700;padding:12px 22px;border-radius:30px;opacity:0;transition:all .3s;z-index:99;box-shadow:0 8px 24px rgba(0,0,0,.25);}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+@media(max-width:760px){.cards{grid-template-columns:repeat(2,1fr);}}
+
+/* 募集作成フォーム */
+.cre{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:8px;}
+.cre .f{display:flex;flex-direction:column;gap:6px;}
+.cre .f.f-wide{grid-column:span 2;}
+.cre label{font-size:11px;font-weight:800;color:var(--text-mid);}
+.cre select,.cre input{font-family:inherit;font-size:14px;font-weight:600;padding:10px 12px;border:1.5px solid var(--bd);border-radius:10px;background:#fff;outline:none;}
+.cre select:focus,.cre input:focus{border-color:var(--primary-light);}
+.wage-box{font-size:18px;font-weight:900;color:var(--primary);padding:8px 0;}
+/* 募集と応募の管理 */
+.mrow{border:1px solid var(--bd);border-radius:14px;padding:14px 16px;margin-bottom:12px;}
+.mrow-h{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+.mrow-h .info{font-size:13.5px;font-weight:800;}
+.mrow-h .info small{font-weight:600;color:var(--text-light);margin-left:6px;}
+.badges{display:flex;gap:6px;align-items:center;}
+.b-fill{background:var(--green-light);color:var(--green);font-size:11px;font-weight:800;padding:4px 10px;border-radius:12px;}
+.b-pend{background:var(--orange-light);color:var(--orange);font-size:11px;font-weight:800;padding:4px 10px;border-radius:12px;}
+.b-tog{font-size:11.5px;font-weight:800;color:var(--primary);background:#EAF1FA;border:none;border-radius:9px;padding:7px 12px;cursor:pointer;font-family:inherit;}
+.apps{margin-top:12px;border-top:1px dashed var(--bd);padding-top:6px;}
+.appr{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--bd);flex-wrap:wrap;}
+.appr:last-child{border-bottom:none;}
+.appr .who{font-size:13px;font-weight:700;}
+.appr .who small{font-weight:600;color:var(--text-light);margin-left:6px;}
+.appr .act{display:flex;gap:8px;}
+.btn-ok{background:var(--green);color:#fff;}
+.btn-ng{background:#fff;color:var(--red);border:1.5px solid rgba(232,89,79,.4);}
+.st-ok{color:var(--green);font-weight:800;font-size:12px;}
+.st-ng{color:var(--text-light);font-weight:700;font-size:12px;}
+.empty-m{color:var(--text-light);font-size:13px;font-weight:600;padding:20px 0;text-align:center;}
+@media(max-width:760px){.cre{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="brand">
+    <div class="mk">📊</div>
+    <div class="t">陽気スポジョブ 管理<span>SHORTAGE DASHBOARD</span></div>
+  </div>
+  <div class="top-right">
+    <span class="link-pj">🔗 訪問スケジュール割り当てPJ 連携</span>
+    <div class="month">📅 <select id="monthSel"><option>2026-06</option><option>2026-07</option></select></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="h1">🩺 訪問看護 不足枠ダッシュボード</div>
+  <div class="sub">割り当てPJの <code>/api/sharefull</code>（30分需要）を <b>午前(8:00–13:00)／午後(13:00–18:00)</b> に集約。施設訪問で移動がないため、半日単位で募集します。</div>
+
+  <!-- Summary -->
+  <div class="cards">
+    <div class="card"><div class="lbl">総訪問件数（今月）</div><div class="val" id="cTotal">–</div><div class="note">かいポケ需要CSVより</div></div>
+    <div class="card"><div class="lbl">核ナース容量</div><div class="val">平日<small>2</small> ／ 土日<small>1</small></div><div class="note">伊福・大城・稲嶺</div></div>
+    <div class="card short"><div class="lbl">不足ブロック（午前/午後）</div><div class="val" id="cShort">–</div><div class="note" id="cShortNote">延べ – 名分／週</div></div>
+    <div class="card rep"><div class="lbl">嶺井オフロード目標</div><div class="val" id="cRep">–<small>件</small></div><div class="note">代表をスポットで解放</div></div>
+  </div>
+
+  <!-- Block heatmap -->
+  <div class="panel">
+    <div class="panel-h">
+      <div class="ttl">🗓 曜日 × 午前/午後 の不足</div>
+      <div class="desc">数字＝必要人数（そのブロック内のピーク需要） ／ 右上＝最大同時</div>
+    </div>
+    <div class="blocks" id="blocks"></div>
+    <div class="legend">
+      <span class="sw"><span class="box" style="background:#EDF1F6"></span>充足</span>
+      <span class="sw"><span class="box" style="background:#FFE0C2"></span>不足1名</span>
+      <span class="sw"><span class="box" style="background:#FF8C42"></span>不足2名</span>
+      <span class="sw"><span class="box" style="background:#E8594F"></span>不足3名+</span>
+      <span class="sw">⏺ 午前・午後とも不足＝<b>1日(8:00–17:00)枠</b>でまとめられる</span>
+    </div>
+    <div class="cap-note">※ 30分単位では細かすぎ＆施設訪問で移動が無いため、半日（午前/午後）に丸めています。実不足が一部でも半日分を確保＝多少コスパは落ちるが運用がシンプル。</div>
+  </div>
+
+  <!-- Rep offload -->
+  <div class="panel">
+    <div class="panel-h">
+      <div class="ttl">👑 代表(嶺井)オフロード</div>
+      <div class="desc">代表が最終手段で抱える訪問。スポットで肩代わりしたい</div>
+    </div>
+    <div class="rep-row">
+      <div class="rep-total"><div class="n" id="repN">–</div><div class="l">件／月</div></div>
+      <div class="rep-split">
+        <div class="rep-line"><span class="tag">午前</span><span class="track"><span class="fill" id="repAmBar"></span></span><span class="c" id="repAm">–</span></div>
+        <div class="rep-line"><span class="tag">午後</span><span class="track"><span class="fill" id="repPmBar"></span></span><span class="c" id="repPm">–</span></div>
+        <div class="rep-msg">この件数をスポット看護師に回せれば、代表は管理業務に集中できる。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Candidate list -->
+  <div class="panel">
+    <div class="panel-h">
+      <div class="ttl">📋 募集候補（不足ブロックを不足順に）</div>
+      <div class="seg">募集単位 <span class="on">午前/午後</span><span>1日(8–17)</span></div>
+    </div>
+    <table class="tbl">
+      <thead><tr><th>曜日</th><th>枠</th><th>区分</th><th>必要人数</th><th>時給</th><th>1日化</th><th>起票</th></tr></thead>
+      <tbody id="candBody"></tbody>
+    </table>
+    <div class="bulk">
+      <div class="txt">検出した不足ブロック <b id="bulkN">–</b> を、まとめてスポジョブ募集に起票してLINE通知します。</div>
+      <button class="btn big" onclick="bulk()">⚡ まとめて募集を起票</button>
+    </div>
+  </div>
+
+  <!-- 新規募集を作成（スポジョブGAS: create_shift） -->
+  <div class="panel">
+    <div class="panel-h"><div class="ttl">📝 新規募集を作成</div><div class="desc">作成すると該当職種の登録者へLINEで新着通知</div></div>
+    <div class="cre">
+      <div class="f"><label>サービス</label><select id="fService"><option>訪問看護</option><option>訪問介護ようき</option></select></div>
+      <div class="f"><label>日付</label><input type="date" id="fDate"></div>
+      <div class="f"><label>シフトパターン</label><select id="fPattern"></select></div>
+      <div class="f"><label>必要人数</label><input type="number" id="fNeed" value="1" min="1" max="9"></div>
+      <div class="f"><label>時給（自動）</label><div class="wage-box" id="fWage">¥2,200/時</div></div>
+      <div class="f f-wide"><label>業務内容</label><input type="text" id="fDuty" placeholder="バイタル・服薬・処置 など"></div>
+    </div>
+    <button class="btn big" style="margin-top:8px" onclick="createShift(this)">＋ この内容で募集を作成</button>
+  </div>
+
+  <!-- 募集と応募の管理（admin_shifts / applications / approve・reject） -->
+  <div class="panel">
+    <div class="panel-h"><div class="ttl">🗂 募集と応募の管理</div><div class="desc">応募者を承認すると本人にLINEで確定通知</div></div>
+    <div id="manage"></div>
+  </div>
+</div>
+
+<div class="mocknote">※ 陽気スポジョブ「不足枠ダッシュボード」モック(v0.3)。上段の不足枠は <code>/api/sharefull</code>（割り当てPJ）、下段の募集作成・承認は スポジョブGAS と連携。<code>spojob-config.js</code> 未設定時はサンプルで動作。</div>
+<div id="toast"></div>
+
+<script>
+// ── /api/sharefull と同じ構造のサンプル（30分需要） ──
+const BANDS=[];for(let m=8*60;m<18*60;m+=30){BANDS.push(`${String(m/60|0).padStart(2,'0')}:${m%60===0?'00':'30'}`);}
+const WEEKDAY=[0,0,0,0,2,1,0,0,0,0,0,0,0,2,1,0,0,0,0,0];
+const WED    =[0,0,0,1,2,2,1,0,0,0,0,0,1,2,2,0,0,0,0,0];
+const FRI    =[0,0,0,0,2,1,0,0,0,0,0,0,1,2,1,0,0,0,0,0];
+const SAT    =[0,0,0,1,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0];
+const SUN    =[0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+function mk(prof,cap){return prof.map((n)=>({need:n,peak:n>0?n+1:0,avg:+(cap+n).toFixed(1),max:cap+(n>0?n+1:0)}));}
+const SAMPLE={available:true,month:"2026-06",total:520,rep_count:38,
+  rep_bands:{"09:00":4,"09:30":5,"10:00":6,"10:30":3,"14:00":5,"14:30":4,"15:00":3,"15:30":2,"16:00":2},
+  bands:BANDS,
+  rows:[
+    {wd:"月",cap:2,cells:mk(WEEKDAY,2)},{wd:"火",cap:2,cells:mk(WEEKDAY,2)},
+    {wd:"水",cap:2,cells:mk(WED,2)},{wd:"木",cap:2,cells:mk(WEEKDAY,2)},
+    {wd:"金",cap:2,cells:mk(FRI,2)},{wd:"土",cap:1,cells:mk(SAT,1)},{wd:"日",cap:1,cells:mk(SUN,1)},
+  ]};
+
+// ── 午前(8-13)/午後(13-18) に集約：ブロック内の最大needを必要人数に ──
+const BLOCKS=[{key:'午前',label:'8:00–13:00',from:8*60,to:13*60},{key:'午後',label:'13:00–18:00',from:13*60,to:18*60}];
+function toMin(b){const[h,m]=b.split(':').map(Number);return h*60+m;}
+function aggregate(d){
+  return d.rows.map(r=>{
+    const blk={};
+    BLOCKS.forEach(B=>{
+      let need=0,peak=0,max=0;
+      r.cells.forEach((c,i)=>{const t=toMin(d.bands[i]);if(t>=B.from&&t<B.to){need=Math.max(need,c.need);peak=Math.max(peak,c.peak);max=Math.max(max,c.max);}});
+      blk[B.key]={need,peak,max};
+    });
+    return {wd:r.wd,cap:r.cap,we:(r.wd==='土'||r.wd==='日'),blk};
+  });
+}
+function cls(n){return n>=3?'n3':n===2?'n2':n===1?'n1':'';}
+function el(t,c,txt){const e=document.createElement(t);e.className=c;if(txt!=null&&txt!=='')e.innerHTML=txt;return e;}
+
+function render(d){
+  const agg=aggregate(d);
+  // summary
+  document.getElementById('cTotal').innerHTML=d.total+'<small>件</small>';
+  let blkArr=agg.flatMap(r=>BLOCKS.map(B=>r.blk[B.key]));
+  let shortN=blkArr.filter(b=>b.need>0).length;
+  let shortSum=blkArr.reduce((a,b)=>a+b.need,0);
+  document.getElementById('cShort').innerHTML=shortN+'<small>枠</small>';
+  document.getElementById('cShortNote').textContent=`延べ ${shortSum} 名分／週`;
+  document.getElementById('cRep').innerHTML=d.rep_count+'<small>件</small>';
+
+  // block grid
+  const g=document.getElementById('blocks');g.innerHTML='';
+  g.appendChild(el('div','bh',''));
+  g.appendChild(el('div','bh','午前<small>8:00–13:00</small>'));
+  g.appendChild(el('div','bh','午後<small>13:00–18:00</small>'));
+  agg.forEach(r=>{
+    g.appendChild(el('div','wd'+(r.we?' we':''), r.wd+`<small>核${r.cap}</small>`));
+    const both=r.blk['午前'].need>0&&r.blk['午後'].need>0;
+    BLOCKS.forEach(B=>{
+      const b=r.blk[B.key];
+      let k='bcell '+(b.need>0?cls(b.need):'');
+      const cell=el('div',k, b.need>0?`<span class="big">${b.need}</span><span class="u">名</span>`:'<span class="u" style="opacity:.5">—</span>');
+      if(b.peak>0&&b.need>0)cell.appendChild(el('span','pk','最大'+b.max));
+      if(both)cell.appendChild(el('span','ok','⏺ 1日化可'));
+      g.appendChild(cell);
+    });
+  });
+
+  // rep offload (午前/午後集約)
+  let am=0,pm=0;Object.entries(d.rep_bands).forEach(([b,c])=>{toMin(b)<13*60?am+=c:pm+=c;});
+  const mx=Math.max(am,pm);
+  document.getElementById('repN').textContent=d.rep_count;
+  document.getElementById('repAm').textContent=am+'件';document.getElementById('repPm').textContent=pm+'件';
+  document.getElementById('repAmBar').style.width=(am/mx*100)+'%';
+  document.getElementById('repPmBar').style.width=(pm/mx*100)+'%';
+
+  // candidate list
+  const body=document.getElementById('candBody');body.innerHTML='';
+  const cand=[];
+  agg.forEach(r=>BLOCKS.forEach(B=>{const b=r.blk[B.key];if(b.need>0)cand.push({wd:r.wd,we:r.we,block:B.key,label:B.label,need:b.need,both:(r.blk['午前'].need>0&&r.blk['午後'].need>0)});}));
+  cand.sort((a,b)=>b.need-a.need);
+  cand.forEach(x=>{
+    const tr=document.createElement('tr');
+    const bp=x.block==='午前'?'am':'pm';
+    tr.innerHTML=`<td><span class="pill ${x.we?'we':'wd'}">${x.wd}曜</span></td>
+      <td><span class="pill ${bp}">${x.block}</span> ${x.label}</td>
+      <td>${x.we?'土日':'平日'}</td>
+      <td><span class="pill need">${x.need}名</span></td>
+      <td><span class="yen">¥2,200</span>/時</td>
+      <td>${x.both?'<span class="pill day">1日化可</span>':'—'}</td>
+      <td><button class="btn line" onclick="post(this,'${x.wd}曜 ${x.block}')">▶ 募集</button></td>`;
+    body.appendChild(tr);
+  });
+  document.getElementById('bulkN').textContent=cand.length+'枠';
+}
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1900);}
+function post(btn,label){btn.outerHTML='<button class="btn done">✓ 起票済み</button>';toast('「'+label+'」をスポジョブ募集に起票（LINE通知）');}
+function bulk(){document.querySelectorAll('.btn.line').forEach(b=>{if(b.textContent.includes('募集'))b.outerHTML='<button class="btn done">✓ 起票済み</button>';});toast('不足ブロックをまとめて起票🎉 スポット看護師へLINE通知');}
+render(SAMPLE);
+</script>
+
+<script src="../scripts/spojob-config.js"></script>
+<script>
+/* ── 施設側：募集作成 + 応募承認（スポジョブGAS連携 / 未設定時サンプル） ── */
+const SCFG = window.SPOJOB_CONFIG || {};
+const SGAS = SCFG.gasUrl || '', SKEY = SCFG.adminKey || '';
+const ADMIN_LIVE = !!(SGAS && SKEY);
+
+const MASTERS = {
+  '訪問看護':[{p:'午前',s:'8:00',e:'13:00'},{p:'午後',s:'13:00',e:'18:00'},{p:'1日',s:'8:00',e:'17:00'},{p:'オンコール',s:'',e:'',oncall:true}],
+  '訪問介護ようき':[{p:'早番',s:'6:00',e:'13:00'},{p:'遅番',s:'13:00',e:'18:00'},{p:'日勤(通し)',s:'8:00',e:'17:00'},{p:'夜勤',s:'16:30',e:'翌8:30',night:true}]
+};
+const WAGE = {'訪問看護':{日勤:2200},'訪問介護ようき':{日勤:1400,夜勤:1500}};
+const jobOf = svc => svc==='訪問看護'?'看護師':'介護';
+
+let SHIFTS = ADMIN_LIVE ? [] : [
+  {shift_id:'r1',service:'訪問看護',date:'2026-06-25',pattern:'午前',start:'8:00',end:'13:00',job:'看護師',need:1,filled:0,status:'募集中'},
+  {shift_id:'r2',service:'訪問介護ようき',date:'2026-06-26',pattern:'夜勤',start:'16:30',end:'翌8:30',job:'介護',need:2,filled:1,status:'募集中'}
+];
+let APPS = ADMIN_LIVE ? {} : {
+  r1:[{apply_id:'a1',name:'大城 美咲',job:'看護師',license:'正看護師',years:'5〜10年',status:'応募中'},
+      {apply_id:'a2',name:'宮城 由香',job:'看護師',license:'准看護師',years:'3〜5年',status:'応募中'}],
+  r2:[{apply_id:'a3',name:'比嘉 健太',job:'介護',license:'介護福祉士',years:'1〜3年',status:'承認'},
+      {apply_id:'a4',name:'金城 涼',job:'介護',license:'初任者研修',years:'1〜3年',status:'応募中'}]
+};
+
+function sGet(p){return fetch(SGAS+'?'+new URLSearchParams(p)).then(r=>r.json());}
+function sPost(b){return fetch(SGAS,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(b)}).then(r=>r.json());}
+function curPat(){const svc=fService.value;return MASTERS[svc].find(m=>m.p===fPattern.value)||{};}
+function wageOf(svc,pat){return (WAGE[svc]||{})[pat.night?'夜勤':'日勤'] || (WAGE[svc]||{}).日勤 || 0;}
+
+function fillPatterns(){
+  fPattern.innerHTML='';
+  MASTERS[fService.value].forEach(m=>{const o=document.createElement('option');o.value=m.p;o.textContent=m.p+(m.s?` (${m.s}〜${m.e})`:'');fPattern.appendChild(o);});
+  updateWage();
+}
+function updateWage(){fWage.textContent='¥'+wageOf(fService.value,curPat()).toLocaleString()+'/時';}
+
+async function createShift(btn){
+  const svc=fService.value, p=curPat();
+  if(!fDate.value){toast('日付を選んでください');return;}
+  const w=wageOf(svc,p), need=Number(fNeed.value||1);
+  btn.disabled=true;
+  if(ADMIN_LIVE){
+    try{const res=await sPost({action:'create_shift',key:SKEY,service:svc,facility:'',date:fDate.value,
+        pattern:p.p,start:p.s,end:p.e,job:jobOf(svc),night:!!p.night,oncall:!!p.oncall,need:need,duty:fDuty.value.trim(),wage:w});
+      if(res.status==='ok'){toast(`募集を作成（${res.notified||0}名へLINE通知）`);await loadManage();}
+      else toast('作成に失敗しました');
+    }catch(e){toast('通信エラー');}
+  }else{
+    SHIFTS.unshift({shift_id:'r'+Date.now(),service:svc,date:fDate.value,pattern:p.p,
+      start:p.s,end:p.e,job:jobOf(svc),need:need,filled:0,status:'募集中'});
+    renderManage();toast('（サンプル）募集を作成。該当職種の登録者へLINE通知（本番）');
+  }
+  btn.disabled=false;
+}
+
+function renderManage(){
+  const box=document.getElementById('manage');
+  if(!SHIFTS.length){box.innerHTML='<div class="empty-m">まだ募集がありません。上のフォームから作成してください。</div>';return;}
+  box.innerHTML=SHIFTS.map(s=>{
+    const apps=APPS[s.shift_id]||[];
+    const pend=apps.filter(a=>a.status==='応募中').length;
+    const filled=s.filled!=null?s.filled:apps.filter(a=>a.status==='承認').length;
+    return `<div class="mrow">
+      <div class="mrow-h">
+        <div class="info">${s.date}　${s.service}　${s.pattern}<small>${s.start}〜${s.end}・${s.job}</small></div>
+        <div class="badges">
+          <span class="b-fill">確定 ${filled}/${s.need}</span>
+          ${pend?`<span class="b-pend">応募 ${pend}</span>`:''}
+          <button class="b-tog" data-sid="${s.shift_id}" onclick="toggleApps('${s.shift_id}',this)">応募者 ▾</button>
+        </div>
+      </div>
+      <div class="apps" id="apps-${s.shift_id}" style="display:none"></div>
+    </div>`;
+  }).join('');
+}
+
+async function toggleApps(sid,btn){
+  const box=document.getElementById('apps-'+sid);
+  if(box.style.display!=='none'){box.style.display='none';btn.textContent='応募者 ▾';return;}
+  btn.textContent='応募者 ▴';box.style.display='block';
+  if(ADMIN_LIVE){try{const r=await sGet({action:'applications',key:SKEY,shift_id:sid});APPS[sid]=r.applications||[];}catch(e){}}
+  renderApps(sid);
+}
+function renderApps(sid){
+  const box=document.getElementById('apps-'+sid), apps=APPS[sid]||[];
+  if(!apps.length){box.innerHTML='<div class="empty-m" style="padding:8px 0">応募はまだありません</div>';return;}
+  box.innerHTML=apps.map(a=>{
+    const ctl=a.status==='応募中'
+      ? `<div class="act"><button class="btn btn-ok" onclick="decide('${sid}','${a.apply_id}','承認',this)">承認</button><button class="btn btn-ng" onclick="decide('${sid}','${a.apply_id}','却下',this)">却下</button></div>`
+      : (a.status==='承認'?'<span class="st-ok">✓ 承認済み</span>':'<span class="st-ng">却下</span>');
+    return `<div class="appr"><div class="who">${a.name}<small>${a.job||''}・${a.license||''}・${a.years||''}</small></div>${ctl}</div>`;
+  }).join('');
+}
+
+async function decide(sid,aid,kind,btn){
+  btn.disabled=true;
+  if(ADMIN_LIVE){
+    try{const r=await sPost({action:kind==='承認'?'approve':'reject',key:SKEY,apply_id:aid});
+      if(r.status!=='ok'){toast('失敗しました');btn.disabled=false;return;}}catch(e){toast('通信エラー');btn.disabled=false;return;}
+  }
+  (APPS[sid]||[]).forEach(a=>{if(a.apply_id===aid)a.status=kind;});
+  const sh=SHIFTS.find(x=>x.shift_id===sid);
+  if(sh)sh.filled=(APPS[sid]||[]).filter(a=>a.status==='承認').length;
+  toast(kind==='承認'?'承認しました。本人にLINEで確定通知':'却下しました');
+  renderApps(sid);                         // 応募者リストを更新（開いたまま）
+  updateBadges(sid);
+}
+function updateBadges(sid){
+  const box=document.getElementById('apps-'+sid); if(!box)return;
+  const badges=box.closest('.mrow').querySelector('.badges');
+  const sh=SHIFTS.find(x=>x.shift_id===sid), apps=APPS[sid]||[], pend=apps.filter(a=>a.status==='応募中').length;
+  badges.querySelector('.b-fill').textContent=`確定 ${sh.filled}/${sh.need}`;
+  let pb=badges.querySelector('.b-pend');
+  if(pend){if(!pb){pb=document.createElement('span');pb.className='b-pend';badges.insertBefore(pb,badges.querySelector('.b-tog'));}pb.textContent='応募 '+pend;}
+  else if(pb)pb.remove();
+}
+
+async function loadManage(){
+  if(!ADMIN_LIVE){renderManage();return;}
+  try{const r=await sGet({action:'admin_shifts',key:SKEY});if(r.status==='ok'){SHIFTS=r.shifts;APPS={};}}catch(e){}
+  renderManage();
+}
+
+// init
+fService.addEventListener('change',fillPatterns);
+fPattern.addEventListener('change',updateWage);
+fillPatterns();
+loadManage();
+</script>
+</body>
+</html>
