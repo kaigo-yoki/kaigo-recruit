@@ -150,7 +150,8 @@ code{background:#EEF2F7;padding:1px 6px;border-radius:5px;font-size:12px;}
 .appr:last-child{border-bottom:none;}
 .appr .who{font-size:13px;font-weight:700;}
 .appr .who small{font-weight:600;color:var(--text-light);margin-left:6px;}
-.appr .act{display:flex;gap:8px;}
+.certline{display:flex;align-items:center;gap:8px;margin-top:7px;}
+.appr .act{display:flex;gap:8px;align-items:center;}
 .btn-ok{background:var(--green);color:#fff;}
 .btn-ng{background:#fff;color:var(--red);border:1.5px solid rgba(232,89,79,.4);}
 .st-ok{color:var(--green);font-weight:800;font-size:12px;}
@@ -387,10 +388,10 @@ let SHIFTS = ADMIN_LIVE ? [] : [
   {shift_id:'r2',service:'訪問介護ようき',date:'2026-06-26',pattern:'夜勤',start:'16:30',end:'翌8:30',job:'介護',need:2,filled:1,status:'募集中'}
 ];
 let APPS = ADMIN_LIVE ? {} : {
-  r1:[{apply_id:'a1',name:'大城 美咲',job:'看護師',license:'正看護師',years:'5〜10年',status:'応募中'},
-      {apply_id:'a2',name:'宮城 由香',job:'看護師',license:'准看護師',years:'3〜5年',status:'応募中'}],
-  r2:[{apply_id:'a3',name:'比嘉 健太',job:'介護',license:'介護福祉士',years:'1〜3年',status:'承認'},
-      {apply_id:'a4',name:'金城 涼',job:'介護',license:'初任者研修',years:'1〜3年',status:'応募中'}]
+  r1:[{apply_id:'a1',uid:'u1',name:'大城 美咲',job:'看護師',license:'正看護師',years:'5〜10年',cert_status:'未提出',status:'応募中'},
+      {apply_id:'a2',uid:'u2',name:'宮城 由香',job:'看護師',license:'准看護師',years:'3〜5年',cert_status:'提出済',status:'応募中'}],
+  r2:[{apply_id:'a3',uid:'u3',name:'比嘉 健太',job:'介護',license:'介護福祉士',years:'1〜3年',cert_status:'確認済',status:'承認'},
+      {apply_id:'a4',uid:'u4',name:'金城 涼',job:'介護',license:'初任者研修',years:'1〜3年',cert_status:'未提出',status:'応募中'}]
 };
 
 function sGet(p){return fetch(SGAS+'?'+new URLSearchParams(p)).then(r=>r.json());}
@@ -472,6 +473,17 @@ async function toggleApps(sid,btn){
   if(ADMIN_LIVE){try{const r=await sGet({action:'applications',key:SKEY,shift_id:sid});APPS[sid]=r.applications||[];}catch(e){}}
   renderApps(sid);
 }
+function certBadge(c){return c==='確認済'?'<span class="st-ok">✓ 資格確認済</span>':c==='提出済'?'<span class="st-wait">資格提出済</span>':'<span class="st-ng">資格未確認</span>';}
+async function verifyW(uid,btn){
+  btn.disabled=true;
+  if(ADMIN_LIVE){
+    try{const r=await sPost({action:'verify_worker',key:SKEY,line_user_id:uid});if(r.status!=='ok'){toast('確認の記録に失敗しました');btn.disabled=false;return;}}
+    catch(e){toast('通信エラー');btn.disabled=false;return;}
+  }else{toast('（サンプル）資格・本人確認を記録しました');}
+  Object.keys(APPS).forEach(k=>APPS[k].forEach(a=>{if(a.uid===uid)a.cert_status='確認済';}));
+  document.querySelectorAll('.apps').forEach(box=>{if(box.style.display!=='none')renderApps(box.id.replace('apps-',''));});
+  toast('資格・本人確認を「確認済」にしました');
+}
 function renderApps(sid){
   const box=document.getElementById('apps-'+sid), apps=APPS[sid]||[];
   if(!apps.length){box.innerHTML='<div class="empty-m" style="padding:8px 0">応募はまだありません</div>';return;}
@@ -481,15 +493,22 @@ function renderApps(sid){
     else if(a.status==='承認') ctl=`<div class="act"><span class="st-ok">✓ 承認済み</span><button class="btn btn-ok" onclick="recWork('${sid}','${a.apply_id}',this)">勤務完了を記録</button></div>`;
     else if(a.status==='完了') ctl='<span class="st-ok">✓ 勤務済</span>';
     else ctl='<span class="st-ng">却下</span>';
-    return `<div class="appr"><div class="who">${a.name}<small>${a.job||''}・${a.license||''}・${a.years||''}</small></div>${ctl}</div>`;
+    const cs=a.cert_status||'未提出';
+    const certLine=`<div class="certline">${certBadge(cs)}${cs!=='確認済'?`<button class="b-tog" onclick="verifyW('${a.uid}',this)">資格・本人確認</button>`:''}</div>`;
+    return `<div class="appr"><div class="who">${a.name}<small>${a.job||''}・${a.license||''}・${a.years||''}</small>${certLine}</div>${ctl}</div>`;
   }).join('');
 }
 
 async function decide(sid,aid,kind,btn){
+  // 看護師は資格確認（確認済）後でないと承認できない（労務方針・GASでも強制）
+  const ap=(APPS[sid]||[]).find(a=>a.apply_id===aid);
+  if(kind==='承認'&&ap&&ap.job==='看護師'&&ap.cert_status!=='確認済'){
+    toast('看護師は資格確認（確認済）後でないと承認できません。先に「資格・本人確認」を。');return;
+  }
   btn.disabled=true;
   if(ADMIN_LIVE){
     try{const r=await sPost({action:kind==='承認'?'approve':'reject',key:SKEY,apply_id:aid});
-      if(r.status!=='ok'){toast('失敗しました');btn.disabled=false;return;}}catch(e){toast('通信エラー');btn.disabled=false;return;}
+      if(r.status!=='ok'){toast(r.message||'失敗しました');btn.disabled=false;return;}}catch(e){toast('通信エラー');btn.disabled=false;return;}
   }
   (APPS[sid]||[]).forEach(a=>{if(a.apply_id===aid)a.status=kind;});
   const sh=SHIFTS.find(x=>x.shift_id===sid);

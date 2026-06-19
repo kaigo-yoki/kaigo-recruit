@@ -83,8 +83,15 @@ body{font-family:'M PLUS Rounded 1c','Noto Sans JP',sans-serif;background:#E8EDF
       </div>
     </div>
     <div class="fld">
-      <label>保有資格</label>
-      <input type="text" id="license" placeholder="正看護師 / 准看護師 / 介護福祉士 など">
+      <label>保有資格<span class="req">必須</span></label>
+      <select id="license">
+        <option value="">選択してください</option>
+        <option>正看護師</option><option>准看護師</option>
+        <option>介護福祉士</option><option>実務者研修</option><option>初任者研修</option>
+        <option>無資格・その他</option>
+      </select>
+      <div class="err" id="err-license">保有資格を選択してください</div>
+      <div class="hint">※ 資格証・本人確認書類は、シフトが承認された後にあらためてご提出いただきます（看護師は確認後に勤務確定）。マイナンバーはこの画面では収集しません。</div>
     </div>
     <div class="fld">
       <label>介護・看護の経験</label>
@@ -125,6 +132,7 @@ function validate(){
   let ok=true;
   document.getElementById('err-name').classList.toggle('show', !val('name')); if(!val('name'))ok=false;
   document.getElementById('err-tel').classList.toggle('show', !val('tel')); if(!val('tel'))ok=false;
+  document.getElementById('err-license').classList.toggle('show', !val('license')); if(!val('license'))ok=false;
   if(!job()){toast('職種を選んでください');ok=false;}
   return ok;
 }

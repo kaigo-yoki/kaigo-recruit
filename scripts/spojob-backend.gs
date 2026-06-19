@@ -37,7 +37,7 @@ const SH_WAGE    = '時給マスタ';
 const SH_PATTERN = 'シフトパターン';
 const SH_CONFIG  = '設定';
 
-const H_WORKER  = ['line_user_id','氏名','ふりがな','職種','保有資格','経験年数','電話','シェアフル経由','登録日','ステータス','累計勤務時間','累計ボーナス'];
+const H_WORKER  = ['line_user_id','氏名','ふりがな','職種','保有資格','経験年数','電話','シェアフル経由','登録日','ステータス','累計勤務時間','累計ボーナス','資格確認状態','本人確認状態','マイナンバー収集状態'];
 const H_SHIFT   = ['募集ID','サービス','施設','日付','シフトパターン','開始','終了','職種','夜勤フラグ','オンコールフラグ','必要人数','確定人数','時給','業務内容','資格要件','ステータス','連携元','作成日時'];
 const H_APPLY   = ['応募ID','募集ID','line_user_id','氏名','応募日時','ステータス'];
 const H_RECORD  = ['実績ID','募集ID','line_user_id','シフトパターン','実働開始','実働終了','実働時間','待機区分','待機手当','時給','支給額','確定フラグ','対象月'];
@@ -150,6 +150,7 @@ function doPost(e) {
       case 'reject':       return decide(d, '却下');
       case 'record_work':  return recordWork(d);
       case 'set_status':   return setShiftStatus(d);
+      case 'verify_worker':return verifyWorker(d);
       default:             return jsonOut({ status: 'error', message: 'unknown action: ' + action });
     }
   } catch (err) {
@@ -165,7 +166,8 @@ function register(d) {
   const { sh, headers, rows } = readRows(SH_WORKER);
   const sheet = sh || mkSheet(getSS(), SH_WORKER, H_WORKER, '#2D5A8E');
   const rec = [uid, name, d.kana || '', d.job || '', d.license || '', d.years || '', d.tel || '',
-               d.via_sharefull ? 'はい' : 'いいえ', asDateStr(new Date()), '有効', 0, 0];
+               d.via_sharefull ? 'はい' : 'いいえ', asDateStr(new Date()), '有効', 0, 0,
+               '未提出', '未確認', '未収集'];   // 資格確認 / 本人確認 / マイナンバー（番号本体はシステム外で管理）
   const exist = rows.find(r => String(r['line_user_id']).trim() === uid);
   if (exist) {
     // 既存は氏名〜電話・職種だけ更新（累計は維持）
@@ -260,6 +262,15 @@ function decide(d, kind) {
   const ap = readRows(SH_APPLY);
   const a = ap.rows.find(r => String(r['応募ID']).trim() === aid);
   if (!a) return jsonOut({ status: 'error', message: 'apply not found' });
+
+  // 看護師は資格確認（確認済）後でないと承認＝勤務確定できない（労務方針）
+  if (kind === '承認') {
+    const w = readRows(SH_WORKER).rows.find(r => String(r['line_user_id']).trim() === String(a['line_user_id']).trim());
+    if (w && String(w['職種']).trim() === '看護師' && String(w['資格確認状態'] || '').trim() !== '確認済') {
+      return jsonOut({ status: 'error', need_verify: true,
+        message: '看護師は資格確認（確認済）後でないと承認できません。先に「資格・本人確認」を行ってください。' });
+    }
+  }
   setCell(ap.sh, a._row, ap.headers, 'ステータス', kind);
 
   const sd = readRows(SH_SHIFT);
@@ -277,6 +288,18 @@ function decide(d, kind) {
     linePush(String(a['line_user_id']).trim(), msg);
   }
   return jsonOut({ status: 'ok', decided: kind });
+}
+
+/** 資格・本人確認の完了を記録（施設側・管理キー必須）。免許証/身分証の写しを確認したら押す＝資格確認状態・本人確認状態を「確認済」に */
+function verifyWorker(d) {
+  if (!requireAdmin(d.key)) return jsonOut({ status: 'unauthorized' });
+  const uid = String(d.line_user_id || '').trim();
+  const w = readRows(SH_WORKER);
+  const wr = w.rows.find(r => String(r['line_user_id']).trim() === uid);
+  if (!wr) return jsonOut({ status: 'error', message: 'worker not found' });
+  setCell(w.sh, wr._row, w.headers, '資格確認状態', '確認済');
+  setCell(w.sh, wr._row, w.headers, '本人確認状態', '確認済');
+  return jsonOut({ status: 'ok' });
 }
 
 /** 募集ステータス変更（施設側・管理キー必須）：募集中⇄締切、または中止。中止時は応募中／承認の応募をキャンセルし本人へLINE通知 */
@@ -476,7 +499,9 @@ function listApplications(e) {
     .map(r => {
       const w = workerById[String(r['line_user_id']).trim()] || {};
       return { apply_id: String(r['応募ID']).trim(), shift_id: String(r['募集ID']).trim(),
+               uid: String(r['line_user_id']).trim(),
                name: r['氏名'], job: w['職種'] || '', license: w['保有資格'] || '', years: w['経験年数'] || '',
+               cert_status: String(w['資格確認状態'] || '未提出').trim(),
                applied_at: String(r['応募日時']), status: String(r['ステータス']).trim() };
     });
   return jsonOut({ status: 'ok', applications: list });
