@@ -156,6 +156,7 @@ function doPost(e) {
       case 'record_work':  return recordWork(d);
       case 'set_status':   return setShiftStatus(d);
       case 'verify_worker':return verifyWorker(d);
+      case 'unapprove':    return unapprove(d);
       default:             return jsonOut({ status: 'error', message: 'unknown action: ' + action });
     }
   } catch (err) {
@@ -232,18 +233,50 @@ function shiftInterval(dateStr, start, end) {
   return { s: day * 1440 + s, e: day * 1440 + e };
 }
 
-/** 応募キャンセル（本人）。apply_id（推奨）または shift_id＋uid で特定。応募中のみ取消可 */
+/** 応募キャンセル（本人）。apply_id（推奨）または shift_id＋uid で特定。応募中だけでなく確定（承認）も取消可。承認の取消時は枠を再募集に戻す */
 function cancelApply(d) {
   const uid = String(d.line_user_id || '').trim();
   const aid = String(d.apply_id || '').trim();
   const sid = String(d.shift_id || '').trim();
   const ap = readRows(SH_APPLY);
   const row = ap.rows.find(r => String(r['line_user_id']).trim() === uid
-                                && String(r['ステータス']).trim() === '応募中'
+                                && ['応募中', '承認'].indexOf(String(r['ステータス']).trim()) >= 0
                                 && (aid ? String(r['応募ID']).trim() === aid : String(r['募集ID']).trim() === sid));
-  if (!row) return jsonOut({ status: 'error', message: '取消できる応募が見つかりません（既に確定／取消済みの可能性）' });
+  if (!row) return jsonOut({ status: 'error', message: '取消できる応募が見つかりません（既に取消済み／勤務済みの可能性）' });
+  const wasApproved = String(row['ステータス']).trim() === '承認';
   setCell(ap.sh, row._row, ap.headers, 'ステータス', 'キャンセル');
-  return jsonOut({ status: 'ok', canceled: true });
+  if (wasApproved) reopenShift(String(row['募集ID']).trim());
+  return jsonOut({ status: 'ok', canceled: true, was_approved: wasApproved });
+}
+
+/** 確定枠を1つ戻す：確定人数を-1し、締切だった枠を必要人数を下回ったら募集中に戻す */
+function reopenShift(sid) {
+  const sd = readRows(SH_SHIFT);
+  const s = sd.rows.find(r => String(r['募集ID']).trim() === sid);
+  if (!s) return;
+  const filled = Math.max(0, Number(s['確定人数'] || 0) - 1);
+  setCell(sd.sh, s._row, sd.headers, '確定人数', filled);
+  if (String(s['ステータス']).trim() === '締切' && filled < Number(s['必要人数'] || 1))
+    setCell(sd.sh, s._row, sd.headers, 'ステータス', '募集中');
+}
+
+/** 施設側：承認（確定）の取消（管理キー必須）。確定を解除し枠を再募集に戻して本人へLINE通知 */
+function unapprove(d) {
+  if (!requireAdmin(d.key)) return jsonOut({ status: 'unauthorized' });
+  const aid = String(d.apply_id || '').trim();
+  const ap = readRows(SH_APPLY);
+  const a = ap.rows.find(r => String(r['応募ID']).trim() === aid);
+  if (!a || String(a['ステータス']).trim() !== '承認') return jsonOut({ status: 'error', message: '確定中の応募が見つかりません' });
+  setCell(ap.sh, a._row, ap.headers, 'ステータス', 'キャンセル');
+  const sid = String(a['募集ID']).trim();
+  reopenShift(sid);
+  if (notifyOn()) {
+    const sd = readRows(SH_SHIFT);
+    const s = sd.rows.find(r => String(r['募集ID']).trim() === sid) || {};
+    const when = `${asDateStr(s['日付'])} ${asTimeStr(s['開始'])}〜${asTimeStr(s['終了'])}`;
+    linePush(String(a['line_user_id']).trim(), `【確定取消のお知らせ】${when}（${s['サービス']}・${s['職種']}）の確定が取り消されました。ご迷惑をおかけし申し訳ありません。`);
+  }
+  return jsonOut({ status: 'ok' });
 }
 
 /** 募集作成（施設側・管理キー必須）＋ 該当職種の登録者へ新着通知 */

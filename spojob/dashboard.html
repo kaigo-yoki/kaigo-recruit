@@ -502,8 +502,9 @@ function renderApps(sid){
   box.innerHTML=apps.map(a=>{
     let ctl;
     if(a.status==='応募中') ctl=`<div class="act"><button class="btn btn-ok" onclick="decide('${sid}','${a.apply_id}','承認',this)">承認</button><button class="btn btn-ng" onclick="decide('${sid}','${a.apply_id}','却下',this)">却下</button></div>`;
-    else if(a.status==='承認') ctl=`<div class="act"><span class="st-ok">✓ 承認済み</span><button class="btn btn-ok" onclick="recWork('${sid}','${a.apply_id}',this)">勤務完了を記録</button></div>`;
+    else if(a.status==='承認') ctl=`<div class="act"><span class="st-ok">✓ 承認済み</span><button class="btn btn-ok" onclick="recWork('${sid}','${a.apply_id}',this)">勤務完了を記録</button><button class="btn btn-ng" onclick="unapprove('${sid}','${a.apply_id}',this)">確定取消</button></div>`;
     else if(a.status==='完了') ctl='<span class="st-ok">✓ 勤務済</span>';
+    else if(a.status==='キャンセル') ctl='<span class="st-ng">取消</span>';
     else ctl='<span class="st-ng">却下</span>';
     const cs=a.cert_status||'未提出';
     const certLine=`<div class="certline">${certBadge(cs)}${cs!=='確認済'?`<button class="b-tog" onclick="verifyW('${a.uid}',this)">資格・本人確認</button>`:''}</div>`;
@@ -540,6 +541,16 @@ async function recWork(sid,aid,btn){
     }catch(e){toast('通信エラー');btn.disabled=false;return;}
   }else{toast('（サンプル）勤務を記録。本人の累計時間に加算＋100hでボーナス通知（本番）');}
   (APPS[sid]||[]).forEach(a=>{if(a.apply_id===aid)a.status='完了';});
+  const sh=SHIFTS.find(x=>x.shift_id===sid); if(sh)sh.filled=filledCount(sid);
+  renderApps(sid); updateBadges(sid);
+}
+async function unapprove(sid,aid,btn){
+  btn.disabled=true;
+  if(ADMIN_LIVE){
+    try{const r=await sPost({action:'unapprove',key:SKEY,apply_id:aid});
+      if(r.status!=='ok'){toast('取消に失敗しました');btn.disabled=false;return;}}catch(e){toast('通信エラー');btn.disabled=false;return;}
+  }else{toast('（サンプル）確定を取り消し。本人へLINE通知＋枠を再募集に（本番）');}
+  (APPS[sid]||[]).forEach(a=>{if(a.apply_id===aid)a.status='キャンセル';});
   const sh=SHIFTS.find(x=>x.shift_id===sid); if(sh)sh.filled=filledCount(sid);
   renderApps(sid); updateBadges(sid);
 }

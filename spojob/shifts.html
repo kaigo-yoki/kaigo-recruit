@@ -338,9 +338,10 @@ function successSheet(already){
 }
 
 // 取消（応募中タブから）
-function cancelApp(aid){
-  openSheet(`<div class="sh-title">応募を取り消しますか？</div>
-    <div class="sh-note">この枠への応募が取り消されます。<br>必要ならあとで応募し直せます。</div>
+function cancelApp(aid,status){
+  const confirmed=status==='承認';
+  openSheet(`<div class="sh-title">${confirmed?'確定したシフトを取り消しますか？':'応募を取り消しますか？'}</div>
+    <div class="sh-note">${confirmed?'確定済みのため、施設にも取消が伝わります。<br>体調・ご予定が変わった場合は早めにご連絡を。':'この枠への応募が取り消されます。<br>必要ならあとで応募し直せます。'}</div>
     <button class="sh-btn danger" onclick="doCancel('${aid}')">取り消す</button>
     <button class="sh-btn ghost" onclick="closeSheet()">やめる</button>`);
 }
@@ -375,7 +376,7 @@ function renderApplied(){
   if(!apps.length){h+='<div class="empty">まだ応募はありません。<br>「シフト」から気になる枠に応募してみましょう。</div>';}
   else apps.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')).forEach(a=>{
     const b=STBADGE[a.status]||['st-wait',a.status];
-    const cxl=a.status==='応募中'?`<button class="cxl" onclick="cancelApp('${a.apply_id}')">取消</button>`:'';
+    const cxl=(a.status==='応募中'||a.status==='承認')?`<button class="cxl" onclick="cancelApp('${a.apply_id}','${a.status}')">取消</button>`:'';
     h+=`<div class="arow"><div><div class="ad">${fmtDate(a.date)}</div><div class="at">${a.pattern||''} ${a.start}〜${a.end} ・ ¥${Number(a.wage||0).toLocaleString()}/時</div></div><div class="aright"><span class="stb ${b[0]}">${b[1]}</span>${cxl}</div></div>`;
   });
   document.getElementById('view-applied').innerHTML=h;
