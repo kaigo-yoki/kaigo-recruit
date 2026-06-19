@@ -325,7 +325,7 @@ async function confirmApply(sid){
     const res=await gasPost({action:'apply',line_user_id:UID,shift_id:sid});
     hideLoading();
     if(res.need_register){location.href='register.html';return;}
-    if(res.status==='ok'){ markApplied(sid); successSheet(res.already); }
+    if(res.status==='ok'){ markApplied(sid); successSheet(res.already); refreshMy(); }
     else toast(res.message||'応募に失敗しました');
   }catch(e){ hideLoading(); toast('通信エラー'); }
 }
@@ -351,7 +351,7 @@ async function doCancel(aid){
   try{
     const res=await gasPost({action:'cancel',line_user_id:UID,apply_id:aid});
     hideLoading();
-    if(res.status==='ok'){ setCanceled(aid); toast('応募を取り消しました'); }
+    if(res.status==='ok'){ setCanceled(aid); toast('応募を取り消しました'); refreshMy(); }
     else toast(res.message||'取消に失敗しました');
   }catch(e){ hideLoading(); toast('通信エラー'); }
 }
@@ -369,6 +369,13 @@ function updateBonusBar(){
   document.getElementById('bFill').style.width=((h%100)/100*100)+'%';
 }
 
+// 応募/取消のあとにサーバから最新のマイページ（応募一覧・累計）を取り直す
+async function refreshMy(){
+  if(!GAS||!UID)return;
+  try{ const m=await gasGet({action:'mypage',uid:UID});
+    if(m&&m.status==='ok'&&m.registered){ MY=m; updateBonusBar(); if(document.getElementById('view-applied').style.display!=='none')renderApplied(); }
+  }catch(e){}
+}
 const STBADGE={'承認':['st-ok','✓ 確定'],'完了':['st-ok','✓ 勤務済'],'応募中':['st-wait','結果待ち'],'却下':['st-ng','見送り'],'キャンセル':['st-ng','取消']};
 function renderApplied(){
   const apps=(MY&&MY.applications)||[];
@@ -412,7 +419,7 @@ function showTab(tab){
   document.querySelectorAll('.view').forEach(v=>{v.style.display='none';});
   document.getElementById('view-'+tab).style.display='';
   document.querySelectorAll('.nav a').forEach(a=>a.classList.toggle('on',a.dataset.tab===tab));
-  if(tab==='applied')renderApplied();
+  if(tab==='applied'){renderApplied();refreshMy();}
   if(tab==='bonus')renderBonus();
   if(tab==='mypage')renderMypage();
   window.scrollTo(0,0);
