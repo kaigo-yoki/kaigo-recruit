@@ -114,7 +114,7 @@ body{font-family:'M PLUS Rounded 1c','Noto Sans JP',sans-serif;background:#E8EDF
 .cal-wk span.sun{color:var(--red);}
 .cal-wk span.sat{color:var(--primary-light);}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
-.cell{aspect-ratio:1/1.08;border:none;background:transparent;border-radius:11px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:6px;gap:3px;font-family:inherit;cursor:pointer;}
+.cell{min-width:0;height:52px;border:none;background:transparent;border-radius:11px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:6px;gap:3px;font-family:inherit;cursor:pointer;}
 .cell:disabled{cursor:default;}
 .cell.empty{visibility:hidden;}
 .cell .dnum{font-size:13px;font-weight:700;color:var(--text-mid);width:23px;height:23px;display:flex;align-items:center;justify-content:center;border-radius:50%;}
