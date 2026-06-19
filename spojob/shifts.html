@@ -145,6 +145,30 @@ body{font-family:'M PLUS Rounded 1c','Noto Sans JP',sans-serif;background:#E8EDF
 .mp-job{font-size:12px;font-weight:700;color:var(--text-light);margin-top:2px;}
 .mp-btn{display:block;text-align:center;margin:0 14px 12px;padding:13px;border-radius:12px;font-size:14px;font-weight:800;text-decoration:none;background:#EAF1FA;color:var(--primary);border:none;font-family:inherit;cursor:pointer;}
 .mp-btn.out{background:#fff;color:var(--text-light);border:1.5px solid rgba(45,90,142,.14);}
+/* 確認ボトムシート */
+.sheet{position:fixed;inset:0;background:rgba(20,20,40,.45);display:none;align-items:flex-end;justify-content:center;z-index:100;}
+.sheet.show{display:flex;}
+.sheet-card{width:100%;max-width:412px;background:#fff;border-radius:22px 22px 0 0;padding:22px 20px 28px;box-shadow:0 -8px 30px rgba(0,0,0,.2);animation:shUp .25s ease;}
+@keyframes shUp{from{transform:translateY(40px);opacity:.5;}to{transform:none;opacity:1;}}
+.sh-title{font-size:17px;font-weight:900;text-align:center;margin-bottom:14px;}
+.sh-detail{background:var(--bg);border-radius:14px;padding:12px 16px;margin-bottom:16px;}
+.sh-row{display:flex;justify-content:space-between;gap:10px;font-size:13px;padding:5px 0;color:var(--text-mid);font-weight:600;}
+.sh-row b{color:var(--text);font-weight:800;text-align:right;}
+.sh-note{font-size:12.5px;color:var(--text-mid);text-align:center;margin-bottom:16px;font-weight:600;line-height:1.6;}
+.sh-icon{text-align:center;font-size:46px;margin-bottom:6px;}
+.sh-btn{display:block;width:100%;text-align:center;font-family:inherit;font-size:15px;font-weight:900;padding:14px;border-radius:13px;border:none;margin-top:10px;cursor:pointer;}
+.sh-btn.primary{background:var(--line);color:#fff;box-shadow:0 4px 12px rgba(6,199,85,.3);}
+.sh-btn.danger{background:#E8594F;color:#fff;}
+.sh-btn.ghost{background:#fff;color:var(--text-light);border:1.5px solid rgba(45,90,142,.14);}
+/* ローディング */
+.loading{position:fixed;inset:0;background:rgba(255,255,255,.85);display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;z-index:110;}
+.loading.show{display:flex;}
+.spin{width:44px;height:44px;border:4px solid #DCE4EE;border-top-color:var(--line);border-radius:50%;animation:rot .8s linear infinite;}
+@keyframes rot{to{transform:rotate(360deg);}}
+.loading .lmsg{font-size:13px;font-weight:800;color:var(--text-mid);}
+/* 応募中タブの取消 */
+.aright{display:flex;flex-direction:column;align-items:flex-end;gap:6px;}
+.cxl{font-family:inherit;font-size:11px;font-weight:800;color:var(--red);background:#fff;border:1.5px solid rgba(232,89,79,.4);border-radius:9px;padding:5px 12px;cursor:pointer;}
 </style>
 </head>
 <body>
@@ -207,6 +231,8 @@ body{font-family:'M PLUS Rounded 1c','Noto Sans JP',sans-serif;background:#E8EDF
 </div>
 <div class="mocknote" id="mocknote">※ サンプル表示中。GAS（spojob-backend）とLIFFを設定すると、実データ・LINE応募で動きます。</div>
 <div id="toast"></div>
+<div id="sheet" class="sheet" onclick="if(event.target===this)closeSheet()"><div class="sheet-card" id="sheetBody"></div></div>
+<div id="loading" class="loading"><div class="spin"></div><div class="lmsg" id="lmsg">送信中…</div></div>
 
 <script src="../scripts/spojob-config.js"></script>
 <script>
@@ -222,9 +248,9 @@ const SAMPLE = [
 ];
 const MYPAGE = {registered:true,name:'陽気 花子',job:'看護師',total_hours:68,bonus_count:0,to_next:32,
   applications:[
-    {status:'承認',date:'2026-06-15',pattern:'午前',start:'8:00',end:'13:00',wage:2200},
-    {status:'応募中',date:'2026-06-20',pattern:'午前',start:'8:00',end:'13:00',wage:2200},
-    {status:'却下',date:'2026-06-10',pattern:'午後',start:'13:00',end:'18:00',wage:2200}
+    {apply_id:'a1',shift_id:'',status:'承認',date:'2026-06-15',pattern:'午前',start:'8:00',end:'13:00',wage:2200},
+    {apply_id:'a2',shift_id:'s1',status:'応募中',date:'2026-06-20',pattern:'午前',start:'8:00',end:'13:00',wage:2200},
+    {apply_id:'a3',shift_id:'',status:'却下',date:'2026-06-10',pattern:'午後',start:'13:00',end:'18:00',wage:2200}
   ]};
 
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000);}
@@ -242,7 +268,7 @@ function cardHTML(s){
   else{const diff=s.wage-base(s.job);otoku=`<span class="pill">+¥${diff} お得</span><div class="note"><s>シェアフル ¥${base(s.job).toLocaleString()}</s></div>`;}
   const seatsCls=s.seats<=1?'seats few':'seats';
   const btn=s.applied?`<button class="apply done">✓ 応募済み</button>`
-    :`<button class="apply" onclick="doApply('${s.shift_id}',this)">応募する <span class="li">▶ LINEでかんたん</span></button>`;
+    :`<button class="apply" onclick="doApply('${s.shift_id}')">応募する <span class="li">▶ LINEでかんたん</span></button>`;
   return `<div class="card${s.night?' night':''}">
     <div class="c-head"><div class="c-fac"><div class="ic ${s.night?'h3':(s.job==='看護師'?'h1':'h2')}">${s.night?'🌙':(s.job==='看護師'?'🩺':'🤝')}</div><div class="nm">${s.service||s.job}</div></div><div class="${seatsCls}">残り${s.seats}名</div></div>
     <div class="tags"><span class="tag ${jobCls}">${s.job}</span>${patTag}</div>
@@ -273,16 +299,66 @@ document.getElementById('filters').addEventListener('click',e=>{
   c.classList.add('on');FILTER=c.dataset.f;render();
 });
 
-async function doApply(sid,btn){
-  if(!GAS){toast('（サンプル）応募しました。LINE連携後に本登録されます');btn.outerHTML='<button class="apply done">✓ 応募済み</button>';return;}
-  if(!UID){toast('LINEログインが必要です');return;}
-  btn.disabled=true;
+function openSheet(html){document.getElementById('sheetBody').innerHTML=html;document.getElementById('sheet').classList.add('show');}
+function closeSheet(){document.getElementById('sheet').classList.remove('show');}
+function showLoading(msg){document.getElementById('lmsg').textContent=msg||'送信中…';document.getElementById('loading').classList.add('show');}
+function hideLoading(){document.getElementById('loading').classList.remove('show');}
+function wait(ms){return new Promise(r=>setTimeout(r,ms));}
+
+// ① 応募ボタン → まず確認シートを出す（即応募しない）
+function doApply(sid){
+  const s=ALL.find(x=>x.shift_id===sid); if(!s)return;
+  openSheet(`<div class="sh-title">この内容で応募しますか？</div>
+    <div class="sh-detail">
+      <div class="sh-row"><span>日付</span><b>${fmtDate(s.date)}</b></div>
+      <div class="sh-row"><span>勤務</span><b>${s.job}・${s.pattern||''}　${s.start}〜${s.end}</b></div>
+      <div class="sh-row"><span>時給</span><b>¥${Number(s.wage).toLocaleString()}/時</b></div>
+    </div>
+    <button class="sh-btn primary" onclick="confirmApply('${sid}')">応募する</button>
+    <button class="sh-btn ghost" onclick="closeSheet()">やめる</button>`);
+}
+async function confirmApply(sid){
+  closeSheet(); showLoading('応募を送信中…');
+  if(!GAS){ await wait(700); hideLoading(); markApplied(sid); successSheet(false); return; }
+  if(!UID){ hideLoading(); toast('LINEログインが必要です'); return; }
   try{
     const res=await gasPost({action:'apply',line_user_id:UID,shift_id:sid});
+    hideLoading();
     if(res.need_register){location.href='register.html';return;}
-    if(res.status==='ok'){btn.outerHTML='<button class="apply done">✓ 応募済み</button>';toast(res.already?'すでに応募済みです':'応募しました！結果はLINEで届きます');}
-    else{toast(res.message||'応募に失敗しました');btn.disabled=false;}
-  }catch(e){toast('通信エラー');btn.disabled=false;}
+    if(res.status==='ok'){ markApplied(sid); successSheet(res.already); }
+    else toast(res.message||'応募に失敗しました');
+  }catch(e){ hideLoading(); toast('通信エラー'); }
+}
+function markApplied(sid){ const s=ALL.find(x=>x.shift_id===sid); if(s)s.applied=true; render(); }
+function successSheet(already){
+  openSheet(`<div class="sh-icon">✅</div>
+    <div class="sh-title">${already?'すでに応募済みです':'応募が完了しました'}</div>
+    <div class="sh-note">結果はLINEでお知らせします。<br>「応募中」タブで状況の確認・取消ができます。</div>
+    <button class="sh-btn primary" onclick="closeSheet()">閉じる</button>`);
+}
+
+// 取消（応募中タブから）
+function cancelApp(aid){
+  openSheet(`<div class="sh-title">応募を取り消しますか？</div>
+    <div class="sh-note">この枠への応募が取り消されます。<br>必要ならあとで応募し直せます。</div>
+    <button class="sh-btn danger" onclick="doCancel('${aid}')">取り消す</button>
+    <button class="sh-btn ghost" onclick="closeSheet()">やめる</button>`);
+}
+async function doCancel(aid){
+  closeSheet(); showLoading('取消を送信中…');
+  if(!GAS){ await wait(600); hideLoading(); setCanceled(aid); toast('応募を取り消しました'); return; }
+  try{
+    const res=await gasPost({action:'cancel',line_user_id:UID,apply_id:aid});
+    hideLoading();
+    if(res.status==='ok'){ setCanceled(aid); toast('応募を取り消しました'); }
+    else toast(res.message||'取消に失敗しました');
+  }catch(e){ hideLoading(); toast('通信エラー'); }
+}
+function setCanceled(aid){
+  let sid=null;
+  if(MY&&MY.applications)MY.applications.forEach(a=>{if(a.apply_id===aid){a.status='キャンセル';sid=a.shift_id;}});
+  if(sid){const s=ALL.find(x=>x.shift_id===sid);if(s)s.applied=false;}
+  renderApplied(); render();
 }
 
 function updateBonusBar(){
@@ -299,7 +375,8 @@ function renderApplied(){
   if(!apps.length){h+='<div class="empty">まだ応募はありません。<br>「シフト」から気になる枠に応募してみましょう。</div>';}
   else apps.slice().sort((a,b)=>(b.date||'').localeCompare(a.date||'')).forEach(a=>{
     const b=STBADGE[a.status]||['st-wait',a.status];
-    h+=`<div class="arow"><div><div class="ad">${fmtDate(a.date)}</div><div class="at">${a.pattern||''} ${a.start}〜${a.end} ・ ¥${Number(a.wage||0).toLocaleString()}/時</div></div><span class="stb ${b[0]}">${b[1]}</span></div>`;
+    const cxl=a.status==='応募中'?`<button class="cxl" onclick="cancelApp('${a.apply_id}')">取消</button>`:'';
+    h+=`<div class="arow"><div><div class="ad">${fmtDate(a.date)}</div><div class="at">${a.pattern||''} ${a.start}〜${a.end} ・ ¥${Number(a.wage||0).toLocaleString()}/時</div></div><div class="aright"><span class="stb ${b[0]}">${b[1]}</span>${cxl}</div></div>`;
   });
   document.getElementById('view-applied').innerHTML=h;
 }
@@ -343,6 +420,7 @@ document.querySelector('.nav').addEventListener('click',e=>{const a=e.target.clo
 
 async function boot(){
   if(GAS&&LIFF_ID){
+    showLoading('読み込み中…');
     await new Promise(res=>{const s=document.createElement('script');s.src='https://static.line-scdn.net/liff/edge/2/sdk.js';s.onload=res;s.onerror=res;document.head.appendChild(s);});
     try{
       await liff.init({liffId:LIFF_ID});
@@ -354,8 +432,8 @@ async function boot(){
       MY=m;
       const res=await gasGet({action:'shifts',uid:UID});
       if(res.status==='ok')ALL=res.shifts;
-      render();updateBonusBar();return;
-    }catch(e){/* サンプルへフォールバック */}
+      hideLoading(); render();updateBonusBar();return;
+    }catch(e){ hideLoading(); /* サンプルへフォールバック */ }
   }
   MY=MYPAGE;ALL=SAMPLE;render();updateBonusBar();
 }

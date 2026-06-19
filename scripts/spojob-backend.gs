@@ -232,14 +232,16 @@ function shiftInterval(dateStr, start, end) {
   return { s: day * 1440 + s, e: day * 1440 + e };
 }
 
-/** 応募キャンセル（本人） */
+/** 応募キャンセル（本人）。apply_id（推奨）または shift_id＋uid で特定。応募中のみ取消可 */
 function cancelApply(d) {
   const uid = String(d.line_user_id || '').trim();
+  const aid = String(d.apply_id || '').trim();
   const sid = String(d.shift_id || '').trim();
   const ap = readRows(SH_APPLY);
-  const row = ap.rows.find(r => String(r['募集ID']).trim() === sid && String(r['line_user_id']).trim() === uid
-                                && String(r['ステータス']).trim() === '応募中');
-  if (!row) return jsonOut({ status: 'error', message: 'not found' });
+  const row = ap.rows.find(r => String(r['line_user_id']).trim() === uid
+                                && String(r['ステータス']).trim() === '応募中'
+                                && (aid ? String(r['応募ID']).trim() === aid : String(r['募集ID']).trim() === sid));
+  if (!row) return jsonOut({ status: 'error', message: '取消できる応募が見つかりません（既に確定／取消済みの可能性）' });
   setCell(ap.sh, row._row, ap.headers, 'ステータス', 'キャンセル');
   return jsonOut({ status: 'ok', canceled: true });
 }
@@ -455,7 +457,7 @@ function myPage(e) {
     .filter(r => String(r['line_user_id']).trim() === uid)
     .map(r => {
       const s = shiftById[String(r['募集ID']).trim()] || {};
-      return { apply_id: String(r['応募ID']).trim(), status: String(r['ステータス']).trim(),
+      return { apply_id: String(r['応募ID']).trim(), shift_id: String(r['募集ID']).trim(), status: String(r['ステータス']).trim(),
                date: asDateStr(s['日付']), facility: s['施設'], pattern: s['シフトパターン'],
                start: asTimeStr(s['開始']), end: asTimeStr(s['終了']), wage: Number(s['時給'] || 0) };
     });
