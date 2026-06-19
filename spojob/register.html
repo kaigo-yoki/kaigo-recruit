@@ -70,6 +70,11 @@ body{font-family:'M PLUS Rounded 1c','Noto Sans JP',sans-serif;background:#E8EDF
     <p>手数料0円だから高時給。看護師¥2,200／介護¥1,400／夜勤¥1,500・100時間ごとに¥10,000ボーナス。</p>
   </div>
 
+  <div id="regbanner" style="display:none;margin:14px 18px 0;background:var(--green-light);border:1.5px solid rgba(76,175,125,.35);border-radius:14px;padding:14px 16px;text-align:center;">
+    <div style="font-size:13px;font-weight:800;color:#2E7D52;margin-bottom:9px;">✓ すでに登録済みです</div>
+    <a href="shifts.html" style="display:inline-block;background:var(--primary);color:#fff;font-weight:800;font-size:13px;padding:10px 20px;border-radius:10px;text-decoration:none;">空きシフト一覧を見る →</a>
+  </div>
+
   <form class="form" id="form">
     <div class="fld">
       <label>お名前<span class="req">必須</span></label>
@@ -171,11 +176,10 @@ async function boot(){
       if(!liff.isLoggedIn()){liff.login();return;}
       const p=await liff.getProfile();UID=p.userId;
       document.getElementById('mocknote').style.display='none';
-      // 既に登録済みなら一覧へ（読み込み中のまま遷移＝フォームは見せない）
-      const m=await gasGet({action:'mypage',uid:UID});
-      if(m.status==='ok'&&m.registered){location.replace('shifts.html');return;}
       if(p.displayName&&!val('name'))document.getElementById('name').value=p.displayName;
-      hideBoot();   // 未登録の人だけフォームを表示
+      hideBoot();   // フォームをすぐ表示（GASの確認は待たない＝待ち時間を短縮）
+      // 登録済みかは裏で確認 → 済みなら案内バナーを出すだけ（自動遷移しない）
+      gasGet({action:'mypage',uid:UID}).then(m=>{ if(m&&m.status==='ok'&&m.registered){document.getElementById('regbanner').style.display='block';} }).catch(function(){});
     }catch(e){ hideBoot(); /* サンプルとして続行 */ }
   }
 }
