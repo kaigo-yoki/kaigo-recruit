@@ -171,6 +171,7 @@ code{background:#EEF2F7;padding:1px 6px;border-radius:5px;font-size:12px;}
   </div>
   <div class="top-right">
     <span class="link-pj">🔗 訪問スケジュール割り当てPJ 連携</span>
+    <button class="link-pj" id="adminBtn" style="border:none;cursor:pointer" onclick="adminAuthClick()">🔑 ログイン</button>
     <div class="month">📅 <select id="monthSel"><option>2026-06</option><option>2026-07</option></select></div>
   </div>
 </div>
@@ -373,8 +374,19 @@ render(SAMPLE);
 <script>
 /* ── 施設側：募集作成 + 応募承認（スポジョブGAS連携 / 未設定時サンプル） ── */
 const SCFG = window.SPOJOB_CONFIG || {};
-const SGAS = SCFG.gasUrl || '', SKEY = SCFG.adminKey || '';
-const ADMIN_LIVE = !!(SGAS && SKEY);
+const SGAS = SCFG.gasUrl || '';
+// 管理パスコードは公開ファイルに書かない。この端末のlocalStorageにだけ保存する（GAS側でも毎回検証）
+let SKEY = localStorage.getItem('spojob_admin_key') || SCFG.adminKey || '';
+let ADMIN_LIVE = !!(SGAS && SKEY);
+function adminAuthClick(){
+  if(SKEY){ if(confirm('ログアウトしますか？')){localStorage.removeItem('spojob_admin_key');location.reload();} return; }
+  const k=(prompt('施設の管理パスコードを入力してください（GASの「設定」シート B1）')||'').trim();
+  if(k){localStorage.setItem('spojob_admin_key',k);location.reload();}
+}
+function refreshAdminBtn(){
+  const b=document.getElementById('adminBtn'); if(!b)return;
+  b.textContent = SKEY ? '🔓 ログイン中' : (SGAS ? '🔑 管理ログイン' : '🔑 ログイン');
+}
 
 const MASTERS = {
   '訪問看護':[{p:'午前',s:'8:00',e:'13:00'},{p:'午後',s:'13:00',e:'18:00'},{p:'1日',s:'8:00',e:'17:00'},{p:'オンコール',s:'',e:'',oncall:true}],
@@ -550,6 +562,7 @@ async function loadManage(){
 // init
 fService.addEventListener('change',fillPatterns);
 fPattern.addEventListener('change',updateWage);
+refreshAdminBtn();
 fillPatterns();
 loadManage();
 
