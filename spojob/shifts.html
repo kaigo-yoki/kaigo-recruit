@@ -102,6 +102,36 @@ body{font-family:'M PLUS Rounded 1c','Noto Sans JP',sans-serif;background:#E8EDF
 .apply{display:block;width:100%;text-align:center;background:var(--line);color:#fff;font-size:14px;font-weight:900;padding:13px;border-radius:13px;border:none;font-family:inherit;box-shadow:0 4px 12px rgba(6,199,85,.28);letter-spacing:1px;}
 .apply .li{font-weight:700;font-size:11px;opacity:.9;}
 
+/* ── CALENDAR ── */
+.cal-wrap{padding:6px 12px 90px;}
+.cal-nav{display:flex;align-items:center;justify-content:space-between;padding:8px 4px 12px;}
+.cal-nav button{width:40px;height:40px;border:none;background:var(--white);border-radius:13px;font-size:22px;font-weight:900;color:var(--primary);box-shadow:0 2px 10px rgba(0,0,0,.06);cursor:pointer;line-height:1;}
+.cal-title{font-size:17px;font-weight:900;text-align:center;line-height:1.2;}
+.cal-title small{display:block;font-size:10.5px;font-weight:700;color:var(--text-light);margin-top:2px;}
+.cal{background:var(--white);border-radius:18px;padding:12px 8px;box-shadow:0 3px 16px rgba(0,0,0,.05);border:1.5px solid rgba(0,0,0,.04);}
+.cal-wk{display:grid;grid-template-columns:repeat(7,1fr);margin-bottom:6px;}
+.cal-wk span{text-align:center;font-size:11px;font-weight:800;color:var(--text-light);}
+.cal-wk span.sun{color:var(--red);}
+.cal-wk span.sat{color:var(--primary-light);}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
+.cell{aspect-ratio:1/1.08;border:none;background:transparent;border-radius:11px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:6px;gap:3px;font-family:inherit;cursor:pointer;}
+.cell:disabled{cursor:default;}
+.cell.empty{visibility:hidden;}
+.cell .dnum{font-size:13px;font-weight:700;color:var(--text-mid);width:23px;height:23px;display:flex;align-items:center;justify-content:center;border-radius:50%;}
+.cell.has{background:#EAF1FA;}
+.cell.has .dnum{color:var(--primary);font-weight:900;}
+.cell.today .dnum{background:var(--primary);color:#fff;font-weight:900;}
+.cell .dots{display:flex;gap:3px;height:7px;align-items:center;}
+.dot{width:7px;height:7px;border-radius:50%;display:inline-block;}
+.dot.nurse{background:var(--primary-light);}
+.dot.care{background:var(--green);}
+.dot.night{background:#23304A;}
+.cal-legend{display:flex;justify-content:center;gap:16px;margin:14px 0 4px;font-size:11.5px;font-weight:700;color:var(--text-mid);}
+.cal-legend span{display:flex;align-items:center;gap:5px;}
+.cal-legend i{width:8px;height:8px;border-radius:50%;}
+.cal-hint{text-align:center;font-size:11px;color:var(--text-light);font-weight:600;margin-top:8px;line-height:1.5;}
+.day-cards{max-height:60vh;overflow-y:auto;margin-bottom:6px;}
+
 /* ── BOTTOM NAV ── */
 .nav{position:sticky;bottom:0;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-top:1px solid rgba(45,90,142,.1);display:flex;justify-content:space-around;padding:9px 0 12px;}
 .nav a{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;font-weight:700;color:var(--text-light);text-decoration:none;}
@@ -148,7 +178,7 @@ body{font-family:'M PLUS Rounded 1c','Noto Sans JP',sans-serif;background:#E8EDF
 /* 確認ボトムシート */
 .sheet{position:fixed;inset:0;background:rgba(20,20,40,.45);display:none;align-items:flex-end;justify-content:center;z-index:100;}
 .sheet.show{display:flex;}
-.sheet-card{width:100%;max-width:412px;background:#fff;border-radius:22px 22px 0 0;padding:22px 20px 28px;box-shadow:0 -8px 30px rgba(0,0,0,.2);animation:shUp .25s ease;}
+.sheet-card{width:100%;max-width:412px;background:#fff;border-radius:22px 22px 0 0;padding:22px 20px 28px;box-shadow:0 -8px 30px rgba(0,0,0,.2);animation:shUp .25s ease;max-height:90vh;overflow-y:auto;}
 @keyframes shUp{from{transform:translateY(40px);opacity:.5;}to{transform:none;opacity:1;}}
 .sh-title{font-size:17px;font-weight:900;text-align:center;margin-bottom:14px;}
 .sh-detail{background:var(--bg);border-radius:14px;padding:12px 16px;margin-bottom:16px;}
@@ -212,8 +242,8 @@ body{font-family:'M PLUS Rounded 1c','Noto Sans JP',sans-serif;background:#E8EDF
     <div class="chip" data-f="夜勤">介護夜勤</div>
   </div>
 
-  <!-- List (rendered by JS from GAS shifts API, sample fallback) -->
-  <div class="list" id="list"></div>
+  <!-- Calendar (rendered by JS from GAS shifts API, sample fallback) -->
+  <div class="cal-wrap" id="calWrap"></div>
   </div><!-- /view-shifts -->
 
   <div class="view" id="view-applied" style="display:none"></div>
@@ -238,13 +268,18 @@ body{font-family:'M PLUS Rounded 1c','Noto Sans JP',sans-serif;background:#E8EDF
 <script>
 const CFG = window.SPOJOB_CONFIG || {};
 const GAS = CFG.gasUrl || '', LIFF_ID = CFG.liffId || '';
-let UID = null, ALL = [], FILTER = 'all', MY = null;
+let UID = null, ALL = [], FILTER = 'all', MY = null, VIEW_YM = null;
 
 const SAMPLE = [
   {shift_id:'s1',service:'訪問看護',date:'2026-06-20',pattern:'午前',start:'8:00',end:'13:00',job:'看護師',night:false,oncall:false,wage:2200,duty:'服薬管理・バイタル・処置',seats:1,applied:false},
   {shift_id:'s2',service:'訪問介護ようき',date:'2026-06-21',pattern:'夜勤',start:'16:30',end:'翌8:30',job:'介護',night:true,oncall:false,wage:1500,duty:'見守り・排泄・記録',seats:2,applied:false,timenote:'（16時間・仮眠あり）'},
   {shift_id:'s3',service:'訪問介護ようき',date:'2026-06-22',pattern:'日勤(通し)',start:'8:00',end:'17:00',job:'介護',night:false,oncall:false,wage:1400,duty:'入浴介助・食事・レク',seats:1,applied:false,timenote:'（休憩60分）'},
-  {shift_id:'s4',service:'訪問看護',date:'2026-06-22',pattern:'午後',start:'13:00',end:'18:00',job:'看護師',night:false,oncall:false,wage:2200,duty:'バイタル・服薬・処置',seats:1,applied:false}
+  {shift_id:'s4',service:'訪問看護',date:'2026-06-22',pattern:'午後',start:'13:00',end:'18:00',job:'看護師',night:false,oncall:false,wage:2200,duty:'バイタル・服薬・処置',seats:1,applied:false},
+  {shift_id:'s5',service:'訪問看護',date:'2026-06-25',pattern:'午前',start:'8:00',end:'13:00',job:'看護師',night:false,oncall:false,wage:2200,duty:'バイタル・処置',seats:2,applied:false},
+  {shift_id:'s6',service:'訪問介護ようき',date:'2026-06-25',pattern:'早番',start:'6:00',end:'13:00',job:'介護',night:false,oncall:false,wage:1400,duty:'起床介助・朝食・整容',seats:1,applied:false},
+  {shift_id:'s7',service:'訪問介護ようき',date:'2026-06-27',pattern:'夜勤',start:'16:30',end:'翌8:30',job:'介護',night:true,oncall:false,wage:1500,duty:'見守り・排泄・記録',seats:1,applied:false,timenote:'（16時間・仮眠あり）'},
+  {shift_id:'s8',service:'訪問看護',date:'2026-06-28',pattern:'1日',start:'8:00',end:'17:00',job:'看護師',night:false,oncall:false,wage:2200,duty:'バイタル・服薬・処置・記録',seats:1,applied:false},
+  {shift_id:'s9',service:'訪問介護ようき',date:'2026-06-30',pattern:'遅番',start:'13:00',end:'18:00',job:'介護',night:false,oncall:false,wage:1400,duty:'入浴介助・レク・夕食',seats:2,applied:false}
 ];
 const MYPAGE = {registered:true,name:'陽気 花子',job:'看護師',total_hours:68,bonus_count:0,to_next:32,
   applications:[
@@ -279,18 +314,69 @@ function cardHTML(s){
   </div>`;
 }
 
-function render(){
-  const items=ALL.filter(s=>{
+// FILTER（看護師/介護/夜勤）を適用した募集だけを返す
+function filtered(){
+  return ALL.filter(s=>{
     if(FILTER==='all')return true;
     if(FILTER==='看護師'||FILTER==='介護')return s.job===FILTER;
     if(FILTER==='夜勤')return s.night;
     return true;
   });
-  const list=document.getElementById('list');
-  if(!items.length){list.innerHTML='<div class="empty">該当する募集はありません</div>';return;}
-  let html='',cur='';
-  items.forEach(s=>{if(s.date!==cur){cur=s.date;html+=`<div class="day-label">${fmtDate(s.date)}</div>`;}html+=cardHTML(s);});
-  list.innerHTML=html;
+}
+// その日の募集の職種ごとにドット（看護=青/介護=緑/夜勤=黒）
+function dayDots(items){
+  const set=new Set();
+  items.forEach(s=>{ if(s.night)set.add('night'); else if(s.job==='看護師')set.add('nurse'); else set.add('care'); });
+  return [...set].map(t=>`<span class="dot ${t}"></span>`).join('');
+}
+const WK=['日','月','火','水','木','金','土'];
+// 初回表示する月＝一番早い募集の月（なければ今月）
+function initMonth(){
+  if(VIEW_YM)return;
+  const ds=ALL.map(s=>s.date).filter(Boolean).sort();
+  const base=ds.length?new Date(ds[0]+'T00:00:00'):new Date();
+  VIEW_YM={y:base.getFullYear(),m:base.getMonth()};
+}
+function moveMonth(d){ let m=VIEW_YM.m+d,y=VIEW_YM.y; if(m<0){m=11;y--;} if(m>11){m=0;y++;} VIEW_YM={y,m}; renderCalendar(); }
+
+function render(){ initMonth(); renderCalendar(); }
+
+function renderCalendar(){
+  const wrap=document.getElementById('calWrap');
+  const byDate={};
+  filtered().forEach(s=>{ (byDate[s.date]=byDate[s.date]||[]).push(s); });
+  const {y,m}=VIEW_YM;
+  const startW=new Date(y,m,1).getDay(), days=new Date(y,m+1,0).getDate();
+  const t=new Date(), tStr=`${t.getFullYear()}-${String(t.getMonth()+1).padStart(2,'0')}-${String(t.getDate()).padStart(2,'0')}`;
+  let monthCount=0;
+  let cells='';
+  for(let i=0;i<startW;i++)cells+=`<div class="cell empty"></div>`;
+  for(let day=1;day<=days;day++){
+    const ds=`${y}-${String(m+1).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+    const it=byDate[ds]||[]; const has=it.length>0; monthCount+=it.length;
+    cells+=`<button class="cell ${has?'has':''} ${ds===tStr?'today':''}" ${has?`onclick="openDay('${ds}')"`:'disabled'}>
+      <span class="dnum">${day}</span><span class="dots">${has?dayDots(it):''}</span></button>`;
+  }
+  wrap.innerHTML=`
+    <div class="cal-nav"><button onclick="moveMonth(-1)">‹</button>
+      <div class="cal-title">${y}年${m+1}月<small>募集 ${monthCount}件</small></div>
+      <button onclick="moveMonth(1)">›</button></div>
+    <div class="cal">
+      <div class="cal-wk">${WK.map((w,i)=>`<span class="${i===0?'sun':i===6?'sat':''}">${w}</span>`).join('')}</div>
+      <div class="cal-grid">${cells}</div>
+    </div>
+    <div class="cal-legend"><span><i class="dot nurse"></i>看護師</span><span><i class="dot care"></i>介護</span><span><i class="dot night"></i>夜勤</span></div>
+    <div class="cal-hint">📅 色がついた日をタップすると、その日の募集が見られます</div>`;
+}
+
+// 日付タップ → その日の募集をボトムシートで（応募ボタン付き）
+function openDay(ds){
+  const items=filtered().filter(s=>s.date===ds).sort((a,b)=>String(a.start||'').localeCompare(String(b.start||'')));
+  let body=`<div class="sh-title">${fmtDate(ds)}</div>`;
+  body+= items.length ? `<div class="day-cards">${items.map(cardHTML).join('')}</div>`
+                      : `<div class="sh-note">この日の募集はありません</div>`;
+  body+=`<button class="sh-btn ghost" onclick="closeSheet()">閉じる</button>`;
+  openSheet(body);
 }
 
 document.getElementById('filters').addEventListener('click',e=>{
@@ -427,6 +513,8 @@ function showTab(tab){
 document.querySelector('.nav').addEventListener('click',e=>{const a=e.target.closest('a');if(a&&a.dataset.tab)showTab(a.dataset.tab);});
 
 async function boot(){
+  // デザイン確認用：URL末尾に #sample を付けるとLINEログイン無しでサンプル表示
+  if(location.hash==='#sample'){ MY=MYPAGE;ALL=SAMPLE;render();updateBonusBar();return; }
   if(GAS&&LIFF_ID){
     showLoading('読み込み中…');
     await new Promise(res=>{const s=document.createElement('script');s.src='https://static.line-scdn.net/liff/edge/2/sdk.js';s.onload=res;s.onerror=res;document.head.appendChild(s);});
