@@ -45,6 +45,7 @@ const H_WAGE    = ['サービス','区分','時給'];
 const H_PATTERN = ['サービス','パターン','開始','終了','実働','区分'];
 
 const TZ = 'Asia/Tokyo';
+const LIFF_FALLBACK_URL = 'https://liff.line.me/2010446173-3yG3n6NX';  // 設定シートB3(LIFF ID)が空のときのフォールバック
 
 function getSS() { return SpreadsheetApp.getActiveSpreadsheet(); }
 function nowStr() { return Utilities.formatDate(new Date(), TZ, 'yyyy-MM-dd HH:mm:ss'); }
@@ -121,6 +122,9 @@ function cfgVal(row) {
 function adminKey() { return cfgVal(1); }
 function lineToken() { return cfgVal(2); }
 function notifyOn() { return cfgVal(4) !== '0'; }
+// 通知に付けるアプリ(LIFF)へのリンク。設定シートB3のLIFF IDを優先し、空ならフォールバックURL
+function liffLink() { const id = cfgVal(3); return id ? ('https://liff.line.me/' + id) : LIFF_FALLBACK_URL; }
+function appLink(label) { return '\n\n▶ ' + (label || 'アプリを開く') + '\n' + liffLink(); }
 function requireAdmin(key) { const k = adminKey(); return k && String(key || '').trim() === k; }
 
 /* ───────────────── シート読み出しヘルパー ───────────────── */
@@ -274,7 +278,7 @@ function unapprove(d) {
     const sd = readRows(SH_SHIFT);
     const s = sd.rows.find(r => String(r['募集ID']).trim() === sid) || {};
     const when = `${asDateStr(s['日付'])} ${asTimeStr(s['開始'])}〜${asTimeStr(s['終了'])}`;
-    linePush(String(a['line_user_id']).trim(), `【確定取消のお知らせ】${when}（${s['サービス']}・${s['職種']}）の確定が取り消されました。ご迷惑をおかけし申し訳ありません。`);
+    linePush(String(a['line_user_id']).trim(), `【確定取消のお知らせ】${when}（${s['サービス']}・${s['職種']}）の確定が取り消されました。ご迷惑をおかけし申し訳ありません。${appLink('他のシフトを見る')}`);
   }
   return jsonOut({ status: 'ok' });
 }
@@ -322,9 +326,10 @@ function decide(d, kind) {
   }
   if (notifyOn() && s) {
     const when = `${asDateStr(s['日付'])} ${asTimeStr(s['開始'])}〜${asTimeStr(s['終了'])}`;
+    const svc = `${s['サービス']}・${s['職種']}`;
     const msg = kind === '承認'
-      ? `【確定】${when} ${s['施設']} ${s['職種']}のシフトが確定しました！当日よろしくお願いします。`
-      : `【お知らせ】${when} の募集は今回マッチしませんでした。次の募集もぜひご応募ください。`;
+      ? `【確定】${when} ${svc}のシフトが確定しました！当日よろしくお願いします。${appLink('マイページで確認')}`
+      : `【お知らせ】${when} の募集は今回マッチしませんでした。次の募集もぜひご応募ください。${appLink('他のシフトを見る')}`;
     linePush(String(a['line_user_id']).trim(), msg);
   }
   return jsonOut({ status: 'ok', decided: kind });
@@ -361,7 +366,7 @@ function setShiftStatus(d) {
       if (String(r['募集ID']).trim() === sid && ['応募中', '承認'].indexOf(String(r['ステータス']).trim()) >= 0) {
         setCell(ap.sh, r._row, ap.headers, 'ステータス', 'キャンセル');
         if (notifyOn() && linePush(String(r['line_user_id']).trim(),
-            `【募集中止のお知らせ】${when}（${s['サービス']}・${s['職種']}）の募集は中止になりました。ご応募ありがとうございました。`)) notified++;
+            `【募集中止のお知らせ】${when}（${s['サービス']}・${s['職種']}）の募集は中止になりました。ご応募ありがとうございました。${appLink('他のシフトを見る')}`)) notified++;
       }
     });
   }
@@ -411,7 +416,7 @@ function recordWork(d) {
       setCell(w.sh, wr._row, w.headers, '累計ボーナス', Number(wr['累計ボーナス'] || 0) + bonus);
     }
     if (notifyOn()) {
-      linePush(uid, `お疲れさまでした。${asDateStr(s['日付'])} の勤務（${hours}時間・${yen(pay)}）を記録しました。`);
+      linePush(uid, `お疲れさまでした。${asDateStr(s['日付'])} の勤務（${hours}時間・${yen(pay)}）を記録しました。${appLink('マイページで確認')}`);
       if (bonus > 0) linePush(uid, `🎉 累計${Math.floor(newH / 100) * 100}時間達成！ボーナス${yen(bonus)}をプレゼントします。`);
     }
   }
@@ -591,8 +596,8 @@ function linePush(to, text) {
 
 /** 新着募集を該当職種の有効な登録者へ一斉通知。戻り＝通知人数 */
 function pushNewShift(s) {
-  const link = '\n▶ 詳細・応募はLINEから';
-  const text = `【新着シフト】${s.date} ${s.start || ''}〜${s.end || ''} ${s.facility || ''}\n${s.job} ¥${s.wage}/時${link}`;
+  const fac = s.facility ? ' ' + s.facility : '';
+  const text = `【新着シフト】${s.date} ${s.start || ''}〜${s.end || ''}${fac}\n${s.service || ''}・${s.job} ${yen(s.wage)}/時${appLink('応募する')}`;
   let n = 0;
   readRows(SH_WORKER).rows.forEach(r => {
     if (String(r['ステータス']).trim() === '有効' && String(r['職種']).trim() === s.job) {
@@ -616,7 +621,7 @@ function sendReminders() {
     apps.forEach(r => {
       if (String(r['募集ID']).trim() === sid && String(r['ステータス']).trim() === '承認') {
         if (linePush(String(r['line_user_id']).trim(),
-            `【明日のシフト】${when}（${s['サービス']}・${s['職種']}）です。お気をつけてお越しください。`)) n++;
+            `【明日のシフト】${when}（${s['サービス']}・${s['職種']}）です。お気をつけてお越しください。${appLink('マイページで確認')}`)) n++;
       }
     });
   });
