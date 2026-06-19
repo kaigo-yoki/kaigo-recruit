@@ -52,6 +52,11 @@ function asDateStr(v) {
   if (v instanceof Date) return Utilities.formatDate(v, TZ, 'yyyy-MM-dd');
   return String(v || '').trim();
 }
+// スプレッドシートが "8:00" を時刻値(1899年の日付)に自動変換するため、読み出し時に H:mm 文字列へ戻す
+function asTimeStr(v) {
+  if (v instanceof Date) return Utilities.formatDate(v, TZ, 'H:mm');
+  return String(v || '').trim();
+}
 function newId(prefix) { return prefix + Utilities.formatDate(new Date(), TZ, 'yyMMddHHmmss') + Math.floor(Math.random() * 90 + 10); }
 
 /** 初期セットアップ：シート作成＋マスタ初期値＋管理パスコード生成（再実行しても既存データは消えません） */
@@ -201,11 +206,11 @@ function apply(d) {
   if (mine.some(r => String(r['募集ID']).trim() === sid)) return jsonOut({ status: 'ok', already: true });
 
   // 同日・時間帯の重複チェック（夜勤の翌日跨ぎも考慮した絶対時間で判定）
-  const tIv = shiftInterval(asDateStr(target['日付']), String(target['開始']), String(target['終了']));
+  const tIv = shiftInterval(asDateStr(target['日付']), asTimeStr(target['開始']), asTimeStr(target['終了']));
   const shiftById = {}; sd.rows.forEach(r => shiftById[String(r['募集ID']).trim()] = r);
   const conflict = mine.some(r => {
     const s = shiftById[String(r['募集ID']).trim()]; if (!s) return false;
-    const iv = shiftInterval(asDateStr(s['日付']), String(s['開始']), String(s['終了']));
+    const iv = shiftInterval(asDateStr(s['日付']), asTimeStr(s['開始']), asTimeStr(s['終了']));
     return tIv && iv && tIv.s < iv.e && iv.s < tIv.e;   // 区間が重なる
   });
   if (conflict) return jsonOut({ status: 'error', conflict: true,
@@ -281,7 +286,7 @@ function decide(d, kind) {
     if (filled >= Number(s['必要人数'] || 1)) setCell(sd.sh, s._row, sd.headers, 'ステータス', '締切');
   }
   if (notifyOn() && s) {
-    const when = `${asDateStr(s['日付'])} ${s['開始']}〜${s['終了']}`;
+    const when = `${asDateStr(s['日付'])} ${asTimeStr(s['開始'])}〜${asTimeStr(s['終了'])}`;
     const msg = kind === '承認'
       ? `【確定】${when} ${s['施設']} ${s['職種']}のシフトが確定しました！当日よろしくお願いします。`
       : `【お知らせ】${when} の募集は今回マッチしませんでした。次の募集もぜひご応募ください。`;
@@ -316,7 +321,7 @@ function setShiftStatus(d) {
   let notified = 0;
   if (ns === '中止') {
     const ap = readRows(SH_APPLY);
-    const when = `${asDateStr(s['日付'])} ${s['開始']}〜${s['終了']}`;
+    const when = `${asDateStr(s['日付'])} ${asTimeStr(s['開始'])}〜${asTimeStr(s['終了'])}`;
     ap.rows.forEach(r => {
       if (String(r['募集ID']).trim() === sid && ['応募中', '承認'].indexOf(String(r['ステータス']).trim()) >= 0) {
         setCell(ap.sh, r._row, ap.headers, 'ステータス', 'キャンセル');
@@ -347,14 +352,14 @@ function recordWork(d) {
   const s = sd.rows.find(r => String(r['募集ID']).trim() === sid) || {};
   const wage = Number(s['時給'] || 0);
   const hours = (d.hours != null && d.hours !== '') ? Number(d.hours)
-              : patternHours(s['サービス'], s['シフトパターン'], String(s['開始'] || ''), String(s['終了'] || ''));
+              : patternHours(s['サービス'], s['シフトパターン'], asTimeStr(s['開始']), asTimeStr(s['終了']));
   const standby = String(d.standby || '').trim();              // '平日' / '日祝' / '' （オンコール待機）
   const standbyPay = standby === '日祝' ? 4000 : (standby === '平日' ? 2000 : 0);
   const pay = Math.round(hours * wage) + standbyPay;
   const month = asDateStr(s['日付']).slice(0, 7);
 
   const recSheet = rec.sh || mkSheet(getSS(), SH_RECORD, H_RECORD, '#8888A0');
-  recSheet.appendRow([newId('W'), sid, uid, s['シフトパターン'] || '', s['開始'] || '', s['終了'] || '',
+  recSheet.appendRow([newId('W'), sid, uid, s['シフトパターン'] || '', asTimeStr(s['開始']), asTimeStr(s['終了']),
                       hours, standby, standbyPay, wage, pay, true, month]);
   setCell(ap.sh, a._row, ap.headers, 'ステータス', '完了');
 
@@ -427,7 +432,7 @@ function listShifts(e) {
     .filter(r => !job || String(r['職種']).trim() === job)
     .map(r => ({
       shift_id: String(r['募集ID']).trim(), service: r['サービス'], facility: r['施設'], date: asDateStr(r['日付']),
-      pattern: r['シフトパターン'], start: String(r['開始']), end: String(r['終了']), job: r['職種'],
+      pattern: r['シフトパターン'], start: asTimeStr(r['開始']), end: asTimeStr(r['終了']), job: r['職種'],
       night: !!r['夜勤フラグ'], oncall: !!r['オンコールフラグ'], wage: Number(r['時給'] || 0),
       duty: r['業務内容'], license_req: r['資格要件'],
       seats: Math.max(0, Number(r['必要人数'] || 0) - Number(r['確定人数'] || 0)),
@@ -452,7 +457,7 @@ function myPage(e) {
       const s = shiftById[String(r['募集ID']).trim()] || {};
       return { apply_id: String(r['応募ID']).trim(), status: String(r['ステータス']).trim(),
                date: asDateStr(s['日付']), facility: s['施設'], pattern: s['シフトパターン'],
-               start: String(s['開始'] || ''), end: String(s['終了'] || ''), wage: Number(s['時給'] || 0) };
+               start: asTimeStr(s['開始']), end: asTimeStr(s['終了']), wage: Number(s['時給'] || 0) };
     });
   const hours = Number(worker['累計勤務時間'] || 0);
   return jsonOut({ status: 'ok', registered: true, name: worker['氏名'], job: worker['職種'],
@@ -464,7 +469,7 @@ function myPage(e) {
 function masters() {
   const wage = readRows(SH_WAGE).rows.map(r => ({ service: r['サービス'], kind: r['区分'], wage: Number(r['時給'] || 0) }));
   const pat = readRows(SH_PATTERN).rows.map(r => ({ service: r['サービス'], pattern: r['パターン'],
-                start: String(r['開始']), end: String(r['終了']), hours: r['実働'], kind: r['区分'] }));
+                start: asTimeStr(r['開始']), end: asTimeStr(r['終了']), hours: r['実働'], kind: r['区分'] }));
   return jsonOut({ status: 'ok', wages: wage, patterns: pat });
 }
 
@@ -481,7 +486,7 @@ function adminShifts(e) {
   const list = readRows(SH_SHIFT).rows.map(r => {
     const sid = String(r['募集ID']).trim();
     return { shift_id: sid, service: r['サービス'], facility: r['施設'], date: asDateStr(r['日付']),
-             pattern: r['シフトパターン'], start: String(r['開始']), end: String(r['終了']), job: r['職種'],
+             pattern: r['シフトパターン'], start: asTimeStr(r['開始']), end: asTimeStr(r['終了']), job: r['職種'],
              need: Number(r['必要人数'] || 0), filled: Number(r['確定人数'] || 0), status: String(r['ステータス']).trim(),
              pending: (apCount[sid] || {}).応募中 || 0, approved: (apCount[sid] || {}).承認 || 0 };
   });
@@ -572,7 +577,7 @@ function sendReminders() {
   let n = 0;
   shifts.forEach(s => {
     const sid = String(s['募集ID']).trim();
-    const when = `${asDateStr(s['日付'])} ${s['開始']}〜${s['終了']}`;
+    const when = `${asDateStr(s['日付'])} ${asTimeStr(s['開始'])}〜${asTimeStr(s['終了'])}`;
     apps.forEach(r => {
       if (String(r['募集ID']).trim() === sid && String(r['ステータス']).trim() === '承認') {
         if (linePush(String(r['line_user_id']).trim(),
