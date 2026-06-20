@@ -244,6 +244,14 @@ function testMail() {
   }
 }
 
+/** 登録通知の宛先テスト（GET ?action=test_line）。設定B6のLINEへテスト送信 */
+function testLine() {
+  const to = cfgVal(6);
+  if (!to) return jsonOut({ status: 'error', message: '設定シートB6にLINE userIdが未設定です' });
+  const ok = linePush(to, '【テスト】登録通知の宛先設定ができました ✅\n新規登録があると、ここに「【新規登録】◯◯さん」が届きます。' + appLink('登録者を見る'));
+  return jsonOut({ status: ok ? 'ok' : 'error', to: to });
+}
+
 /** まとめ通知：新着募集がN件追加されたことを該当職種の有効な登録者へ1通だけ送る（まとめ起票用） */
 function notifySummary(d) {
   if (!requireAdmin(d.key)) return jsonOut({ status: 'unauthorized' });
@@ -520,6 +528,7 @@ function doGet(e) {
       case 'applications': return listApplications(e);
       case 'payroll':      return payroll(e);
       case 'test_mail':    return testMail();
+      case 'test_line':    return testLine();
       default:             return jsonOut({ status: 'error', message: 'unknown action: ' + action });
     }
   } catch (err) {
