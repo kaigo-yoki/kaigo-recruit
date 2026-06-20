@@ -419,7 +419,7 @@ function recordWork(d) {
   const hours = (d.hours != null && d.hours !== '') ? Number(d.hours)
               : patternHours(s['サービス'], s['シフトパターン'], asTimeStr(s['開始']), asTimeStr(s['終了']));
   const standby = String(d.standby || '').trim();              // '平日' / '日祝' / '' （オンコール待機）
-  const standbyPay = standby === '日祝' ? 4000 : (standby === '平日' ? 2000 : 0);
+  const standbyPay = standby ? 2000 : 0;                        // 待機手当は平日・日祝とも一律¥2,000
   const pay = Math.round(hours * wage) + standbyPay;
   const month = asDateStr(s['日付']).slice(0, 7);
 
