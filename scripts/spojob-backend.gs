@@ -71,7 +71,7 @@ function setup() {
   if (wage.getLastRow() === 1) {
     wage.getRange(2, 1, 4, 3).setValues([
       ['訪問看護', '日勤', 2000],
-      ['訪問看護', 'オンコール実働', 2000],
+      ['訪問看護', 'オンコール実働', 2600],   // 待機手当¥2,000は別途、実働は基本¥2,000×1.3
       ['訪問介護ようき', '日勤', 1400],
       ['訪問介護ようき', '夜勤', 1500],
     ]);
@@ -313,7 +313,7 @@ function createShift(d) {
   if (!requireAdmin(d.key)) return jsonOut({ status: 'unauthorized' });
   const sheet = getSS().getSheetByName(SH_SHIFT) || mkSheet(getSS(), SH_SHIFT, H_SHIFT, '#4A8FD4');
   const id = newId('R');
-  const wage = d.wage || lookupWage(d.service, d.night ? '夜勤' : '日勤');
+  const wage = d.wage || lookupWage(d.service, d.oncall ? 'オンコール実働' : (d.night ? '夜勤' : '日勤'));
   sheet.appendRow([id, d.service || '訪問看護', d.facility || '', asDateStr(d.date), d.pattern || '',
                    d.start || '', d.end || '', d.job || '看護師', d.night ? 1 : '', d.oncall ? 1 : '',
                    Number(d.need || 1), 0, wage, d.duty || '', d.license_req || '', '募集中', d.source || '', nowStr()]);
