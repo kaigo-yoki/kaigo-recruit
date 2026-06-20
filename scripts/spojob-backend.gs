@@ -105,6 +105,9 @@ function setup() {
     cfg.getRange('A5').setValue('登録通知メール送信先').setFontWeight('bold');
     cfg.getRange('B5').setValue(Session.getEffectiveUser().getEmail());
   }
+  if (!cfg.getRange('A6').getValue()) {
+    cfg.getRange('A6').setValue('登録通知の送信先LINE userId（管理者）').setFontWeight('bold');
+  }
   return '設定完了。管理パスコード: ' + cfg.getRange('B1').getValue();
 }
 
@@ -195,8 +198,21 @@ function register(d) {
     return jsonOut({ status: 'ok', updated: true });
   }
   sheet.appendRow(rec);
-  sendRegMail(d);
+  notifyRegistration(d);
   return jsonOut({ status: 'ok', registered: true });
+}
+
+/** 新規登録を管理者へ通知：LINE（設定B6のuserId宛・確実）＋メール（権限があれば） */
+function notifyRegistration(d) {
+  const adminId = cfgVal(6);
+  if (adminId) {
+    const text = '【新規登録】' + (d.name || '') + 'さん\n'
+      + '職種：' + (d.job || '') + '／資格：' + (d.license || '') + '\n'
+      + '経験：' + (d.years || '') + '年／電話：' + (d.tel || '') + '\n'
+      + 'シェアフル経由：' + (d.via_sharefull ? 'はい' : 'いいえ') + appLink('登録者を見る');
+    linePush(adminId, text);
+  }
+  sendRegMail(d);   // メールも試行（権限があれば届く。無ければ無視）
 }
 
 /** 新規登録を管理者へメール通知（設定シートB5の宛先。無ければスクリプト実行者へ） */

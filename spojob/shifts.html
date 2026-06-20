@@ -522,6 +522,8 @@ async function boot(){
       await liff.init({liffId:LIFF_ID});
       if(!liff.isLoggedIn()){liff.login();return;}
       UID=(await liff.getProfile()).userId;
+      // 管理者向け：#myid で自分のLINE IDを表示（設定シートB6に貼る用）
+      if(location.hash==='#myid'){ hideLoading(); document.querySelector('.phone').innerHTML='<div style="padding:50px 24px;text-align:center"><div style="font-size:15px;font-weight:800;margin-bottom:16px">あなたのLINE ID（管理者設定用）</div><div style="font-size:13px;word-break:break-all;background:#EAF1FA;color:#2D5A8E;padding:16px;border-radius:12px;font-weight:700">'+UID+'</div><div style="font-size:12px;color:#888;margin-top:18px;line-height:1.7">この文字列を長押しでコピーし、<br>スプレッドシート「設定」シートの<br><b>B6セル</b>に貼り付けてください。</div></div>'; return; }
       document.getElementById('mocknote').style.display='none';
       const m=await gasGet({action:'mypage',uid:UID});
       if(m.status==='ok'&&!m.registered){location.href='register.html';return;}
