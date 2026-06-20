@@ -245,7 +245,7 @@ code{background:#EEF2F7;padding:1px 6px;border-radius:5px;font-size:12px;}
       <div class="f"><label>日付</label><input type="date" id="fDate"></div>
       <div class="f"><label>シフトパターン</label><select id="fPattern"></select></div>
       <div class="f"><label>必要人数</label><input type="number" id="fNeed" value="1" min="1" max="9"></div>
-      <div class="f"><label>時給（自動）</label><div class="wage-box" id="fWage">¥2,200/時</div></div>
+      <div class="f"><label>時給（自動）</label><div class="wage-box" id="fWage">¥2,000/時</div></div>
       <div class="f f-wide"><label>業務内容</label><input type="text" id="fDuty" placeholder="バイタル・服薬・処置 など"></div>
     </div>
     <button class="btn big" style="margin-top:8px" onclick="createShift(this)">＋ この内容で募集を作成</button>
@@ -357,7 +357,7 @@ function render(d){
       <td><span class="pill ${bp}">${x.block}</span> ${x.label}</td>
       <td>${x.we?'土日':'平日'}</td>
       <td><span class="pill need">${x.need}名</span></td>
-      <td><span class="yen">¥2,200</span>/時</td>
+      <td><span class="yen">¥2,000</span>/時</td>
       <td>${x.both?'<span class="pill day">1日化可</span>':'—'}</td>
       <td><button class="btn line" onclick="post(this,'${x.wd}曜 ${x.block}')">▶ 募集</button></td>`;
     body.appendChild(tr);
@@ -392,7 +392,7 @@ const MASTERS = {
   '訪問看護':[{p:'午前',s:'8:00',e:'13:00'},{p:'午後',s:'13:00',e:'18:00'},{p:'1日',s:'8:00',e:'17:00'},{p:'オンコール',s:'',e:'',oncall:true}],
   '訪問介護ようき':[{p:'早番',s:'6:00',e:'13:00'},{p:'遅番',s:'13:00',e:'18:00'},{p:'日勤(通し)',s:'8:00',e:'17:00'},{p:'夜勤',s:'16:30',e:'翌8:30',night:true}]
 };
-const WAGE = {'訪問看護':{日勤:2200},'訪問介護ようき':{日勤:1400,夜勤:1500}};
+const WAGE = {'訪問看護':{日勤:2000},'訪問介護ようき':{日勤:1400,夜勤:1500}};
 const jobOf = svc => svc==='訪問看護'?'看護師':'介護';
 
 let SHIFTS = ADMIN_LIVE ? [] : [
@@ -586,7 +586,7 @@ const SAMPLE_PAYROLL={
     {name:'宮城 由香',job:'看護師',count:3,hours:15,standby:0,pay:33000}
   ],
   '2026-07':[
-    {name:'大城 美咲',job:'看護師',count:10,hours:50,standby:0,pay:110000},
+    {name:'大城 美咲',job:'看護師',count:10,hours:50,standby:0,pay:100000},
     {name:'比嘉 健太',job:'介護',count:5,hours:40,standby:0,pay:56000}
   ]
 };

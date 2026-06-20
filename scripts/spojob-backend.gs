@@ -70,8 +70,8 @@ function setup() {
   const wage = mkSheet(ss, SH_WAGE, H_WAGE, '#D4A017');
   if (wage.getLastRow() === 1) {
     wage.getRange(2, 1, 4, 3).setValues([
-      ['訪問看護', '日勤', 2200],
-      ['訪問看護', 'オンコール実働', 2200],
+      ['訪問看護', '日勤', 2000],
+      ['訪問看護', 'オンコール実働', 2000],
       ['訪問介護ようき', '日勤', 1400],
       ['訪問介護ようき', '夜勤', 1500],
     ]);
@@ -100,6 +100,11 @@ function setup() {
     cfg.getRange('B4').setValue(1);
     cfg.setColumnWidth(1, 320); cfg.setColumnWidth(2, 360);
   }
+  // 登録通知メールの送信先（既存シートにも後付け。空ならスクリプト実行者へ送る）
+  if (!cfg.getRange('A5').getValue()) {
+    cfg.getRange('A5').setValue('登録通知メール送信先').setFontWeight('bold');
+    cfg.getRange('B5').setValue(Session.getEffectiveUser().getEmail());
+  }
   return '設定完了。管理パスコード: ' + cfg.getRange('B1').getValue();
 }
 
@@ -122,6 +127,7 @@ function cfgVal(row) {
 function adminKey() { return cfgVal(1); }
 function lineToken() { return cfgVal(2); }
 function notifyOn() { return cfgVal(4) !== '0'; }
+function notifyEmail() { return cfgVal(5) || Session.getEffectiveUser().getEmail(); }
 // 通知に付けるアプリ(LIFF)へのリンク。設定シートB3のLIFF IDを優先し、空ならフォールバックURL
 function liffLink() { const id = cfgVal(3); return id ? ('https://liff.line.me/' + id) : LIFF_FALLBACK_URL; }
 function appLink(label) { return '\n\n▶ ' + (label || 'アプリを開く') + '\n' + liffLink(); }
@@ -188,7 +194,26 @@ function register(d) {
     return jsonOut({ status: 'ok', updated: true });
   }
   sheet.appendRow(rec);
+  sendRegMail(d);
   return jsonOut({ status: 'ok', registered: true });
+}
+
+/** 新規登録を管理者へメール通知（設定シートB5の宛先。無ければスクリプト実行者へ） */
+function sendRegMail(d) {
+  const to = notifyEmail();
+  if (!to) return;
+  try {
+    const body = '新しい登録者がありました。\n\n'
+      + '氏名：' + (d.name || '') + '\n'
+      + 'ふりがな：' + (d.kana || '') + '\n'
+      + '職種：' + (d.job || '') + '\n'
+      + '保有資格：' + (d.license || '') + '\n'
+      + '経験年数：' + (d.years || '') + '年\n'
+      + '電話：' + (d.tel || '') + '\n'
+      + 'シェアフル経由：' + (d.via_sharefull ? 'はい' : 'いいえ') + '\n'
+      + '登録日時：' + nowStr() + '\n\n― 陽気スポジョブ（自動送信）';
+    MailApp.sendEmail(to, '【陽気スポジョブ】新規登録：' + (d.name || '') + 'さん', body);
+  } catch (err) {}
 }
 
 /** 募集へ応募（同一募集の重複＋同日・時間帯の重複＝ダブルブッキングを防止） */
@@ -412,7 +437,7 @@ function recordWork(d) {
     setCell(w.sh, wr._row, w.headers, '累計勤務時間', newH);
     const milestones = Math.floor(newH / 100) - Math.floor(oldH / 100);
     if (milestones > 0) {
-      bonus = milestones * 10000;
+      bonus = milestones * 20000;
       setCell(w.sh, wr._row, w.headers, '累計ボーナス', Number(wr['累計ボーナス'] || 0) + bonus);
     }
     if (notifyOn()) {

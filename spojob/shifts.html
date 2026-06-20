@@ -219,19 +219,19 @@ body{font-family:'M PLUS Rounded 1c','Noto Sans JP',sans-serif;background:#E8EDF
   <div class="view" id="view-shifts">
   <!-- Hero -->
   <div class="hero">
-    <span class="badge">⚡ 手数料0円だから高時給</span>
-    <h1>シェアフルより<em>高い時給</em>で<br>働けます。</h1>
-    <div class="sub">看護師 時給¥2,200／介護¥1,400／夜勤¥1,500 ・ 100時間ごとに¥10,000ボーナス</div>
+    <span class="badge">⚡ 手数料0円・100時間で2万円</span>
+    <h1>働くほどお得。<br><em>100時間で2万円</em>ボーナス。</h1>
+    <div class="sub">看護師 時給¥2,000／介護¥1,400／夜勤¥1,500 ・ 100時間ごとに¥20,000ボーナス</div>
   </div>
 
   <!-- Bonus progress -->
   <div class="bonus">
     <div class="bonus-top">
       <div class="lbl"><span class="ic">🎁</span>ボーナスまであと少し</div>
-      <div class="goal">100時間で¥10,000</div>
+      <div class="goal">100時間で¥20,000</div>
     </div>
     <div class="bar-bg"><div class="bar-fill" id="bFill"></div></div>
-    <div class="bonus-foot"><span>累計 <b id="bHours">68時間</b></span><span id="bNext">あと<b>32時間</b>で¥10,000🎉</span></div>
+    <div class="bonus-foot"><span>累計 <b id="bHours">68時間</b></span><span id="bNext">あと<b>32時間</b>で¥20,000🎉</span></div>
   </div>
 
   <!-- Filters -->
@@ -271,21 +271,21 @@ const GAS = CFG.gasUrl || '', LIFF_ID = CFG.liffId || '';
 let UID = null, ALL = [], FILTER = 'all', MY = null, VIEW_YM = null;
 
 const SAMPLE = [
-  {shift_id:'s1',service:'訪問看護',date:'2026-06-20',pattern:'午前',start:'8:00',end:'13:00',job:'看護師',night:false,oncall:false,wage:2200,duty:'服薬管理・バイタル・処置',seats:1,applied:false},
+  {shift_id:'s1',service:'訪問看護',date:'2026-06-20',pattern:'午前',start:'8:00',end:'13:00',job:'看護師',night:false,oncall:false,wage:2000,duty:'服薬管理・バイタル・処置',seats:1,applied:false},
   {shift_id:'s2',service:'訪問介護ようき',date:'2026-06-21',pattern:'夜勤',start:'16:30',end:'翌8:30',job:'介護',night:true,oncall:false,wage:1500,duty:'見守り・排泄・記録',seats:2,applied:false,timenote:'（16時間・仮眠あり）'},
   {shift_id:'s3',service:'訪問介護ようき',date:'2026-06-22',pattern:'日勤(通し)',start:'8:00',end:'17:00',job:'介護',night:false,oncall:false,wage:1400,duty:'入浴介助・食事・レク',seats:1,applied:false,timenote:'（休憩60分）'},
-  {shift_id:'s4',service:'訪問看護',date:'2026-06-22',pattern:'午後',start:'13:00',end:'18:00',job:'看護師',night:false,oncall:false,wage:2200,duty:'バイタル・服薬・処置',seats:1,applied:false},
-  {shift_id:'s5',service:'訪問看護',date:'2026-06-25',pattern:'午前',start:'8:00',end:'13:00',job:'看護師',night:false,oncall:false,wage:2200,duty:'バイタル・処置',seats:2,applied:false},
+  {shift_id:'s4',service:'訪問看護',date:'2026-06-22',pattern:'午後',start:'13:00',end:'18:00',job:'看護師',night:false,oncall:false,wage:2000,duty:'バイタル・服薬・処置',seats:1,applied:false},
+  {shift_id:'s5',service:'訪問看護',date:'2026-06-25',pattern:'午前',start:'8:00',end:'13:00',job:'看護師',night:false,oncall:false,wage:2000,duty:'バイタル・処置',seats:2,applied:false},
   {shift_id:'s6',service:'訪問介護ようき',date:'2026-06-25',pattern:'早番',start:'6:00',end:'13:00',job:'介護',night:false,oncall:false,wage:1400,duty:'起床介助・朝食・整容',seats:1,applied:false},
   {shift_id:'s7',service:'訪問介護ようき',date:'2026-06-27',pattern:'夜勤',start:'16:30',end:'翌8:30',job:'介護',night:true,oncall:false,wage:1500,duty:'見守り・排泄・記録',seats:1,applied:false,timenote:'（16時間・仮眠あり）'},
-  {shift_id:'s8',service:'訪問看護',date:'2026-06-28',pattern:'1日',start:'8:00',end:'17:00',job:'看護師',night:false,oncall:false,wage:2200,duty:'バイタル・服薬・処置・記録',seats:1,applied:false},
+  {shift_id:'s8',service:'訪問看護',date:'2026-06-28',pattern:'1日',start:'8:00',end:'17:00',job:'看護師',night:false,oncall:false,wage:2000,duty:'バイタル・服薬・処置・記録',seats:1,applied:false},
   {shift_id:'s9',service:'訪問介護ようき',date:'2026-06-30',pattern:'遅番',start:'13:00',end:'18:00',job:'介護',night:false,oncall:false,wage:1400,duty:'入浴介助・レク・夕食',seats:2,applied:false}
 ];
 const MYPAGE = {registered:true,name:'陽気 花子',job:'看護師',total_hours:68,bonus_count:0,to_next:32,
   applications:[
-    {apply_id:'a1',shift_id:'',status:'承認',date:'2026-06-15',pattern:'午前',start:'8:00',end:'13:00',wage:2200},
-    {apply_id:'a2',shift_id:'s1',status:'応募中',date:'2026-06-20',pattern:'午前',start:'8:00',end:'13:00',wage:2200},
-    {apply_id:'a3',shift_id:'',status:'却下',date:'2026-06-10',pattern:'午後',start:'13:00',end:'18:00',wage:2200}
+    {apply_id:'a1',shift_id:'',status:'承認',date:'2026-06-15',pattern:'午前',start:'8:00',end:'13:00',wage:2000},
+    {apply_id:'a2',shift_id:'s1',status:'応募中',date:'2026-06-20',pattern:'午前',start:'8:00',end:'13:00',wage:2000},
+    {apply_id:'a3',shift_id:'',status:'却下',date:'2026-06-10',pattern:'午後',start:'13:00',end:'18:00',wage:2000}
   ]};
 
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000);}
@@ -300,7 +300,7 @@ function cardHTML(s){
   let otoku;
   if(s.night)otoku=`<span class="pill">夜勤プレミア</span><div class="note">日勤より +¥100/時</div>`;
   else if(s.oncall)otoku=`<span class="pill">待機＋実働</span><div class="note">待機手当あり</div>`;
-  else{const diff=s.wage-base(s.job);otoku=`<span class="pill">+¥${diff} お得</span><div class="note"><s>シェアフル ¥${base(s.job).toLocaleString()}</s></div>`;}
+  else{const diff=s.wage-base(s.job);otoku=diff>0?`<span class="pill">+¥${diff} お得</span><div class="note"><s>シェアフル ¥${base(s.job).toLocaleString()}</s></div>`:`<span class="pill">🎁 100hで2万円</span><div class="note">＋ボーナス特典</div>`;}
   const seatsCls=s.seats<=1?'seats few':'seats';
   const btn=s.applied?`<button class="apply done">✓ 応募済み</button>`
     :`<button class="apply" onclick="doApply('${s.shift_id}')">応募する <span class="li">▶ LINEでかんたん</span></button>`;
@@ -451,7 +451,7 @@ function setCanceled(aid){
 function updateBonusBar(){
   const h=(MY&&MY.total_hours)||0, next=(MY&&MY.to_next)||(100-h%100);
   document.getElementById('bHours').textContent=h+'時間';
-  document.getElementById('bNext').innerHTML=`あと<b>${next}時間</b>で¥10,000🎉`;
+  document.getElementById('bNext').innerHTML=`あと<b>${next}時間</b>で¥20,000🎉`;
   document.getElementById('bFill').style.width=((h%100)/100*100)+'%';
 }
 
@@ -480,13 +480,13 @@ function renderBonus(){
     <div class="bcard">
       <div class="bbig">${h}<small>時間</small></div><div class="blbl">累計勤務時間</div>
       <div class="bbar"><div class="bbarf" style="width:${h%100}%"></div></div>
-      <div class="bfoot">あと <b>${next}時間</b> で次の ¥10,000🎉</div>
+      <div class="bfoot">あと <b>${next}時間</b> で次の ¥20,000🎉</div>
     </div>
     <div class="bgrid">
       <div class="bg"><div class="bgn">${cnt}<small>回</small></div><div class="bgl">達成回数</div></div>
-      <div class="bg"><div class="bgn">¥${(cnt*10000).toLocaleString()}</div><div class="bgl">獲得ボーナス</div></div>
+      <div class="bg"><div class="bgn">¥${(cnt*20000).toLocaleString()}</div><div class="bgl">獲得ボーナス</div></div>
     </div>
-    <div class="bnote">100時間ごとに¥10,000。実働時間で自動集計され、達成時にLINEでお知らせします。</div>`;
+    <div class="bnote">100時間ごとに¥20,000。実働時間で自動集計され、達成時にLINEでお知らせします。</div>`;
 }
 function renderMypage(){
   const name=(MY&&MY.name)||'ゲスト', job=(MY&&MY.job)||'-', h=(MY&&MY.total_hours)||0, cnt=(MY&&MY.bonus_count)||Math.floor(h/100);
@@ -494,7 +494,7 @@ function renderMypage(){
     <div class="mp-card"><div class="mp-ava">${job==='看護師'?'🩺':'🤝'}</div><div><div class="mp-name">${name}</div><div class="mp-job">${job}</div></div></div>
     <div class="bgrid">
       <div class="bg"><div class="bgn">${h}<small>h</small></div><div class="bgl">累計勤務</div></div>
-      <div class="bg"><div class="bgn">¥${(cnt*10000).toLocaleString()}</div><div class="bgl">ボーナス</div></div>
+      <div class="bg"><div class="bgn">¥${(cnt*20000).toLocaleString()}</div><div class="bgl">ボーナス</div></div>
     </div>
     <a class="mp-btn" href="register.html">登録情報を編集する</a>
     ${(GAS&&LIFF_ID)?'<button class="mp-btn out" onclick="doLogout()">ログアウト</button>':''}`;
