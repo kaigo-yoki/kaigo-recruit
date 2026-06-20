@@ -497,7 +497,8 @@ function renderMypage(){
       <div class="bg"><div class="bgn">¥${(cnt*20000).toLocaleString()}</div><div class="bgl">ボーナス</div></div>
     </div>
     <a class="mp-btn" href="register.html">登録情報を編集する</a>
-    ${(GAS&&LIFF_ID)?'<button class="mp-btn out" onclick="doLogout()">ログアウト</button>':''}`;
+    ${(GAS&&LIFF_ID)?'<button class="mp-btn out" onclick="doLogout()">ログアウト</button>':''}
+    ${UID?`<div style="text-align:center;font-size:10px;color:#c2c2cc;margin:16px 14px 0;word-break:break-all;line-height:1.6">LINE ID（管理者設定用）<br>${UID}</div>`:''}`;
 }
 function doLogout(){try{if(window.liff&&liff.logout)liff.logout();}catch(e){}location.reload();}
 
