@@ -209,7 +209,7 @@ function notifyRegistration(d) {
     const text = '【新規登録】' + (d.name || '') + 'さん\n'
       + '職種：' + (d.job || '') + '／資格：' + (d.license || '') + '\n'
       + '経験：' + (d.years || '') + '年／電話：' + (d.tel || '') + '\n'
-      + 'シェアフル経由：' + (d.via_sharefull ? 'はい' : 'いいえ') + appLink('登録者を見る');
+      + 'シェアフル経由：' + (d.via_sharefull ? 'はい' : 'いいえ');
     linePush(adminId, text);
   }
   sendRegMail(d);   // メールも試行（権限があれば届く。無ければ無視）
@@ -248,7 +248,7 @@ function testMail() {
 function testLine() {
   const to = cfgVal(6);
   if (!to) return jsonOut({ status: 'error', message: '設定シートB6にLINE userIdが未設定です' });
-  const ok = linePush(to, '【テスト】登録通知の宛先設定ができました ✅\n新規登録があると、ここに「【新規登録】◯◯さん」が届きます。' + appLink('登録者を見る'));
+  const ok = linePush(to, '【テスト】登録通知の宛先設定ができました ✅\n新規登録があると、ここに「【新規登録】◯◯さん」が届きます。');
   return jsonOut({ status: ok ? 'ok' : 'error', to: to });
 }
 
