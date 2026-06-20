@@ -359,14 +359,53 @@ function render(d){
       <td><span class="pill need">${x.need}名</span></td>
       <td><span class="yen">¥2,000</span>/時</td>
       <td>${x.both?'<span class="pill day">1日化可</span>':'—'}</td>
-      <td><button class="btn line" onclick="post(this,'${x.wd}曜 ${x.block}')">▶ 募集</button></td>`;
+      <td><button class="btn line" data-wd="${x.wd}" data-block="${x.block}" data-need="${x.need}" onclick="post(this)">▶ 募集</button></td>`;
     body.appendChild(tr);
   });
   document.getElementById('bulkN').textContent=cand.length+'枠';
 }
 function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1900);}
-function post(btn,label){btn.outerHTML='<button class="btn done">✓ 起票済み</button>';toast('「'+label+'」をスポジョブ募集に起票（LINE通知）');}
-function bulk(){document.querySelectorAll('.btn.line').forEach(b=>{if(b.textContent.includes('募集'))b.outerHTML='<button class="btn done">✓ 起票済み</button>';});toast('不足ブロックをまとめて起票🎉 スポット看護師へLINE通知');}
+// 曜日(日〜土)→「今日は含めない次回の同曜日」の日付(yyyy-mm-dd)
+function nextDOW(wd){
+  const idx=['日','月','火','水','木','金','土'].indexOf(wd); if(idx<0)return '';
+  const t=new Date(); t.setHours(0,0,0,0);
+  let diff=(idx-t.getDay()+7)%7; if(diff===0)diff=7;
+  const d=new Date(t.getTime()+diff*86400000);
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function candPat(block){return block==='午前'?{p:'午前',s:'8:00',e:'13:00'}:{p:'午後',s:'13:00',e:'18:00'};}
+// 不足ブロック1件を実際に募集起票（訪問看護・各曜日の次回分）
+async function post(btn){
+  const wd=btn.dataset.wd, block=btn.dataset.block, need=Number(btn.dataset.need||1);
+  const pat=candPat(block), date=nextDOW(wd);
+  if(!ADMIN_LIVE){ btn.outerHTML='<button class="btn done">✓ 起票済み</button>'; toast(`（サンプル）${date} ${pat.p} を起票`); return; }
+  if(!SKEY){ toast('先に🔑管理ログインしてください'); return; }
+  btn.disabled=true;
+  try{
+    const res=await sPost({action:'create_shift',key:SKEY,service:'訪問看護',facility:'',date,pattern:pat.p,start:pat.s,end:pat.e,job:'看護師',need,duty:'訪問看護（バイタル・処置）',wage:(WAGE['訪問看護']||{}).日勤||2000});
+    if(res.status==='ok'){ btn.outerHTML='<button class="btn done">✓ 起票済み</button>'; toast(`${date} ${pat.p} を起票（${res.notified||0}名へLINE通知）`); loadManage(); }
+    else { btn.disabled=false; toast(res.message||'起票に失敗しました'); }
+  }catch(e){ btn.disabled=false; toast('通信エラー'); }
+}
+// 検出した不足ブロックをまとめて起票（各曜日の次回分。LINE通知は1通にまとめる）
+async function bulk(){
+  const btns=[...document.querySelectorAll('#candBody .btn.line')];
+  if(!btns.length){ toast('起票できる不足ブロックがありません'); return; }
+  if(ADMIN_LIVE && !SKEY){ toast('先に🔑管理ログインしてください'); return; }
+  if(!confirm(`${btns.length}枠を「訪問看護」の募集として起票します（各曜日の次回分）。よろしいですか？`)) return;
+  let ok=0;
+  for(const btn of btns){
+    const wd=btn.dataset.wd, block=btn.dataset.block, need=Number(btn.dataset.need||1), pat=candPat(block), date=nextDOW(wd);
+    if(!ADMIN_LIVE){ ok++; btn.outerHTML='<button class="btn done">✓ 起票済み</button>'; continue; }
+    try{
+      const res=await sPost({action:'create_shift',key:SKEY,service:'訪問看護',facility:'',date,pattern:pat.p,start:pat.s,end:pat.e,job:'看護師',need,duty:'訪問看護（バイタル・処置）',wage:(WAGE['訪問看護']||{}).日勤||2000,silent:true});
+      if(res.status==='ok'){ ok++; btn.outerHTML='<button class="btn done">✓ 起票済み</button>'; }
+    }catch(e){}
+  }
+  if(ADMIN_LIVE && ok>0){ try{ await sPost({action:'notify_summary',key:SKEY,job:'看護師',count:ok}); }catch(e){} }
+  toast(`${ok}枠を起票しました${ADMIN_LIVE?'（看護師へLINE通知）':''}`);
+  if(ADMIN_LIVE) loadManage();
+}
 render(SAMPLE);
 </script>
 

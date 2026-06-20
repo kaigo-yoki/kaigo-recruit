@@ -167,6 +167,7 @@ function doPost(e) {
       case 'set_status':   return setShiftStatus(d);
       case 'verify_worker':return verifyWorker(d);
       case 'unapprove':    return unapprove(d);
+      case 'notify_summary':return notifySummary(d);
       default:             return jsonOut({ status: 'error', message: 'unknown action: ' + action });
     }
   } catch (err) {
@@ -214,6 +215,33 @@ function sendRegMail(d) {
       + '登録日時：' + nowStr() + '\n\n― 陽気スポジョブ（自動送信）';
     MailApp.sendEmail(to, '【陽気スポジョブ】新規登録：' + (d.name || '') + 'さん', body);
   } catch (err) {}
+}
+
+/** メール送信テスト（GET ?action=test_mail）。届けば登録通知メールも正常。権限未承認なら error を返す */
+function testMail() {
+  const to = notifyEmail();
+  try {
+    MailApp.sendEmail(to, '【陽気スポジョブ】テスト送信', 'これはテスト送信です。\nこのメールが届いていれば、登録通知メールは正常に動作します。\n' + nowStr());
+    return jsonOut({ status: 'ok', to: to });
+  } catch (err) {
+    return jsonOut({ status: 'error', to: to, message: String(err) });
+  }
+}
+
+/** まとめ通知：新着募集がN件追加されたことを該当職種の有効な登録者へ1通だけ送る（まとめ起票用） */
+function notifySummary(d) {
+  if (!requireAdmin(d.key)) return jsonOut({ status: 'unauthorized' });
+  let n = 0;
+  if (notifyOn()) {
+    const job = String(d.job || '看護師').trim();
+    const text = '【新着シフト】' + Number(d.count || 0) + '件の募集が追加されました。' + appLink('シフトを見る');
+    readRows(SH_WORKER).rows.forEach(r => {
+      if (String(r['ステータス']).trim() === '有効' && String(r['職種']).trim() === job) {
+        if (linePush(String(r['line_user_id']).trim(), text)) n++;
+      }
+    });
+  }
+  return jsonOut({ status: 'ok', notified: n });
 }
 
 /** 募集へ応募（同一募集の重複＋同日・時間帯の重複＝ダブルブッキングを防止） */
@@ -319,7 +347,7 @@ function createShift(d) {
                    Number(d.need || 1), 0, wage, d.duty || '', d.license_req || '', '募集中', d.source || '', nowStr()]);
   // 新着通知（該当職種の有効な登録者へ）
   let notified = 0;
-  if (notifyOn()) notified = pushNewShift({ service: d.service, facility: d.facility, date: asDateStr(d.date),
+  if (notifyOn() && !d.silent) notified = pushNewShift({ service: d.service, facility: d.facility, date: asDateStr(d.date),
                                             pattern: d.pattern, start: d.start, end: d.end, job: d.job || '看護師', wage: wage });
   return jsonOut({ status: 'ok', shift_id: id, notified: notified });
 }
@@ -475,6 +503,7 @@ function doGet(e) {
       case 'admin_shifts': return adminShifts(e);
       case 'applications': return listApplications(e);
       case 'payroll':      return payroll(e);
+      case 'test_mail':    return testMail();
       default:             return jsonOut({ status: 'error', message: 'unknown action: ' + action });
     }
   } catch (err) {
