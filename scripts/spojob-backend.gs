@@ -528,6 +528,7 @@ function doGet(e) {
       case 'admin_shifts': return adminShifts(e);
       case 'applications': return listApplications(e);
       case 'workers':      return listWorkers(e);
+      case 'recount':      return recountShifts({ key: e.parameter.key });
       case 'payroll':      return payroll(e);
       case 'test_mail':    return testMail();
       case 'test_line':    return testLine();
@@ -631,6 +632,34 @@ function listApplications(e) {
                applied_at: String(r['応募日時']), status: String(r['ステータス']).trim() };
     });
   return jsonOut({ status: 'ok', applications: list });
+}
+
+/** 確定人数のズレ修正：各募集の確定人数を「実際の承認＋完了の応募数」に再計算し、ステータスも補正（管理キー必須）。GET ?action=recount&key= */
+function recountShifts(d) {
+  if (!requireAdmin(d.key)) return jsonOut({ status: 'unauthorized' });
+  const cnt = {};
+  readRows(SH_APPLY).rows.forEach(r => {
+    const st = String(r['ステータス']).trim();
+    if (st === '承認' || st === '完了') {
+      const sid = String(r['募集ID']).trim();
+      cnt[sid] = (cnt[sid] || 0) + 1;
+    }
+  });
+  const sd = readRows(SH_SHIFT);
+  let fixed = 0;
+  sd.rows.forEach(s => {
+    const sid = String(s['募集ID']).trim();
+    const actual = cnt[sid] || 0, need = Number(s['必要人数'] || 1);
+    const curN = Number(s['確定人数'] || 0), curSt = String(s['ステータス']).trim();
+    let changed = false;
+    if (curN !== actual) { setCell(sd.sh, s._row, sd.headers, '確定人数', actual); changed = true; }
+    if (curSt !== '中止') {   // 中止はそのまま、それ以外は確定状況に合わせて締切/募集中を補正
+      const want = actual >= need ? '締切' : '募集中';
+      if (curSt !== want) { setCell(sd.sh, s._row, sd.headers, 'ステータス', want); changed = true; }
+    }
+    if (changed) fixed++;
+  });
+  return jsonOut({ status: 'ok', fixed: fixed });
 }
 
 /** 施設側：登録者一覧（?key=管理キー必須）。管理者がスポジョブ登録者の情報を一覧で見る用 */
