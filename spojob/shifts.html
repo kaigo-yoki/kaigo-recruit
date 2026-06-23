@@ -305,7 +305,7 @@ function cardHTML(s){
   const btn=s.applied?`<button class="apply done">✓ 応募済み</button>`
     :`<button class="apply" onclick="doApply('${s.shift_id}')">応募する <span class="li">▶ LINEでかんたん</span></button>`;
   return `<div class="card${s.night?' night':''}">
-    <div class="c-head"><div class="c-fac"><div class="ic ${s.night?'h3':(s.job==='看護師'?'h1':'h2')}">${s.night?'🌙':(s.job==='看護師'?'🩺':'🤝')}</div><div class="nm">${s.service||s.job}</div></div><div class="${seatsCls}">残り${s.seats}名</div></div>
+    <div class="c-head"><div class="c-fac"><div class="ic ${s.night?'h3':(s.job==='看護師'?'h1':'h2')}">${s.night?'🌙':(s.job==='看護師'?'🩺':'🤝')}</div><div class="nm">${s.service||s.job}</div></div><div class="${seatsCls}">あと${s.seats}名</div></div>
     <div class="tags"><span class="tag ${jobCls}">${s.job}</span>${patTag}</div>
     <div class="c-time">${s.night?'🌙':'🕗'} <span class="dt">${s.start}〜${s.end}</span>${s.timenote||''}</div>
     <div class="pay-row"><div class="pay"><div class="yen">¥${Number(s.wage).toLocaleString()}<small>/時</small></div></div><div class="otoku">${otoku}</div></div>

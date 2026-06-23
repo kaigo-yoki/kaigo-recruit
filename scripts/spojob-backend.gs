@@ -392,11 +392,12 @@ function decide(d, kind) {
         message: '看護師は資格確認（確認済）後でないと承認できません。先に「資格・本人確認」を行ってください。' });
     }
   }
+  const prevStatus = String(a['ステータス']).trim();
   setCell(ap.sh, a._row, ap.headers, 'ステータス', kind);
 
   const sd = readRows(SH_SHIFT);
   const s = sd.rows.find(r => String(r['募集ID']).trim() === String(a['募集ID']).trim());
-  if (kind === '承認' && s) {
+  if (kind === '承認' && s && prevStatus !== '承認') {   // 既に承認済みなら二重カウントしない
     const filled = Number(s['確定人数'] || 0) + 1;
     setCell(sd.sh, s._row, sd.headers, '確定人数', filled);
     if (filled >= Number(s['必要人数'] || 1)) setCell(sd.sh, s._row, sd.headers, 'ステータス', '締切');
