@@ -102,6 +102,11 @@ code{background:#EEF2F7;padding:1px 6px;border-radius:5px;font-size:12px;}
 .wfilter{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;}
 .wfilter input,.wfilter select{font-family:inherit;font-size:13px;font-weight:600;padding:9px 12px;border:1.5px solid var(--bd);border-radius:10px;background:#fff;color:var(--text);}
 .wfilter input{flex:1;min-width:190px;}
+.shimport{margin:12px 0 2px;}
+.shimport summary{cursor:pointer;font-weight:800;color:var(--orange);font-size:12.5px;padding:6px 0;}
+.shimport-note{font-size:11.5px;color:var(--text-light);line-height:1.7;margin:6px 0 8px;}
+.shimport textarea{width:100%;height:90px;font-family:ui-monospace,monospace;font-size:11px;border:1.5px solid var(--bd);border-radius:8px;padding:8px;resize:vertical;box-sizing:border-box;}
+.shimport-actions{display:flex;align-items:center;gap:10px;margin-top:8px;flex-wrap:wrap;font-size:12px;}
 .pill{display:inline-block;font-size:11px;font-weight:800;padding:3px 10px;border-radius:12px;}
 .pill.wd{background:#EAF1FA;color:var(--primary);}
 .pill.we{background:var(--red-light);color:var(--red);}
@@ -196,6 +201,18 @@ code{background:#EEF2F7;padding:1px 6px;border-radius:5px;font-size:12px;}
     <div class="panel-h">
       <div class="ttl">🗓 曜日 × 午前/午後 の不足</div>
       <div class="desc">数字＝必要人数（そのブロック内のピーク需要） ／ 右上＝最大同時</div>
+    </div>
+    <div class="shimport">
+      <details>
+        <summary>📥 不足データを取り込む（クラウドの /api/sharefull のJSONを貼る）</summary>
+        <div class="shimport-note">クラウドの訪看アプリで <b>/api/sharefull?month=2026-07</b> を開く → 表示されたJSONを全部コピー → 下に貼って「反映する」。<b>確定済みのスポジョブ募集（訪問看護）は自動で差し引かれ、残りの不足だけ</b>が表示されます。</div>
+        <textarea id="shJson" placeholder='{"available":true,"month":"2026-07","rows":[...],"bands":[...]}'></textarea>
+        <div class="shimport-actions">
+          <button class="btn" onclick="importShortage()">反映する</button>
+          <button class="btn" style="background:#eee;color:#555" onclick="clearShortage()">サンプルに戻す</button>
+          <span id="shStatus"></span>
+        </div>
+      </details>
     </div>
     <div class="blocks" id="blocks"></div>
     <div class="legend">
@@ -324,6 +341,9 @@ function el(t,c,txt){const e=document.createElement(t);e.className=c;if(txt!=nul
 
 function render(d){
   const agg=aggregate(d);
+  // 確定済みのスポジョブ募集（訪問看護）を曜日×ブロックで差し引き、残り不足を表示
+  const conf=confirmedByBlock();
+  agg.forEach(r=>BLOCKS.forEach(B=>{const sub=(conf[r.wd]||{})[B.key]||0;if(sub)r.blk[B.key].need=Math.max(0,r.blk[B.key].need-sub);}));
   // summary
   document.getElementById('cTotal').innerHTML=d.total+'<small>件</small>';
   let blkArr=agg.flatMap(r=>BLOCKS.map(B=>r.blk[B.key]));
@@ -420,7 +440,38 @@ async function bulk(){
   toast(`${ok}枠を起票しました${ADMIN_LIVE?'（看護師へLINE通知）':''}`);
   if(ADMIN_LIVE) loadManage();
 }
-render(SAMPLE);
+// 確定済みスポジョブ募集（訪問看護）を 曜日×ブロック で集計（SHIFTSは別scriptで後から定義されるためtry/catch）
+function confirmedByBlock(){
+  let shifts; try{shifts=SHIFTS;}catch(e){return {};}
+  if(!shifts||!shifts.length)return {};
+  const m={};const WD=['日','月','火','水','木','金','土'];
+  shifts.forEach(s=>{
+    if(String(s.status||'')==='中止')return;
+    if(s.service!=='訪問看護')return;
+    const filled=Number(s.filled||0);if(filled<=0)return;
+    const dt=new Date((s.date||'')+'T00:00:00');if(isNaN(dt.getTime()))return;
+    const wd=WD[dt.getDay()];
+    const blocks=s.pattern==='1日'?['午前','午後']:(s.pattern==='午前'?['午前']:(s.pattern==='午後'?['午後']:[]));
+    blocks.forEach(b=>{m[wd]=m[wd]||{};m[wd][b]=(m[wd][b]||0)+filled;});
+  });
+  return m;
+}
+// 不足データ（/api/sharefull JSON）の取り込み・保存
+let SHORTAGE=SAMPLE;
+(function(){const s=localStorage.getItem('spojob_sharefull');if(s){try{const d=JSON.parse(s);if(d&&d.rows&&d.bands)SHORTAGE=d;}catch(e){}}})();
+function importShortage(){
+  const t=(document.getElementById('shJson').value||'').trim();
+  if(!t){toast('JSONを貼り付けてください');return;}
+  let d;try{d=JSON.parse(t);}catch(e){toast('JSONの形式が正しくありません');return;}
+  if(!d.rows||!d.bands){toast('sharefullのデータではないようです（rows/bandsがありません）');return;}
+  SHORTAGE=d;localStorage.setItem('spojob_sharefull',t);
+  document.getElementById('shJson').value='';render(SHORTAGE);updateShStatus();
+  toast('不足データを反映しました'+(d.month?'（'+d.month+'）':''));
+}
+function clearShortage(){localStorage.removeItem('spojob_sharefull');SHORTAGE=SAMPLE;render(SHORTAGE);updateShStatus();toast('サンプル表示に戻しました');}
+function updateShStatus(){const el=document.getElementById('shStatus');if(!el)return;const saved=localStorage.getItem('spojob_sharefull');el.innerHTML=saved?`<b style="color:#1a8f5a">● 実データ表示中（${SHORTAGE.month||''}）</b>`:'<span style="color:#999">サンプル表示中</span>';}
+render(SHORTAGE);
+updateShStatus();
 </script>
 
 <script src="../scripts/spojob-config.js"></script>
@@ -618,9 +669,9 @@ function updateBadges(sid){
 }
 
 async function loadManage(){
-  if(!ADMIN_LIVE){renderManage();return;}
-  try{const r=await sGet({action:'admin_shifts',key:SKEY});if(r.status==='ok'){SHIFTS=r.shifts;APPS={};}}catch(e){}
+  if(ADMIN_LIVE){try{const r=await sGet({action:'admin_shifts',key:SKEY});if(r.status==='ok'){SHIFTS=r.shifts;APPS={};}}catch(e){}}
   renderManage();
+  try{render(SHORTAGE);}catch(e){}   // SHIFTS確定後、確定済みを差し引いてヒートマップ再描画
 }
 
 // init
