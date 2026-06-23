@@ -529,6 +529,7 @@ function doGet(e) {
       case 'applications': return listApplications(e);
       case 'workers':      return listWorkers(e);
       case 'recount':      return recountShifts({ key: e.parameter.key });
+      case 'clear':        return clearTestData({ key: e.parameter.key, confirm: e.parameter.confirm });
       case 'payroll':      return payroll(e);
       case 'test_mail':    return testMail();
       case 'test_line':    return testLine();
@@ -632,6 +633,20 @@ function listApplications(e) {
                applied_at: String(r['応募日時']), status: String(r['ステータス']).trim() };
     });
   return jsonOut({ status: 'ok', applications: list });
+}
+
+/** テストデータ一括クリア：募集・応募・勤務実績をヘッダ残して全削除（登録者・マスタ・設定は残す）。本番開始前のリセット用。GET ?action=clear&key=&confirm=yes */
+function clearTestData(d) {
+  if (!requireAdmin(d.key)) return jsonOut({ status: 'unauthorized' });
+  if (String(d.confirm) !== 'yes') return jsonOut({ status: 'error', message: '誤実行防止のため confirm=yes が必要です' });
+  const ss = getSS();
+  const cleared = {};
+  [SH_SHIFT, SH_APPLY, SH_RECORD].forEach(name => {
+    const sh = ss.getSheetByName(name);
+    if (sh && sh.getLastRow() > 1) { const n = sh.getLastRow() - 1; sh.deleteRows(2, n); cleared[name] = n; }
+    else cleared[name] = 0;
+  });
+  return jsonOut({ status: 'ok', cleared: cleared });
 }
 
 /** 確定人数のズレ修正：各募集の確定人数を「実際の承認＋完了の応募数」に再計算し、ステータスも補正（管理キー必須）。GET ?action=recount&key= */
