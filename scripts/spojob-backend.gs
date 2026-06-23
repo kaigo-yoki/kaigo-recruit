@@ -526,6 +526,7 @@ function doGet(e) {
       case 'masters':      return masters();
       case 'admin_shifts': return adminShifts(e);
       case 'applications': return listApplications(e);
+      case 'workers':      return listWorkers(e);
       case 'payroll':      return payroll(e);
       case 'test_mail':    return testMail();
       case 'test_line':    return testLine();
@@ -629,6 +630,19 @@ function listApplications(e) {
                applied_at: String(r['応募日時']), status: String(r['ステータス']).trim() };
     });
   return jsonOut({ status: 'ok', applications: list });
+}
+
+/** 施設側：登録者一覧（?key=管理キー必須）。管理者がスポジョブ登録者の情報を一覧で見る用 */
+function listWorkers(e) {
+  if (!requireAdmin(e.parameter.key)) return jsonOut({ status: 'unauthorized' });
+  const list = readRows(SH_WORKER).rows.map(r => ({
+    uid: String(r['line_user_id']).trim(), name: r['氏名'], kana: r['ふりがな'],
+    job: r['職種'], license: r['保有資格'], years: r['経験年数'], tel: r['電話'],
+    via: r['シェアフル経由'], reg_date: asDateStr(r['登録日']), status: String(r['ステータス']).trim(),
+    total_hours: Number(r['累計勤務時間'] || 0), bonus: Number(r['累計ボーナス'] || 0),
+    cert: String(r['資格確認状態'] || '未提出').trim()
+  }));
+  return jsonOut({ status: 'ok', workers: list });
 }
 
 /** 月次支給集計（施設側・管理キー必須）：勤務実績を対象月で絞り、働き手ごとに件数・実働時間・待機手当・支給額を合算 */

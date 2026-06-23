@@ -257,6 +257,12 @@ code{background:#EEF2F7;padding:1px 6px;border-radius:5px;font-size:12px;}
     <div id="manage"></div>
   </div>
 
+  <!-- 登録者一覧（workers） -->
+  <div class="panel">
+    <div class="panel-h"><div class="ttl">👥 登録者一覧</div><div class="desc">スポジョブに登録したスタッフ。新規登録はあなたのLINEにも届きます</div></div>
+    <div id="workers"></div>
+  </div>
+
   <!-- 月次支給集計（給与処理用） -->
   <div class="panel">
     <div class="panel-h">
@@ -615,6 +621,34 @@ fPattern.addEventListener('change',updateWage);
 refreshAdminBtn();
 fillPatterns();
 loadManage();
+
+/* ── 登録者一覧 ── */
+const SAMPLE_WORKERS=[
+  {name:'大城 美咲',kana:'おおしろ みさき',job:'看護師',license:'正看護師',years:'5〜10年',tel:'090-1234-5678',via:'いいえ',cert:'確認済',total_hours:68,reg_date:'2026-06-18',status:'有効'},
+  {name:'宮城 由香',kana:'みやぎ ゆか',job:'看護師',license:'准看護師',years:'3〜5年',tel:'090-2345-6789',via:'はい',cert:'提出済',total_hours:15,reg_date:'2026-06-19',status:'有効'},
+  {name:'比嘉 健太',kana:'ひが けんた',job:'介護',license:'介護福祉士',years:'1〜3年',tel:'090-3456-7890',via:'はい',cert:'未提出',total_hours:0,reg_date:'2026-06-20',status:'有効'}
+];
+async function loadWorkers(){
+  let list;
+  if(ADMIN_LIVE){try{const r=await sGet({action:'workers',key:SKEY});list=r.status==='ok'?r.workers:[];}catch(e){list=[];}}
+  else list=SAMPLE_WORKERS.slice();
+  renderWorkers(list);
+}
+function renderWorkers(list){
+  const box=document.getElementById('workers');
+  if(!list||!list.length){box.innerHTML='<div class="empty-m">登録者はまだいません。QRポスター（spojob/qr.html）で募集を。</div>';return;}
+  const nurse=list.filter(w=>w.job==='看護師').length, care=list.length-nurse;
+  let h=`<div style="font-size:12px;color:var(--text-light);font-weight:700;margin-top:6px">登録 ${list.length}名（看護師 ${nurse} ／ 介護 ${care}）</div>`;
+  h+='<table class="tbl"><thead><tr><th>氏名</th><th>職種</th><th>保有資格</th><th>経験</th><th>電話</th><th>資格確認</th><th>累計</th><th>シェアフル</th></tr></thead><tbody>';
+  list.forEach(w=>{
+    h+=`<tr><td>${w.name||''}<small style="display:block;color:var(--text-light);font-weight:500">${w.kana||''}</small></td>`
+      +`<td>${w.job||''}</td><td>${w.license||''}</td><td>${w.years||''}</td>`
+      +`<td>${w.tel||''}</td><td>${certBadge(w.cert)}</td>`
+      +`<td>${w.total_hours||0}h</td><td>${w.via==='はい'?'<span class="st-wait">経由</span>':'—'}</td></tr>`;
+  });
+  box.innerHTML=h+'</tbody></table>';
+}
+loadWorkers();
 
 /* ── 月次支給集計 ＋ CSVエクスポート ── */
 const SAMPLE_PAYROLL={
