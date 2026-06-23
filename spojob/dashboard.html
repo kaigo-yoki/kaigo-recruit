@@ -99,6 +99,9 @@ code{background:#EEF2F7;padding:1px 6px;border-radius:5px;font-size:12px;}
 .tbl th{font-size:11px;font-weight:700;color:var(--text-light);text-align:left;padding:9px 12px;border-bottom:2px solid var(--bd);letter-spacing:.5px;}
 .tbl td{font-size:13px;font-weight:600;padding:11px 12px;border-bottom:1px solid var(--bd);}
 .tbl tr:hover td{background:#FAFBFD;}
+.wfilter{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;}
+.wfilter input,.wfilter select{font-family:inherit;font-size:13px;font-weight:600;padding:9px 12px;border:1.5px solid var(--bd);border-radius:10px;background:#fff;color:var(--text);}
+.wfilter input{flex:1;min-width:190px;}
 .pill{display:inline-block;font-size:11px;font-weight:800;padding:3px 10px;border-radius:12px;}
 .pill.wd{background:#EAF1FA;color:var(--primary);}
 .pill.we{background:var(--red-light);color:var(--red);}
@@ -260,6 +263,11 @@ code{background:#EEF2F7;padding:1px 6px;border-radius:5px;font-size:12px;}
   <!-- 登録者一覧（workers） -->
   <div class="panel">
     <div class="panel-h"><div class="ttl">👥 登録者一覧</div><div class="desc">スポジョブに登録したスタッフ。新規登録はあなたのLINEにも届きます</div></div>
+    <div class="wfilter">
+      <input type="text" id="wSearch" placeholder="🔍 氏名・ふりがな・電話で検索" oninput="renderWorkers()">
+      <select id="wJob" onchange="renderWorkers()"><option value="">職種：すべて</option><option>看護師</option><option>介護</option></select>
+      <select id="wCert" onchange="renderWorkers()"><option value="">資格確認：すべて</option><option value="確認済">確認済のみ</option><option value="未">未確認のみ</option></select>
+    </div>
     <div id="workers"></div>
   </div>
 
@@ -628,17 +636,28 @@ const SAMPLE_WORKERS=[
   {uid:'u2',name:'宮城 由香',kana:'みやぎ ゆか',job:'看護師',license:'准看護師',years:'3〜5年',tel:'090-2345-6789',via:'はい',cert:'提出済',total_hours:15,reg_date:'2026-06-19',status:'有効'},
   {uid:'u3',name:'比嘉 健太',kana:'ひが けんた',job:'介護',license:'介護福祉士',years:'1〜3年',tel:'090-3456-7890',via:'はい',cert:'未提出',total_hours:0,reg_date:'2026-06-20',status:'有効'}
 ];
+let WORKERS=[];
 async function loadWorkers(){
-  let list;
-  if(ADMIN_LIVE){try{const r=await sGet({action:'workers',key:SKEY});list=r.status==='ok'?r.workers:[];}catch(e){list=[];}}
-  else list=SAMPLE_WORKERS.slice();
-  renderWorkers(list);
+  if(ADMIN_LIVE){try{const r=await sGet({action:'workers',key:SKEY});WORKERS=r.status==='ok'?r.workers:[];}catch(e){WORKERS=[];}}
+  else WORKERS=SAMPLE_WORKERS.slice();
+  renderWorkers();
 }
-function renderWorkers(list){
+function renderWorkers(){
   const box=document.getElementById('workers');
-  if(!list||!list.length){box.innerHTML='<div class="empty-m">登録者はまだいません。QRポスター（spojob/qr.html）で募集を。</div>';return;}
-  const nurse=list.filter(w=>w.job==='看護師').length, care=list.length-nurse;
-  let h=`<div style="font-size:12px;color:var(--text-light);font-weight:700;margin-top:6px">登録 ${list.length}名（看護師 ${nurse} ／ 介護 ${care}）</div>`;
+  if(!WORKERS.length){box.innerHTML='<div class="empty-m">登録者はまだいません。QRポスター（spojob/qr.html）で募集を。</div>';return;}
+  const q=((document.getElementById('wSearch')||{}).value||'').trim().toLowerCase();
+  const fj=(document.getElementById('wJob')||{}).value||'';
+  const fc=(document.getElementById('wCert')||{}).value||'';
+  const list=WORKERS.filter(w=>{
+    if(fj&&w.job!==fj)return false;
+    if(fc==='確認済'&&w.cert!=='確認済')return false;
+    if(fc==='未'&&w.cert==='確認済')return false;
+    if(q&&!(((w.name||'')+(w.kana||'')+(w.tel||'')).toLowerCase().includes(q)))return false;
+    return true;
+  });
+  const nurse=WORKERS.filter(w=>w.job==='看護師').length, care=WORKERS.length-nurse;
+  let h=`<div style="font-size:12px;color:var(--text-light);font-weight:700;margin-top:6px">登録 ${WORKERS.length}名（看護師 ${nurse} ／ 介護 ${care}）${list.length!==WORKERS.length?` ・ <b style="color:var(--primary)">${list.length}件表示</b>`:''}</div>`;
+  if(!list.length){box.innerHTML=h+'<div class="empty-m">条件に合う登録者はいません。</div>';return;}
   h+='<table class="tbl"><thead><tr><th>氏名</th><th>職種</th><th>保有資格</th><th>経験</th><th>電話</th><th>資格確認</th><th>累計</th><th>シェアフル</th></tr></thead><tbody>';
   list.forEach(w=>{
     h+=`<tr><td>${w.name||''}<small style="display:block;color:var(--text-light);font-weight:500">${w.kana||''}</small></td>`
