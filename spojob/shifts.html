@@ -531,7 +531,10 @@ async function boot(){
       MY=m;
       const res=await gasGet({action:'shifts',uid:UID});
       if(res.status==='ok')ALL=res.shifts;
-      hideLoading(); render();updateBonusBar();return;
+      hideLoading(); render();updateBonusBar();
+      const toTab=new URLSearchParams(location.search).get('to');   // リッチメニュー等から ?to=mypage で初期タブ指定
+      if(toTab&&document.getElementById('view-'+toTab))showTab(toTab);
+      return;
     }catch(e){ hideLoading(); /* サンプルへフォールバック */ }
   }
   MY=MYPAGE;ALL=SAMPLE;render();updateBonusBar();

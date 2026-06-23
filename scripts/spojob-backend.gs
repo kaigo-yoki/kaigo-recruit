@@ -530,6 +530,7 @@ function doGet(e) {
       case 'workers':      return listWorkers(e);
       case 'recount':      return recountShifts({ key: e.parameter.key });
       case 'clear':        return clearTestData({ key: e.parameter.key, confirm: e.parameter.confirm });
+      case 'setup_richmenu':return setupRichMenu(e.parameter.key);
       case 'payroll':      return payroll(e);
       case 'test_mail':    return testMail();
       case 'test_line':    return testLine();
@@ -647,6 +648,37 @@ function clearTestData(d) {
     else cleared[name] = 0;
   });
   return jsonOut({ status: 'ok', cleared: cleared });
+}
+
+/** リッチメニュー（LINE常設ボタン）を設定。Messaging APIトークン(B2)＋publicな画像で、左=空きシフト/右=マイページの2ボタンを既定メニューに。GET ?action=setup_richmenu&key= */
+function setupRichMenu(key) {
+  if (!requireAdmin(key)) return jsonOut({ status: 'unauthorized' });
+  const token = lineToken();
+  if (!token) return jsonOut({ status: 'error', message: '設定B2にMessaging APIトークンがありません' });
+  const liff = liffLink();
+  const hdr = { Authorization: 'Bearer ' + token };
+  // 既存の既定リッチメニューを一旦解除（重複防止）
+  try { UrlFetchApp.fetch('https://api.line.me/v2/bot/user/all/richmenu', { method: 'delete', headers: hdr, muteHttpExceptions: true }); } catch (e) {}
+  // 1. リッチメニュー作成
+  const body = {
+    size: { width: 2500, height: 843 }, selected: true, name: 'スポジョブメニュー', chatBarText: 'メニューを開く',
+    areas: [
+      { bounds: { x: 0, y: 0, width: 1250, height: 843 }, action: { type: 'uri', uri: liff } },
+      { bounds: { x: 1250, y: 0, width: 1250, height: 843 }, action: { type: 'uri', uri: liff + '?to=mypage' } }
+    ]
+  };
+  const r1 = UrlFetchApp.fetch('https://api.line.me/v2/bot/richmenu', { method: 'post', contentType: 'application/json', headers: hdr, payload: JSON.stringify(body), muteHttpExceptions: true });
+  if (r1.getResponseCode() !== 200) return jsonOut({ status: 'error', step: 'create', code: r1.getResponseCode(), message: r1.getContentText() });
+  const richMenuId = JSON.parse(r1.getContentText()).richMenuId;
+  // 2. 画像をアップロード（api-dataホスト）
+  const img = UrlFetchApp.fetch('https://kaigo-yoki.jp/recruit/spojob/richmenu.png', { muteHttpExceptions: true });
+  if (img.getResponseCode() !== 200) return jsonOut({ status: 'error', step: 'fetch_image', code: img.getResponseCode() });
+  const r2 = UrlFetchApp.fetch('https://api-data.line.me/v2/bot/richmenu/' + richMenuId + '/content', { method: 'post', contentType: 'image/png', headers: hdr, payload: img.getBlob().getBytes(), muteHttpExceptions: true });
+  if (r2.getResponseCode() !== 200) return jsonOut({ status: 'error', step: 'upload_image', code: r2.getResponseCode(), message: r2.getContentText() });
+  // 3. 全ユーザーの既定メニューに設定
+  const r3 = UrlFetchApp.fetch('https://api.line.me/v2/bot/user/all/richmenu/' + richMenuId, { method: 'post', headers: hdr, muteHttpExceptions: true });
+  if (r3.getResponseCode() !== 200) return jsonOut({ status: 'error', step: 'set_default', code: r3.getResponseCode(), message: r3.getContentText() });
+  return jsonOut({ status: 'ok', richMenuId: richMenuId });
 }
 
 /** 確定人数のズレ修正：各募集の確定人数を「実際の承認＋完了の応募数」に再計算し、ステータスも補正（管理キー必須）。GET ?action=recount&key= */
