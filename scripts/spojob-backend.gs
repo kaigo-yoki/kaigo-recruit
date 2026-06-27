@@ -46,6 +46,7 @@ const H_PATTERN = ['サービス','パターン','開始','終了','実働','区
 
 const TZ = 'Asia/Tokyo';
 const LIFF_FALLBACK_URL = 'https://liff.line.me/2010446173-3yG3n6NX';  // 設定シートB3(LIFF ID)が空のときのフォールバック
+const SCHED_BUCKET = 'kaigo-yoki-houkan-sched-data';   // 訪看スケジュールPJの不足データ(GCS・非公開)バケット
 
 function getSS() { return SpreadsheetApp.getActiveSpreadsheet(); }
 function nowStr() { return Utilities.formatDate(new Date(), TZ, 'yyyy-MM-dd HH:mm:ss'); }
@@ -525,6 +526,7 @@ function doGet(e) {
       case 'shifts':       return listShifts(e);
       case 'mypage':       return myPage(e);
       case 'masters':      return masters();
+      case 'shortage':     return shortage();
       case 'admin_shifts': return adminShifts(e);
       case 'applications': return listApplications(e);
       case 'workers':      return listWorkers(e);
@@ -679,6 +681,44 @@ function setupRichMenu(key) {
   const r3 = UrlFetchApp.fetch('https://api.line.me/v2/bot/user/all/richmenu/' + richMenuId, { method: 'post', headers: hdr, muteHttpExceptions: true });
   if (r3.getResponseCode() !== 200) return jsonOut({ status: 'error', step: 'set_default', code: r3.getResponseCode(), message: r3.getContentText() });
   return jsonOut({ status: 'ok', richMenuId: richMenuId });
+}
+
+/* ───────────────── 不足データ自動連携（訪看スケジュールPJのGCS → ダッシュボード） ───────────────── */
+function ymStr(d) { return Utilities.formatDate(d, TZ, 'yyyyMM'); }
+
+/** GCSから当月（無ければ翌月）のシェアフル枠JSONを取得しScript Propertiesに保存。時間主導トリガーで毎月実行 */
+function fetchShortageFromGCS() {
+  const now = new Date();
+  const months = [ymStr(now), ymStr(new Date(now.getFullYear(), now.getMonth() + 1, 1))];
+  for (var i = 0; i < months.length; i++) {
+    var ym = months[i];
+    var obj = encodeURIComponent('output/シェアフル枠_' + ym + '.json');
+    var url = 'https://storage.googleapis.com/storage/v1/b/' + SCHED_BUCKET + '/o/' + obj + '?alt=media';
+    var res = UrlFetchApp.fetch(url, { headers: { Authorization: 'Bearer ' + ScriptApp.getOAuthToken() }, muteHttpExceptions: true });
+    if (res.getResponseCode() === 200) {
+      var json = res.getContentText();
+      var props = PropertiesService.getScriptProperties();
+      props.setProperty('spojob_shortage', json);
+      props.setProperty('spojob_shortage_ym', ym);
+      return { status: 'ok', ym: ym, bytes: json.length };
+    }
+  }
+  return { status: 'error', message: '当月・翌月の不足データ(シェアフル枠_YYYYMM.json)がGCSに見つかりません' };
+}
+
+/** ダッシュボード用：保存済みの不足データJSONを返す（無ければ取りに行く）。GET ?action=shortage */
+function shortage() {
+  var json = PropertiesService.getScriptProperties().getProperty('spojob_shortage');
+  if (!json) { fetchShortageFromGCS(); json = PropertiesService.getScriptProperties().getProperty('spojob_shortage'); }
+  if (!json) return jsonOut({ status: 'error', message: '不足データがありません（GCS取得に失敗）' });
+  return ContentService.createTextOutput(json).setMimeType(ContentService.MimeType.JSON);
+}
+
+/** 毎月1日6時に自動取得するトリガーを登録（1回だけ実行）＋初回取得 */
+function installShortageTrigger() {
+  ScriptApp.getProjectTriggers().forEach(function (t) { if (t.getHandlerFunction() === 'fetchShortageFromGCS') ScriptApp.deleteTrigger(t); });
+  ScriptApp.newTrigger('fetchShortageFromGCS').timeBased().onMonthDay(1).atHour(6).create();
+  return '毎月1日6時に不足データを自動取得するトリガーを登録しました。初回取得: ' + JSON.stringify(fetchShortageFromGCS());
 }
 
 /** 確定人数のズレ修正：各募集の確定人数を「実際の承認＋完了の応募数」に再計算し、ステータスも補正（管理キー必須）。GET ?action=recount&key= */

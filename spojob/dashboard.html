@@ -680,6 +680,15 @@ fPattern.addEventListener('change',updateWage);
 refreshAdminBtn();
 fillPatterns();
 loadManage();
+// クラウド(GCS)の最新不足データをGAS経由で自動取得→ヒートマップに反映（手動貼り付け不要に）
+async function autoLoadShortage(){
+  if(!SGAS)return;
+  try{
+    const r=await fetch(SGAS+'?action=shortage');const d=await r.json();
+    if(d&&d.rows&&d.bands){SHORTAGE=d;render(SHORTAGE);const el=document.getElementById('shStatus');if(el)el.innerHTML='<b style="color:#1a8f5a">● 自動取得（クラウド・'+(d.month||'')+'）</b>';}
+  }catch(e){}
+}
+autoLoadShortage();
 
 /* ── 登録者一覧 ── */
 const SAMPLE_WORKERS=[
