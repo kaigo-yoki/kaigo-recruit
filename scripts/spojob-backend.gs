@@ -172,6 +172,7 @@ function doPost(e) {
       case 'verify_worker':return verifyWorker(d);
       case 'unapprove':    return unapprove(d);
       case 'notify_summary':return notifySummary(d);
+      case 'set_shortage': return setShortage(d);
       default:             return jsonOut({ status: 'error', message: 'unknown action: ' + action });
     }
   } catch (err) {
@@ -706,12 +707,21 @@ function fetchShortageFromGCS() {
   return { status: 'error', message: '当月・翌月の不足データ(シェアフル枠_YYYYMM.json)がGCSに見つかりません' };
 }
 
-/** ダッシュボード用：保存済みの不足データJSONを返す（無ければ取りに行く）。GET ?action=shortage */
+/** ダッシュボード用：保存済みの不足データJSONを返す。GET ?action=shortage */
 function shortage() {
   var json = PropertiesService.getScriptProperties().getProperty('spojob_shortage');
-  if (!json) { fetchShortageFromGCS(); json = PropertiesService.getScriptProperties().getProperty('spojob_shortage'); }
-  if (!json) return jsonOut({ status: 'error', message: '不足データがありません（GCS取得に失敗）' });
+  if (!json) return jsonOut({ status: 'error', message: '不足データがまだありません（自動連携の初回待ち）' });
   return ContentService.createTextOutput(json).setMimeType(ContentService.MimeType.JSON);
+}
+
+/** Cloud Functionから不足データ(非PII集計JSON)を受け取り保存。POST {action:'set_shortage',key:管理キー,data:JSON文字列} */
+function setShortage(d) {
+  if (!requireAdmin(d.key)) return jsonOut({ status: 'unauthorized' });
+  if (!d.data) return jsonOut({ status: 'error', message: 'data required' });
+  var json = (typeof d.data === 'string') ? d.data : JSON.stringify(d.data);
+  PropertiesService.getScriptProperties().setProperty('spojob_shortage', json);
+  PropertiesService.getScriptProperties().setProperty('spojob_shortage_at', nowStr());
+  return jsonOut({ status: 'ok', bytes: json.length });
 }
 
 /** 診断用：GCS取得の実際のHTTPコードとレスポンス本文をログ出力（エディタで実行→「実行ログ」を確認） */
