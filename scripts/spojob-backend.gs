@@ -714,6 +714,20 @@ function shortage() {
   return ContentService.createTextOutput(json).setMimeType(ContentService.MimeType.JSON);
 }
 
+/** 診断用：GCS取得の実際のHTTPコードとレスポンス本文をログ出力（エディタで実行→「実行ログ」を確認） */
+function shortageDebug() {
+  try { Logger.log('OAuthトークン長: ' + ScriptApp.getOAuthToken().length); } catch (e) { Logger.log('トークン取得エラー: ' + e); }
+  var now = new Date();
+  var months = [ymStr(now), ymStr(new Date(now.getFullYear(), now.getMonth() + 1, 1))];
+  for (var i = 0; i < months.length; i++) {
+    var ym = months[i];
+    var obj = encodeURIComponent('output/シェアフル枠_' + ym + '.json');
+    var url = 'https://storage.googleapis.com/storage/v1/b/' + SCHED_BUCKET + '/o/' + obj + '?alt=media';
+    var res = UrlFetchApp.fetch(url, { headers: { Authorization: 'Bearer ' + ScriptApp.getOAuthToken() }, muteHttpExceptions: true });
+    Logger.log(ym + ' → code=' + res.getResponseCode() + ' body=' + res.getContentText().slice(0, 250));
+  }
+}
+
 /** 毎月1日6時に自動取得するトリガーを登録（1回だけ実行）＋初回取得 */
 function installShortageTrigger() {
   ScriptApp.getProjectTriggers().forEach(function (t) { if (t.getHandlerFunction() === 'fetchShortageFromGCS') ScriptApp.deleteTrigger(t); });
