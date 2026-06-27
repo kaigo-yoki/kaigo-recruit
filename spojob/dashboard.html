@@ -190,10 +190,10 @@ code{background:#EEF2F7;padding:1px 6px;border-radius:5px;font-size:12px;}
 
   <!-- Summary -->
   <div class="cards">
-    <div class="card"><div class="lbl">総訪問件数（今月）</div><div class="val" id="cTotal">–</div><div class="note">かいポケ需要CSVより</div></div>
+    <div class="card"><div class="lbl">今月の派遣訪問（募集対象）</div><div class="val" id="cTotal">–</div><div class="note">割り当てPJより・これを募集</div></div>
     <div class="card"><div class="lbl">核ナース容量</div><div class="val">平日<small>2</small> ／ 土日<small>1</small></div><div class="note">伊福・大城・稲嶺</div></div>
     <div class="card short"><div class="lbl">不足ブロック（午前/午後）</div><div class="val" id="cShort">–</div><div class="note" id="cShortNote">延べ – 名分／週</div></div>
-    <div class="card rep"><div class="lbl">嶺井オフロード目標</div><div class="val" id="cRep">–<small>件</small></div><div class="note">代表をスポットで解放</div></div>
+    <div class="card rep" id="repCard"><div class="lbl">嶺井オフロード目標</div><div class="val" id="cRep">–<small>件</small></div><div class="note">代表をスポットで解放</div></div>
   </div>
 
   <!-- Block heatmap -->
@@ -226,7 +226,7 @@ code{background:#EEF2F7;padding:1px 6px;border-radius:5px;font-size:12px;}
   </div>
 
   <!-- Rep offload -->
-  <div class="panel">
+  <div class="panel" id="repPanel">
     <div class="panel-h">
       <div class="ttl">👑 代表(嶺井)オフロード</div>
       <div class="desc">代表が最終手段で抱える訪問。スポットで肩代わりしたい</div>
@@ -371,13 +371,20 @@ function render(d){
     });
   });
 
-  // rep offload (午前/午後集約)
-  let am=0,pm=0;Object.entries(d.rep_bands).forEach(([b,c])=>{toMin(b)<13*60?am+=c:pm+=c;});
-  const mx=Math.max(am,pm);
-  document.getElementById('repN').textContent=d.rep_count;
-  document.getElementById('repAm').textContent=am+'件';document.getElementById('repPm').textContent=pm+'件';
-  document.getElementById('repAmBar').style.width=(am/mx*100)+'%';
-  document.getElementById('repPmBar').style.width=(pm/mx*100)+'%';
+  // rep offload (午前/午後集約)。クラウドの保存JSONにはオフロード情報が無いため、無いときはカード／パネルを隠す
+  const repBands=d.rep_bands||{};
+  const hasRep=(d.rep_count>0)||Object.keys(repBands).length>0;
+  const repCard=document.getElementById('repCard'),repPanel=document.getElementById('repPanel');
+  if(repCard)repCard.style.display=hasRep?'':'none';
+  if(repPanel)repPanel.style.display=hasRep?'':'none';
+  if(hasRep){
+    let am=0,pm=0;Object.entries(repBands).forEach(([b,c])=>{toMin(b)<13*60?am+=c:pm+=c;});
+    const mx=Math.max(am,pm)||1;
+    document.getElementById('repN').textContent=d.rep_count;
+    document.getElementById('repAm').textContent=am+'件';document.getElementById('repPm').textContent=pm+'件';
+    document.getElementById('repAmBar').style.width=(am/mx*100)+'%';
+    document.getElementById('repPmBar').style.width=(pm/mx*100)+'%';
+  }
 
   // candidate list
   const body=document.getElementById('candBody');body.innerHTML='';
