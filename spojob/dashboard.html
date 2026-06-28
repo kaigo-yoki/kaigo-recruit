@@ -723,7 +723,8 @@ function renderWorkers(){
     return true;
   });
   const nurse=WORKERS.filter(w=>w.job==='看護師').length, care=WORKERS.length-nurse;
-  let h=`<div style="font-size:12px;color:var(--text-light);font-weight:700;margin-top:6px">登録 ${WORKERS.length}名（看護師 ${nurse} ／ 介護 ${care}）${list.length!==WORKERS.length?` ・ <b style="color:var(--primary)">${list.length}件表示</b>`:''}</div>`;
+  const sampleBanner = !ADMIN_LIVE ? `<div style="background:#FFF7E6;border:1.5px solid #F0C36D;border-radius:10px;padding:9px 13px;font-size:12px;font-weight:800;color:#8A6D1A;margin:8px 0 4px;line-height:1.5">⚠️ これはサンプル（見本）です。右上の <b>🔑管理ログイン</b> で、実際の登録者が表示されます。</div>` : '';
+  let h=sampleBanner+`<div style="font-size:12px;color:var(--text-light);font-weight:700;margin-top:6px">登録 ${WORKERS.length}名（看護師 ${nurse} ／ 介護 ${care}）${list.length!==WORKERS.length?` ・ <b style="color:var(--primary)">${list.length}件表示</b>`:''}</div>`;
   if(!list.length){box.innerHTML=h+'<div class="empty-m">条件に合う登録者はいません。</div>';return;}
   h+='<table class="tbl"><thead><tr><th>氏名</th><th>職種</th><th>保有資格</th><th>経験</th><th>電話</th><th>資格確認</th><th>累計</th><th>シェアフル</th></tr></thead><tbody>';
   list.forEach(w=>{
