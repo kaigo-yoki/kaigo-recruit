@@ -357,16 +357,27 @@ function renderCalendar(){
     cells+=`<button class="cell ${has?'has':''} ${ds===tStr?'today':''}" ${has?`onclick="openDay('${ds}')"`:'disabled'}>
       <span class="dnum">${day}</span><span class="dots">${has?dayDots(it):''}</span></button>`;
   }
+  const emptyBox = monthCount===0
+    ? `<div style="text-align:center;background:#F0F4FA;border:1.5px dashed rgba(45,90,142,.28);border-radius:14px;padding:20px 16px;margin:6px 2px 10px;">
+         <div style="font-size:28px;line-height:1;margin-bottom:8px">📭</div>
+         <div style="font-size:15px;font-weight:900;color:var(--text);margin-bottom:5px">今月の空きシフトは0件です</div>
+         <div style="font-size:12px;font-weight:600;color:var(--text-light);line-height:1.6">${ALL.length===0?'新しい募集が出ると、LINEでお知らせします。':'‹ › で前後の月もご確認ください。'}</div>
+       </div>`
+    : '';
+  const legend = monthCount>0
+    ? `<div class="cal-legend"><span><i class="dot nurse"></i>看護師</span><span><i class="dot care"></i>介護</span><span><i class="dot night"></i>夜勤</span></div>
+       <div class="cal-hint">📅 色がついた日をタップすると、その日の募集が見られます</div>`
+    : '';
   wrap.innerHTML=`
     <div class="cal-nav"><button onclick="moveMonth(-1)">‹</button>
       <div class="cal-title">${y}年${m+1}月<small>募集 ${monthCount}件</small></div>
       <button onclick="moveMonth(1)">›</button></div>
+    ${emptyBox}
     <div class="cal">
       <div class="cal-wk">${WK.map((w,i)=>`<span class="${i===0?'sun':i===6?'sat':''}">${w}</span>`).join('')}</div>
       <div class="cal-grid">${cells}</div>
     </div>
-    <div class="cal-legend"><span><i class="dot nurse"></i>看護師</span><span><i class="dot care"></i>介護</span><span><i class="dot night"></i>夜勤</span></div>
-    <div class="cal-hint">📅 色がついた日をタップすると、その日の募集が見られます</div>`;
+    ${legend}`;
 }
 
 // 日付タップ → その日の募集をボトムシートで（応募ボタン付き）
@@ -513,9 +524,16 @@ function showTab(tab){
 }
 document.querySelector('.nav').addEventListener('click',e=>{const a=e.target.closest('a');if(a&&a.dataset.tab)showTab(a.dataset.tab);});
 
+// リッチメニュー等の ?to=mypage（LIFF経由でliff.stateに入る場合も）で初期タブを指定
+function applyInitialTab(){
+  const sp=new URLSearchParams(location.search);
+  let to=sp.get('to');
+  if(!to){ const st=sp.get('liff.state'); if(st){ try{ to=new URLSearchParams(st.replace(/^[?]/,'')).get('to'); }catch(e){} } }
+  if(to && document.getElementById('view-'+to)) showTab(to);
+}
 async function boot(){
   // デザイン確認用：URL末尾に #sample を付けるとLINEログイン無しでサンプル表示
-  if(location.hash==='#sample'){ MY=MYPAGE;ALL=SAMPLE;render();updateBonusBar();return; }
+  if(location.hash==='#sample'){ MY=MYPAGE;ALL=SAMPLE;render();updateBonusBar();applyInitialTab();return; }
   if(GAS&&LIFF_ID){
     showLoading('読み込み中…');
     await new Promise(res=>{const s=document.createElement('script');s.src='https://static.line-scdn.net/liff/edge/2/sdk.js';s.onload=res;s.onerror=res;document.head.appendChild(s);});
@@ -532,12 +550,11 @@ async function boot(){
       const res=await gasGet({action:'shifts',uid:UID});
       if(res.status==='ok')ALL=res.shifts;
       hideLoading(); render();updateBonusBar();
-      const toTab=new URLSearchParams(location.search).get('to');   // リッチメニュー等から ?to=mypage で初期タブ指定
-      if(toTab&&document.getElementById('view-'+toTab))showTab(toTab);
+      applyInitialTab();   // リッチメニュー等から ?to=mypage で初期タブ指定
       return;
     }catch(e){ hideLoading(); /* サンプルへフォールバック */ }
   }
-  MY=MYPAGE;ALL=SAMPLE;render();updateBonusBar();
+  MY=MYPAGE;ALL=SAMPLE;render();updateBonusBar();applyInitialTab();
 }
 boot();
 </script>
