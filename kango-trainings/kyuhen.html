@@ -4,170 +4,86 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>訪問看護 急変時対応・フィジカルアセスメント 研修 | 訪問看護ようき</title>
-<meta name="description" content="訪問看護における急変時対応とフィジカルアセスメント（バイタル評価・ISBARC報告）の研修。訪問看護ようき（有限会社 陽気）の研修コンテンツ。">
+<meta name="description" content="訪問看護における急変時対応とフィジカルアセスメント（バイタル評価・意識レベル・病態別アセスメント・ISBARC報告）の研修。訪問看護ようき（有限会社 陽気）の研修コンテンツ。">
 <link rel="canonical" href="https://kaigo-yoki.jp/recruit/kango-trainings/kyuhen">
 <link rel="icon" type="image/png" href="../favicon.png">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap');
-
-:root {
-  --primary: #0E7C86;      /* 医療ティール */
-  --primary-dark: #095961;
-  --accent: #E0533D;       /* 警告・急変 */
-  --amber: #E8912A;
-  --ok: #2E9E6B;
-  --ink: #1A2E33;
-  --muted: #5B6E72;
-  --line: #E3EBEC;
-  --bg: #F4F8F8;
-  --panel: #FFFFFF;
-}
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-  font-family: 'Zen Kaku Gothic New', sans-serif;
-  background: var(--bg); color: var(--ink);
-  line-height: 1.85; padding: 20px 14px 70px;
-  -webkit-font-smoothing: antialiased;
-}
-.wrap { max-width: 760px; margin: 0 auto; }
-
-/* ヘッダー */
-.header {
-  background: linear-gradient(135deg, var(--primary-dark), var(--primary));
-  border-radius: 18px; padding: 30px 26px; color: #fff; margin-bottom: 22px;
-  position: relative; overflow: hidden;
-}
-.header::after {
-  content: ''; position: absolute; right: -30px; top: -30px;
-  width: 160px; height: 160px; border-radius: 50%;
-  background: rgba(255,255,255,.06);
-}
-.header .badge {
-  display: inline-block; background: rgba(255,255,255,.18);
-  padding: 5px 16px; border-radius: 20px; font-size: 12px; font-weight: 700;
-  letter-spacing: 1px; margin-bottom: 12px;
-}
-.header h1 { font-size: clamp(21px, 4.6vw, 30px); font-weight: 900; line-height: 1.45; position: relative; }
-.header .lead { font-size: 14px; opacity: .95; margin-top: 10px; position: relative; }
-.header .meta { font-size: 12px; opacity: .8; margin-top: 14px; position: relative; }
-
-/* セクション */
-.sec {
-  background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
-  padding: 24px 22px; margin-bottom: 16px; box-shadow: 0 1px 6px rgba(14,124,134,.05);
-}
-.sec-num {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 30px; height: 30px; border-radius: 8px; background: var(--primary);
-  color: #fff; font-weight: 900; font-size: 15px; margin-right: 10px; flex-shrink: 0;
-}
-.sec h2 { font-size: 19px; font-weight: 900; color: var(--primary-dark); display: flex; align-items: center; margin-bottom: 4px; }
-.sec .ja-sub { font-size: 12px; color: var(--muted); margin: 2px 0 16px 40px; }
-.sec h3 { font-size: 15px; font-weight: 700; color: var(--ink); margin: 18px 0 8px; padding-left: 12px; border-left: 4px solid var(--primary); }
-.sec p { font-size: 15px; margin-bottom: 10px; }
-.goal-list { list-style: none; }
-.goal-list li { padding: 7px 0 7px 30px; position: relative; font-size: 15px; }
-.goal-list li::before {
-  content: '✓'; position: absolute; left: 0; top: 7px;
-  width: 20px; height: 20px; background: var(--ok); color: #fff; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700;
-}
-
-/* バイタル基準表 */
-.vital-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 14px; }
-.vital-table th, .vital-table td { border: 1px solid var(--line); padding: 9px 10px; text-align: left; }
-.vital-table th { background: var(--primary); color: #fff; font-weight: 700; }
-.vital-table thead th:first-child { border-top-left-radius: 8px; }
-.vital-table thead th:last-child { border-top-right-radius: 8px; }
-.vital-table tbody tr:nth-child(even) { background: #F6FAFA; }
-.vital-table .danger { color: var(--accent); font-weight: 700; }
-.vital-table .item { font-weight: 700; white-space: nowrap; }
-
-/* コールアウト */
-.callout { border-radius: 10px; padding: 14px 16px; margin: 14px 0; font-size: 14px; }
-.callout .c-title { font-weight: 900; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
-.callout.law { background: #EAF3F4; border-left: 5px solid var(--primary); }
-.callout.alert { background: #FCEDEA; border-left: 5px solid var(--accent); }
-.callout.tip { background: #EAF6EF; border-left: 5px solid var(--ok); }
-.callout.warn { background: #FDF4E6; border-left: 5px solid var(--amber); }
-.callout ul { margin: 4px 0 0 18px; }
-.callout li { margin-bottom: 3px; }
-
-/* 症例カード */
-.case {
-  background: #F7FAFB; border: 1px dashed #B9D2D5; border-radius: 12px;
-  padding: 16px 18px; margin: 16px 0;
-}
-.case .case-tag {
-  display: inline-block; background: var(--primary-dark); color: #fff;
-  font-size: 11px; font-weight: 700; padding: 3px 12px; border-radius: 12px; margin-bottom: 8px;
-}
-.case p { font-size: 14px; }
-.case .q { font-weight: 700; color: var(--primary-dark); margin-top: 8px; }
-
-/* ISBARC */
-.isbarc { display: grid; gap: 8px; margin: 12px 0; }
-.isbarc-row { display: flex; gap: 12px; align-items: flex-start; background: #F6FAFA; border-radius: 10px; padding: 10px 12px; }
-.isbarc-key {
-  flex-shrink: 0; width: 34px; height: 34px; border-radius: 8px; background: var(--primary);
-  color: #fff; font-weight: 900; font-size: 16px; display: flex; align-items: center; justify-content: center;
-}
-.isbarc-txt { font-size: 14px; }
-.isbarc-txt b { color: var(--primary-dark); }
-
-/* チェックリスト */
-.checklist { list-style: none; background: #F7FAFB; border-radius: 12px; padding: 16px 18px; }
-.checklist li { padding: 6px 0 6px 30px; position: relative; font-size: 14px; border-bottom: 1px solid var(--line); }
-.checklist li:last-child { border-bottom: none; }
-.checklist li::before {
-  content: '□'; position: absolute; left: 4px; top: 5px; color: var(--primary); font-weight: 700; font-size: 16px;
-}
-
-/* クイズ */
-.quiz-box { border: 2px solid var(--primary); border-radius: 12px; padding: 18px; margin: 14px 0; }
-.quiz-q { font-weight: 700; color: var(--primary-dark); margin-bottom: 12px; font-size: 15px; }
-.quiz-opt {
-  display: block; width: 100%; text-align: left; padding: 12px 14px; margin-bottom: 8px;
-  background: #F5F5F5; border: 2px solid #DDD; border-radius: 10px;
-  font-family: inherit; font-size: 14px; cursor: pointer; line-height: 1.7;
-}
-.quiz-opt:hover { border-color: var(--primary); background: #EAF3F4; }
-.quiz-opt.correct { background: #E9F6EF; border-color: var(--ok); }
-.quiz-opt.wrong { background: #FCEDEA; border-color: var(--accent); }
-.quiz-fb { display: none; margin-top: 10px; padding: 12px; border-radius: 8px; font-size: 13px; line-height: 1.7; }
-.quiz-fb.show { display: block; }
-
-/* 修了証 */
-.cert-area { text-align: center; }
-.cert-area input {
-  width: 100%; max-width: 320px; padding: 13px 18px; border: 2px solid #CFDDDE; border-radius: 12px;
-  font-size: 16px; font-family: inherit; font-weight: 700; text-align: center; outline: none; margin: 10px 0;
-}
-.cert-area input:focus { border-color: var(--primary); }
-.btn-gen {
-  display: inline-block; padding: 13px 40px; background: var(--primary);
-  color: #fff; border: none; border-radius: 50px; font-size: 15px; font-weight: 700; font-family: inherit; cursor: pointer;
-}
-.btn-gen:hover { background: var(--primary-dark); }
-.cert-card {
-  display: none; background: #fff; border: 3px double var(--primary);
-  border-radius: 16px; padding: 30px 24px; margin: 18px auto; max-width: 500px;
-}
-.cert-card.show { display: block; }
-.cert-card .c-badge { display: inline-block; background: var(--primary); color: #fff; font-size: 11px; font-weight: 700; letter-spacing: 3px; padding: 5px 18px; border-radius: 20px; }
-.cert-card .c-title { font-size: 24px; font-weight: 900; color: var(--primary-dark); margin: 12px 0 4px; }
-.cert-card .c-name { font-size: 23px; font-weight: 700; margin: 16px 0 6px; padding-bottom: 8px; border-bottom: 2px solid var(--line); }
-.cert-card .c-body { font-size: 13px; color: var(--muted); margin: 10px 0; line-height: 1.7; }
-.cert-card .c-org { font-size: 14px; font-weight: 700; margin-top: 16px; color: var(--ink); }
-.cert-card .c-org small { display: block; font-size: 11px; font-weight: 400; color: var(--muted); margin-top: 2px; }
-.btn-mail {
-  display: none; margin: 10px auto 0; padding: 13px 30px; background: var(--ok);
-  color: #fff; border-radius: 50px; font-size: 14px; font-weight: 700; text-decoration: none;
-}
-.btn-mail.show { display: inline-block; }
-.footer { text-align: center; font-size: 13px; margin-top: 26px; color: var(--muted); }
-.footer a { color: var(--primary); margin: 0 8px; text-decoration: none; }
-.disclaimer { font-size: 12px; color: var(--muted); background: #EDF3F3; border-radius: 10px; padding: 12px 14px; margin-top: 18px; line-height: 1.7; }
+:root{--primary:#0E7C86;--primary-dark:#095961;--accent:#E0533D;--amber:#E8912A;--ok:#2E9E6B;--ink:#1A2E33;--muted:#5B6E72;--line:#E3EBEC;--bg:#F4F8F8;--panel:#FFFFFF;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--bg);color:var(--ink);line-height:1.85;padding:20px 14px 70px;-webkit-font-smoothing:antialiased;}
+.wrap{max-width:760px;margin:0 auto;}
+.header{background:linear-gradient(135deg,var(--primary-dark),var(--primary));border-radius:18px;padding:30px 26px;color:#fff;margin-bottom:22px;position:relative;overflow:hidden;}
+.header::after{content:'';position:absolute;right:-30px;top:-30px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.06);}
+.header .badge{display:inline-block;background:rgba(255,255,255,.18);padding:5px 16px;border-radius:20px;font-size:12px;font-weight:700;letter-spacing:1px;margin-bottom:12px;}
+.header h1{font-size:clamp(21px,4.6vw,30px);font-weight:900;line-height:1.45;position:relative;}
+.header .lead{font-size:14px;opacity:.95;margin-top:10px;position:relative;}
+.header .meta{font-size:12px;opacity:.8;margin-top:14px;position:relative;}
+.sec{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:24px 22px;margin-bottom:16px;box-shadow:0 1px 6px rgba(14,124,134,.05);}
+.sec-num{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:8px;background:var(--primary);color:#fff;font-weight:900;font-size:15px;margin-right:10px;flex-shrink:0;}
+.sec h2{font-size:19px;font-weight:900;color:var(--primary-dark);display:flex;align-items:center;margin-bottom:4px;}
+.sec .ja-sub{font-size:12px;color:var(--muted);margin:2px 0 16px 40px;}
+.sec h3{font-size:15px;font-weight:700;color:var(--ink);margin:18px 0 8px;padding-left:12px;border-left:4px solid var(--primary);}
+.sec p{font-size:15px;margin-bottom:10px;}
+.goal-list{list-style:none;}
+.goal-list li{padding:7px 0 7px 30px;position:relative;font-size:15px;}
+.goal-list li::before{content:'✓';position:absolute;left:0;top:7px;width:20px;height:20px;background:var(--ok);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;}
+.vital-table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px;}
+.vital-table th,.vital-table td{border:1px solid var(--line);padding:9px 10px;text-align:left;vertical-align:top;}
+.vital-table th{background:var(--primary);color:#fff;font-weight:700;}
+.vital-table thead th:first-child{border-top-left-radius:8px;}
+.vital-table thead th:last-child{border-top-right-radius:8px;}
+.vital-table tbody tr:nth-child(even){background:#F6FAFA;}
+.vital-table .danger{color:var(--accent);font-weight:700;}
+.vital-table .item{font-weight:700;white-space:nowrap;}
+.callout{border-radius:10px;padding:14px 16px;margin:14px 0;font-size:14px;}
+.callout .c-title{font-weight:900;margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+.callout.law{background:#EAF3F4;border-left:5px solid var(--primary);}
+.callout.alert{background:#FCEDEA;border-left:5px solid var(--accent);}
+.callout.tip{background:#EAF6EF;border-left:5px solid var(--ok);}
+.callout.warn{background:#FDF4E6;border-left:5px solid var(--amber);}
+.callout ul{margin:4px 0 0 18px;}
+.callout li{margin-bottom:3px;}
+.case{background:#F7FAFB;border:1px dashed #B9D2D5;border-radius:12px;padding:16px 18px;margin:16px 0;}
+.case .case-tag{display:inline-block;background:var(--primary-dark);color:#fff;font-size:11px;font-weight:700;padding:3px 12px;border-radius:12px;margin-bottom:8px;}
+.case p{font-size:14px;}
+.case .q{font-weight:700;color:var(--primary-dark);margin-top:8px;}
+.isbarc{display:grid;gap:8px;margin:12px 0;}
+.isbarc-row{display:flex;gap:12px;align-items:flex-start;background:#F6FAFA;border-radius:10px;padding:10px 12px;}
+.isbarc-key{flex-shrink:0;min-width:34px;height:34px;padding:0 6px;border-radius:8px;background:var(--primary);color:#fff;font-weight:900;font-size:15px;display:flex;align-items:center;justify-content:center;}
+.isbarc-txt{font-size:14px;}
+.isbarc-txt b{color:var(--primary-dark);}
+.checklist{list-style:none;background:#F7FAFB;border-radius:12px;padding:16px 18px;}
+.checklist li{padding:6px 0 6px 30px;position:relative;font-size:14px;border-bottom:1px solid var(--line);}
+.checklist li:last-child{border-bottom:none;}
+.checklist li::before{content:'□';position:absolute;left:4px;top:5px;color:var(--primary);font-weight:700;font-size:16px;}
+.quiz-box{border:2px solid var(--primary);border-radius:12px;padding:18px;margin:14px 0;}
+.quiz-q{font-weight:700;color:var(--primary-dark);margin-bottom:12px;font-size:15px;}
+.quiz-opt{display:block;width:100%;text-align:left;padding:12px 14px;margin-bottom:8px;background:#F5F5F5;border:2px solid #DDD;border-radius:10px;font-family:inherit;font-size:14px;cursor:pointer;line-height:1.7;}
+.quiz-opt:hover{border-color:var(--primary);background:#EAF3F4;}
+.quiz-opt.correct{background:#E9F6EF;border-color:var(--ok);}
+.quiz-opt.wrong{background:#FCEDEA;border-color:var(--accent);}
+.quiz-fb{display:none;margin-top:10px;padding:12px;border-radius:8px;font-size:13px;line-height:1.7;}
+.quiz-fb.show{display:block;}
+.qprog{font-size:12px;color:var(--muted);font-weight:700;margin-bottom:6px;}
+.cert-area{text-align:center;}
+.cert-area input{width:100%;max-width:320px;padding:13px 18px;border:2px solid #CFDDDE;border-radius:12px;font-size:16px;font-family:inherit;font-weight:700;text-align:center;outline:none;margin:10px 0;}
+.cert-area input:focus{border-color:var(--primary);}
+.btn-gen{display:inline-block;padding:13px 40px;background:var(--primary);color:#fff;border:none;border-radius:50px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer;}
+.btn-gen:hover{background:var(--primary-dark);}
+.cert-card{display:none;background:#fff;border:3px double var(--primary);border-radius:16px;padding:30px 24px;margin:18px auto;max-width:500px;}
+.cert-card.show{display:block;}
+.cert-card .c-badge{display:inline-block;background:var(--primary);color:#fff;font-size:11px;font-weight:700;letter-spacing:3px;padding:5px 18px;border-radius:20px;}
+.cert-card .c-title{font-size:24px;font-weight:900;color:var(--primary-dark);margin:12px 0 4px;}
+.cert-card .c-name{font-size:23px;font-weight:700;margin:16px 0 6px;padding-bottom:8px;border-bottom:2px solid var(--line);}
+.cert-card .c-body{font-size:13px;color:var(--muted);margin:10px 0;line-height:1.7;}
+.cert-card .c-org{font-size:14px;font-weight:700;margin-top:16px;color:var(--ink);}
+.cert-card .c-org small{display:block;font-size:11px;font-weight:400;color:var(--muted);margin-top:2px;}
+.btn-mail{display:none;margin:10px auto 0;padding:13px 30px;background:var(--ok);color:#fff;border-radius:50px;font-size:14px;font-weight:700;text-decoration:none;}
+.btn-mail.show{display:inline-block;}
+.footer{text-align:center;font-size:13px;margin-top:26px;color:var(--muted);}
+.footer a{color:var(--primary);margin:0 8px;text-decoration:none;}
+.disclaimer{font-size:12px;color:var(--muted);background:#EDF3F3;border-radius:10px;padding:12px 14px;margin-top:18px;line-height:1.7;}
 </style>
 </head>
 <body>
@@ -176,25 +92,27 @@ body {
 <div class="header">
   <div class="badge">訪問看護 実務研修</div>
   <h1>急変時対応・フィジカルアセスメント</h1>
-  <div class="lead">在宅での「いつもと違う」を見逃さず、正しく観察し、的確に医師へつなぐ。訪問看護師の最重要スキルを整理します。</div>
-  <div class="meta">訪問看護ようき（有限会社 陽気）／所要時間の目安：15〜20分</div>
+  <div class="lead">在宅での「いつもと違う」を見逃さず、系統的に観察し、病態を推論して的確に医師へつなぐ。訪問看護師の中核スキルを深く学びます。</div>
+  <div class="meta">訪問看護ようき（有限会社 陽気）／所要時間の目安：25〜30分</div>
 </div>
 
 <div class="sec">
   <h2><span class="sec-num">◎</span>この研修の学習目標</h2>
   <div class="ja-sub">Learning objectives</div>
   <ul class="goal-list">
-    <li>バイタルサインの正常範囲と「危険域」を判断できる。</li>
-    <li>急変の前兆・見逃してはいけない徴候を説明できる。</li>
-    <li>在宅急変時の初期対応（ABCの確認・応援要請・医師/救急への連絡）を順序立てて実施できる。</li>
+    <li>バイタルサインの正常範囲と「危険域」を判断し、ベースラインと比較して評価できる。</li>
+    <li>意識レベル（JCS）を評価し、共通言語で伝えられる。</li>
+    <li>急変の前兆・ショックの徴候・見逃してはいけない所見を説明できる。</li>
+    <li>在宅で頻度の高い急変病態（心不全増悪・誤嚥性肺炎・脳卒中・低血糖）を鑑別的にアセスメントできる。</li>
+    <li>急変時の初期対応（ABCの確認・応援要請・医師/救急への連絡）を順序立てて実施できる。</li>
     <li>ISBARC に沿って、医師へ簡潔・正確に報告できる。</li>
   </ul>
 </div>
 
 <div class="sec">
   <h2><span class="sec-num">1</span>フィジカルアセスメントの基本</h2>
-  <div class="ja-sub">第1章 バイタルサインの評価</div>
-  <p>訪問時は、主観（顔色・様子・訴え）と客観（バイタル）の両方で全身を評価します。とくに<strong>呼吸数</strong>は急変の最も早いサインでありながら見落とされやすいため、必ず「数える」ことが重要です。</p>
+  <div class="ja-sub">第1章 バイタルサイン＋意識レベルの評価</div>
+  <p>訪問時は、主観（顔色・様子・訴え）と客観（バイタル）の両方で全身を系統的に評価します。とくに<strong>呼吸数</strong>は急変の最も早いサインでありながら見落とされやすいため、必ず「1分間、数える」ことが重要です。</p>
 
   <h3>バイタルサインの正常範囲と危険域（成人・目安）</h3>
   <table class="vital-table">
@@ -214,11 +132,28 @@ body {
     <div class="c-title">🩺 観察のコツ</div>
     数値は<strong>その人の「ふだんの値（ベースライン）」と比べる</strong>ことが最重要です。SpO₂ 92%でも、いつも98%の人なら大きな変化。前回訪問時の記録と必ず比較しましょう。<br><strong>※ CO₂が貯留しやすいCOPD等では、主治医が定めた目標SpO₂（例：88〜92%）が正常範囲となることがあります。必ず個別の指示値を確認してください。</strong>
   </div>
+
+  <h3>意識レベルの評価 ― JCS（Japan Coma Scale／3-3-9度方式）</h3>
+  <p>意識障害は「なんとなくボーッとしている」で済ませず、<strong>共通の物差し</strong>で評価・報告します。数字が大きいほど重症です。</p>
+  <table class="vital-table">
+    <thead>
+      <tr><th>桁</th><th>状態</th><th>スコア</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="item">Ⅰ桁</td><td>覚醒している（刺激なしで開眼）</td><td>1：清明とはいえない／2：見当識障害／3：名前・生年月日が言えない</td></tr>
+      <tr><td class="item">Ⅱ桁</td><td>刺激すると覚醒する</td><td>10：呼びかけで開眼／20：大声・体を揺さぶると開眼／30：痛み刺激で開眼</td></tr>
+      <tr><td class="item">Ⅲ桁</td><td class="danger">刺激しても覚醒しない</td><td class="danger">100：払いのける／200：少し動かす・顔をしかめる／300：まったく動かない</td></tr>
+    </tbody>
+  </table>
+  <div class="callout warn">
+    <div class="c-title">🟠 補足</div>
+    「JCS 30」「JCSⅢ-100」のように桁とスコアで伝えます。前回から2桁以上悪化、Ⅲ桁への低下は緊急サイン。呼吸・循環（ABC）と合わせて評価します。
+  </div>
 </div>
 
 <div class="sec">
   <h2><span class="sec-num">2</span>異常の早期発見</h2>
-  <div class="ja-sub">第2章 見逃してはいけない徴候</div>
+  <div class="ja-sub">第2章 ショックと「いつもと違う」</div>
   <p>急変には多くの場合「前兆」があります。数値の異常だけでなく、<strong>「なんとなくおかしい」という違和感</strong>を軽視しないことが、在宅での命を守ります。</p>
 
   <div class="callout alert">
@@ -232,21 +167,80 @@ body {
     </ul>
   </div>
 
+  <h3>ショックの4分類（原因を意識する）</h3>
+  <table class="vital-table">
+    <thead>
+      <tr><th>分類</th><th>主な原因</th><th>在宅での例</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="item">循環血液量減少性</td><td>出血・脱水</td><td>消化管出血・下痢嘔吐・熱中症</td></tr>
+      <tr><td class="item">心原性</td><td>心臓のポンプ失調</td><td>心筋梗塞・重症心不全・不整脈</td></tr>
+      <tr><td class="item">血液分布異常性</td><td>敗血症・アナフィラキシー</td><td>感染の重症化・薬/食物アレルギー</td></tr>
+      <tr><td class="item">閉塞性</td><td>血流の物理的閉塞</td><td>肺塞栓・緊張性気胸</td></tr>
+    </tbody>
+  </table>
+
   <h3>「いつもと違う」の代表例</h3>
   <div class="callout warn">
     <div class="c-title">🟠 早期に気づきたいサイン</div>
     <ul>
       <li>急に元気がない／会話がかみ合わない／傾眠</li>
-      <li>食欲の急な低下、尿量の減少、むくみの増加</li>
-      <li>呼吸が速い・肩で息をする（努力呼吸）／喘鳴</li>
+      <li>食欲の急な低下、尿量の減少、むくみの増加、急な体重増加</li>
+      <li>呼吸が速い・肩で息をする（努力呼吸）／喘鳴・湿性咳嗽</li>
       <li>胸の痛み・冷や汗、ろれつが回らない・片側の脱力（脳・心臓の緊急を疑う）</li>
     </ul>
   </div>
 </div>
 
 <div class="sec">
-  <h2><span class="sec-num">3</span>急変時の初期対応</h2>
-  <div class="ja-sub">第3章 その場で何をするか（ABCの確認）</div>
+  <h2><span class="sec-num">3</span>病態別の初期アセスメント</h2>
+  <div class="ja-sub">第3章 在宅で頻度の高い急変を鑑別する</div>
+  <p>「危険域のバイタル」に気づいたら、次は<strong>どの病態が疑わしいか</strong>を推論します。原因の見立て（Assessment）が、医師への的確な報告につながります。</p>
+
+  <h3>① 心不全の増悪</h3>
+  <div class="callout tip">
+    <div class="c-title">👀 疑う所見</div>
+    <ul>
+      <li>横になると苦しく、起き上がると楽（<b>起座呼吸</b>）／夜間の呼吸困難</li>
+      <li>下腿浮腫の増強・数日での体重増加・尿量減少</li>
+      <li>湿性ラ音・泡沫状の痰・SpO₂低下</li>
+    </ul>
+  </div>
+
+  <h3>② 誤嚥性肺炎</h3>
+  <div class="callout tip">
+    <div class="c-title">👀 疑う所見</div>
+    <ul>
+      <li>食事・水分でむせる、食後の湿性咳嗽</li>
+      <li>発熱・SpO₂低下・痰の増加／元気がない・食欲低下（高齢者は発熱が目立たないことも）</li>
+    </ul>
+  </div>
+
+  <h3>③ 脳卒中（FASTで見抜く）</h3>
+  <div class="callout alert">
+    <div class="c-title">⚠️ FAST ― 時間との勝負</div>
+    <ul>
+      <li><b>F</b>ace：片側の顔のゆがみ・口角の下がり</li>
+      <li><b>A</b>rm：片腕が上がらない・落ちる</li>
+      <li><b>S</b>peech：ろれつが回らない・言葉が出ない</li>
+      <li><b>T</b>ime：発症時刻の確認と迅速な連絡（治療は時間依存）</li>
+    </ul>
+  </div>
+
+  <h3>④ 低血糖</h3>
+  <div class="callout alert">
+    <div class="c-title">⚠️ 糖尿病治療中は必ず疑う</div>
+    <ul>
+      <li>冷汗・動悸・手のふるえ・生あくび、進行すると意識障害・けいれん</li>
+      <li>インスリン/SU薬使用中・食事量低下時にリスク大</li>
+      <li><b>意識があり嚥下できれば</b>ブドウ糖(10g)や糖分を経口。<b>意識障害があれば経口摂取させず</b>、ただちに主治医連絡・救急要請</li>
+    </ul>
+  </div>
+</div>
+
+<div class="sec">
+  <h2><span class="sec-num">4</span>急変時の初期対応</h2>
+  <div class="ja-sub">第4章 その場で何をするか（ABCの確認）</div>
   <p>あわてず、しかし急いで。<strong>まず自分と利用者の安全 → ABCの確認 → 応援・連絡</strong>の順で動きます。訪問看護は1人で対応する場面が多いため、早めに「つなぐ」判断が命を分けます。</p>
 
   <div class="isbarc">
@@ -258,9 +252,9 @@ body {
   <div class="callout alert">
     <div class="c-title">🚑 判断の分かれ道</div>
     <ul>
-      <li><strong>反応なし・呼吸なし／異常呼吸</strong> → ただちに <strong>119番通報</strong>し、胸骨圧迫（心肺蘇生）を開始。並行して主治医・事業所へ連絡。</li>
+      <li><strong>反応なし・呼吸なし／異常呼吸（死戦期呼吸）</strong> → ただちに <strong>119番通報</strong>し、胸骨圧迫（心肺蘇生）を開始。AEDがあれば使用。並行して主治医・事業所へ連絡。</li>
       <li><strong>反応はあるが急変徴候あり</strong> → <strong>主治医（指示医）へ即報告</strong>し指示を仰ぐ。指示が得られない・重篤なら救急要請をためらわない。</li>
-      <li>いずれの場合も、事業所（管理者・オンコール）への連絡と<strong>時刻つきの記録</strong>を必ず行う。</li>
+      <li>呼吸困難時は<strong>起座位</strong>など安楽な体位を保持。いずれの場合も、事業所（管理者・オンコール）への連絡と<strong>時刻つきの記録</strong>を必ず行う。</li>
     </ul>
   </div>
   <div class="callout tip">
@@ -270,8 +264,8 @@ body {
 </div>
 
 <div class="sec">
-  <h2><span class="sec-num">4</span>医師への報告 ― ISBARC</h2>
-  <div class="ja-sub">第4章 簡潔・正確に伝えるフレーム</div>
+  <h2><span class="sec-num">5</span>医師への報告 ― ISBARC</h2>
+  <div class="ja-sub">第5章 簡潔・正確に伝えるフレーム</div>
   <p>急変時の電話報告は、順番を決めておくと抜け漏れなく短時間で伝えられます。訪問看護の標準フレームが <strong>ISBARC</strong> です。</p>
 
   <div class="isbarc">
@@ -287,7 +281,7 @@ body {
     <div class="case-tag">症例で考える</div>
     <p>独居・80代女性。COPDで在宅酸素（1L）使用中。定期訪問で伺うと、いつもより息苦しそうで会話が続かない。SpO₂ 89%（ふだん95%前後）、呼吸数28回/分、口すぼめ呼吸。</p>
     <p class="q">Q. あなたはこの後、どの順で動きますか？</p>
-    <p style="font-size:13px;color:#5B6E72;margin-top:6px;">→ ①安楽な体位（起座位）と酸素流量が指示どおりか確認 ②バイタル再測定・全身観察 ③主治医へ ISBARC で報告し指示を仰ぐ ④SpO₂がさらに低下・意識低下があれば救急要請 ⑤時刻つきで記録。自己判断で酸素流量を大きく上げないこと（CO₂ナルコーシスの危険）。</p>
+    <p style="font-size:13px;color:#5B6E72;margin-top:6px;">→ ①安楽な体位（起座位）と酸素流量が指示どおりか確認 ②バイタル再測定・全身観察（呼吸音・浮腫・発熱の有無で心不全増悪/感染/COPD増悪を鑑別）③主治医へ ISBARC で報告し指示を仰ぐ ④SpO₂がさらに低下・意識低下があれば救急要請 ⑤時刻つきで記録。自己判断で酸素流量を大きく上げないこと（CO₂ナルコーシスの危険）。</p>
   </div>
 </div>
 
@@ -295,47 +289,111 @@ body {
   <h2><span class="sec-num">✔</span>現場チェックリスト</h2>
   <div class="ja-sub">訪問バッグ・対応前の確認</div>
   <ul class="checklist">
-    <li>パルスオキシメーター・血圧計・体温計は動作するか</li>
-    <li>利用者の前回バイタル（ベースライン）を把握しているか</li>
+    <li>パルスオキシメーター・血圧計・体温計・血糖測定器は動作するか</li>
+    <li>利用者の前回バイタル（ベースライン）と既往・内服を把握しているか</li>
     <li>主治医・事業所・オンコールの連絡先をすぐ出せるか</li>
     <li>ACP／DNAR の方針を確認しているか</li>
-    <li>急変時は「時刻」を必ず記録に残す準備があるか</li>
+    <li>急変時は「時刻」と経時的な変化を記録に残す準備があるか</li>
   </ul>
 </div>
 
 <div class="sec">
   <h2><span class="sec-num">?</span>確認テスト</h2>
-  <div class="ja-sub">全4問</div>
+  <div class="ja-sub">全10問</div>
 
   <div class="quiz-box">
-    <div class="quiz-q">Q1. 急変の最も早いサインとして重視すべきで、かつ見落とされやすいバイタルはどれですか。</div>
+    <div class="qprog">Q1 / 10</div>
+    <div class="quiz-q">急変の最も早いサインとして重視すべきで、かつ見落とされやすいバイタルはどれですか。</div>
     <button class="quiz-opt" onclick="checkQuiz(this,false)">A. 体温</button>
     <button class="quiz-opt" onclick="checkQuiz(this,true)">B. 呼吸数</button>
     <button class="quiz-opt" onclick="checkQuiz(this,false)">C. 血圧</button>
     <button class="quiz-opt" onclick="checkQuiz(this,false)">D. 体重</button>
-    <div class="quiz-fb">呼吸数は急変の最も早い指標のひとつですが、測定を省略されがちです。必ず「数えて」評価します。</div>
+    <div class="quiz-fb">呼吸数は急変の最も早い指標のひとつですが、測定を省略されがちです。必ず1分間「数えて」評価します。</div>
   </div>
 
   <div class="quiz-box">
-    <div class="quiz-q">Q2. SpO₂ の評価として最も適切なのはどれですか。</div>
+    <div class="qprog">Q2 / 10</div>
+    <div class="quiz-q">SpO₂ の評価として最も適切なのはどれですか。</div>
     <button class="quiz-opt" onclick="checkQuiz(this,false)">A. 90%あれば誰でも問題ない</button>
     <button class="quiz-opt" onclick="checkQuiz(this,true)">B. その人のふだんの値（ベースライン）と比較して判断する</button>
     <button class="quiz-opt" onclick="checkQuiz(this,false)">C. 数値より顔色だけで判断する</button>
     <button class="quiz-opt" onclick="checkQuiz(this,false)">D. 在宅酸素中は測らなくてよい</button>
-    <div class="quiz-fb">同じ92%でも、ふだん98%の人には大きな変化です。前回訪問時の記録と比較して評価します。</div>
+    <div class="quiz-fb">同じ92%でも、ふだん98%の人には大きな変化。COPD等では目標SpO₂が88〜92%のこともあるため、個別の指示値とベースラインで評価します。</div>
   </div>
 
   <div class="quiz-box">
-    <div class="quiz-q">Q3. 訪問中、利用者が反応なく・正常な呼吸もない状態でした。最初にとる行動は？</div>
+    <div class="qprog">Q3 / 10</div>
+    <div class="quiz-q">JCS（Japan Coma Scale）で「刺激をしても覚醒しない」状態はどれですか。</div>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">A. Ⅰ桁（1〜3）</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">B. Ⅱ桁（10〜30）</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,true)">C. Ⅲ桁（100〜300）</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">D. スコアは関係ない</button>
+    <div class="quiz-fb">Ⅰ桁＝覚醒している、Ⅱ桁＝刺激で覚醒、Ⅲ桁＝刺激しても覚醒しない（重症）。数字が大きいほど重症です。</div>
+  </div>
+
+  <div class="quiz-box">
+    <div class="qprog">Q4 / 10</div>
+    <div class="quiz-q">ショックの5徴候（5P）に含まれないものはどれですか。</div>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">A. 蒼白</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">B. 冷汗</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,true)">C. 高血圧</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">D. 脈拍触知不能</button>
+    <div class="quiz-fb">5Pは蒼白・虚脱・冷汗・脈拍触知不能・呼吸不全。ショックでは通常、血圧は低下します。</div>
+  </div>
+
+  <div class="quiz-box">
+    <div class="qprog">Q5 / 10</div>
+    <div class="quiz-q">訪問中、利用者が反応なく・正常な呼吸もない状態でした。最初にとる行動は？（DNAR方針が明確な場合を除く）</div>
     <button class="quiz-opt" onclick="checkQuiz(this,false)">A. まず事業所に電話して相談する</button>
     <button class="quiz-opt" onclick="checkQuiz(this,false)">B. 家族の帰りを待つ</button>
-    <button class="quiz-opt" onclick="checkQuiz(this,true)">C. ただちに119番通報し、胸骨圧迫を開始する（DNAR方針が明確な場合を除く）</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,true)">C. ただちに119番通報し、胸骨圧迫を開始する</button>
     <button class="quiz-opt" onclick="checkQuiz(this,false)">D. 血圧を測り直してから考える</button>
     <div class="quiz-fb">反応なし・呼吸なしは心停止を疑う緊急事態。救急要請と心肺蘇生を最優先し、並行して主治医・事業所へ連絡します。</div>
   </div>
 
   <div class="quiz-box">
-    <div class="quiz-q">Q4. ISBARC の「A」が指すものはどれですか。</div>
+    <div class="qprog">Q6 / 10</div>
+    <div class="quiz-q">脳卒中を疑う所見をまとめた合言葉「FAST」に含まれないものはどれですか。</div>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">A. Face（顔のゆがみ）</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">B. Arm（片腕が上がらない）</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">C. Speech（ろれつが回らない）</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,true)">D. Fever（発熱）</button>
+    <div class="quiz-fb">FASTはFace・Arm・Speech・Time（発症時刻）。脳卒中は治療が時間依存のため、時刻確認と迅速な連絡が重要です。</div>
+  </div>
+
+  <div class="quiz-box">
+    <div class="qprog">Q7 / 10</div>
+    <div class="quiz-q">糖尿病でインスリン使用中の利用者が冷汗・動悸・手のふるえを訴えています。意識は清明で嚥下も可能。適切な初期対応は？</div>
+    <button class="quiz-opt" onclick="checkQuiz(this,true)">A. ブドウ糖や糖分を経口摂取してもらう</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">B. すぐに入浴させて温める</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">C. 水分を制限する</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">D. インスリンを追加する</button>
+    <div class="quiz-fb">低血糖を疑う所見。意識があり嚥下できればブドウ糖等を経口。意識障害があれば経口摂取させず、主治医連絡・救急要請します。</div>
+  </div>
+
+  <div class="quiz-box">
+    <div class="qprog">Q8 / 10</div>
+    <div class="quiz-q">心不全の増悪を疑う所見として最も適切なのはどれですか。</div>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">A. 横になると楽になる</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,true)">B. 起座呼吸・下腿浮腫の増強・数日での体重増加</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">C. 尿量の増加のみ</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">D. 体温の低下</button>
+    <div class="quiz-fb">起座呼吸（横になると苦しい）・浮腫増強・急な体重増加・湿性ラ音は心不全増悪を疑う代表的所見です。</div>
+  </div>
+
+  <div class="quiz-box">
+    <div class="qprog">Q9 / 10</div>
+    <div class="quiz-q">高齢の利用者で誤嚥性肺炎を疑うサインとして適切な組み合わせはどれですか。</div>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">A. 食欲増進・体重増加</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,true)">B. 食後のむせ・湿性咳嗽・発熱・SpO₂低下</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">C. 徐脈・高血圧のみ</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">D. 皮膚の乾燥のみ</button>
+    <div class="quiz-fb">食事でのむせ・湿性咳嗽・発熱・SpO₂低下が典型。高齢者は発熱が目立たず「元気がない・食欲低下」だけのこともあります。</div>
+  </div>
+
+  <div class="quiz-box">
+    <div class="qprog">Q10 / 10</div>
+    <div class="quiz-q">ISBARC の「A」が指すものはどれですか。</div>
     <button class="quiz-opt" onclick="checkQuiz(this,false)">A. Airway（気道）</button>
     <button class="quiz-opt" onclick="checkQuiz(this,true)">B. Assessment（自分の見立て・評価）</button>
     <button class="quiz-opt" onclick="checkQuiz(this,false)">C. Action（行動）</button>
@@ -368,7 +426,7 @@ body {
 </div>
 
 <div class="footer">
-  <a href="../">🏠 トップページ</a>
+  <a href="../kenshu-kango.html">📚 訪問看護 研修一覧</a>｜<a href="../">🏠 トップページ</a>
 </div>
 </div>
 
@@ -401,8 +459,7 @@ function generateCert() {
     '上記の者は「急変時対応・フィジカルアセスメント」研修を修了したことを証します。 修了日: ' + dateStr;
   document.getElementById('certCard').classList.add('show');
 
-  // メールリンク生成（宛先は ../scripts/cert-config-kango.js で一元管理）
-  const mailCfg = window.CERT_MAIL_CONFIG || { to: 'info@kaigo-yoki.jp', cc: '', honorific: '訪問看護 管理者 様' };
+  const mailCfg = window.CERT_MAIL_CONFIG || { to: 'itsuyo@kaigo-yoki.jp', cc: 'info@kaigo-yoki.jp', honorific: '訪問看護 管理者 様' };
   const subject = encodeURIComponent('【研修修了報告】' + TRAINING_TITLE + ' - ' + name);
   const body = encodeURIComponent(
     mailCfg.honorific + '\n\n' +
