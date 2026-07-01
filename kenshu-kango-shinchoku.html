@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>訪問看護 研修進捗確認（管理者用）| 訪問看護ようき</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="./favicon.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap');
+:root{--primary:#0E7C86;--primary-dark:#095961;--accent:#E0533D;--ok:#2E9E6B;--ink:#1A2E33;--muted:#5B6E72;--line:#E3EBEC;--bg:#F4F8F8;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--bg);color:var(--ink);padding:20px 14px 60px;}
+.wrap{max-width:1080px;margin:0 auto;}
+h1{font-size:clamp(20px,4vw,28px);font-weight:900;color:var(--primary-dark);text-align:center;margin:16px 0 4px;}
+.sub{text-align:center;font-size:13px;color:var(--muted);margin-bottom:24px;}
+.panel{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px 20px;margin-bottom:20px;box-shadow:0 1px 8px rgba(14,124,134,.05);}
+#gate{max-width:440px;margin:40px auto;text-align:center;}
+#gate label{display:block;font-size:14px;font-weight:700;margin-bottom:10px;}
+#gate input{width:100%;padding:13px 18px;border:2px solid #CFDDDE;border-radius:12px;font-size:16px;font-family:inherit;font-weight:700;text-align:center;outline:none;}
+#gate input:focus{border-color:var(--primary);}
+#gate button{margin-top:14px;padding:12px 40px;background:var(--primary);color:#fff;border:none;border-radius:50px;font-size:15px;font-weight:800;font-family:inherit;cursor:pointer;}
+.gate-error{color:var(--accent);font-size:13px;font-weight:700;margin-top:12px;display:none;}
+.gate-note{font-size:12px;color:var(--muted);margin-top:16px;line-height:1.8;text-align:left;}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px;}
+.sum-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center;}
+.sum-num{font-size:28px;font-weight:900;color:var(--primary-dark);}
+.sum-label{font-size:12px;color:var(--muted);font-weight:700;margin-top:4px;}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center;}
+.chip{padding:7px 18px;border-radius:30px;border:2px solid #DDD;background:#fff;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;color:var(--muted);}
+.chip.on{background:var(--primary);border-color:var(--primary);color:#fff;}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;margin-bottom:14px;}
+.tool-btn{padding:8px 18px;border-radius:30px;border:2px solid #DDD;background:#fff;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;color:var(--muted);}
+.tool-btn:hover{border-color:var(--primary);color:var(--primary);}
+h2{font-size:17px;font-weight:900;color:var(--primary-dark);margin:4px 0 12px;}
+.table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+table{border-collapse:collapse;width:100%;font-size:13px;}
+th,td{border:1px solid var(--line);padding:8px 6px;text-align:center;white-space:nowrap;}
+thead th{background:var(--primary);color:#fff;font-weight:700;font-size:11px;max-width:86px;white-space:normal;line-height:1.4;vertical-align:middle;padding:8px 4px;}
+thead th.name-col,td.name-col{position:sticky;left:0;z-index:2;min-width:110px;background:var(--primary);color:#fff;text-align:left;padding-left:10px;}
+tbody td.name-col{background:#F1F7F7;color:var(--ink);font-weight:700;}
+tbody tr:nth-child(even) td:not(.name-col){background:#FAFCFC;}
+.cell-done{color:var(--ok);font-weight:900;}
+.cell-date{display:block;font-size:10px;color:var(--muted);font-weight:400;}
+.cell-none{color:#CCC;}
+.rate-cell{min-width:110px;}
+.rate-bar{background:#EEE;border-radius:8px;height:10px;overflow:hidden;margin-top:3px;}
+.rate-fill{height:100%;background:linear-gradient(90deg,var(--ok),#7BD4A3);border-radius:8px;}
+.rate-txt{font-size:11px;font-weight:700;}
+.recent-list{list-style:none;}
+.recent-list li{padding:8px 4px;border-bottom:1px solid #F0F0F0;font-size:13px;}
+.recent-list .d{color:var(--muted);font-size:12px;margin-right:10px;}
+.unmatched{background:#FDF4E6;border:2px dashed #E8912A;}
+.unmatched li{font-size:13px;padding:6px 4px;}
+.empty-msg{font-size:13px;color:var(--muted);text-align:center;padding:16px;}
+.setup-box{background:#EAF3F4;border:2px solid #B9D2D5;border-radius:14px;padding:20px;font-size:13px;line-height:2;}
+.footer{text-align:center;margin-top:30px;font-size:12px;color:var(--muted);}
+.footer a{color:var(--primary);text-decoration:none;}
+#dash{display:none;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🩺 訪問看護 研修進捗確認</h1>
+  <div class="sub">管理者用 — 看護師ごとの研修修了状況（訪問看護ようき）</div>
+
+  <div class="panel" id="gate">
+    <label for="keyInput">🔑 閲覧キーを入力してください</label>
+    <input type="password" id="keyInput" placeholder="閲覧キー" autocomplete="off">
+    <br>
+    <button onclick="enter()">表示する</button>
+    <div class="gate-error" id="gateError"></div>
+    <div class="gate-note">
+      ※ 閲覧キーは訪問看護の進捗管理スプレッドシート「設定」シート B1 に記載されています。<br>
+      ※ キーはこの端末に保存され、次回からは自動で表示されます。
+    </div>
+    <div class="setup-box" id="setupBox" style="display:none; margin-top:18px;">
+      <strong>⚙️ 初期設定がまだ完了していません</strong><br>
+      記録用スプレッドシートとの接続が未設定です。<code>scripts/kango-progress.gs</code> の手順に従って Google スプレッドシートを作成・デプロイし、ウェブアプリURLを <code>scripts/cert-config-kango.js</code> に設定してください。<br>
+      画面のイメージは <a href="?demo=1">デモ表示</a> で確認できます。
+    </div>
+  </div>
+
+  <div id="dash">
+    <div class="summary" id="summary"></div>
+    <div class="panel">
+      <div class="toolbar">
+        <button class="tool-btn" onclick="loadData()">🔄 再読み込み</button>
+        <button class="tool-btn" onclick="changeKey()">🔑 キーを変更</button>
+      </div>
+      <div class="filters" id="deptFilters"></div>
+
+      <h2>法定研修（9研修）</h2>
+      <div class="table-scroll" id="hoteiTable"></div>
+
+      <h2 style="margin-top:28px;">医療実務研修（8研修）</h2>
+      <div class="table-scroll" id="jitsumuTable"></div>
+    </div>
+
+    <div class="panel">
+      <h2>🕒 最近の修了記録</h2>
+      <ul class="recent-list" id="recentList"></ul>
+    </div>
+
+    <div class="panel unmatched" id="unmatchedPanel" style="display:none;">
+      <h2>⚠️ 名簿にない名前の記録</h2>
+      <p style="font-size:12px;color:var(--muted);margin-bottom:8px;">入力された名前が看護師名簿と一致しませんでした。表記ゆれの場合は名簿の氏名に合わせるか、名簿に追加してください。</p>
+      <ul id="unmatchedList"></ul>
+    </div>
+  </div>
+
+  <div class="footer">
+    <a href="./kenshu-kango.html">📚 訪問看護 研修一覧へ</a>　|　<a href="./">🏠 トップ</a><br><br>
+    訪問看護 ようき（有限会社 陽気）
+  </div>
+</div>
+
+<script src="./scripts/cert-config-kango.js"></script>
+<script>
+const KEY_STORE = 'kenshu_kango_shinchoku_key';
+const DEMO = new URLSearchParams(location.search).get('demo') === '1';
+let STAFF = [], RECORDS = [], deptFilter = '全て';
+
+const HOTEI = [
+  { id:'gyakutai', icon:'🛡️', title:'虐待防止' },
+  { id:'kousoku', icon:'🙅', title:'身体拘束' },
+  { id:'kansen', icon:'🦠', title:'感染対策' },
+  { id:'bcp', icon:'📋', title:'BCP' },
+  { id:'saigai', icon:'🌀', title:'災害対応' },
+  { id:'harassment', icon:'🤝', title:'ハラスメント' },
+  { id:'shishitsu', icon:'⚖️', title:'資質向上・倫理' },
+  { id:'privacy', icon:'🔒', title:'個人情報' },
+  { id:'anzen', icon:'⚠️', title:'医療安全' }
+].map(t => ({ ...t, path: '/kango-trainings/' + t.id }));
+
+const JITSUMU = [
+  { id:'kyuhen', icon:'🚑', title:'急変・アセスメント' },
+  { id:'harisashi', icon:'💉', title:'針刺し・廃棄物' },
+  { id:'jokuso', icon:'🩹', title:'褥瘡' },
+  { id:'mitori', icon:'🕊️', title:'看取り' },
+  { id:'ikiki', icon:'🫁', title:'医療機器' },
+  { id:'yakuzai', icon:'💊', title:'薬剤・麻薬' },
+  { id:'ninchi', icon:'🧠', title:'認知症・精神' },
+  { id:'haisetsu', icon:'🚻', title:'排泄・カテーテル' }
+].map(t => ({ ...t, path: '/kango-trainings/' + t.id }));
+
+const ALL = [...HOTEI, ...JITSUMU];
+
+const norm = s => String(s || '').normalize('NFKC').replace(/[\s　]/g, '').toLowerCase();
+const normPath = p => String(p || '').replace(/\.html$/, '');
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c =>
+  ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const normDate = s => {
+  const str = String(s || '').trim();
+  if (/^\d{4}-\d{2}-\d{2}/.test(str)) return str.slice(0, 10);
+  const d = new Date(str);
+  if (isNaN(d)) return str;
+  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+};
+
+function demoData() {
+  const staff = [
+    { name: '伊福 いつよ', dept: '訪問看護', status: '在籍' },
+    { name: '大城 浩之', dept: '訪問看護', status: '在籍' },
+    { name: '稲嶺 和子', dept: '訪問看護', status: '在籍' }
+  ];
+  const records = [
+    { name: '伊福 いつよ', training: '急変時対応・フィジカルアセスメント 研修（訪問看護）', path: '/kango-trainings/kyuhen', date: '2026-06-28', ts: '2026-06-28T10:00:00Z' },
+    { name: '伊福 いつよ', training: '感染症・食中毒の予防とまん延防止 研修（訪問看護）', path: '/kango-trainings/kansen', date: '2026-06-29', ts: '2026-06-29T10:00:00Z' },
+    { name: '伊福 いつよ', training: '看取り・ターミナルケア・エンゼルケア 研修（訪問看護）', path: '/kango-trainings/mitori', date: '2026-07-01', ts: '2026-07-01T09:00:00Z' },
+    { name: '大城 浩之', training: '医療安全・事故発生時対応 研修（訪問看護）', path: '/kango-trainings/anzen', date: '2026-06-30', ts: '2026-06-30T14:00:00Z' },
+    { name: '大城 浩之', training: '針刺し・血液体液曝露・医療廃棄物 研修（訪問看護）', path: '/kango-trainings/harisashi', date: '2026-06-30', ts: '2026-06-30T14:20:00Z' }
+  ];
+  return { status: 'ok', staff, records };
+}
+
+function enter() {
+  const key = document.getElementById('keyInput').value.trim();
+  if (!key) return;
+  localStorage.setItem(KEY_STORE, key);
+  loadData();
+}
+function changeKey() {
+  localStorage.removeItem(KEY_STORE);
+  document.getElementById('dash').style.display = 'none';
+  document.getElementById('gate').style.display = 'block';
+  document.getElementById('keyInput').value = '';
+}
+function gateError(msg) {
+  const el = document.getElementById('gateError');
+  el.textContent = msg; el.style.display = 'block';
+}
+
+async function loadData() {
+  const cfg = window.KENSHU_PROGRESS_CONFIG || {};
+  if (DEMO) { apply(demoData()); return; }
+  if (!cfg.endpoint) { document.getElementById('setupBox').style.display = 'block'; return; }
+  const key = localStorage.getItem(KEY_STORE);
+  if (!key) return;
+  try {
+    const res = await fetch(cfg.endpoint + '?action=progress&key=' + encodeURIComponent(key));
+    const data = await res.json();
+    if (data.status === 'unauthorized') {
+      localStorage.removeItem(KEY_STORE);
+      gateError('閲覧キーが違います。スプレッドシート「設定」シートB1のキーを確認してください。');
+      return;
+    }
+    if (data.status !== 'ok') { gateError('データ取得に失敗しました: ' + (data.message || '')); return; }
+    apply(data);
+  } catch (e) {
+    gateError('通信に失敗しました。時間をおいて再度お試しください。');
+  }
+}
+
+function apply(data) {
+  STAFF = (data.staff || []).filter(s => s.status !== '退職');
+  RECORDS = (data.records || []).map(r => ({ ...r, date: normDate(r.date) }));
+  document.getElementById('gate').style.display = 'none';
+  document.getElementById('dash').style.display = 'block';
+  renderFilters();
+  render();
+}
+
+function buildIndex() {
+  const idx = {};
+  for (const r of RECORDS) {
+    const n = norm(r.name), p = normPath(r.path);
+    if (!n) continue;
+    if (!idx[n]) idx[n] = {};
+    if (!idx[n][p] || idx[n][p] < r.date) idx[n][p] = r.date;
+  }
+  return idx;
+}
+
+function renderFilters() {
+  const depts = ['全て', ...new Set(STAFF.map(s => s.dept).filter(Boolean))];
+  document.getElementById('deptFilters').innerHTML = depts.map(d =>
+    `<button class="chip ${d === deptFilter ? 'on' : ''}" data-dept="${esc(d)}">${esc(d)}</button>`
+  ).join('');
+  document.querySelectorAll('#deptFilters .chip').forEach(b =>
+    b.addEventListener('click', () => setDept(b.dataset.dept)));
+}
+function setDept(d) { deptFilter = d; renderFilters(); render(); }
+
+function cellHTML(date) {
+  if (!date) return '<span class="cell-none">・</span>';
+  const md = date.slice(5).replace('-', '/');
+  return `<span class="cell-done">✅<span class="cell-date">${md}</span></span>`;
+}
+
+function matrixHTML(list, staff, idx) {
+  const rows = staff.map(s => {
+    const mine = idx[norm(s.name)] || {};
+    let done = 0;
+    const cells = list.map(t => { const d = mine[t.path]; if (d) done++; return `<td>${cellHTML(d)}</td>`; }).join('');
+    const pct = Math.round(done / list.length * 100);
+    return `<tr><td class="name-col">${esc(s.name)}</td>${cells}
+      <td class="rate-cell"><span class="rate-txt">${done}/${list.length} (${pct}%)</span>
+      <div class="rate-bar"><div class="rate-fill" style="width:${pct}%"></div></div></td></tr>`;
+  }).join('');
+  return `<table>
+    <thead><tr><th class="name-col">看護師名</th>${list.map(t => `<th>${t.icon}<br>${t.title}</th>`).join('')}<th>修了率</th></tr></thead>
+    <tbody>${rows}</tbody></table>`;
+}
+
+function render() {
+  const idx = buildIndex();
+  const staff = STAFF.filter(s => deptFilter === '全て' || s.dept === deptFilter);
+
+  if (!staff.length) {
+    const empty = '<div class="empty-msg">看護師名簿が空です。スプレッドシートの「看護師名簿」シートに職員を記入してください。</div>';
+    document.getElementById('hoteiTable').innerHTML = empty;
+    document.getElementById('jitsumuTable').innerHTML = '';
+  } else {
+    document.getElementById('hoteiTable').innerHTML = matrixHTML(HOTEI, staff, idx);
+    document.getElementById('jitsumuTable').innerHTML = matrixHTML(JITSUMU, staff, idx);
+  }
+
+  // サマリー（全17研修に対する修了率）
+  let doneAll = 0;
+  staff.forEach(s => { const mine = idx[norm(s.name)] || {}; ALL.forEach(t => { if (mine[t.path]) doneAll++; }); });
+  const totalPct = staff.length ? Math.round(doneAll / (staff.length * ALL.length) * 100) : 0;
+  const lastRec = RECORDS.length ? RECORDS.map(r => r.date).sort().slice(-1)[0] : '—';
+  document.getElementById('summary').innerHTML = `
+    <div class="sum-card"><div class="sum-num">${staff.length}</div><div class="sum-label">在籍看護師数${deptFilter !== '全て' ? '（' + deptFilter + '）' : ''}</div></div>
+    <div class="sum-card"><div class="sum-num">${totalPct}%</div><div class="sum-label">全17研修 修了率</div></div>
+    <div class="sum-card"><div class="sum-num">${RECORDS.length}</div><div class="sum-label">修了記録 件数</div></div>
+    <div class="sum-card"><div class="sum-num" style="font-size:18px;">${esc(lastRec)}</div><div class="sum-label">最終修了日</div></div>`;
+
+  const recent = [...RECORDS].sort((a, b) => (b.ts || '').localeCompare(a.ts || '')).slice(0, 8);
+  document.getElementById('recentList').innerHTML = recent.length
+    ? recent.map(r => `<li><span class="d">${esc(r.date)}</span><strong>${esc(r.name)}</strong>　${esc(r.training)}</li>`).join('')
+    : '<li class="empty-msg">まだ修了記録がありません。</li>';
+
+  const rosterNames = new Set(STAFF.map(s => norm(s.name)));
+  const unmatched = RECORDS.filter(r => norm(r.name) && !rosterNames.has(norm(r.name)));
+  const panel = document.getElementById('unmatchedPanel');
+  if (unmatched.length) {
+    panel.style.display = 'block';
+    const byName = {};
+    unmatched.forEach(r => { (byName[r.name] = byName[r.name] || []).push(r.training); });
+    document.getElementById('unmatchedList').innerHTML = Object.entries(byName)
+      .map(([n, ts]) => `<li><strong>${esc(n)}</strong>（${ts.length}件）</li>`).join('');
+  } else { panel.style.display = 'none'; }
+}
+
+(function init() {
+  if (DEMO) { loadData(); return; }
+  const cfg = window.KENSHU_PROGRESS_CONFIG || {};
+  if (!cfg.endpoint) { document.getElementById('setupBox').style.display = 'block'; return; }
+  if (localStorage.getItem(KEY_STORE)) loadData();
+})();
+document.getElementById('keyInput').addEventListener('keydown', e => { if (e.key === 'Enter') enter(); });
+</script>
+</body>
+</html>
