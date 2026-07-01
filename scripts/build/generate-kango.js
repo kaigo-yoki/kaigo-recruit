@@ -307,6 +307,7 @@ function generateCert() {
 }
 </script>
 <script src="../scripts/cert-config-kango.js"></script>
+<script src="../scripts/read-aloud.js"></script>
 </body>
 </html>
 `;
