@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>訪問看護 研修一覧 | 訪問看護ようき（有限会社 陽気）</title>
+<meta name="description" content="訪問看護ようきの法定研修・医療実務研修の一覧。急変対応・感染管理・看取り・医療機器など。">
+<link rel="icon" type="image/png" href="./favicon.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap');
+:root{--primary:#0E7C86;--primary-dark:#095961;--accent:#E0533D;--ok:#2E9E6B;--ink:#1A2E33;--muted:#5B6E72;--line:#E3EBEC;--bg:#F4F8F8;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--bg);color:var(--ink);line-height:1.8;padding:22px 14px 70px;}
+.wrap{max-width:860px;margin:0 auto;}
+.hero{background:linear-gradient(135deg,var(--primary-dark),var(--primary));border-radius:20px;padding:34px 26px;color:#fff;text-align:center;margin-bottom:14px;position:relative;overflow:hidden;}
+.hero::after{content:'';position:absolute;right:-40px;top:-40px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.06);}
+.hero .badge{display:inline-block;background:rgba(255,255,255,.18);padding:5px 18px;border-radius:20px;font-size:12px;font-weight:700;letter-spacing:1px;margin-bottom:12px;}
+.hero h1{font-size:clamp(22px,5vw,32px);font-weight:900;position:relative;}
+.hero p{font-size:14px;opacity:.95;margin-top:10px;position:relative;}
+.intro{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px;font-size:13.5px;color:var(--muted);margin-bottom:24px;line-height:1.9;}
+.intro b{color:var(--ink);}
+.group-title{display:flex;align-items:center;gap:10px;font-size:18px;font-weight:900;color:var(--primary-dark);margin:26px 4px 14px;}
+.group-title .pill{font-size:11px;font-weight:700;color:#fff;background:var(--primary);padding:3px 12px;border-radius:20px;}
+.group-title .pill.jitsumu{background:var(--accent);}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;}
+.card{display:block;background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 16px;text-decoration:none;color:inherit;transition:all .2s;position:relative;box-shadow:0 1px 5px rgba(14,124,134,.05);}
+.card:hover{transform:translateY(-2px);border-color:var(--primary);box-shadow:0 6px 18px rgba(14,124,134,.12);}
+.card .icon{font-size:26px;}
+.card .num{position:absolute;top:14px;right:16px;font-size:12px;font-weight:900;color:var(--line);}
+.card .c-title{font-size:15px;font-weight:700;margin:8px 0 4px;color:var(--ink);}
+.card .c-desc{font-size:12.5px;color:var(--muted);line-height:1.7;}
+.card .go{margin-top:10px;font-size:12px;font-weight:700;color:var(--primary);}
+.footer{text-align:center;margin-top:34px;font-size:13px;color:var(--muted);}
+.footer a{color:var(--primary);text-decoration:none;margin:0 8px;}
+.note{font-size:12px;color:var(--muted);background:#EDF3F3;border-radius:10px;padding:12px 14px;margin-top:22px;line-height:1.7;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hero">
+  <div class="badge">訪問看護 研修</div>
+  <h1>🩺 訪問看護 研修一覧</h1>
+  <p>訪問看護ようき（有限会社 陽気）<br>法定研修・医療実務研修</p>
+</div>
+
+<div class="intro">
+  スマホで受講できます。各研修を読み、確認テストに答えて、最後に<b>お名前を入力して修了証を発行</b>してください。「✉️ 修了報告メール」を押すと、管理者へ報告できます（受講記録も残ります）。<br>
+  ※ お名前は<b>職員名簿と同じ表記</b>でご入力ください。
+</div>
+
+<div class="group-title"><span class="pill">法定研修</span>全職員 必須</div>
+<div class="grid" id="grid-hotei"></div>
+
+<div class="group-title"><span class="pill jitsumu">医療実務研修</span>訪問看護の質と安全</div>
+<div class="grid" id="grid-jitsumu"></div>
+
+<div class="note">
+  本研修は在宅看護の一般的な考え方を整理した教育用コンテンツです。実際の対応は、主治医の指示・各利用者の個別指示書・事業所のマニュアルおよび最新のガイドラインに従ってください。内容は随時見直します。
+</div>
+
+<div class="footer">
+  <a href="./">🏠 トップページ</a>｜<a href="./kenshu.html">🧡 訪問介護の研修へ</a>
+</div>
+</div>
+
+<script>
+const HOTEI = [
+  { id:'gyakutai', icon:'🛡️', t:'高齢者・障害者虐待防止・権利擁護', d:'虐待の5類型・通報義務・在宅の兆候' },
+  { id:'kousoku', icon:'🙅', t:'身体拘束等の適正化', d:'医療処置下の拘束・3要件・記録義務' },
+  { id:'kansen', icon:'🦠', t:'感染症・食中毒の予防とまん延防止', d:'標準予防策・PPE・嘔吐物処理' },
+  { id:'bcp', icon:'📋', t:'業務継続計画（BCP）', d:'有事の優先訪問・体制・訓練' },
+  { id:'saigai', icon:'🌀', t:'非常災害時対応', d:'訪問中の被災・安否確認・備え' },
+  { id:'harassment', icon:'🤝', t:'ハラスメント防止', d:'カスハラ・単独訪問・我慢しない' },
+  { id:'shishitsu', icon:'⚖️', t:'看護師等の資質向上・看護倫理', d:'倫理4原則・ACP・意思決定支援' },
+  { id:'privacy', icon:'🔒', t:'個人情報保護・守秘義務', d:'診療情報・退職後も継続・SNS' },
+  { id:'anzen', icon:'⚠️', t:'医療安全・事故発生時対応', d:'ヒヤリハット・6R・再発防止' }
+];
+const JITSUMU = [
+  { id:'kyuhen', icon:'🚑', t:'急変時対応・フィジカルアセスメント', d:'バイタル評価・ショック・ISBARC報告' },
+  { id:'harisashi', icon:'💉', t:'針刺し・血液体液曝露・医療廃棄物', d:'リキャップ禁止・曝露時対応・廃棄' },
+  { id:'jokuso', icon:'🩹', t:'褥瘡予防・スキンケア', d:'発生要因・除圧・栄養・早期発見' },
+  { id:'mitori', icon:'🕊️', t:'看取り・ターミナル・エンゼルケア', d:'苦痛緩和・死亡時対応・家族支援' },
+  { id:'ikiki', icon:'🫁', t:'在宅医療機器・医療的ケア', d:'HOT・人工呼吸器・吸引・経管栄養' },
+  { id:'yakuzai', icon:'💊', t:'薬剤・麻薬管理・服薬支援', d:'誤薬防止・麻薬管理・アドヒアランス' },
+  { id:'ninchi', icon:'🧠', t:'認知症・精神疾患のケア', d:'BPSDの背景・関わり・危機対応' },
+  { id:'haisetsu', icon:'🚻', t:'排泄・カテーテル・ストーマ管理', d:'尿路感染予防・ストーマ観察・摘便' }
+];
+function render(list, elId, offset) {
+  document.getElementById(elId).innerHTML = list.map((x, i) =>
+    '<a class="card" href="./kango-trainings/' + x.id + '.html">' +
+    '<span class="num">' + String(offset + i + 1).padStart(2,'0') + '</span>' +
+    '<div class="icon">' + x.icon + '</div>' +
+    '<div class="c-title">' + x.t + '</div>' +
+    '<div class="c-desc">' + x.d + '</div>' +
+    '<div class="go">受講する →</div>' +
+    '</a>'
+  ).join('');
+}
+render(HOTEI, 'grid-hotei', 0);
+render(JITSUMU, 'grid-jitsumu', HOTEI.length);
+</script>
+</body>
+</html>
