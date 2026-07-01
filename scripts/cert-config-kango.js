@@ -10,7 +10,7 @@ window.CERT_MAIL_CONFIG = {
 // 訪問看護 研修進捗の自動記録（介護とは別のスプレッドシート／GASを想定）
 // endpoint 未設定（空文字）の間は記録せず、修了証発行は通常どおり動作する。
 window.KENSHU_PROGRESS_CONFIG = {
-  endpoint: ''   // 看護専用の進捗GASをデプロイしたら設定
+  endpoint: 'https://script.google.com/macros/s/AKfycbzPTsul5M9nP26V8tcGMEHsWjRksN8bEameebmx92OM-kgGWiaCtldTyVwvbHU7ktaO/exec'
 };
 
 // 修了証発行（generateCert）をフックして、発行時に進捗を自動送信する。
