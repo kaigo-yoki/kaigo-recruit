@@ -2,8 +2,8 @@
 // ※ 介護版（cert-config.js）とは別事業なので設定を分けている。
 //    看護管理者が確定したら to をそのアドレスに変更する。
 window.CERT_MAIL_CONFIG = {
-  to: 'info@kaigo-yoki.jp',        // 暫定：本部（代表）。※看護管理者確定後に差し替え
-  cc: '',                           // 必要なら看護管理者/本部を追加
+  to: 'itsuyo@kaigo-yoki.jp',      // 訪問看護 管理者（伊福いつよ）
+  cc: 'info@kaigo-yoki.jp',        // 本部（嶺井代表・控え）
   honorific: '訪問看護 管理者 様'   // メール冒頭の宛名
 };
 
