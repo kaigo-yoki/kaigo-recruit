@@ -24,7 +24,12 @@ const OUT = path.join(ROOT, 'kango-trainings');
 const DATA = path.join(__dirname, 'kango-content.json');
 
 function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
-function md(s) { return esc(s).replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>'); }
+// コンテンツは自社作成（信頼済み）。**強調** と、限定した安全なタグ（b/strong/br）のみ許可する。
+function md(s) {
+  return esc(s)
+    .replace(/&lt;(\/?)(b|strong|br)\s*\/?&gt;/g, '<$1$2>')
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+}
 function jesc(s) { return JSON.stringify(String(s)); }
 
 const CALLOUT_TITLE = { law: '📘', alert: '⚠️', tip: '✅', warn: '🟠' };
