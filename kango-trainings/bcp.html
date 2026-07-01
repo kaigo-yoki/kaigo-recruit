@@ -91,83 +91,225 @@ body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--bg);color:var
 <div class="header">
   <div class="badge">訪問看護 法定研修</div>
   <h1>業務継続計画（BCP）</h1>
-  <div class="lead">災害や感染症で人員・物資が不足しても、命に関わる利用者への訪問を止めない。訪問看護のBCPの要点を学びます。</div>
-  <div class="meta">訪問看護ようき（有限会社 陽気）／所要時間の目安：12〜15分</div>
+  <div class="lead">災害や感染症で人員・物資が不足しても、命に関わる利用者への訪問を止めない。訪問看護のBCPの目的・優先順位・体制・平時の備えを、実務レベルで学びます。</div>
+  <div class="meta">訪問看護ようき（有限会社 陽気）／所要時間の目安：18〜25分</div>
 </div>
 
 <div class="sec">
   <h2><span class="sec-num">◎</span>この研修の学習目標</h2>
   <div class="ja-sub">Learning objectives</div>
   <ul class="goal-list">
-    <li>BCPの目的（有事でも重要業務を継続する）を説明できる。</li>
-    <li>利用者の医療依存度に応じた訪問の優先順位づけを理解する。</li>
-    <li>安否確認・連絡体制・代替手段の考え方を知る。</li>
-    <li>平時の訓練・見直しの重要性を理解する。</li>
+    <li>BCPの目的（有事でも重要業務を継続・早期復旧する）を説明できる。</li>
+    <li>感染症BCPと自然災害BCPの両方の策定が義務であることを理解する。</li>
+    <li>利用者の医療依存度に応じた訪問の優先順位づけ（層別化）を実施できる。</li>
+    <li>安否確認・参集・多事業所間応援・代替手段の考え方を理解する。</li>
+    <li>生命維持機器利用者の停電対策を平時から準備できる。</li>
+    <li>平時の研修・訓練・見直しがBCPの実効性を左右すると理解する。</li>
   </ul>
 </div>
 
 <div class="sec">
-  <h2><span class="sec-num">1</span>BCPとは</h2>
-  <div class="ja-sub">第1章 止めない仕組み</div>
-  <p><strong>BCP（業務継続計画）</strong>は、自然災害・感染症・システム障害などで資源が制約されても、優先度の高い業務を継続・早期復旧するための計画です。訪問看護では「訪問しないと命に関わる利用者」への継続が最重要になります。</p>
+  <h2><span class="sec-num">1</span>BCPとは何か</h2>
+  <div class="ja-sub">第1章 止めない・早く戻す仕組み</div>
+  <p><strong>BCP（業務継続計画／Business Continuity Plan）</strong>とは、自然災害・感染症・システム障害・停電などで人員や物資が制約されても、<strong>優先度の高い業務を継続し、中断した場合は早期に復旧する</strong>ための計画です。訪問看護では「訪問を止めると命に関わる利用者」への継続が最重要業務になります。</p>
+  <p>防災計画が「身の安全確保・被害を減らす」ことを目的とするのに対し、BCPは<b>被災した状態から、限られた資源でどう業務を回すか</b>に軸足があります。両者は補完関係にあり、どちらも欠かせません。</p>
   <div class="callout law">
-    <div class="c-title">📘 義務</div>
-    感染症・災害の両方に備えたBCPの策定、研修・訓練の定期実施、定期的な見直しが求められます。
-  </div>
-</div>
-
-<div class="sec">
-  <h2><span class="sec-num">2</span>優先順位と体制</h2>
-  <div class="ja-sub">第2章 誰を先に訪問するか</div>
-  <div class="callout alert">
-    <div class="c-title">⚠️ 訪問優先度が高い利用者（例）</div>
+    <div class="c-title">📘 策定・訓練・見直しの義務</div>
     <ul>
-      <li>人工呼吸器・在宅酸素など生命維持機器を使用</li>
-      <li>インスリン・麻薬・重要薬剤の管理が必要</li>
-      <li>褥瘡処置・吸引など中断できない医療処置</li>
-      <li>独居・老老介護で代替の担い手がいない</li>
+      <li>介護保険の運営基準により、<strong>感染症BCP</strong>と<strong>自然災害BCP</strong>の両方の策定が求められる。</li>
+      <li>計画に基づく<strong>研修・訓練（シミュレーション）を定期的に実施</strong>する。</li>
+      <li>訓練結果や体制変更を踏まえ、<strong>定期的に見直す（PDCA）</strong>。策定して終わりではない。</li>
     </ul>
   </div>
+  <table class="vital-table">
+    <thead>
+      <tr><th>観点</th><th>防災計画</th><th>BCP</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="item">主目的</td><td>人命・身体の安全確保、被害軽減</td><td>重要業務の継続・早期復旧</td></tr>
+      <tr><td class="item">時間軸</td><td>発災直後の初動が中心</td><td>発災直後〜復旧までの継続運用</td></tr>
+      <tr><td class="item">問い</td><td>どう身を守るか</td><td>資源が減った中で誰にどう訪問し続けるか</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="sec">
+  <h2><span class="sec-num">2</span>重要業務の絞り込みと優先順位</h2>
+  <div class="ja-sub">第2章 誰を先に訪問するか</div>
+  <p>有事はスタッフも被災し、道路・通信・物資も制約されます。<strong>すべての利用者に平時どおり訪問することはできない</strong>という前提で、「訪問を止めると命に関わる業務」から順に資源を割り当てます。この優先順位づけを平時に決め、チームで共有しておくことがBCPの核心です。</p>
+  <div class="callout alert">
+    <div class="c-title">⚠️ 訪問優先度がとくに高い利用者（例）</div>
+    <ul>
+      <li>人工呼吸器・在宅酸素・持続吸引など<strong>生命維持に電源や医療的管理が必要</strong></li>
+      <li>インスリン・医療用麻薬・重要薬剤の管理を要する</li>
+      <li>褥瘡処置・膀胱留置・経管栄養など<strong>中断できない医療処置</strong>がある</li>
+      <li>独居・老老介護・認認介護で<strong>代替の担い手がいない</strong></li>
+    </ul>
+  </div>
+  <table class="vital-table">
+    <thead>
+      <tr><th>優先度</th><th>利用者像</th><th>有事の対応方針</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="item">最優先</td><td>人工呼吸器・在宅酸素・独居で医療依存度が高い</td><td>最優先で安否確認・訪問。電源・搬送先を確保</td></tr>
+      <tr><td class="item">高</td><td>重要薬剤管理・中断不可の処置がある</td><td>電話等で状態確認、可能な限り訪問継続</td></tr>
+      <tr><td class="item">中〜低</td><td>状態安定・家族支援が十分・自立度が高い</td><td>電話確認・訪問延期を検討し資源を上位へ回す</td></tr>
+    </tbody>
+  </table>
+  <div class="callout tip">
+    <div class="c-title">✅ 層別化の実務</div>
+    <ul>
+      <li>利用者リストを医療依存度・独居性・処置の中断可否で層別化しておく。</li>
+      <li>「延期できる訪問」を平時に整理しておくと、有事に判断が速い。</li>
+      <li>ケアマネ・主治医・他事業所と優先度の認識をすり合わせておく。</li>
+    </ul>
+  </div>
+</div>
+
+<div class="sec">
+  <h2><span class="sec-num">3</span>体制・連絡・代替手段</h2>
+  <div class="ja-sub">第3章 資源が減っても回す</div>
+  <h3>ヒト・モノ・情報・ライフラインの備え</h3>
   <ul class="goal-list">
-    <li>利用者リストを医療依存度で層別化し、優先順位を平時から共有。</li>
-    <li>停電時の医療機器（呼吸器・酸素・吸引）の代替手段・連絡先を確認。</li>
-    <li>安否確認・参集・多事業所間の応援の連絡フローを決めておく。</li>
-    <li>自分と家族の被災も想定（無理な参集はしない）。</li>
+    <li><strong>ヒト</strong>：安否確認・参集ルール、指揮系統（管理者不在時の代行者）、多事業所間の応援協定。</li>
+    <li><strong>モノ</strong>：衛生材料・医療機器の予備、燃料、移動手段（車が使えない場合の代替）。</li>
+    <li><strong>情報</strong>：利用者情報・連絡網のバックアップ（紙＋電子）、記録の代替様式。</li>
+    <li><strong>ライフライン</strong>：停電・断水・通信途絶時の代替（自家発電、備蓄水、複数の連絡手段）。</li>
   </ul>
+  <div class="callout warn">
+    <div class="c-title">🟠 連絡手段は多重化する</div>
+    災害時は電話がつながりにくくなります。<strong>電話・メール・SNS・災害用伝言板（171／web171）</strong>など複数の手段と、安否確認・参集の判断基準を平時に決めておきます。連絡がつかない場合の行動もあらかじめ定めておきます。
+  </div>
+  <div class="callout alert">
+    <div class="c-title">⚠️ 職員自身の安全が前提</div>
+    職員も被災者です。<strong>自分と家族の安全が確保できない状況での無理な参集・訪問はしない</strong>ことをBCPに明記します。二次被害を出さないことが、結果として利用者を守ります。
+  </div>
+  <h3>停電時の生命維持機器への備え</h3>
+  <div class="isbarc">
+    <div class="isbarc-row"><div class="isbarc-key">1</div><div class="isbarc-txt">各利用者の機器の<b>内部バッテリー稼働時間</b>を把握しておく。</div></div>
+    <div class="isbarc-row"><div class="isbarc-key">2</div><div class="isbarc-txt"><b>外部バッテリー・自家発電・手動式代替（アンビューバッグ・足踏み/手動吸引器）</b>を準備・確認。</div></div>
+    <div class="isbarc-row"><div class="isbarc-key">3</div><div class="isbarc-txt">メーカー・<b>電力会社</b>（医療機器利用者の事前登録）・主治医の緊急連絡先を利用者宅と事業所に整備。</div></div>
+    <div class="isbarc-row"><div class="isbarc-key">4</div><div class="isbarc-txt">停電が長引く場合の<b>避難先・入院受け入れ先</b>を主治医・病院と平時に調整しておく。</div></div>
+  </div>
   <div class="case">
     <div class="case-tag">症例で考える</div>
-    <p>台風で停電。人工呼吸器を使用する在宅利用者がいる。</p>
-    <p class="q">Q. 平時に備えておくべきことは？</p>
-    <p style="font-size:13px;color:#5B6E72;margin-top:6px;">→ 内部バッテリーの稼働時間・外部バッテリー/自家発電の確保、メーカー・電力会社・主治医の緊急連絡先、避難先（入院受け入れ）の事前調整。BCPに沿って安否確認と優先訪問を実施。</p>
+    <p>大型台風の接近予報。担当エリアに、24時間人工呼吸器を使用する独居の利用者Aさんと、在宅酸素のBさんがいる。停電・道路寸断が予想される。</p>
+    <p class="q">Q. BCPに沿って、平時〜接近時に何を確認・準備しますか？</p>
+    <p style="font-size:13px;color:#5B6E72;margin-top:6px;">→ ①Aさんを最優先に層別化し、呼吸器の内部バッテリー時間・外部バッテリー/自家発電・手動換気手段を確認 ②電力会社への医療機器登録と主治医・メーカー連絡先を再確認 ③停電長期化時の入院受け入れ先を主治医と事前調整 ④接近前に予備の医療材料・酸素ボンベ残量を確認 ⑤安否確認方法（複数手段）と、道路寸断時の代替ルート・応援事業所を共有。</p>
   </div>
+</div>
+
+<div class="sec">
+  <h2><span class="sec-num">4</span>平時の訓練と見直し</h2>
+  <div class="ja-sub">第4章 実効性を高めるPDCA</div>
+  <p>BCPは<strong>作った時点では「絵に描いた餅」</strong>です。訓練で実際に動いてみて初めて、連絡網の抜け・優先順位の曖昧さ・物資の不足が見えてきます。年間計画に研修・訓練を組み込み、結果を計画に反映させる<strong>PDCA</strong>を回します。</p>
+  <ul class="goal-list">
+    <li><strong>研修</strong>：全職員がBCPの内容・自分の役割・優先利用者を理解する。</li>
+    <li><strong>訓練</strong>：安否確認訓練、机上シミュレーション（停電・感染症流行など想定別）を定期実施。</li>
+    <li><strong>見直し</strong>：訓練での気づき、利用者・職員体制の変化、法改正を反映して更新。</li>
+    <li><strong>感染症×災害の複合</strong>：感染流行下での被災も想定し、PPE備蓄・ゾーニングも計画に含める。</li>
+  </ul>
+  <div class="callout tip">
+    <div class="c-title">✅ 新人・非常勤も対象</div>
+    有事に「知らなかった」をなくすため、BCPの要点（優先利用者・連絡フロー・自分の初動）は新人・非常勤も含め全員で共有します。掲示や携帯カード化も有効です。
+  </div>
+</div>
+
+<div class="sec">
+  <h2><span class="sec-num">✔</span>現場チェックリスト</h2>
+  <div class="ja-sub">対応前の確認</div>
+  <ul class="checklist">
+    <li>感染症BCPと自然災害BCPの両方が事業所にあるか</li>
+    <li>自分の担当利用者の訪問優先順位（層別化）を把握しているか</li>
+    <li>生命維持機器利用者の停電対策（バッテリー・代替電源・搬送先）を確認したか</li>
+    <li>安否確認・参集・連絡の複数手段とルールを知っているか</li>
+    <li>自分と家族の被災時に無理な参集をしない前提を理解しているか</li>
+    <li>定期的な研修・訓練に参加し、見直しに反映しているか</li>
+  </ul>
 </div>
 
 <div class="sec">
   <h2><span class="sec-num">?</span>確認テスト</h2>
-  <div class="ja-sub">全3問</div>
+  <div class="ja-sub">全10問</div>
   <div class="quiz-box">
-    <div class="quiz-q">Q1. BCP（業務継続計画）の目的はどれですか。</div>
+    <div class="quiz-q">Q1. BCP（業務継続計画）の目的として最も適切なのはどれですか。</div>
     <button class="quiz-opt" onclick="checkQuiz(this,false)">利益を最大化する</button>
-    <button class="quiz-opt" onclick="checkQuiz(this,true)">有事でも優先度の高い業務を継続・早期復旧する</button>
-    <button class="quiz-opt" onclick="checkQuiz(this,false)">職員を増やす</button>
-    <button class="quiz-opt" onclick="checkQuiz(this,false)">訪問を全て休止する</button>
-    <div class="quiz-fb">資源が制約されても重要業務を止めない・早く戻すための計画です。</div>
+    <button class="quiz-opt" onclick="checkQuiz(this,true)">有事でも優先度の高い業務を継続し、中断時は早期復旧する</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">災害時にすべての訪問を平時どおり続ける</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">職員数を増やす</button>
+    <div class="quiz-fb">資源が制約されても重要業務を止めない・早く戻すための計画です。すべてを平時どおり続けることは前提としていません。</div>
   </div>
   <div class="quiz-box">
-    <div class="quiz-q">Q2. 災害時に訪問優先度が高い利用者はどれですか。</div>
+    <div class="quiz-q">Q2. 介護保険の運営基準上、訪問看護事業所に策定が求められるBCPはどれですか。</div>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">自然災害BCPのみ</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">感染症BCPのみ</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,true)">感染症BCPと自然災害BCPの両方</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">特に義務はない</button>
+    <div class="quiz-fb">感染症と自然災害の両方に備えたBCPの策定、研修・訓練、定期的な見直しが求められます。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-q">Q3. 防災計画とBCPの違いとして正しいのはどれですか。</div>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">両者は同じもので区別しない</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,true)">防災計画は身の安全・被害軽減、BCPは重要業務の継続・早期復旧に主眼</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">BCPは発災直後の避難だけを扱う</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">防災計画のほうが業務継続に重点を置く</button>
+    <div class="quiz-fb">防災計画は人命・被害軽減、BCPは限られた資源での業務継続・復旧に主眼があり、両者は補完関係です。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-q">Q4. 災害時に訪問優先度が最も高いのはどの利用者ですか。</div>
     <button class="quiz-opt" onclick="checkQuiz(this,true)">人工呼吸器を使用している独居の利用者</button>
     <button class="quiz-opt" onclick="checkQuiz(this,false)">状態が安定し家族の支援が十分な利用者</button>
     <button class="quiz-opt" onclick="checkQuiz(this,false)">自立度が高い利用者</button>
-    <button class="quiz-opt" onclick="checkQuiz(this,false)">訪問を希望していない利用者</button>
-    <div class="quiz-fb">生命維持機器の使用や独居など、中断が命に関わる利用者を優先します。</div>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">内服薬のみで状態が安定した利用者</button>
+    <div class="quiz-fb">生命維持機器の使用や独居など、訪問の中断が命に関わる利用者を最優先に層別化します。</div>
   </div>
   <div class="quiz-box">
-    <div class="quiz-q">Q3. BCPで平時に行うべきことはどれですか。</div>
-    <button class="quiz-opt" onclick="checkQuiz(this,false)">作って終わりにする</button>
-    <button class="quiz-opt" onclick="checkQuiz(this,true)">研修・訓練と定期的な見直しを行う</button>
-    <button class="quiz-opt" onclick="checkQuiz(this,false)">管理者だけが知っておく</button>
-    <button class="quiz-opt" onclick="checkQuiz(this,false)">災害後に初めて作る</button>
-    <div class="quiz-fb">訓練で実効性を高め、体制変更に合わせて定期的に見直します。</div>
+    <div class="quiz-q">Q5. 利用者の訪問優先順位づけ（層別化）は、いつ行うのが適切ですか。</div>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">災害が起きてから決める</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,true)">平時にあらかじめ決め、チームで共有しておく</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">管理者が有事に一人で決める</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">優先順位はつけない</button>
+    <div class="quiz-fb">有事は判断の余裕がありません。平時に層別化し、共有しておくことでBCPが機能します。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-q">Q6. 停電に備えて、人工呼吸器利用者について平時に確認すべきことはどれですか。</div>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">特に確認は不要</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,true)">内部バッテリー稼働時間・外部電源/手動換気手段・搬送先</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">利用者の預金残高</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">近隣店舗の営業時間のみ</button>
+    <div class="quiz-fb">内部バッテリーの持続時間、外部バッテリー/自家発電、手動換気手段、電力会社への登録、搬送先を平時に整えます。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-q">Q7. 災害時の連絡体制として適切なのはどれですか。</div>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">固定電話一つに頼る</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,true)">電話・メール・SNS・災害用伝言板など複数手段を用意する</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">連絡は取らず各自の判断に任せる</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">災害後に連絡方法を決める</button>
+    <div class="quiz-fb">災害時は電話が輻輳します。連絡手段を多重化し、つながらない場合の行動も平時に決めておきます。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-q">Q8. 職員自身が被災し、家族の安全も確保できていない状況での参集について、BCP上適切なのはどれですか。</div>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">何があっても必ず参集する</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,true)">自分と家族の安全を優先し、無理な参集はしない</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">利用者宅に泊まり込む</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">報告せず自己判断で動き続ける</button>
+    <div class="quiz-fb">職員も被災者です。二次被害を防ぐため、無理な参集はしない基準をBCPに明記します。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-q">Q9. BCPで平時に行うべきこととして適切なのはどれですか。</div>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">策定したら見直さない</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,true)">計画に基づく研修・訓練と定期的な見直し（PDCA）を行う</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">管理者だけが内容を知っておく</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">災害が起きてから初めて作成する</button>
+    <div class="quiz-fb">訓練で実効性を検証し、体制変更や法改正に合わせて定期的に見直します。全職員への周知も必要です。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-q">Q10. 感染症の流行下で大規模災害が発生した場合、BCPで併せて考慮すべきことはどれですか。</div>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">感染対策は不要になる</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,true)">PPE備蓄・ゾーニングなど感染対策と災害対応を両立させる</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">感染者への訪問を全面停止する</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">災害対応だけに集中し感染は無視する</button>
+    <div class="quiz-fb">感染症と災害の複合事態も想定し、PPE備蓄やゾーニングを含めて業務継続を計画します。</div>
   </div>
 </div>
 

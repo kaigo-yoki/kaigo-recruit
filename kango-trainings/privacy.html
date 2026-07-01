@@ -91,18 +91,20 @@ body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--bg);color:var
 <div class="header">
   <div class="badge">訪問看護 法定研修</div>
   <h1>個人情報保護・守秘義務（診療情報）</h1>
-  <div class="lead">訪問看護は氏名・病名・処方など「要配慮個人情報」を大量に扱います。守秘義務と情報管理の実務を学びます。</div>
-  <div class="meta">訪問看護ようき（有限会社 陽気）／所要時間の目安：12〜15分</div>
+  <div class="lead">訪問看護は、氏名・病名・処方・障害・検査結果など「要配慮個人情報」を大量に扱います。単独訪問・移動・多職種連携・SNSといった在宅特有の場面ごとに、守秘義務と情報管理の実務を学びます。</div>
+  <div class="meta">訪問看護ようき（有限会社 陽気）／所要時間の目安：18〜22分</div>
 </div>
 
 <div class="sec">
   <h2><span class="sec-num">◎</span>この研修の学習目標</h2>
   <div class="ja-sub">Learning objectives</div>
   <ul class="goal-list">
-    <li>診療情報が「要配慮個人情報」であり、より厳格な管理が必要と理解する。</li>
-    <li>保健師助産師看護師法上の守秘義務（退職後も継続）を説明できる。</li>
-    <li>在宅・移動中・SNSでの情報漏えいリスクと対策を挙げられる。</li>
-    <li>多職種連携での情報共有と同意の考え方を理解する。</li>
+    <li>看護師の守秘義務（保助看法）と、退職後も継続する義務・罰則を説明できる。</li>
+    <li>診療情報が「要配慮個人情報」であり、より厳格な取得・共有ルールが必要と理解する。</li>
+    <li>在宅・移動中・端末・SNSでの情報漏えいリスクと具体的対策を挙げられる。</li>
+    <li>多職種連携での情報共有と、同意・必要最小限の考え方を理解する。</li>
+    <li>漏えい・紛失が起きたときの初動（速やかな報告）を実践できる。</li>
+    <li>本人からの開示請求など、利用者の権利にも配慮できる。</li>
   </ul>
 </div>
 
@@ -110,59 +112,176 @@ body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--bg);color:var
   <h2><span class="sec-num">1</span>守秘義務と要配慮個人情報</h2>
   <div class="ja-sub">第1章 看護職の法的義務</div>
   <div class="callout law">
-    <div class="c-title">📘 保助看法 第42条の2</div>
-    看護師は業務上知り得た人の秘密を漏らしてはなりません。この守秘義務は<strong>退職後も継続</strong>します。違反は罰則の対象です。
+    <div class="c-title">📘 保健師助産師看護師法（第42条の2）</div>
+    看護師は、正当な理由がなく、業務上知り得た人の秘密を漏らしてはなりません。この守秘義務は<strong>看護師でなくなったあと（退職後）も継続</strong>します。違反は罰則の対象です。刑法上の秘密漏示罪とあわせ、看護職には特に重い守秘義務が課されています。
   </div>
-  <p>病名・既往・処方・障害・検査結果などの診療情報は、個人情報保護法の<strong>「要配慮個人情報」</strong>にあたり、取得・共有には原則本人の同意が必要です。介護の個人情報より一段高い配慮が求められます。</p>
+  <div class="callout law">
+    <div class="c-title">📘 個人情報保護法：要配慮個人情報</div>
+    病歴・診療情報・障害・健康診断結果・検査結果などは、個人情報保護法の<strong>「要配慮個人情報」</strong>にあたります。取得には原則として本人の同意が必要で、本人の同意のない第三者提供の例外（オプトアウト）も認められません。介護の一般的な個人情報より一段高い配慮が求められます。
+  </div>
+  <table class="vital-table">
+    <thead>
+      <tr><th>区分</th><th>例</th><th>扱い</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="item">一般の個人情報</td><td>氏名・住所・連絡先</td><td>適正取得・利用目的の範囲で利用</td></tr>
+      <tr><td class="item">要配慮個人情報</td><td>病名・既往・処方・障害・検査結果</td><td>取得・共有に原則本人同意、より厳格に管理</td></tr>
+    </tbody>
+  </table>
 </div>
 
 <div class="sec">
-  <h2><span class="sec-num">2</span>在宅・移動・SNSの注意</h2>
+  <h2><span class="sec-num">2</span>在宅・移動・端末の注意</h2>
   <div class="ja-sub">第2章 漏えいを防ぐ</div>
   <ul class="goal-list">
-    <li>訪問先で他の利用者の話をしない。書類・タブレットは車内に放置しない。</li>
-    <li>移動中・エレベーター・カフェで利用者の話をしない（氏名なしでも特定され得る）。</li>
-    <li><strong>SNSへの投稿は厳禁</strong>。写真の背景・位置情報からも特定される。</li>
-    <li>記録端末はパスワード管理。紛失時はただちに事業所へ報告。</li>
+    <li>訪問先で他の利用者の話をしない。書類・タブレットを車内に放置しない（車上荒らし・紛失）。</li>
+    <li>移動中・エレベーター・カフェ・公共交通機関で利用者の話をしない（氏名を伏せても状況から特定され得る）。</li>
+    <li>記録端末・スマートフォンは<strong>パスワード・生体認証で管理</strong>し、離席時はロック。私物端末に業務情報を保存しない。</li>
+    <li>紙の記録・FAX送付は宛先・置き忘れに注意。不要な書類はシュレッダー等で適正に廃棄する。</li>
+    <li>自宅で記録する場合も、家族に画面を見られない・データを持ち出さないなど管理を徹底する。</li>
   </ul>
+  <div class="callout alert">
+    <div class="c-title">⚠️ SNSへの投稿は厳禁</div>
+    利用者に関する投稿は、氏名を伏せても、<strong>写真の背景・位置情報・日付・地域・状況から個人が特定され得ます</strong>。「感動的な看取り」「珍しい症例」であっても投稿は守秘義務違反・信頼失墜につながります。鍵アカウント・匿名でも不可。事例の共有は事業所内の正式な場（カンファレンス・研修）で行います。
+  </div>
+  <div class="callout warn">
+    <div class="c-title">🟠 漏えい・紛失時の初動</div>
+    端末・書類の紛失、誤送信、情報漏えいが起きた（起きたかもしれない）ときは、<strong>隠さず・自己判断で対処せず、ただちに事業所（管理者）へ報告</strong>します。個人情報保護法では、一定の漏えい等について個人情報保護委員会への報告・本人への通知が事業者に義務づけられており、初動の速さが被害を最小化します。
+  </div>
+</div>
+
+<div class="sec">
+  <h2><span class="sec-num">3</span>多職種連携と同意</h2>
+  <div class="ja-sub">第3章 共有してよい範囲</div>
+  <p>訪問看護は主治医・ケアマネジャー・薬局・他事業所と情報を共有しながらケアを行います。<strong>共有それ自体は必要な業務</strong>ですが、あらかじめ得た同意に基づき、<strong>ケアに必要な範囲・必要最小限</strong>で行うのが原則です。</p>
+  <div class="isbarc">
+    <div class="isbarc-row"><div class="isbarc-key">1</div><div class="isbarc-txt"><b>同意の確認</b>：契約時の同意（利用目的・共有先の説明）の範囲かを意識する。</div></div>
+    <div class="isbarc-row"><div class="isbarc-key">2</div><div class="isbarc-txt"><b>目的の確認</b>：ケア提供に必要な共有か。興味本位・私的な話題ではないか。</div></div>
+    <div class="isbarc-row"><div class="isbarc-key">3</div><div class="isbarc-txt"><b>最小限の原則</b>：目的に必要な情報だけを、必要な相手にだけ伝える。</div></div>
+    <div class="isbarc-row"><div class="isbarc-key">4</div><div class="isbarc-txt"><b>手段の安全</b>：メール・FAX・チャット等は宛先確認・暗号化・アクセス制限など安全な手段で。</div></div>
+  </div>
   <div class="callout tip">
-    <div class="c-title">✅ 多職種連携での共有</div>
-    主治医・ケアマネ・薬局等との情報共有は、ケアに必要な範囲で、あらかじめ得た同意に基づいて行います。共有先・目的を意識し、必要最小限に。
+    <div class="c-title">✅ 本人の権利にも配慮</div>
+    利用者本人には、自分の情報の開示・訂正・利用停止を求める権利があります。本人から記録の開示を求められたときは、自己判断で断らず、事業所の手続きに沿って対応します。情報は「本人のもの」という意識を持ちます。
   </div>
   <div class="case">
     <div class="case-tag">症例で考える</div>
-    <p>印象的な看取りの事例を、名前を伏せて自分のSNSに書きたくなった。</p>
+    <p>印象に残った在宅看取りの事例を、利用者への感謝を込めて、名前を伏せて自分のSNSに書きたくなった。地域名や病状には触れるつもりでいる。</p>
     <p class="q">Q. 投稿してよいですか？</p>
-    <p style="font-size:13px;color:#5B6E72;margin-top:6px;">→ 不可。名前を伏せても、日付・地域・状況から個人が特定され得る。守秘義務違反・信頼失墜につながる。事例共有は事業所内の正式な場で行う。</p>
+    <p style="font-size:13px;color:#5B6E72;margin-top:6px;">→ 不可。名前を伏せても、日付・地域・病状・状況の組み合わせから個人が特定され得る。鍵アカウント・匿名でも守秘義務違反・信頼失墜につながる。看護師の守秘義務は退職後も続く。事例を共有したいなら、事業所内のカンファレンスや正式な研修の場で、必要な配慮のうえ行う。</p>
   </div>
+</div>
+
+<div class="sec">
+  <h2><span class="sec-num">4</span>情報を守る組織の仕組み</h2>
+  <div class="ja-sub">第4章 平時の備え</div>
+  <ul class="goal-list">
+    <li>事業所は個人情報保護方針・取扱規程を整え、職員に周知・研修する。</li>
+    <li>アクセス権限を業務に必要な範囲に限定し、記録の持ち出し・複製ルールを定める。</li>
+    <li>業務委託先（システム・シュレッダー・データ保管等）にも適切な監督を行う。</li>
+    <li>退職時の秘密保持の徹底、貸与端末・鍵・IDの返却・失効を確実に行う。</li>
+  </ul>
+  <div class="callout warn">
+    <div class="c-title">🟠 「うっかり」が最大のリスク</div>
+    情報漏えいの多くは、悪意ではなく置き忘れ・誤送信・立ち話・SNSの軽い気持ちといった「うっかり」から起こります。仕組み（ルール）と一人ひとりの意識、その両輪で守ります。
+  </div>
+</div>
+
+<div class="sec">
+  <h2><span class="sec-num">✔</span>現場チェックリスト</h2>
+  <div class="ja-sub">対応前の確認</div>
+  <ul class="checklist">
+    <li>守秘義務は退職後も続き罰則があると理解しているか</li>
+    <li>診療情報を要配慮個人情報として厳格に扱っているか</li>
+    <li>移動中・公共の場・車内で情報を漏らさない習慣があるか</li>
+    <li>記録端末をパスワード・生体認証で管理し離席時にロックしているか</li>
+    <li>SNSへの利用者情報の投稿は一切しないと徹底しているか</li>
+    <li>紛失・誤送信時にただちに事業所へ報告する体制を知っているか</li>
+  </ul>
 </div>
 
 <div class="sec">
   <h2><span class="sec-num">?</span>確認テスト</h2>
-  <div class="ja-sub">全3問</div>
+  <div class="ja-sub">全10問</div>
   <div class="quiz-box">
     <div class="quiz-q">Q1. 看護師の守秘義務について正しいのはどれですか。</div>
     <button class="quiz-opt" onclick="checkQuiz(this,false)">退職したら消える</button>
-    <button class="quiz-opt" onclick="checkQuiz(this,true)">退職後も継続する</button>
-    <button class="quiz-opt" onclick="checkQuiz(this,false)">家族には話してよい</button>
-    <button class="quiz-opt" onclick="checkQuiz(this,false)">SNSなら匿名で可</button>
-    <div class="quiz-fb">守秘義務は退職後も継続し、違反には罰則があります。</div>
+    <button class="quiz-opt" onclick="checkQuiz(this,true)">退職後も継続し、違反には罰則がある</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">家族には自由に話してよい</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">SNSなら匿名で話してよい</button>
+    <div class="quiz-fb">保助看法上の守秘義務は退職後も継続し、違反には罰則があります。</div>
   </div>
   <div class="quiz-box">
-    <div class="quiz-q">Q2. 診療情報（病名・処方等）は個人情報保護法上どう扱われますか。</div>
-    <button class="quiz-opt" onclick="checkQuiz(this,false)">一般の個人情報と同じ</button>
-    <button class="quiz-opt" onclick="checkQuiz(this,true)">要配慮個人情報として厳格に扱う</button>
+    <div class="quiz-q">Q2. 診療情報（病名・処方・検査結果等）は個人情報保護法上どう扱われますか。</div>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">一般の個人情報と同じ扱いでよい</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,true)">要配慮個人情報として、取得・共有に原則本人同意が必要で厳格に扱う</button>
     <button class="quiz-opt" onclick="checkQuiz(this,false)">個人情報ではない</button>
-    <button class="quiz-opt" onclick="checkQuiz(this,false)">同意は不要</button>
-    <div class="quiz-fb">病名等は要配慮個人情報にあたり、取得・共有に原則同意が必要です。</div>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">同意は一切不要</button>
+    <div class="quiz-fb">病名・診療情報は要配慮個人情報にあたり、取得・共有に原則本人同意が必要です。一般の個人情報より厳格に扱います。</div>
   </div>
   <div class="quiz-box">
-    <div class="quiz-q">Q3. SNSでの事例投稿について正しいのはどれですか。</div>
+    <div class="quiz-q">Q3. SNSでの利用者に関する投稿について正しいのはどれですか。</div>
     <button class="quiz-opt" onclick="checkQuiz(this,false)">名前を伏せれば投稿してよい</button>
-    <button class="quiz-opt" onclick="checkQuiz(this,true)">背景や状況から特定され得るため投稿しない</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,true)">背景・位置情報・日付・状況から特定され得るため、匿名・鍵アカでも投稿しない</button>
     <button class="quiz-opt" onclick="checkQuiz(this,false)">感動的な話ならよい</button>
-    <button class="quiz-opt" onclick="checkQuiz(this,false)">鍵アカなら可</button>
-    <div class="quiz-fb">匿名でも特定リスクがあり、投稿は不可。共有は事業所内の正式な場で行います。</div>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">鍵アカウントなら問題ない</button>
+    <div class="quiz-fb">匿名・鍵アカウントでも特定リスクがあり、守秘義務違反につながります。事例共有は事業所内の正式な場で行います。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-q">Q4. 看護師の守秘義務の根拠となる法律はどれですか。</div>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">労働基準法</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,true)">保健師助産師看護師法</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">介護保険法のみ</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">道路交通法</button>
+    <div class="quiz-fb">看護師の守秘義務は保健師助産師看護師法（第42条の2）に定められ、退職後も継続します。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-q">Q5. 多職種連携で情報を共有する際の原則として正しいのはどれですか。</div>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">関係者には何でも全部共有してよい</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,true)">あらかじめ得た同意に基づき、ケアに必要な範囲・必要最小限で共有する</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">興味があれば私的な話題も共有してよい</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">共有先や手段は気にしなくてよい</button>
+    <div class="quiz-fb">共有は同意に基づき、目的（ケア提供）に必要な範囲で最小限に行い、安全な手段を用います。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-q">Q6. 記録端末（タブレット・スマートフォン）の管理として適切なのはどれですか。</div>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">パスワードや生体認証をかけず、離席時もそのままにする</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,true)">パスワード・生体認証で管理し、離席時はロックする</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">私物端末に業務情報を保存してよい</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">車内に置いたままにしてよい</button>
+    <div class="quiz-fb">端末はパスワード・生体認証で管理し離席時にロック、車内放置や私物保存は避けます。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-q">Q7. 端末や書類を紛失した（かもしれない）ときの初動として正しいのはどれですか。</div>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">見つかるかもしれないので黙って探す</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">自己判断で処理し報告しない</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,true)">隠さず、ただちに事業所（管理者）へ報告する</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">翌日以降にまとめて報告する</button>
+    <div class="quiz-fb">漏えい・紛失は隠さず、ただちに事業所へ報告します。法令上、事業者に報告・通知義務が生じる場合があり、初動の速さが被害を最小化します。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-q">Q8. 移動中や公共の場での注意として正しいのはどれですか。</div>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">氏名さえ言わなければエレベーターやカフェで利用者の話をしてよい</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,true)">氏名を伏せても状況から特定され得るため、公共の場で利用者の話をしない</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">同僚同士なら周囲に人がいても話してよい</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">小声なら車内で電話してよい</button>
+    <div class="quiz-fb">氏名を伏せても、地域・状況から個人が特定され得ます。公共の場・移動中は利用者の話をしません。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-q">Q9. 利用者本人から自分の記録の開示を求められたとき、適切な対応はどれですか。</div>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">看護師の判断で断る</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,true)">本人には開示等を求める権利があるため、事業所の手続きに沿って対応する</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">記録は事業所のものなので本人には一切見せない</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">その場で全記録をコピーして渡す</button>
+    <div class="quiz-fb">本人には開示・訂正・利用停止を求める権利があります。自己判断で断らず、事業所の手続きに沿って対応します。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-q">Q10. 情報漏えいの主な原因と対策の理解として最も適切なのはどれですか。</div>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">漏えいは悪意ある犯罪だけなので個人の注意は関係ない</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,true)">置き忘れ・誤送信・立ち話・SNSなど「うっかり」が多く、仕組みと個人の意識の両輪で防ぐ</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">ルールさえあれば個人は何をしてもよい</button>
+    <button class="quiz-opt" onclick="checkQuiz(this,false)">紙の書類は漏えいの原因にならない</button>
+    <div class="quiz-fb">漏えいの多くは悪意でなく「うっかり」から起こります。取扱規程などの仕組みと、一人ひとりの意識の両輪で守ります。</div>
   </div>
 </div>
 
