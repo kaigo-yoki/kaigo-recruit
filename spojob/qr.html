@@ -43,9 +43,23 @@ body{font-family:'M PLUS Rounded 1c','Noto Sans JP',sans-serif;background:#E8EDF
 #toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--text);color:#fff;font-size:12.5px;font-weight:700;padding:11px 20px;border-radius:24px;opacity:0;transition:all .3s;z-index:99;}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 @media print{
-  body{background:#fff;padding:0;}
-  .poster{box-shadow:none;max-width:100%;border-radius:0;}
-  .btns,.mocknote{display:none;}
+  @page{ size:A4 portrait; margin:12mm; }
+  html,body{ background:#fff !important; padding:0; margin:0; }
+  *{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+  .poster{ box-shadow:none; max-width:100%; width:100%; border-radius:18px; page-break-inside:avoid; }
+  .btns,.mocknote,#toast{ display:none !important; }
+  /* A4チラシとして少し大きめに（デザインはそのまま） */
+  .head{ padding:42px 30px 34px; }
+  .head h1{ font-size:33px; }
+  .head .pay{ font-size:16px; margin-top:14px; }
+  .body{ padding:34px 30px 30px; }
+  #qr, #qr svg{ width:300px; height:300px; }
+  .scan{ font-size:16px; margin-top:18px; }
+  .steps{ margin-top:26px; }
+  .step .t{ font-size:14px; }
+  .perks{ font-size:15px; margin-top:24px; padding:16px; }
+  .url{ font-size:12px; margin-top:20px; }
+  .foot{ font-size:11.5px; padding-bottom:24px; }
 }
 </style>
 </head>
