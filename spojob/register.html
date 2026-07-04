@@ -160,7 +160,7 @@ document.getElementById('form').addEventListener('submit', async e=>{
   }
   try{
     const res=await gasPost(data);
-    if(res.status==='ok'){toast(res.updated?'登録を更新しました':'登録しました！');setTimeout(()=>location.href='shifts.html',1200);}
+    if(res.status==='ok'){if(UID)localStorage.setItem('spojob_reg',UID);toast(res.updated?'登録を更新しました':'登録しました！');setTimeout(()=>location.href='shifts.html',1200);}
     else{toast('登録に失敗しました');btn.disabled=false;btn.textContent='この内容で登録する';}
   }catch(err){toast('通信エラー');btn.disabled=false;btn.textContent='この内容で登録する';}
 });
@@ -176,10 +176,15 @@ async function boot(){
       if(!liff.isLoggedIn()){liff.login();return;}
       const p=await liff.getProfile();UID=p.userId;
       document.getElementById('mocknote').style.display='none';
+      // 登録済みの人は入力を省いてシフト一覧へ直行（この端末に記録があれば即スキップ＝待ち0）
+      if(localStorage.getItem('spojob_reg')===UID){ location.href='shifts.html'; return; }
+      // 記録が無ければサーバに確認。フォームがちらつかないよう最大2.5秒だけ待つ（新規は待たせすぎない）
+      let m=null;
+      try{ m=await Promise.race([gasGet({action:'mypage',uid:UID}), new Promise(r=>setTimeout(()=>r(null),2500))]); }catch(e){}
+      if(m&&m.status==='ok'&&m.registered){ localStorage.setItem('spojob_reg',UID); location.href='shifts.html'; return; }
+      // 新規（または確認できず）→ 登録フォームを表示
       if(p.displayName&&!val('name'))document.getElementById('name').value=p.displayName;
-      hideBoot();   // フォームをすぐ表示（GASの確認は待たない＝待ち時間を短縮）
-      // 登録済みかは裏で確認 → 済みなら案内バナーを出すだけ（自動遷移しない）
-      gasGet({action:'mypage',uid:UID}).then(m=>{ if(m&&m.status==='ok'&&m.registered){document.getElementById('regbanner').style.display='block';} }).catch(function(){});
+      hideBoot();
     }catch(e){ hideBoot(); /* サンプルとして続行 */ }
   }
 }
