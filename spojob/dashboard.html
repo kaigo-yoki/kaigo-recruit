@@ -165,6 +165,31 @@ code{background:#EEF2F7;padding:1px 6px;border-radius:5px;font-size:12px;}
 .st-ok{color:var(--green);font-weight:800;font-size:12px;}
 .st-ng{color:var(--text-light);font-weight:700;font-size:12px;}
 .empty-m{color:var(--text-light);font-size:13px;font-weight:600;padding:20px 0;text-align:center;}
+/* 応募者管理（洗練版） */
+.msum{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
+.msum .chip{flex:1;min-width:108px;background:#fff;border:1px solid var(--bd);border-radius:12px;padding:12px 14px;}
+.msum .chip .n{font-size:24px;font-weight:900;line-height:1;color:var(--primary);}
+.msum .chip .l{font-size:11px;color:var(--text-light);font-weight:700;margin-top:5px;line-height:1.4;}
+.msum .chip.alert{border-color:rgba(255,140,66,.55);background:var(--orange-light);}
+.msum .chip.alert .n{color:var(--orange);}
+.aphead{font-size:12px;font-weight:800;color:var(--text-light);margin:4px 2px 10px;}
+.aprow{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#fff;border:1px solid var(--bd);border-radius:12px;padding:12px 14px;margin-bottom:9px;flex-wrap:wrap;}
+.aprow.hot{border-color:rgba(255,140,66,.55);box-shadow:0 2px 10px rgba(255,140,66,.08);}
+.aprow .l{min-width:0;flex:1;}
+.aprow .nm{font-size:14px;font-weight:800;}
+.aprow .meta{font-size:11.5px;color:var(--text-light);font-weight:600;margin-top:3px;}
+.aprow .to{font-size:11.5px;font-weight:700;color:var(--primary);margin-top:4px;}
+.aprow .r{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;}
+.apill{font-size:11px;font-weight:800;padding:5px 11px;border-radius:20px;white-space:nowrap;}
+.apill.s-apply{background:var(--orange-light);color:var(--orange);}
+.apill.s-ok{background:var(--green-light);color:var(--green);}
+.apill.s-done{background:#EAF1FA;color:var(--primary);}
+.apill.s-off{background:#EEF0F4;color:var(--text-light);}
+.mmanage{margin-top:16px;border-top:1px dashed var(--bd);padding-top:12px;}
+.mmanage summary{cursor:pointer;font-size:12.5px;font-weight:800;color:var(--text-light);}
+.mslim{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 0;border-bottom:1px solid var(--bd);flex-wrap:wrap;}
+.mslim:last-child{border-bottom:none;}
+.mslim .mi{font-size:12.5px;font-weight:700;}
 .pmonth{font-family:inherit;font-size:13px;font-weight:800;border:1.5px solid var(--bd);border-radius:10px;padding:8px 12px;background:#fff;color:var(--primary);outline:none;}
 .tbl td.yen{text-align:right;}
 @media(max-width:760px){.cre{grid-template-columns:1fr 1fr;}}
@@ -551,29 +576,59 @@ async function createShift(btn){
 function renderManage(){
   const box=document.getElementById('manage');
   if(!SHIFTS.length){box.innerHTML='<div class="empty-m">まだ募集がありません。上のフォームから作成してください。</div>';return;}
-  box.innerHTML=SHIFTS.map(s=>{
-    const apps=APPS[s.shift_id]||[];
-    const pend=apps.filter(a=>a.status==='応募中').length;
-    const filled=s.filled!=null?s.filled:apps.filter(a=>a.status==='承認').length;
-    const st=s.status||'募集中';
-    const stCls=st==='募集中'?'open':st==='締切'?'closed':'canceled';
+  // 全募集の応募者を1つのリストに（要対応が上）
+  const rows=[]; SHIFTS.forEach(s=>{ (APPS[s.shift_id]||[]).forEach(a=>rows.push({s,a})); });
+  const order={'応募中':0,'承認':1,'完了':2,'却下':3,'キャンセル':3};
+  rows.sort((x,y)=>(order[x.a.status]??9)-(order[y.a.status]??9) || String(x.s.date||'').localeCompare(String(y.s.date||'')));
+  const pend=rows.filter(r=>r.a.status==='応募中').length;
+  const okc =rows.filter(r=>r.a.status==='承認').length;
+  const done=rows.filter(r=>r.a.status==='完了').length;
+  const openShort=SHIFTS.filter(s=>(s.status||'募集中')==='募集中' && (s.filled||0)<s.need).length;
+  // ① 要対応サマリ
+  let h=`<div class="msum">
+    <div class="chip${pend?' alert':''}"><div class="n">${pend}</div><div class="l">🔔 新着応募（要対応）</div></div>
+    <div class="chip"><div class="n">${okc}</div><div class="l">✅ 確定</div></div>
+    <div class="chip"><div class="n">${done}</div><div class="l">✓ 勤務済</div></div>
+    <div class="chip"><div class="n">${openShort}</div><div class="l">🟠 募集中で未充足</div></div>
+  </div>`;
+  // ② 応募者フラット一覧
+  h+=`<div class="aphead">応募者（${rows.length}名）— 対応が必要な人が上に来ます</div>`;
+  if(!rows.length){ h+='<div class="empty-m" style="padding:14px 0">まだ応募はありません。募集を出すと、ここに応募者が並びます。</div>'; }
+  else h+=rows.map(({s,a})=>{
+    const sid=s.shift_id;
+    const pill = a.status==='応募中'?'<span class="apill s-apply">🔔 新着応募</span>'
+      : a.status==='承認'?'<span class="apill s-ok">✅ 確定</span>'
+      : a.status==='完了'?'<span class="apill s-done">✓ 勤務済</span>'
+      : a.status==='却下'?'<span class="apill s-off">見送り</span>'
+      : a.status==='キャンセル'?'<span class="apill s-off">取消</span>'
+      : `<span class="apill s-off">${a.status}</span>`;
+    let ctl='';
+    if(a.status==='応募中') ctl=`<button class="btn btn-ok" onclick="decide('${sid}','${a.apply_id}','承認',this)">承認</button><button class="btn btn-ng" onclick="decide('${sid}','${a.apply_id}','却下',this)">却下</button>`;
+    else if(a.status==='承認') ctl=`<button class="btn btn-ok" onclick="recWork('${sid}','${a.apply_id}',this)">勤務完了</button><button class="btn btn-ng" onclick="unapprove('${sid}','${a.apply_id}',this)">確定取消</button>`;
+    const cs=a.cert_status||'未提出';
+    const cert = a.job==='看護師' ? `${certBadge(cs)}${cs!=='確認済'?`<button class="b-tog" onclick="verifyW('${a.uid}',this)">資格確認</button>`:''}` : '';
+    return `<div class="aprow${a.status==='応募中'?' hot':''}">
+      <div class="l">
+        <div class="nm">${a.name||''}</div>
+        <div class="meta">${a.job||''}${a.license?'・'+a.license:''}${a.years?'・'+a.years:''}</div>
+        <div class="to">▶ ${s.date} ${s.pattern}（${s.start}〜${s.end}）</div>
+      </div>
+      <div class="r">${pill}${cert}${ctl}</div>
+    </div>`;
+  }).join('');
+  // ③ 募集の状態管理（折りたたみ）
+  h+=`<details class="mmanage"><summary>募集の状態管理（締切・中止）— ${SHIFTS.length}件</summary><div style="margin-top:10px">`;
+  h+=SHIFTS.map(s=>{
+    const st=s.status||'募集中', stCls=st==='募集中'?'open':st==='締切'?'closed':'canceled';
+    const filled=s.filled!=null?s.filled:(APPS[s.shift_id]||[]).filter(a=>a.status==='承認'||a.status==='完了').length;
     const ctl = st==='中止' ? ''
       : st==='締切' ? `<button class="b-tog" onclick="setStatus('${s.shift_id}','募集中',this)">再開</button><button class="b-tog danger" onclick="setStatus('${s.shift_id}','中止',this)">中止</button>`
       : `<button class="b-tog" onclick="setStatus('${s.shift_id}','締切',this)">締切</button><button class="b-tog danger" onclick="setStatus('${s.shift_id}','中止',this)">中止</button>`;
-    return `<div class="mrow">
-      <div class="mrow-h">
-        <div class="info">${s.date}　${s.service}　${s.pattern}<small>${s.start}〜${s.end}・${s.job}</small></div>
-        <div class="badges">
-          <span class="b-st ${stCls}">${st}</span>
-          <span class="b-fill">${filled>=s.need?`✅ 満員 ${filled}/${s.need}`:`確定 ${filled}/${s.need}（あと${Math.max(0,s.need-filled)}名）`}</span>
-          ${pend?`<span class="b-pend">応募 ${pend}</span>`:''}
-          <button class="b-tog" onclick="toggleApps('${s.shift_id}',this)">応募者 ▾</button>
-          ${ctl}
-        </div>
-      </div>
-      <div class="apps" id="apps-${s.shift_id}" style="display:none"></div>
-    </div>`;
+    return `<div class="mslim"><div class="mi">${s.date}　${s.pattern}<small style="color:var(--text-light);font-weight:600;margin-left:6px">${s.job}</small></div>
+      <div class="badges"><span class="b-st ${stCls}">${st}</span><span class="b-fill">${filled>=s.need?`✅ 満員 ${filled}/${s.need}`:`確定 ${filled}/${s.need}`}</span>${ctl}</div></div>`;
   }).join('');
+  h+='</div></details>';
+  box.innerHTML=h;
 }
 
 async function setStatus(sid,status,btn){
@@ -604,7 +659,7 @@ async function verifyW(uid,btn){
     catch(e){toast('通信エラー');btn.disabled=false;return;}
   }else{toast('（サンプル）資格・本人確認を記録しました');}
   Object.keys(APPS).forEach(k=>APPS[k].forEach(a=>{if(a.uid===uid)a.cert_status='確認済';}));
-  document.querySelectorAll('.apps').forEach(box=>{if(box.style.display!=='none')renderApps(box.id.replace('apps-',''));});
+  renderManage();
   toast('資格・本人確認を「確認済」にしました');
 }
 function renderApps(sid){
@@ -638,8 +693,7 @@ async function decide(sid,aid,kind,btn){
   const sh=SHIFTS.find(x=>x.shift_id===sid);
   if(sh)sh.filled=filledCount(sid);
   toast(kind==='承認'?'承認しました。本人にLINEで確定通知':'却下しました');
-  renderApps(sid);                         // 応募者リストを更新（開いたまま）
-  updateBadges(sid);
+  renderManage();                          // 一覧を再描画（要対応が上に並ぶ）
 }
 function filledCount(sid){return (APPS[sid]||[]).filter(a=>a.status==='承認'||a.status==='完了').length;}
 
@@ -653,7 +707,7 @@ async function recWork(sid,aid,btn){
   }else{toast('（サンプル）勤務を記録。本人の累計時間に加算＋100hでボーナス通知（本番）');}
   (APPS[sid]||[]).forEach(a=>{if(a.apply_id===aid)a.status='完了';});
   const sh=SHIFTS.find(x=>x.shift_id===sid); if(sh)sh.filled=filledCount(sid);
-  renderApps(sid); updateBadges(sid);
+  renderManage();
 }
 async function unapprove(sid,aid,btn){
   btn.disabled=true;
@@ -663,7 +717,7 @@ async function unapprove(sid,aid,btn){
   }else{toast('（サンプル）確定を取り消し。本人へLINE通知＋枠を再募集に（本番）');}
   (APPS[sid]||[]).forEach(a=>{if(a.apply_id===aid)a.status='キャンセル';});
   const sh=SHIFTS.find(x=>x.shift_id===sid); if(sh)sh.filled=filledCount(sid);
-  renderApps(sid); updateBadges(sid);
+  renderManage();
 }
 function updateBadges(sid){
   const box=document.getElementById('apps-'+sid); if(!box)return;
@@ -676,7 +730,9 @@ function updateBadges(sid){
 }
 
 async function loadManage(){
-  if(ADMIN_LIVE){try{const r=await sGet({action:'admin_shifts',key:SKEY});if(r.status==='ok'){SHIFTS=r.shifts;APPS={};}}catch(e){}}
+  if(ADMIN_LIVE){try{const r=await sGet({action:'admin_shifts',key:SKEY});if(r.status==='ok'){SHIFTS=r.shifts;APPS={};
+    await Promise.all(SHIFTS.map(async s=>{try{const a=await sGet({action:'applications',key:SKEY,shift_id:s.shift_id});APPS[s.shift_id]=a.applications||[];}catch(e){APPS[s.shift_id]=[];}}));
+  }}catch(e){}}
   renderManage();
   try{render(SHORTAGE);}catch(e){}   // SHIFTS確定後、確定済みを差し引いてヒートマップ再描画
 }
