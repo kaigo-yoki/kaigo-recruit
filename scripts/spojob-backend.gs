@@ -204,16 +204,24 @@ function register(d) {
   return jsonOut({ status: 'ok', registered: true });
 }
 
-/** 新規登録を管理者へ通知：LINE（設定B6のuserId宛・確実）＋メール（権限があれば） */
+/** 管理者のLINE userId一覧（設定B6を カンマ/改行/スペース/読点 区切りで複数対応） */
+function adminIds() {
+  return String(cfgVal(6) || '').split(/[\s,、;]+/).map(function (s) { return s.trim(); }).filter(function (s) { return s; });
+}
+/** 全管理者へLINE通知（届いた人数を返す） */
+function notifyAdmins(text) {
+  var n = 0;
+  adminIds().forEach(function (id) { if (linePush(id, text)) n++; });
+  return n;
+}
+
+/** 新規登録を管理者へ通知：LINE（設定B6のuserId・複数可）＋メール（権限があれば） */
 function notifyRegistration(d) {
-  const adminId = cfgVal(6);
-  if (adminId) {
-    const text = '【新規登録】' + (d.name || '') + 'さん\n'
-      + '職種：' + (d.job || '') + '／資格：' + (d.license || '') + '\n'
-      + '経験：' + (d.years || '') + '年／電話：' + (d.tel || '') + '\n'
-      + 'シェアフル経由：' + (d.via_sharefull ? 'はい' : 'いいえ');
-    linePush(adminId, text);
-  }
+  const text = '【新規登録】' + (d.name || '') + 'さん\n'
+    + '職種：' + (d.job || '') + '／資格：' + (d.license || '') + '\n'
+    + '経験：' + (d.years || '') + '年／電話：' + (d.tel || '') + '\n'
+    + 'シェアフル経由：' + (d.via_sharefull ? 'はい' : 'いいえ');
+  notifyAdmins(text);
   sendRegMail(d);   // メールも試行（権限があれば届く。無ければ無視）
 }
 
@@ -246,12 +254,12 @@ function testMail() {
   }
 }
 
-/** 登録通知の宛先テスト（GET ?action=test_line）。設定B6のLINEへテスト送信 */
+/** 登録通知の宛先テスト（GET ?action=test_line）。設定B6の全管理者へテスト送信 */
 function testLine() {
-  const to = cfgVal(6);
-  if (!to) return jsonOut({ status: 'error', message: '設定シートB6にLINE userIdが未設定です' });
-  const ok = linePush(to, '【テスト】登録通知の宛先設定ができました ✅\n新規登録があると、ここに「【新規登録】◯◯さん」が届きます。');
-  return jsonOut({ status: ok ? 'ok' : 'error', to: to });
+  const ids = adminIds();
+  if (!ids.length) return jsonOut({ status: 'error', message: '設定シートB6にLINE userIdが未設定です' });
+  const n = notifyAdmins('【テスト】管理者通知の宛先設定ができました ✅\n新規登録・新着応募があると、ここに届きます。');
+  return jsonOut({ status: n ? 'ok' : 'error', notified: n, admins: ids.length });
 }
 
 /** まとめ通知：新着募集がN件追加されたことを該当職種の有効な登録者へ1通だけ送る（まとめ起票用） */
@@ -302,6 +310,9 @@ function apply(d) {
 
   const sheet = ap.sh || mkSheet(getSS(), SH_APPLY, H_APPLY, '#4CAF7D');
   sheet.appendRow([newId('A'), sid, uid, worker['氏名'], nowStr(), '応募中']);
+  notifyAdmins('【新着応募】' + (worker['氏名'] || '') + 'さん\n'
+    + asDateStr(target['日付']) + '　' + (target['サービス'] || '') + '・' + (target['シフトパターン'] || '') + '\n'
+    + asTimeStr(target['開始']) + '〜' + asTimeStr(target['終了']) + '\nダッシュボードで承認できます。');
   return jsonOut({ status: 'ok', applied: true });
 }
 
