@@ -193,7 +193,7 @@ let LEGAL = [], INDIV = [], STAFF = [], RECORDS = [], deptFilter = '全て';
 
 // 全角/半角（ＭＡＲ→MAR）・大文字小文字・スペースの表記ゆれを吸収して照合する
 const norm = s => String(s || '').normalize('NFKC').replace(/[\s　]/g, '').toLowerCase();
-const normPath = p => String(p || '').replace(/\.html$/, '');
+const normPath = p => String(p || '').replace(/^\/recruit/, '').replace(/\.html$/, '');
 // 記録データは外部から送信されるため、表示時は必ずエスケープする
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));

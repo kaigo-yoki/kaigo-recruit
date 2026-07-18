@@ -42,7 +42,8 @@ window.KENSHU_PROGRESS_CONFIG = {
           name: name,
           training: title,
           // 翻訳版ページは KENSHU_LOG_PATH に日本語版のパスを設定し、進捗上は同じ研修として扱う
-          path: window.KENSHU_LOG_PATH || location.pathname,
+          // どのURL経由（kaigo-yoki.jp/recruit・vercel.app）でも同じ研修として記録されるよう正規化
+          path: (window.KENSHU_LOG_PATH || location.pathname).replace(/^\/recruit/, '').replace(/\.html$/, ''),
           date: dateStr
         }),
         headers: { 'Content-Type': 'text/plain;charset=utf-8' }

@@ -147,7 +147,7 @@ const JITSUMU = [
 const ALL = [...HOTEI, ...JITSUMU];
 
 const norm = s => String(s || '').normalize('NFKC').replace(/[\s　]/g, '').toLowerCase();
-const normPath = p => String(p || '').replace(/\.html$/, '');
+const normPath = p => String(p || '').replace(/^\/recruit/, '').replace(/\.html$/, '');
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const normDate = s => {
