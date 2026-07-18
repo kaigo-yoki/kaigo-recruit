@@ -1,0 +1,74 @@
+name: Instagram 自動投稿
+
+on:
+  schedule:
+    # 毎日 JST 9:30（UTC 0:30）。ブログ生成（9:00）の後に実行
+    - cron: '30 0 * * *'
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: '生成のみ(false) か 投稿まで(true) か'
+        required: false
+        default: 'true'
+
+permissions:
+  contents: write
+
+jobs:
+  instagram:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v4
+
+      - name: Node.js セットアップ
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 日本語フォント・絵文字フォント・Chromium依存をインストール
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            fonts-noto-cjk fonts-noto-cjk-extra fonts-noto-color-emoji \
+            libnss3 libatk1.0-0 libatk-bridge2.0-0 libcups2 libdrm2 \
+            libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 \
+            libgbm1 libasound2 libpango-1.0-0 libcairo2
+
+      - name: 依存関係をインストール（Puppeteerのブラウザも取得）
+        run: npm ci
+
+      - name: 投稿素材を生成（スライド画像＋キャプション）
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          IG_RECRUIT_DOW: '1' # 月曜は求人カルーセル
+        run: node scripts/build/generate-instagram.js
+
+      - name: 変更をコミット & プッシュ
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add social/
+          git diff --staged --quiet || git commit -m "Instagram投稿素材を自動生成 ($(date +'%Y-%m-%d'))"
+          git push
+
+      - name: Instagram へ投稿（シークレット設定時のみ）
+        if: ${{ github.event.inputs.publish != 'false' }}
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IMAGE_BASE_URL: ${{ vars.IG_IMAGE_BASE_URL || 'https://kaigo-yoki.jp/recruit/social' }}
+        run: |
+          if [ -z "$IG_ACCESS_TOKEN" ] || [ -z "$IG_USER_ID" ]; then
+            echo "IG_ACCESS_TOKEN / IG_USER_ID 未設定のため投稿はスキップ（素材のみ生成）。"
+            exit 0
+          fi
+          node scripts/build/ig-publish.js
+
+      - name: 投稿状態(meta.json)の更新をコミット
+        if: ${{ github.event.inputs.publish != 'false' }}
+        run: |
+          git add social/
+          git diff --staged --quiet || git commit -m "Instagram投稿状態を更新 ($(date +'%Y-%m-%d'))"
+          git push || true
