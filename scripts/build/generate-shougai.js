@@ -24,14 +24,14 @@ const OUT = path.join(ROOT, 'shougai-trainings');
 const DATA = path.join(__dirname, 'shougai-content.json');
 const CSS = fs.readFileSync(path.join(__dirname, 'shougai-style.css'), 'utf8');
 
-function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
 // 自社作成コンテンツ。**強調** と安全なタグ(b/strong/br)のみ許可
 function md(s) {
   return esc(s)
     .replace(/&lt;(\/?)(b|strong|br)\s*\/?&gt;/g, '<$1$2>')
     .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
 }
-function jesc(s) { return JSON.stringify(String(s)); }
+function jesc(s) { return JSON.stringify(String(s)).replace(/</g, '\\u003c'); }
 
 const WHO = {
   oyaji:  { cls: 'oyaji',    icon: '🧔',   name: 'ダジャレ所長' },
@@ -43,6 +43,7 @@ const BOX_ICON = { law: '📘', important: '📘', danger: '⚠️', good: '👍
 function renderBlock(b) {
   switch (b.t) {
     case 'speech': {
+      if (!WHO[b.who]) console.warn('[warn] 未知の who: ' + b.who + ' → ダジャレ所長として出力');
       const w = WHO[b.who] || WHO.oyaji;
       const right = (b.who === 'sakura' || b.who === 'misaki') ? ' right' : '';
       return `  <div class="speech${right}"><div class="speech-avatar ${w.cls}">${w.icon}</div><div class="speech-bubble bubble-${w.cls}"><div class="speech-name">${w.name}</div>${md(b.text)}</div></div>`;
@@ -52,8 +53,10 @@ function renderBlock(b) {
     case 'tsukkomi':
       return `  <div class="tsukkomi-text">${md(b.text)}</div>`;
     case 'box': {
-      const kind = b.kind === 'law' ? 'law' : b.kind;
-      const icon = BOX_ICON[b.kind] || '📘';
+      const KINDS = ['law', 'important', 'danger', 'good'];
+      let kind = b.kind;
+      if (!KINDS.includes(kind)) { console.warn('[warn] 未知の box.kind: ' + kind + ' → important で出力'); kind = 'important'; }
+      const icon = BOX_ICON[kind] || '📘';
       return `  <div class="highlight-box ${kind}"><div class="box-title">${icon} ${esc(b.title || '')}</div><div class="box-content">${md(b.text)}</div></div>`;
     }
     case 'scenario':
@@ -61,6 +64,7 @@ function renderBlock(b) {
     case 'points':
       return `  <ul class="point-list">\n${b.items.map(i => `    <li>${md(i)}</li>`).join('\n')}\n  </ul>`;
     default:
+      console.warn('[warn] 未対応のブロック型のため出力されません: ' + JSON.stringify(b).slice(0, 120));
       return '';
   }
 }
@@ -259,7 +263,11 @@ function generateCert() {
   const today = new Date();
   const dateStr = today.getFullYear() + '年' + (today.getMonth()+1) + '月' + today.getDate() + '日';
 
-  document.getElementById('certDisplayName').innerHTML = name + ' <span>殿</span>';
+  const nameEl = document.getElementById('certDisplayName');
+  nameEl.textContent = name + ' ';
+  const dono = document.createElement('span');
+  dono.textContent = '殿';
+  nameEl.appendChild(dono);
   document.getElementById('certDisplayTheme').textContent = '上記の者は「' + ${jesc(t.ja)} + '」研修（障害福祉・居宅介護）を修了したことを証します。';
   document.getElementById('certDisplayDate').textContent = '修了日: ' + dateStr;
 
@@ -277,7 +285,10 @@ function generateCert() {
     '修了日: ' + dateStr + '\\n\\n' +
     '以上、ご確認をお願いいたします。'
   );
-  document.getElementById('certMailBtn').href = 'mailto:' + mailCfg.to + '?cc=' + mailCfg.cc + '&subject=' + subject + '&body=' + body;
+  let href = 'mailto:' + mailCfg.to + '?';
+  if (mailCfg.cc) href += 'cc=' + mailCfg.cc + '&';
+  href += 'subject=' + subject + '&body=' + body;
+  document.getElementById('certMailBtn').href = href;
 }
 
 // 最終ページで「完了！」→ 修了証セクション
@@ -326,11 +337,40 @@ nextPage = function() {
 }
 
 const trainings = JSON.parse(fs.readFileSync(DATA, 'utf8'));
-if (!fs.existsSync(OUT)) fs.mkdirSync(OUT, { recursive: true });
-let n = 0;
-for (const t of trainings) {
-  fs.writeFileSync(path.join(OUT, `${t.id}.html`), buildPage(t), 'utf8');
-  console.log(`OK: shougai-trainings/${t.id}.html （${t.pages.length}章 / テスト${t.quiz.length}問）`);
-  n++;
+
+// --- 入力の事前検証（1件でも不正なら何も書き出さない） ---
+const errs = [];
+trainings.forEach((t, i) => {
+  const at = `[${i}] ${t && t.id ? t.id : '(id無し)'}`;
+  if (!t.id || !/^[a-z0-9-]+$/.test(t.id)) errs.push(`${at}: id が不正（英小文字・数字・ハイフンのみ）`);
+  if (!t.ja) errs.push(`${at}: ja が無い`);
+  if (!Array.isArray(t.pages) || !t.pages.length) errs.push(`${at}: pages が無い`);
+  else t.pages.forEach((p, pi) => {
+    if (!Array.isArray(p.blocks)) errs.push(`${at} p${pi + 1}: blocks が配列でない`);
+    else p.blocks.forEach(b => {
+      if (b.t === 'points' && !Array.isArray(b.items)) errs.push(`${at} p${pi + 1}: points.items が配列でない`);
+      if (b.t === 'case' || b.t === 'steps') errs.push(`${at} p${pi + 1}: 漫画型では未対応のブロック型 ${b.t}`);
+    });
+  });
+  if (!Array.isArray(t.quiz) || !t.quiz.length) errs.push(`${at}: quiz が無い`);
+  else t.quiz.forEach((q, qi) => {
+    if (!Array.isArray(q.opts) || q.opts.length < 2) errs.push(`${at} Q${qi + 1}: opts が不足`);
+    else if (q.opts.filter(o => o.ok).length !== 1) errs.push(`${at} Q${qi + 1}: 正解が1つでない`);
+    if (!q.q) errs.push(`${at} Q${qi + 1}: 設問文が無い`);
+    if (!q.fb) errs.push(`${at} Q${qi + 1}: 解説が無い`);
+  });
+});
+if (errs.length) {
+  console.error('入力エラーのため生成を中止しました:');
+  errs.forEach(e => console.error('  - ' + e));
+  process.exit(1);
 }
-console.log(`${n} ページ生成完了`);
+
+// --- 全件ビルドしてから、まとめて書き出す ---
+if (!fs.existsSync(OUT)) fs.mkdirSync(OUT, { recursive: true });
+const built = trainings.map(t => ({ t, html: buildPage(t) }));
+built.forEach(({ t, html }) => {
+  fs.writeFileSync(path.join(OUT, `${t.id}.html`), html, 'utf8');
+  console.log(`OK: shougai-trainings/${t.id}.html （${t.pages.length}章 / テスト${t.quiz.length}問）`);
+});
+console.log(`${built.length} ページ生成完了`);

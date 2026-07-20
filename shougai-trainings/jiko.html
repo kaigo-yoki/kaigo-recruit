@@ -377,6 +377,19 @@ body {
 .cert-back-btn{display:inline-flex;align-items:center;gap:6px;padding:12px 24px;background:none;border:2px solid #DDD;border-radius:50px;font-size:13px;font-weight:700;color:#666;cursor:pointer;font-family:inherit;transition:all .3s;text-decoration:none;}
 .cert-back-btn:hover{border-color:#999;color:#333;}
 
+.completion-message {
+  background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+  border: 2px solid var(--green, #4CAF7D);
+  border-radius: 16px;
+  padding: 20px;
+  margin-top: 20px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: #2E7D32;
+  line-height: 1.8;
+}
+
 </style>
 </head>
 <body>
@@ -539,20 +552,20 @@ body {
   <div class="quiz-box">
     <div class="quiz-question">❓ Q1 / 10: 訪問中に利用者が転倒した。いちばん最初にすべきことは？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, false)">まず事業所に電話する</button>
     <button class="quiz-option" onclick="checkQuiz(this, true)">利用者の安全確保と状態確認を行う</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">まず家族に謝る</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">記録用紙に書き始める</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">まず事業所に電話する</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">まず家族に謝る</button>
     </div>
     <div class="quiz-feedback">最優先は利用者の安全確保と状態確認です。そのうえで、必要なら救急要請、事業所への連絡、家族への連絡、記録へと進みます。</div>
   </div>
   <div class="quiz-box">
     <div class="quiz-question">❓ Q2 / 10: 事故の状況および採った処置についての記録の保存期間は？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, false)">1年間</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">2年間</button>
     <button class="quiz-option" onclick="checkQuiz(this, true)">5年間</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">保存の義務はない</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">2年間</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">1年間</button>
     </div>
     <div class="quiz-feedback">事故の状況および事故に際して採った処置についての記録は5年間保存することとされています。自治体から別の指示がある場合は、それに従います。</div>
   </div>
@@ -569,10 +582,10 @@ body {
   <div class="quiz-box">
     <div class="quiz-question">❓ Q4 / 10: 頭を打った可能性があり、強い痛みを訴えている利用者への対応は？</div>
     <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">家族が帰宅するまで様子を見る</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">すぐに抱き起こしてベッドに寝かせる</button>
     <button class="quiz-option" onclick="checkQuiz(this, true)">無理に動かさず状態を確認し、必要なら救急要請する</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">本人が大丈夫と言えば、そのまま介助を続ける</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">家族が帰宅するまで様子を見る</button>
     </div>
     <div class="quiz-feedback">無理に動かすと悪化させることがあります。声をかけて意識・呼吸・出血・変形などを確認し、迷ったら救急要請。そのうえで事業所へ連絡します。</div>
   </div>
@@ -580,17 +593,17 @@ body {
     <div class="quiz-question">❓ Q5 / 10: 事故記録の書き方として適切なのは？</div>
     <div class="quiz-options">
     <button class="quiz-option" onclick="checkQuiz(this, true)">見たままの事実と対応を、時刻とともに書く</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">推測を事実として書く</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">自分に不利になる部分は省いて書く</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">落ち着いてから、1週間後に記憶をたどって書く</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">推測を事実として書く</button>
     </div>
     <div class="quiz-feedback">記録は事実と時刻が命です。推測は「〜と思われる」と分けて書きます。省略や書き直しは、利用者にも自分にも不利益しか生みません。</div>
   </div>
   <div class="quiz-box">
     <div class="quiz-question">❓ Q6 / 10: ヒヤリハットとは何か？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, true)">事故には至らなかったが、ヒヤッとした・ハッとしたできごと</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">利用者から寄せられた苦情のこと</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">事故には至らなかったが、ヒヤッとした・ハッとしたできごと</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">賠償が必要になった事故のこと</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">職員の体調不良のこと</button>
     </div>
@@ -599,9 +612,9 @@ body {
   <div class="quiz-box">
     <div class="quiz-question">❓ Q7 / 10: 再発防止策として最も効果的なのは？</div>
     <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, true)">誰がやっても防げるように、手順や環境を変える</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">「以後気をつけます」と全員で確認する</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">担当者を交代させる</button>
-    <button class="quiz-option" onclick="checkQuiz(this, true)">誰がやっても防げるように、手順や環境を変える</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">事故を起こした人に反省文を書かせる</button>
     </div>
     <div class="quiz-feedback">個人の注意力に頼る対策は必ず再発します。手順書を変える、物の置き場を変える、明かりをつける── 誰がやっても防げる形にするのが再発防止です。</div>
@@ -610,8 +623,8 @@ body {
     <div class="quiz-question">❓ Q8 / 10: 誤薬を防ぐための確認として、適切でないものは？</div>
     <div class="quiz-options">
     <button class="quiz-option" onclick="checkQuiz(this, false)">利用者の名前を確認する</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">薬の日付と時間帯を確認する</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">飲んだことを最後まで見届ける</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">薬の日付と時間帯を確認する</button>
     <button class="quiz-option" onclick="checkQuiz(this, true)">見慣れた袋なので確認を省く</button>
     </div>
     <div class="quiz-feedback">「見慣れているから」がいちばん危険です。名前・日付と時間帯・服薬の見届けの3点は、毎回省かずに確認します。違和感があれば飲ませず事業所へ確認を。</div>
@@ -620,19 +633,19 @@ body {
     <div class="quiz-question">❓ Q9 / 10: 事業者に賠償すべき事故が発生した場合の対応は？</div>
     <div class="quiz-options">
     <button class="quiz-option" onclick="checkQuiz(this, true)">速やかに損害賠償を行わなければならない</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">保険会社に任せ、事業所は関与しない</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">利用者から請求があるまで対応しない</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">職員個人が支払う</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">保険会社に任せ、事業所は関与しない</button>
     </div>
     <div class="quiz-feedback">運営基準では、賠償すべき事故が発生した場合は速やかに損害賠償を行わなければならないとされています。だからこそ隠さず正確な報告が必要です。</div>
   </div>
   <div class="quiz-box">
     <div class="quiz-question">❓ Q10 / 10: ヒヤリハットの報告について、正しいのは？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, false)">事故になっていないので報告は不要</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">報告した人が責任を問われる</button>
-    <button class="quiz-option" onclick="checkQuiz(this, true)">小さなことほど早く共有し、報告者を責めない</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">月に1件までにまとめて出す</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">小さなことほど早く共有し、報告者を責めない</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">報告した人が責任を問われる</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">事故になっていないので報告は不要</button>
     </div>
     <div class="quiz-feedback">小さなヒヤリを早く共有できる職場ほど、大きな事故が減ります。報告者を責めない・評価を下げないことが、報告が集まる前提条件です。</div>
   </div>
@@ -722,7 +735,11 @@ function generateCert() {
   const today = new Date();
   const dateStr = today.getFullYear() + '年' + (today.getMonth()+1) + '月' + today.getDate() + '日';
 
-  document.getElementById('certDisplayName').innerHTML = name + ' <span>殿</span>';
+  const nameEl = document.getElementById('certDisplayName');
+  nameEl.textContent = name + ' ';
+  const dono = document.createElement('span');
+  dono.textContent = '殿';
+  nameEl.appendChild(dono);
   document.getElementById('certDisplayTheme').textContent = '上記の者は「' + "事故発生時の対応・再発防止" + '」研修（障害福祉・居宅介護）を修了したことを証します。';
   document.getElementById('certDisplayDate').textContent = '修了日: ' + dateStr;
 
@@ -740,7 +757,10 @@ function generateCert() {
     '修了日: ' + dateStr + '\n\n' +
     '以上、ご確認をお願いいたします。'
   );
-  document.getElementById('certMailBtn').href = 'mailto:' + mailCfg.to + '?cc=' + mailCfg.cc + '&subject=' + subject + '&body=' + body;
+  let href = 'mailto:' + mailCfg.to + '?';
+  if (mailCfg.cc) href += 'cc=' + mailCfg.cc + '&';
+  href += 'subject=' + subject + '&body=' + body;
+  document.getElementById('certMailBtn').href = href;
 }
 
 // 最終ページで「完了！」→ 修了証セクション

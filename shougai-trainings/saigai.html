@@ -377,6 +377,19 @@ body {
 .cert-back-btn{display:inline-flex;align-items:center;gap:6px;padding:12px 24px;background:none;border:2px solid #DDD;border-radius:50px;font-size:13px;font-weight:700;color:#666;cursor:pointer;font-family:inherit;transition:all .3s;text-decoration:none;}
 .cert-back-btn:hover{border-color:#999;color:#333;}
 
+.completion-message {
+  background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+  border: 2px solid var(--green, #4CAF7D);
+  border-radius: 16px;
+  padding: 20px;
+  margin-top: 20px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: #2E7D32;
+  line-height: 1.8;
+}
+
 </style>
 </head>
 <body>
@@ -519,8 +532,8 @@ body {
     <div class="quiz-question">❓ Q1 / 10: 訪問中に大きな地震が起きたときの、行動の順番として正しいのはどれ？</div>
     <div class="quiz-options">
     <button class="quiz-option" onclick="checkQuiz(this, false)">利用者さんの安全 → 自分の安全 → 連絡</button>
-    <button class="quiz-option" onclick="checkQuiz(this, true)">まず自分の安全 → 利用者さんの安全 → 事業所へ連絡</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">まず事業所へ連絡 → 自分の安全 → 利用者さんの安全</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">まず自分の安全 → 利用者さんの安全 → 事業所へ連絡</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">まず室内の片づけ → 利用者さんの安全 → 連絡</button>
     </div>
     <div class="quiz-feedback">ヘルパー自身が無事でなければ、誰も支援できません。自分の身を守ることは支援の一部です。揺れが収まってから利用者さんの安全を確認し、事業所へ連絡します。</div>
@@ -528,10 +541,10 @@ body {
   <div class="quiz-box">
     <div class="quiz-question">❓ Q2 / 10: ハザードマップで確認できることはどれ？</div>
     <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">事業所の備蓄の残量</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">職員の避難訓練の実施回数</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">利用者さんの障害支援区分</button>
     <button class="quiz-option" onclick="checkQuiz(this, true)">浸水想定区域や土砂災害警戒区域など、その場所の災害リスク</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">職員の避難訓練の実施回数</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">事業所の備蓄の残量</button>
     </div>
     <div class="quiz-feedback">市町村が公開しているハザードマップで、利用者さん宅のリスクと避難場所・避難経路を、平時のうちに確認しておきます。</div>
   </div>
@@ -539,18 +552,18 @@ body {
     <div class="quiz-question">❓ Q3 / 10: 災害時の安否確認について、正しいのはどれ？</div>
     <div class="quiz-options">
     <button class="quiz-option" onclick="checkQuiz(this, false)">電話は必ずつながるので、電話だけ決めておけばよい</button>
-    <button class="quiz-option" onclick="checkQuiz(this, true)">電話がつながらない前提で、携帯・メール・SNS・災害用伝言ダイヤルなど複数の手段を決めておく</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">連絡がつかない利用者さんは、落ち着くまで放っておく</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">確認できなかったことは、報告しなくてよい</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">連絡がつかない利用者さんは、落ち着くまで放っておく</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">電話がつながらない前提で、携帯・メール・SNS・災害用伝言ダイヤルなど複数の手段を決めておく</button>
     </div>
     <div class="quiz-feedback">災害時は通信がひっ迫します。連絡手段は多重化し、優先度の高い方から確認します。確認できた／できなかったを必ず記録し、事業所へ共有します。</div>
   </div>
   <div class="quiz-box">
     <div class="quiz-question">❓ Q4 / 10: 災害用伝言ダイヤルの番号はどれ？</div>
     <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, true)">171</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">110</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">119</button>
-    <button class="quiz-option" onclick="checkQuiz(this, true)">171</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">177</button>
     </div>
     <div class="quiz-feedback">171です。「いない」の語呂で覚えます。安否の伝言を録音・再生でき、災害時に開設されます。</div>
@@ -558,9 +571,9 @@ body {
   <div class="quiz-box">
     <div class="quiz-question">❓ Q5 / 10: 視覚障害のある利用者さんを避難誘導するときの声かけとして、適切なのはどれ？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, false)">「あっちです」と指をさす</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">「危ないから黙ってついてきて」と言う</button>
     <button class="quiz-option" onclick="checkQuiz(this, true)">「右へ3歩進みます。その先に段差が1つあります」と具体的に伝える</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">「あっちです」と指をさす</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">何も言わずに腕を引っぱって進む</button>
     </div>
     <div class="quiz-feedback">指さしや「あちら」は伝わりません。方向・距離・段差などを言葉で具体的に伝えます。急に腕を引っぱるのではなく、ヘルパーの肘や肩につかまってもらう方法が基本です。</div>
@@ -568,20 +581,20 @@ body {
   <div class="quiz-box">
     <div class="quiz-question">❓ Q6 / 10: 電源が必要な機器（人工呼吸器・吸引器など）を使う利用者さんへの備えとして、適切なのはどれ？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, false)">停電が起きてから、バッテリーがあるかどうか確認する</button>
-    <button class="quiz-option" onclick="checkQuiz(this, true)">平時に予備バッテリー・外部電源・手動の代替手段・緊急連絡先を確認し、共有しておく</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">電気は必ずすぐ復旧するので、特別な備えは要らない</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">機器のことは医療職の担当なので、ヘルパーは知らなくてよい</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">電気は必ずすぐ復旧するので、特別な備えは要らない</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">平時に予備バッテリー・外部電源・手動の代替手段・緊急連絡先を確認し、共有しておく</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">停電が起きてから、バッテリーがあるかどうか確認する</button>
     </div>
     <div class="quiz-feedback">停電は命に直結します。バッテリーの持続時間、予備電源、足踏み式・手動の吸引器などの代替手段、かかりつけ医・訪問看護・機器業者の連絡先を、平時に確認・共有しておきます。</div>
   </div>
   <div class="quiz-box">
     <div class="quiz-question">❓ Q7 / 10: 業務継続計画（自然災害編）にもとづく備えとして、求められていることはどれ？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, true)">災害時の計画づくり、連絡・連携体制の整備と職員への周知、定期的な訓練の実施</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">全職員に防災士の資格を取らせること</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">全利用者宅に発電機を設置すること</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">台風のたびに事業所を閉鎖すること</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">全利用者宅に発電機を設置すること</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">全職員に防災士の資格を取らせること</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">災害時の計画づくり、連絡・連携体制の整備と職員への周知、定期的な訓練の実施</button>
     </div>
     <div class="quiz-feedback">居宅介護などの訪問系では、業務継続計画（自然災害編）の【策定・従業者への周知・研修・訓練・定期的な見直し】が義務です（運営基準第33条の2）。研修・訓練は訪問系サービスで年1回以上。※「非常災害に関する具体的計画・通報連携体制・避難訓練」を条文上求められるのは、施設系・通所系のサービスです。</div>
   </div>
@@ -598,10 +611,10 @@ body {
   <div class="quiz-box">
     <div class="quiz-question">❓ Q9 / 10: 断水したときの対応として、適切なのはどれ？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, false)">手を洗えないので、手指衛生はあきらめる</button>
-    <button class="quiz-option" onclick="checkQuiz(this, true)">ウェットティッシュやアルコールで手指衛生を代替し、トイレは携帯トイレ等で対応する</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">溜め水を何度も使い回して手を洗う</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">水が出るまで、食事の支援は行わない</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">溜め水を何度も使い回して手を洗う</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">ウェットティッシュやアルコールで手指衛生を代替し、トイレは携帯トイレ等で対応する</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">手を洗えないので、手指衛生はあきらめる</button>
     </div>
     <div class="quiz-feedback">断水時も感染対策は続けます。アルコールやウェットティッシュで代替し、トイレは携帯トイレやビニール袋で対応。食事は常温保存できるものに切り替えます。</div>
   </div>
@@ -701,7 +714,11 @@ function generateCert() {
   const today = new Date();
   const dateStr = today.getFullYear() + '年' + (today.getMonth()+1) + '月' + today.getDate() + '日';
 
-  document.getElementById('certDisplayName').innerHTML = name + ' <span>殿</span>';
+  const nameEl = document.getElementById('certDisplayName');
+  nameEl.textContent = name + ' ';
+  const dono = document.createElement('span');
+  dono.textContent = '殿';
+  nameEl.appendChild(dono);
   document.getElementById('certDisplayTheme').textContent = '上記の者は「' + "非常災害対策・防災" + '」研修（障害福祉・居宅介護）を修了したことを証します。';
   document.getElementById('certDisplayDate').textContent = '修了日: ' + dateStr;
 
@@ -719,7 +736,10 @@ function generateCert() {
     '修了日: ' + dateStr + '\n\n' +
     '以上、ご確認をお願いいたします。'
   );
-  document.getElementById('certMailBtn').href = 'mailto:' + mailCfg.to + '?cc=' + mailCfg.cc + '&subject=' + subject + '&body=' + body;
+  let href = 'mailto:' + mailCfg.to + '?';
+  if (mailCfg.cc) href += 'cc=' + mailCfg.cc + '&';
+  href += 'subject=' + subject + '&body=' + body;
+  document.getElementById('certMailBtn').href = href;
 }
 
 // 最終ページで「完了！」→ 修了証セクション

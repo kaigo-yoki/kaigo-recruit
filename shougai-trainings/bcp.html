@@ -377,6 +377,19 @@ body {
 .cert-back-btn{display:inline-flex;align-items:center;gap:6px;padding:12px 24px;background:none;border:2px solid #DDD;border-radius:50px;font-size:13px;font-weight:700;color:#666;cursor:pointer;font-family:inherit;transition:all .3s;text-decoration:none;}
 .cert-back-btn:hover{border-color:#999;color:#333;}
 
+.completion-message {
+  background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+  border: 2px solid var(--green, #4CAF7D);
+  border-radius: 16px;
+  padding: 20px;
+  margin-top: 20px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: #2E7D32;
+  line-height: 1.8;
+}
+
 </style>
 </head>
 <body>
@@ -517,20 +530,20 @@ body {
   <div class="quiz-box">
     <div class="quiz-question">❓ Q1 / 10: BCPの説明として正しいのはどれ？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, false)">事故が起きたときの損害賠償の手順書</button>
-    <button class="quiz-option" onclick="checkQuiz(this, true)">感染症や災害が起きても支援をできるだけ止めず、止まっても早く復旧するための計画</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">職員の給与や人事を決める計画</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">建物の被害を防ぐための設備計画</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">感染症や災害が起きても支援をできるだけ止めず、止まっても早く復旧するための計画</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">事故が起きたときの損害賠償の手順書</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">職員の給与や人事を決める計画</button>
     </div>
     <div class="quiz-feedback">BCP（Business Continuity Plan＝業務継続計画）は、非常時にも重要な業務を継続し、中断してしまっても早期に復旧させるための計画です。</div>
   </div>
   <div class="quiz-box">
     <div class="quiz-question">❓ Q2 / 10: 障害福祉サービス事業所のBCPについて、正しいのはどれ？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, false)">自然災害編だけ作ればよい</button>
     <button class="quiz-option" onclick="checkQuiz(this, true)">感染症編と自然災害編の両方が必要</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">感染症編だけ作ればよい</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">施設系サービスだけが対象で、訪問系は対象外</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">自然災害編だけ作ればよい</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">感染症編だけ作ればよい</button>
     </div>
     <div class="quiz-feedback">感染症編・自然災害編の両方の策定が必要です。訪問系サービスである居宅介護も対象で、令和6年4月から完全義務化されています。</div>
   </div>
@@ -538,39 +551,39 @@ body {
     <div class="quiz-question">❓ Q3 / 10: BCPに関して、事業所に義務づけられていないものはどれ？</div>
     <div class="quiz-options">
     <button class="quiz-option" onclick="checkQuiz(this, false)">職員への周知</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">研修および訓練の定期的な実施</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">計画の定期的な見直し</button>
     <button class="quiz-option" onclick="checkQuiz(this, true)">計画書を毎年、市町村へ提出すること</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">研修および訓練の定期的な実施</button>
     </div>
     <div class="quiz-feedback">周知・研修・訓練・定期的な見直しが義務です。計画書を毎年提出することは一律には求められていません（実地指導等で確認されます）。作ったあと、使える状態に保つことが肝心です。</div>
   </div>
   <div class="quiz-box">
     <div class="quiz-question">❓ Q4 / 10: 職員が足りないとき、優先度がもっとも高いのはどれ？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, false)">年末の大掃除</button>
     <button class="quiz-option" onclick="checkQuiz(this, true)">医療的ケアが必要な方や独居の方の、食事・水分・服薬・排泄の支援</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">緊急性のない買い物代行</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">余暇のための外出支援</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">年末の大掃除</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">緊急性のない買い物代行</button>
     </div>
     <div class="quiz-feedback">生命の維持に直結する支援が最優先です。家事援助や緊急性の低い外出は、調整・延期を検討します。判断に迷うときは必ず事業所へ確認します。</div>
   </div>
   <div class="quiz-box">
     <div class="quiz-question">❓ Q5 / 10: BCPを考えるときの前提として正しいのはどれ？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, false)">職員は全員無事で、いつも通り出勤できる前提で考える</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">非常時は支援を全部止めてよい前提で考える</button>
     <button class="quiz-option" onclick="checkQuiz(this, true)">職員自身や家族も被災し、出勤できない人が出る前提で考える</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">電気・水道・通信は必ず使える前提で考える</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">非常時は支援を全部止めてよい前提で考える</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">職員は全員無事で、いつも通り出勤できる前提で考える</button>
     </div>
     <div class="quiz-feedback">職員もまた被災者になります。出勤できない人が出ることを前提に、代替職員・連絡体制・優先業務を決めておくのがBCPです。</div>
   </div>
   <div class="quiz-box">
     <div class="quiz-question">❓ Q6 / 10: 訪問できない利用者さんへの代替手段として、適切なのはどれ？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, false)">連絡がつかないので、落ち着くまで何もしない</button>
     <button class="quiz-option" onclick="checkQuiz(this, true)">電話やビデオ通話で安否と体調を確認し、必要な支援を事業所と調整する</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">近所の人に鍵を渡して、代わりに身体介護をしてもらう</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">支援内容を伝えないまま、ご家族に丸投げする</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">連絡がつかないので、落ち着くまで何もしない</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">近所の人に鍵を渡して、代わりに身体介護をしてもらう</button>
     </div>
     <div class="quiz-feedback">訪問できなくても、電話等での安否確認は重要な支援です。資格のない第三者に身体介護を任せることはできません。事業所の指示のもとで代替手段をとります。</div>
   </div>
@@ -578,9 +591,9 @@ body {
     <div class="quiz-question">❓ Q7 / 10: BCPの「発動基準」とは何のこと？</div>
     <div class="quiz-options">
     <button class="quiz-option" onclick="checkQuiz(this, false)">計画を作りはじめる時期のこと</button>
-    <button class="quiz-option" onclick="checkQuiz(this, true)">どういう状況になったら計画を動かすか、あらかじめ決めておいた条件のこと</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">職員に特別手当が支給される条件のこと</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">事業所を廃止する条件のこと</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">どういう状況になったら計画を動かすか、あらかじめ決めておいた条件のこと</button>
     </div>
     <div class="quiz-feedback">「震度5強以上の地震」「職員の◯割が出勤できない」など、誰が見ても判断できる基準を決めておくことで、初動の迷いと遅れをなくします。</div>
   </div>
@@ -588,29 +601,29 @@ body {
     <div class="quiz-question">❓ Q8 / 10: BCPを見直すきっかけとして、適切でないものはどれ？</div>
     <div class="quiz-options">
     <button class="quiz-option" onclick="checkQuiz(this, false)">訓練で見つかった課題</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">実際に災害や感染症を経験したあと</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">職員の異動や退職、事業所の体制変更</button>
     <button class="quiz-option" onclick="checkQuiz(this, true)">計画書がきれいなままなので、そのまま置いておく</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">実際に災害や感染症を経験したあと</button>
     </div>
     <div class="quiz-feedback">訓練・実際の経験・人事や体制の変更は、いずれも見直しのタイミングです。使われずきれいなままの計画こそ、見直しが必要だというサインです。</div>
   </div>
   <div class="quiz-box">
     <div class="quiz-question">❓ Q9 / 10: 災害時、事業所の固定電話がつながらない。適切な行動はどれ？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, false)">つながるまでかけ続ける</button>
-    <button class="quiz-option" onclick="checkQuiz(this, true)">あらかじめ決めてある携帯・SNS・災害用伝言ダイヤルなど、別の手段で連絡をとる</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">連絡はあきらめ、自分の判断だけで訪問を続ける</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">利用者さんのご家族に、事業所への連絡を代行してもらう</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">連絡はあきらめ、自分の判断だけで訪問を続ける</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">あらかじめ決めてある携帯・SNS・災害用伝言ダイヤルなど、別の手段で連絡をとる</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">つながるまでかけ続ける</button>
     </div>
     <div class="quiz-feedback">連絡手段は多重化しておくのが原則です。どの順番でどの手段を使うかを平時に決め、全員が知っている状態にしておきます。</div>
   </div>
   <div class="quiz-box">
     <div class="quiz-question">❓ Q10 / 10: 新しく入った職員へのBCPの扱いとして、適切なのはどれ？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, false)">年1回の全体研修まで説明しない</button>
-    <button class="quiz-option" onclick="checkQuiz(this, true)">早い段階で計画の内容と、自分の役割・連絡手順を伝える</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">担当を持つようになってから伝えれば十分</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">管理者だけが知っていればよい</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">年1回の全体研修まで説明しない</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">担当を持つようになってから伝えれば十分</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">早い段階で計画の内容と、自分の役割・連絡手順を伝える</button>
     </div>
     <div class="quiz-feedback">非常時はいつ来るか分かりません。新任の職員にも早い段階で周知し、研修・訓練に参加してもらうことが求められます。</div>
   </div>
@@ -700,7 +713,11 @@ function generateCert() {
   const today = new Date();
   const dateStr = today.getFullYear() + '年' + (today.getMonth()+1) + '月' + today.getDate() + '日';
 
-  document.getElementById('certDisplayName').innerHTML = name + ' <span>殿</span>';
+  const nameEl = document.getElementById('certDisplayName');
+  nameEl.textContent = name + ' ';
+  const dono = document.createElement('span');
+  dono.textContent = '殿';
+  nameEl.appendChild(dono);
   document.getElementById('certDisplayTheme').textContent = '上記の者は「' + "業務継続計画（BCP）" + '」研修（障害福祉・居宅介護）を修了したことを証します。';
   document.getElementById('certDisplayDate').textContent = '修了日: ' + dateStr;
 
@@ -718,7 +735,10 @@ function generateCert() {
     '修了日: ' + dateStr + '\n\n' +
     '以上、ご確認をお願いいたします。'
   );
-  document.getElementById('certMailBtn').href = 'mailto:' + mailCfg.to + '?cc=' + mailCfg.cc + '&subject=' + subject + '&body=' + body;
+  let href = 'mailto:' + mailCfg.to + '?';
+  if (mailCfg.cc) href += 'cc=' + mailCfg.cc + '&';
+  href += 'subject=' + subject + '&body=' + body;
+  document.getElementById('certMailBtn').href = href;
 }
 
 // 最終ページで「完了！」→ 修了証セクション

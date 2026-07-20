@@ -366,3 +366,16 @@ body {
 .cert-mail-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(76,175,125,.4);}
 .cert-back-btn{display:inline-flex;align-items:center;gap:6px;padding:12px 24px;background:none;border:2px solid #DDD;border-radius:50px;font-size:13px;font-weight:700;color:#666;cursor:pointer;font-family:inherit;transition:all .3s;text-decoration:none;}
 .cert-back-btn:hover{border-color:#999;color:#333;}
+
+.completion-message {
+  background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+  border: 2px solid var(--green, #4CAF7D);
+  border-radius: 16px;
+  padding: 20px;
+  margin-top: 20px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: #2E7D32;
+  line-height: 1.8;
+}

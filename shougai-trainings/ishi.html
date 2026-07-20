@@ -377,6 +377,19 @@ body {
 .cert-back-btn{display:inline-flex;align-items:center;gap:6px;padding:12px 24px;background:none;border:2px solid #DDD;border-radius:50px;font-size:13px;font-weight:700;color:#666;cursor:pointer;font-family:inherit;transition:all .3s;text-decoration:none;}
 .cert-back-btn:hover{border-color:#999;color:#333;}
 
+.completion-message {
+  background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+  border: 2px solid var(--green, #4CAF7D);
+  border-radius: 16px;
+  padding: 20px;
+  margin-top: 20px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: #2E7D32;
+  line-height: 1.8;
+}
+
 </style>
 </head>
 <body>
@@ -525,17 +538,17 @@ body {
   <div class="quiz-box">
     <div class="quiz-question">❓ Q1 / 10: 障害者の意思決定支援ガイドラインで、支援の中心に置かれるのは誰？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, true)">本人</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">ご家族</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">サービス提供責任者</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">ご家族</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">本人</button>
     </div>
     <div class="quiz-feedback">意思決定支援の主語は常に本人です。支援者は代わりに決める人ではなく、本人が決められるよう支える人です。</div>
   </div>
   <div class="quiz-box">
     <div class="quiz-question">❓ Q2 / 10: 「本人の最善の利益」を判断するのは、どのようなときか？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, false)">支援者が必要と感じたときはいつでも</button>
     <button class="quiz-option" onclick="checkQuiz(this, true)">本人の意思の確認も、意思と選好の推定もどうしてもできないときの最後の手段</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">支援者が必要と感じたときはいつでも</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">ご家族が希望を伝えてきたとき</button>
     </div>
     <div class="quiz-feedback">「最善の利益」は最後の手段です。まず本人の意思確認、次に意思と選好の推定を尽くします。</div>
@@ -543,9 +556,9 @@ body {
   <div class="quiz-box">
     <div class="quiz-question">❓ Q3 / 10: 意思決定支援の進め方の順序として正しいのは？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, true)">本人の意思を確認 → 難しければ意思と選好を推定 → それも困難なら最善の利益を検討</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">最善の利益を先に決め、あとから本人に伝える</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">ご家族の意向を最優先に決める</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">最善の利益を先に決め、あとから本人に伝える</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">本人の意思を確認 → 難しければ意思と選好を推定 → それも困難なら最善の利益を検討</button>
     </div>
     <div class="quiz-feedback">この順序を飛ばさないことが最大のポイントです。</div>
   </div>
@@ -561,8 +574,8 @@ body {
   <div class="quiz-box">
     <div class="quiz-question">❓ Q5 / 10: 本人が迷って決められないときの対応として適切なのは？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, true)">時間をかけ、場面や体験を通して繰り返し確認する</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">すぐにご家族に電話して決めてもらう</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">時間をかけ、場面や体験を通して繰り返し確認する</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">「決められないなら今回は無しですね」と伝える</button>
     </div>
     <div class="quiz-feedback">沈黙は考えている時間です。急かさず待つこと、日を改めて確認することも支援のうちです。</div>
@@ -579,17 +592,17 @@ body {
   <div class="quiz-box">
     <div class="quiz-question">❓ Q7 / 10: 合理的配慮の例として適切なのはどれ？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, true)">説明を分かりやすい言葉や絵にして伝える</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">「規則ですから」と一律に断る</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">本人には説明せず、ご家族にだけ説明する</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">説明を分かりやすい言葉や絵にして伝える</button>
     </div>
     <div class="quiz-feedback">合理的配慮の多くはお金のかからない工夫です。配慮の内容は本人と話し合って決めます。</div>
   </div>
   <div class="quiz-box">
     <div class="quiz-question">❓ Q8 / 10: 家事援助の訪問時、本人が「今日は洗濯より掃除がいい」と希望しました。適切な対応は？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, false)">予定どおり洗濯を優先する</button>
     <button class="quiz-option" onclick="checkQuiz(this, true)">本人の意思を確認し、可能な範囲で調整したうえで記録・共有する</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">予定どおり洗濯を優先する</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">まずご家族に電話して確認してから決める</button>
     </div>
     <div class="quiz-feedback">支給決定やサービス内容の範囲内で本人の希望を尊重し、変更した理由を記録して次の担当者へ共有します。</div>
@@ -597,18 +610,18 @@ body {
   <div class="quiz-box">
     <div class="quiz-question">❓ Q9 / 10: 意思決定支援の記録について、適切なのはどれ？</div>
     <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">支援経過なので記録は不要</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">決まった結論だけを書けばよい</button>
     <button class="quiz-option" onclick="checkQuiz(this, true)">どんな選択肢をどう示し、本人がどう反応したかも記録する</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">支援経過なので記録は不要</button>
     </div>
     <div class="quiz-feedback">示し方と本人の反応の記録が、次回の意思確認や意思・選好の推定の材料になります。</div>
   </div>
   <div class="quiz-box">
     <div class="quiz-question">❓ Q10 / 10: 障害者権利条約・障害者差別解消法の考え方に沿う説明はどれ？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, false)">「本人のため」であれば、自己決定を奪ってもかまわない</button>
     <button class="quiz-option" onclick="checkQuiz(this, true)">障害のある人が他の人と平等に、自分のことを自分で決められるよう支える</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">安全のため、あらかじめ選択肢は示さないほうがよい</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">「本人のため」であれば、自己決定を奪ってもかまわない</button>
     </div>
     <div class="quiz-feedback">「私たち抜きに私たちのことを決めないで」が障害者権利条約の理念です。自己決定を支えることが権利擁護そのものです。</div>
   </div>
@@ -698,7 +711,11 @@ function generateCert() {
   const today = new Date();
   const dateStr = today.getFullYear() + '年' + (today.getMonth()+1) + '月' + today.getDate() + '日';
 
-  document.getElementById('certDisplayName').innerHTML = name + ' <span>殿</span>';
+  const nameEl = document.getElementById('certDisplayName');
+  nameEl.textContent = name + ' ';
+  const dono = document.createElement('span');
+  dono.textContent = '殿';
+  nameEl.appendChild(dono);
   document.getElementById('certDisplayTheme').textContent = '上記の者は「' + "意思決定支援・権利擁護" + '」研修（障害福祉・居宅介護）を修了したことを証します。';
   document.getElementById('certDisplayDate').textContent = '修了日: ' + dateStr;
 
@@ -716,7 +733,10 @@ function generateCert() {
     '修了日: ' + dateStr + '\n\n' +
     '以上、ご確認をお願いいたします。'
   );
-  document.getElementById('certMailBtn').href = 'mailto:' + mailCfg.to + '?cc=' + mailCfg.cc + '&subject=' + subject + '&body=' + body;
+  let href = 'mailto:' + mailCfg.to + '?';
+  if (mailCfg.cc) href += 'cc=' + mailCfg.cc + '&';
+  href += 'subject=' + subject + '&body=' + body;
+  document.getElementById('certMailBtn').href = href;
 }
 
 // 最終ページで「完了！」→ 修了証セクション

@@ -377,6 +377,19 @@ body {
 .cert-back-btn{display:inline-flex;align-items:center;gap:6px;padding:12px 24px;background:none;border:2px solid #DDD;border-radius:50px;font-size:13px;font-weight:700;color:#666;cursor:pointer;font-family:inherit;transition:all .3s;text-decoration:none;}
 .cert-back-btn:hover{border-color:#999;color:#333;}
 
+.completion-message {
+  background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+  border: 2px solid var(--green, #4CAF7D);
+  border-radius: 16px;
+  padding: 20px;
+  margin-top: 20px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: #2E7D32;
+  line-height: 1.8;
+}
+
 </style>
 </head>
 <body>
@@ -541,9 +554,9 @@ body {
   <div class="quiz-box">
     <div class="quiz-question">❓ Q3 / 10: 「非代替性」の意味として正しいのは？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, true)">身体拘束以外に、代わりとなる方法がないこと</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">拘束を別の職員が代わりに行うこと</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">拘束の道具を身近な物で代用すること</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">身体拘束以外に、代わりとなる方法がないこと</button>
     </div>
     <div class="quiz-feedback">他に手立てがないかを本気で検討したうえで、それでも方法がない場合が非代替性です。</div>
   </div>
@@ -559,54 +572,54 @@ body {
   <div class="quiz-box">
     <div class="quiz-question">❓ Q5 / 10: やむを得ず身体拘束を行った場合、記録が義務づけられている内容は？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, true)">態様・時間・その際の利用者の心身の状況・緊急やむを得ない理由</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">対応した職員の氏名と勤務時間だけ</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">ご家族の連絡先と続柄だけ</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">対応した職員の氏名と勤務時間だけ</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">態様・時間・その際の利用者の心身の状況・緊急やむを得ない理由</button>
     </div>
     <div class="quiz-feedback">この4項目の記録が義務です。記録がなければ「適正な手続きを踏んだ」と証明できません。</div>
   </div>
   <div class="quiz-box">
     <div class="quiz-question">❓ Q6 / 10: 身体拘束を行うかどうかの判断について、適切なのは？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, false)">訪問中のヘルパーが1人で判断してよい</button>
-    <button class="quiz-option" onclick="checkQuiz(this, true)">組織（チーム）として判断し、本人・ご家族に説明して同意を得る</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">ご家族が希望すれば無条件で行ってよい</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">組織（チーム）として判断し、本人・ご家族に説明して同意を得る</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">訪問中のヘルパーが1人で判断してよい</button>
     </div>
     <div class="quiz-feedback">身体拘束は必ず組織的に判断します。ご家族の希望だけを根拠に拘束することはできません。</div>
   </div>
   <div class="quiz-box">
     <div class="quiz-question">❓ Q7 / 10: 「スピーチロック」にあたるのはどれ？</div>
     <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">「いっしょに行きましょうか」と声をかける</button>
     <button class="quiz-option" onclick="checkQuiz(this, true)">「動かないで！」「ちょっと待ってて！」と、理由も見通しも示さず行動を言葉で止める</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">「どちらがよろしいですか？」と選んでもらう</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">「いっしょに行きましょうか」と声をかける</button>
     </div>
     <div class="quiz-feedback">言葉による拘束をスピーチロックといいます。理由と見通しを添えた声かけに言いかえましょう。</div>
   </div>
   <div class="quiz-box">
     <div class="quiz-question">❓ Q8 / 10: 「ドラッグロック」の説明として正しいのは？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, true)">薬を必要以上に使って、動きや行動を抑えること</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">利用者さんを引きずって移動させること</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">車いすのブレーキをかけること</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">薬を必要以上に使って、動きや行動を抑えること</button>
     </div>
     <div class="quiz-feedback">向精神薬などを過剰に使って行動を抑えることは、薬による身体拘束＝ドラッグロックです。</div>
   </div>
   <div class="quiz-box">
     <div class="quiz-question">❓ Q9 / 10: 身体拘束にあたる行為はどれ？</div>
     <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">転倒予防のため、床の障害物を片づける</button>
     <button class="quiz-option" onclick="checkQuiz(this, true)">ベッドを柵で囲み、自分で降りられないようにする</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">本人の希望で片側のみ柵を使い、自分で降りられる状態にしている</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">転倒予防のため、床の障害物を片づける</button>
     </div>
     <div class="quiz-feedback">自分で降りられない状態にすることが拘束です。環境整備や本人が使いたい手すり代わりの柵は拘束にあたりません。</div>
   </div>
   <div class="quiz-box">
     <div class="quiz-question">❓ Q10 / 10: 身体拘束等の適正化について、事業所の義務と未実施の場合の扱いは？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, true)">委員会・指針・研修が義務で、未実施の場合は身体拘束廃止未実施減算の対象になる</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">特に義務はなく、報酬にも影響しない</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">研修さえ行っていれば、委員会と指針は不要</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">委員会・指針・研修が義務で、未実施の場合は身体拘束廃止未実施減算の対象になる</button>
     </div>
     <div class="quiz-feedback">適正化検討委員会の定期開催・指針の整備・定期的な研修の3つが義務です。未実施は減算につながります。</div>
   </div>
@@ -696,7 +709,11 @@ function generateCert() {
   const today = new Date();
   const dateStr = today.getFullYear() + '年' + (today.getMonth()+1) + '月' + today.getDate() + '日';
 
-  document.getElementById('certDisplayName').innerHTML = name + ' <span>殿</span>';
+  const nameEl = document.getElementById('certDisplayName');
+  nameEl.textContent = name + ' ';
+  const dono = document.createElement('span');
+  dono.textContent = '殿';
+  nameEl.appendChild(dono);
   document.getElementById('certDisplayTheme').textContent = '上記の者は「' + "身体拘束等の適正化" + '」研修（障害福祉・居宅介護）を修了したことを証します。';
   document.getElementById('certDisplayDate').textContent = '修了日: ' + dateStr;
 
@@ -714,7 +731,10 @@ function generateCert() {
     '修了日: ' + dateStr + '\n\n' +
     '以上、ご確認をお願いいたします。'
   );
-  document.getElementById('certMailBtn').href = 'mailto:' + mailCfg.to + '?cc=' + mailCfg.cc + '&subject=' + subject + '&body=' + body;
+  let href = 'mailto:' + mailCfg.to + '?';
+  if (mailCfg.cc) href += 'cc=' + mailCfg.cc + '&';
+  href += 'subject=' + subject + '&body=' + body;
+  document.getElementById('certMailBtn').href = href;
 }
 
 // 最終ページで「完了！」→ 修了証セクション

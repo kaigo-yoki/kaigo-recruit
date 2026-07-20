@@ -377,6 +377,19 @@ body {
 .cert-back-btn{display:inline-flex;align-items:center;gap:6px;padding:12px 24px;background:none;border:2px solid #DDD;border-radius:50px;font-size:13px;font-weight:700;color:#666;cursor:pointer;font-family:inherit;transition:all .3s;text-decoration:none;}
 .cert-back-btn:hover{border-color:#999;color:#333;}
 
+.completion-message {
+  background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+  border: 2px solid var(--green, #4CAF7D);
+  border-radius: 16px;
+  padding: 20px;
+  margin-top: 20px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: #2E7D32;
+  line-height: 1.8;
+}
+
 </style>
 </head>
 <body>
@@ -529,19 +542,19 @@ body {
   <div class="quiz-box">
     <div class="quiz-question">❓ Q1 / 10: 従業者の秘密保持義務について、正しいのは？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, true)">退職したあとも、秘密を漏らしてはならない</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">退職したら義務はなくなる</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">自分の家族になら話してよい</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">退職したあとも、秘密を漏らしてはならない</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">名前を伏せればSNSに書いてよい</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">退職したら義務はなくなる</button>
     </div>
     <div class="quiz-feedback">運営基準では、従業者は正当な理由なく業務上知り得た秘密を漏らしてはならないとされ、事業者には退職後も漏らさないよう雇用契約等で措置を講じる義務があります。</div>
   </div>
   <div class="quiz-box">
     <div class="quiz-question">❓ Q2 / 10: 「要配慮個人情報」にあたるのはどれ？</div>
     <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">ヘルパーのシフト表</button>
     <button class="quiz-option" onclick="checkQuiz(this, true)">利用者の障害に関する情報や病歴</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">事業所の電話番号</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">ヘルパーのシフト表</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">訪問先までの道順</button>
     </div>
     <div class="quiz-feedback">障害に関する情報や病歴は「要配慮個人情報」にあたり、取得には原則として本人の同意が必要です。障害福祉の現場は、要配慮個人情報のかたまりだと考えてください。</div>
@@ -549,10 +562,10 @@ body {
   <div class="quiz-box">
     <div class="quiz-question">❓ Q3 / 10: 他の事業者等に利用者さん・ご家族の情報を提供するとき、運営基準で必要とされているのは？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, true)">あらかじめ文書で本人（家族の情報は家族）の同意を得る</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">会議の最後に口頭で報告する</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">市町村の許可を得る</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">とくに手続きは必要ない</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">あらかじめ文書で本人（家族の情報は家族）の同意を得る</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">市町村の許可を得る</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">会議の最後に口頭で報告する</button>
     </div>
     <div class="quiz-feedback">運営基準第36条第3項では、他の指定居宅介護事業者等へ利用者・家族の情報を提供する際、【あらかじめ文書により同意】を得ておく必要があります。担当者会議やケース会議での共有も、この同意の範囲内で行います。</div>
   </div>
@@ -560,37 +573,37 @@ body {
     <div class="quiz-question">❓ Q4 / 10: SNSへの投稿について、正しいのは？</div>
     <div class="quiz-options">
     <button class="quiz-option" onclick="checkQuiz(this, false)">鍵アカウントなら投稿してよい</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">匿名でも特定されるため、投稿してはならない</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">名前を伏せれば投稿してよい</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">写真が写っていなければ投稿してよい</button>
-    <button class="quiz-option" onclick="checkQuiz(this, true)">匿名でも特定されるため、投稿してはならない</button>
     </div>
     <div class="quiz-feedback">日時・地域・勤務先などの情報が組み合わされば、匿名でも本人は特定されます。鍵アカウントも転載されれば同じです。利用者に関する投稿は一切しないのがルールです。</div>
   </div>
   <div class="quiz-box">
     <div class="quiz-question">❓ Q5 / 10: 秘密を伝えてよい「正当な理由」にあたるのは？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, false)">仲のよい同僚に聞かれたとき</button>
     <button class="quiz-option" onclick="checkQuiz(this, true)">虐待が疑われ、法令に基づいて通報するとき</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">自分の家族に仕事の相談をしたいとき</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">SNSで支援の大変さを伝えたいとき</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">仲のよい同僚に聞かれたとき</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">自分の家族に仕事の相談をしたいとき</button>
     </div>
     <div class="quiz-feedback">正当な理由とは、本人の同意があるとき、法令に基づくとき（虐待の通報など）、生命・身体の保護のために緊急に必要なときなどです。個人的な事情は理由になりません。</div>
   </div>
   <div class="quiz-box">
     <div class="quiz-question">❓ Q6 / 10: 訪問記録の持ち運びについて、適切なのは？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, false)">車のダッシュボードに置いておく</button>
-    <button class="quiz-option" onclick="checkQuiz(this, true)">必要な分だけ持ち出し、車内に放置しない</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">まとめて自宅に持ち帰って保管する</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">私物のスマホで撮影して保存しておく</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">車のダッシュボードに置いておく</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">必要な分だけ持ち出し、車内に放置しない</button>
     </div>
     <div class="quiz-feedback">持ち出しは必要最小限に。車内放置は車上荒らしや紛失の原因になります。私物端末での撮影・保存も原則禁止です。</div>
   </div>
   <div class="quiz-box">
     <div class="quiz-question">❓ Q7 / 10: 書類を紛失したことに気づいた。最初にすべきことは？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, false)">自分で探せる範囲を探し、見つからなければ黙っておく</button>
     <button class="quiz-option" onclick="checkQuiz(this, true)">すぐに管理者へ報告する</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">自分で探せる範囲を探し、見つからなければ黙っておく</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">先に利用者へ直接謝りに行く</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">次の訪問日まで様子を見る</button>
     </div>
@@ -601,8 +614,8 @@ body {
     <div class="quiz-options">
     <button class="quiz-option" onclick="checkQuiz(this, false)">ほかの利用者の様子を話して安心してもらう</button>
     <button class="quiz-option" onclick="checkQuiz(this, true)">支援に関係する話にとどめる</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">職員の個人的な悩みを相談する</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">ほかの家庭の失敗談を例に出して説明する</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">職員の個人的な悩みを相談する</button>
     </div>
     <div class="quiz-feedback">ほかの利用者の話は、聞いている利用者さんに「自分のこともよそで話されている」と伝わり、信頼を失います。話は支援に関係する範囲にとどめましょう。</div>
   </div>
@@ -712,7 +725,11 @@ function generateCert() {
   const today = new Date();
   const dateStr = today.getFullYear() + '年' + (today.getMonth()+1) + '月' + today.getDate() + '日';
 
-  document.getElementById('certDisplayName').innerHTML = name + ' <span>殿</span>';
+  const nameEl = document.getElementById('certDisplayName');
+  nameEl.textContent = name + ' ';
+  const dono = document.createElement('span');
+  dono.textContent = '殿';
+  nameEl.appendChild(dono);
   document.getElementById('certDisplayTheme').textContent = '上記の者は「' + "秘密保持・個人情報保護" + '」研修（障害福祉・居宅介護）を修了したことを証します。';
   document.getElementById('certDisplayDate').textContent = '修了日: ' + dateStr;
 
@@ -730,7 +747,10 @@ function generateCert() {
     '修了日: ' + dateStr + '\n\n' +
     '以上、ご確認をお願いいたします。'
   );
-  document.getElementById('certMailBtn').href = 'mailto:' + mailCfg.to + '?cc=' + mailCfg.cc + '&subject=' + subject + '&body=' + body;
+  let href = 'mailto:' + mailCfg.to + '?';
+  if (mailCfg.cc) href += 'cc=' + mailCfg.cc + '&';
+  href += 'subject=' + subject + '&body=' + body;
+  document.getElementById('certMailBtn').href = href;
 }
 
 // 最終ページで「完了！」→ 修了証セクション

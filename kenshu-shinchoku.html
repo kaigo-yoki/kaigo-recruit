@@ -406,16 +406,22 @@ function render() {
       <thead><tr><th class="name-col">職員名</th>${SHOUGAI.map(t => `<th>${t.icon}<br>${t.title}</th>`).join('')}<th>修了率</th></tr></thead>
       <tbody>${sRows}</tbody></table>`;
   } else {
-    document.getElementById('shougaiTable').innerHTML = '';
+    document.getElementById('shougaiTable').innerHTML = '<div class="empty-msg">職員名簿が空です。スプレッドシートの「職員名簿」シートに職員を記入してください。</div>';
   }
 
   // --- サマリー ---
   const totalPct = staff.length ? Math.round(doneCells / (staff.length * LEGAL.length) * 100) : 0;
+  let shougaiDone = 0;
+  staff.forEach(s => { const mine = idx[norm(s.name)] || {}; SHOUGAI.forEach(t => { if (mine[t.path]) shougaiDone++; }); });
+  const shougaiPct = staff.length ? Math.round(shougaiDone / (staff.length * SHOUGAI.length) * 100) : 0;
+  const shownNames = new Set(staff.map(s => norm(s.name)));
+  const shownRecords = deptFilter === '全て' ? RECORDS.length : RECORDS.filter(r => shownNames.has(norm(r.name))).length;
   const lastRec = RECORDS.length ? RECORDS.map(r => r.date).sort().slice(-1)[0] : '—';
   document.getElementById('summary').innerHTML = `
     <div class="sum-card"><div class="sum-num">${staff.length}</div><div class="sum-label">在籍職員数${deptFilter !== '全て' ? '（' + deptFilter + '）' : ''}</div></div>
-    <div class="sum-card"><div class="sum-num">${totalPct}%</div><div class="sum-label">法定研修 修了率</div></div>
-    <div class="sum-card"><div class="sum-num">${RECORDS.length}</div><div class="sum-label">修了記録 件数</div></div>
+    <div class="sum-card"><div class="sum-num">${totalPct}%</div><div class="sum-label">🧡 介護 法定研修 修了率</div></div>
+    <div class="sum-card"><div class="sum-num">${shougaiPct}%</div><div class="sum-label">💜 障害福祉 修了率</div></div>
+    <div class="sum-card"><div class="sum-num">${shownRecords}</div><div class="sum-label">修了記録 件数${deptFilter !== '全て' ? '（' + deptFilter + '）' : ''}</div></div>
     <div class="sum-card"><div class="sum-num" style="font-size:18px;">${esc(lastRec)}</div><div class="sum-label">最終修了日</div></div>`;
 
   // --- 最近の記録 ---

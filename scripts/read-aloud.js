@@ -42,7 +42,8 @@
     parts.forEach(function (p) {
       p.replace(/([。！？\n])/g, '$1').split('').forEach(function (s) {
         s = s.replace(/\s+/g, ' ').trim();
-        if (s) out.push(s);
+        // 絵文字・記号だけの断片（キャラのアイコン等）は読み上げない
+        if (s && /[ぁ-んァ-ヶ一-龠ａ-ｚＡ-Ｚ０-９a-zA-Z0-9]/.test(s)) out.push(s);
       });
     });
     return out;
@@ -76,6 +77,12 @@
     '<button id="ra-stop" aria-label="停止" title="停止" style="display:none;">■</button>' +
     '<button id="ra-speed" aria-label="読み上げ速度" title="速度を変更">1.5x</button>';
   document.body.appendChild(bar);
+
+  // 画面下部に固定ナビ（漫画型ページの「前へ／次へ」）がある場合は、
+  // ボタンを覆わないようバーをその上に退避させる
+  if (document.querySelector('.nav-bar')) {
+    bar.style.bottom = '76px';
+  }
 
   var playBtn = document.getElementById('ra-play');
   var stopBtn = document.getElementById('ra-stop');
@@ -124,6 +131,15 @@
     // 再生中なら現在の文から新しい速度で読み直す
     if (state === 'playing') { synth.cancel(); speakNext(); }
   });
+
+  // 漫画型ページでページを移動したら、前のページを読み続けないよう停止する
+  if (typeof window.showPage === 'function') {
+    var origShowPage = window.showPage;
+    window.showPage = function () {
+      if (state !== 'idle') { synth.cancel(); state = 'idle'; idx = 0; updateUI(); }
+      return origShowPage.apply(this, arguments);
+    };
+  }
 
   // ページ離脱時に読み上げを止める
   window.addEventListener('beforeunload', function () { synth.cancel(); });

@@ -377,6 +377,19 @@ body {
 .cert-back-btn{display:inline-flex;align-items:center;gap:6px;padding:12px 24px;background:none;border:2px solid #DDD;border-radius:50px;font-size:13px;font-weight:700;color:#666;cursor:pointer;font-family:inherit;transition:all .3s;text-decoration:none;}
 .cert-back-btn:hover{border-color:#999;color:#333;}
 
+.completion-message {
+  background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+  border: 2px solid var(--green, #4CAF7D);
+  border-radius: 16px;
+  padding: 20px;
+  margin-top: 20px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: #2E7D32;
+  line-height: 1.8;
+}
+
 </style>
 </head>
 <body>
@@ -525,18 +538,18 @@ body {
   <div class="quiz-box">
     <div class="quiz-question">❓ Q1 / 10: 障害者虐待防止法が定める虐待の5類型に「含まれない」ものはどれ？</div>
     <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">放棄・放置（ネグレクト）</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">身体的虐待</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">経済的虐待</button>
     <button class="quiz-option" onclick="checkQuiz(this, true)">文化的虐待</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">放棄・放置（ネグレクト）</button>
     </div>
     <div class="quiz-feedback">5類型は「身体的・性的・心理的・放棄放置（ネグレクト）・経済的」の5つです。「文化的虐待」という類型はありません。</div>
   </div>
   <div class="quiz-box">
     <div class="quiz-question">❓ Q2 / 10: 障害者虐待防止法で定められた「虐待をする側」の3類型の組み合わせは？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, true)">養護者／障害者福祉施設従事者等／使用者</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">家族／医師／警察官</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">養護者／障害者福祉施設従事者等／使用者</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">本人／支援者／市町村</button>
     </div>
     <div class="quiz-feedback">①養護者（家族など）②障害者福祉施設従事者等（＝ヘルパーはここ）③使用者（雇い主）の3つです。</div>
@@ -544,28 +557,28 @@ body {
   <div class="quiz-box">
     <div class="quiz-question">❓ Q3 / 10: 訪問先で利用者さんに不自然なあざを見つけ、虐待が疑われます。まず通報すべき先は？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, true)">市町村</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">警察</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">利用者さんの親戚</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">市町村</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">通報せず、しばらく様子を見る</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">利用者さんの親戚</button>
     </div>
     <div class="quiz-feedback">障害者虐待防止法では、まず市町村へ通報します。命に関わる緊急時は並行して119番・110番もしますが、法律上の通報先は市町村です。</div>
   </div>
   <div class="quiz-box">
     <div class="quiz-question">❓ Q4 / 10: 虐待を発見した人の通報について、正しい説明は？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, false)">確証が取れるまで通報してはいけない</button>
-    <button class="quiz-option" onclick="checkQuiz(this, true)">発見者には通報義務があり、「疑い」の段階でも通報する</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">通報できるのは管理者だけである</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">発見者には通報義務があり、「疑い」の段階でも通報する</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">確証が取れるまで通報してはいけない</button>
     </div>
     <div class="quiz-feedback">「虐待を受けたと思われる」段階で通報義務が生じます。確証を集めるのは私たちの仕事ではなく、市町村の役割です。</div>
   </div>
   <div class="quiz-box">
     <div class="quiz-question">❓ Q5 / 10: 虐待を通報した職員の扱いについて、法律上正しいものは？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, true)">通報を理由とする解雇その他の不利益な取扱いは禁止されている</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">虐待の事実が確認できなければ懲戒処分の対象になる</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">通報者の氏名は必ず通報された側に知らされる</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">通報を理由とする解雇その他の不利益な取扱いは禁止されている</button>
     </div>
     <div class="quiz-feedback">通報者は法律で保護されます。安心して通報してください。</div>
   </div>
@@ -573,26 +586,26 @@ body {
     <div class="quiz-question">❓ Q6 / 10: 経済的虐待にあたるのはどれ？</div>
     <div class="quiz-options">
     <button class="quiz-option" onclick="checkQuiz(this, true)">本人の同意なく年金や預貯金を使う</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">買い物代行でレシートとお釣りを本人に渡す</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">本人に金額を確認してから支払いを代行する</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">買い物代行でレシートとお釣りを本人に渡す</button>
     </div>
     <div class="quiz-feedback">本人の同意なくお金や財産を使う・処分することが経済的虐待です。買い物代行では必ずレシートとお釣りを本人に確認してもらいましょう。</div>
   </div>
   <div class="quiz-box">
     <div class="quiz-question">❓ Q7 / 10: 心理的虐待にあたる可能性が高い言動はどれ？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, true)">「何度言ったら分かるの」と怒鳴る、返事をせず無視する</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">本人が話し終わるまでゆっくり待つ</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">難しい言葉を分かりやすく言い換える</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">本人が話し終わるまでゆっくり待つ</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">「何度言ったら分かるの」と怒鳴る、返事をせず無視する</button>
     </div>
     <div class="quiz-feedback">怒鳴る・けなす・無視する・子ども扱いするは心理的虐待です。手が出なくても虐待になります。</div>
   </div>
   <div class="quiz-box">
     <div class="quiz-question">❓ Q8 / 10: 放棄・放置（ネグレクト）にあたるのはどれ？</div>
     <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">訪問時間内に手順を工夫して支援を終える</button>
     <button class="quiz-option" onclick="checkQuiz(this, true)">必要な食事・入浴・排せつの支援を行わず放置する</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">本人が今日は入浴を断ったので記録し、別日に調整する</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">訪問時間内に手順を工夫して支援を終える</button>
     </div>
     <div class="quiz-feedback">必要な支援を行わないことがネグレクトです。本人が断った場合は、記録して代替案を検討すれば適切な対応になります。</div>
   </div>
@@ -601,8 +614,8 @@ body {
     <div class="quiz-options">
     <button class="quiz-option" onclick="checkQuiz(this, false)">虐待防止委員会の設置と定期開催</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">虐待防止措置を適切に実施するための担当者の配置</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">職員への定期的な研修の実施</button>
     <button class="quiz-option" onclick="checkQuiz(this, true)">利用者さん宅への防犯カメラの設置</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">職員への定期的な研修の実施</button>
     </div>
     <div class="quiz-feedback">義務は①虐待防止委員会の定期開催と結果の周知 ②定期的な研修の実施 ③担当者の配置の【3つ】です（介護保険と違い、障害福祉では「指針の整備」は省令上の義務ではなく“望ましい”取組みです）。利用者さん宅へのカメラ設置はむしろプライバシーの侵害になり得ます。</div>
   </div>
@@ -610,8 +623,8 @@ body {
     <div class="quiz-question">❓ Q10 / 10: 「不適切なケア」についての考え方として適切なのは？</div>
     <div class="quiz-options">
     <button class="quiz-option" onclick="checkQuiz(this, false)">虐待とまでは言えないので、放っておいてよい</button>
-    <button class="quiz-option" onclick="checkQuiz(this, true)">不適切なケアは虐待の芽。気づいた時点でチームで共有し改善する</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">利用者さんが文句を言わなければ問題ない</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">不適切なケアは虐待の芽。気づいた時点でチームで共有し改善する</button>
     </div>
     <div class="quiz-feedback">虐待は突然起こるのではなく、小さな不適切ケアの積み重ねから生まれます。芽のうちに摘むことが最大の予防です。</div>
   </div>
@@ -701,7 +714,11 @@ function generateCert() {
   const today = new Date();
   const dateStr = today.getFullYear() + '年' + (today.getMonth()+1) + '月' + today.getDate() + '日';
 
-  document.getElementById('certDisplayName').innerHTML = name + ' <span>殿</span>';
+  const nameEl = document.getElementById('certDisplayName');
+  nameEl.textContent = name + ' ';
+  const dono = document.createElement('span');
+  dono.textContent = '殿';
+  nameEl.appendChild(dono);
   document.getElementById('certDisplayTheme').textContent = '上記の者は「' + "障害者虐待防止・権利擁護" + '」研修（障害福祉・居宅介護）を修了したことを証します。';
   document.getElementById('certDisplayDate').textContent = '修了日: ' + dateStr;
 
@@ -719,7 +736,10 @@ function generateCert() {
     '修了日: ' + dateStr + '\n\n' +
     '以上、ご確認をお願いいたします。'
   );
-  document.getElementById('certMailBtn').href = 'mailto:' + mailCfg.to + '?cc=' + mailCfg.cc + '&subject=' + subject + '&body=' + body;
+  let href = 'mailto:' + mailCfg.to + '?';
+  if (mailCfg.cc) href += 'cc=' + mailCfg.cc + '&';
+  href += 'subject=' + subject + '&body=' + body;
+  document.getElementById('certMailBtn').href = href;
 }
 
 // 最終ページで「完了！」→ 修了証セクション

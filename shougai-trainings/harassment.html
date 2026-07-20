@@ -377,6 +377,19 @@ body {
 .cert-back-btn{display:inline-flex;align-items:center;gap:6px;padding:12px 24px;background:none;border:2px solid #DDD;border-radius:50px;font-size:13px;font-weight:700;color:#666;cursor:pointer;font-family:inherit;transition:all .3s;text-decoration:none;}
 .cert-back-btn:hover{border-color:#999;color:#333;}
 
+.completion-message {
+  background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+  border: 2px solid var(--green, #4CAF7D);
+  border-radius: 16px;
+  padding: 20px;
+  margin-top: 20px;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+  color: #2E7D32;
+  line-height: 1.8;
+}
+
 </style>
 </head>
 <body>
@@ -542,10 +555,10 @@ body {
   <div class="quiz-box">
     <div class="quiz-question">❓ Q1 / 10: パワハラの3要素にあてはまらないものはどれ？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, false)">優越的な関係を背景とした言動である</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">業務上必要かつ相当な範囲を超えている</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">労働者の就業環境が害される</button>
     <button class="quiz-option" onclick="checkQuiz(this, true)">相手が新人であること</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">優越的な関係を背景とした言動である</button>
     </div>
     <div class="quiz-feedback">パワハラの3要素は「①優越的な関係を背景とした言動」「②業務上必要かつ相当な範囲を超えている」「③就業環境が害される」の3つ。相手が新人かどうかは要素ではありません。</div>
   </div>
@@ -553,9 +566,9 @@ body {
     <div class="quiz-question">❓ Q2 / 10: 訪問中、ご家族から大声で怒鳴られ腕をつかまれた。最も適切な対応は？</div>
     <div class="quiz-options">
     <button class="quiz-option" onclick="checkQuiz(this, false)">利用者に迷惑がかかるので、最後まで介助を続ける</button>
-    <button class="quiz-option" onclick="checkQuiz(this, true)">いったん訪問を中断してその場を離れ、すぐ事業所に連絡する</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">その場で言い返して、はっきり注意する</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">誰にも言わず、次回から我慢して対応する</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">いったん訪問を中断してその場を離れ、すぐ事業所に連絡する</button>
     </div>
     <div class="quiz-feedback">身の危険を感じたら、訪問を中断してその場を離れて構いません。安全確保が最優先で、そのあと必ず事業所へ連絡します。責められることはありません。</div>
   </div>
@@ -563,8 +576,8 @@ body {
     <div class="quiz-question">❓ Q3 / 10: カスハラ（カスタマーハラスメント）とは？</div>
     <div class="quiz-options">
     <button class="quiz-option" onclick="checkQuiz(this, false)">職場の上司からの過大な要求のこと</button>
-    <button class="quiz-option" onclick="checkQuiz(this, true)">利用者やその家族などからの、著しい迷惑行為のこと</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">同僚同士のトラブル全般のこと</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">利用者やその家族などからの、著しい迷惑行為のこと</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">取引業者との金銭トラブルのこと</button>
     </div>
     <div class="quiz-feedback">カスハラは、利用者・家族等からの暴力や暴言、過度な要求など、著しい迷惑行為を指します。厚労省のマニュアルでも組織的な対応が求められています。（カスハラ対策は2026年10月1日から事業主の措置義務になります。）</div>
@@ -573,28 +586,28 @@ body {
     <div class="quiz-question">❓ Q4 / 10: ハラスメントを受けたときの記録として、最も適切なのは？</div>
     <div class="quiz-options">
     <button class="quiz-option" onclick="checkQuiz(this, false)">「すごく失礼な人だった」と感想を中心に書く</button>
-    <button class="quiz-option" onclick="checkQuiz(this, true)">日時・場所・言われた言葉をそのまま書く</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">記憶が確かなうちに家族へLINEで伝えておく</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">一週間分をまとめて月末に書く</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">記憶が確かなうちに家族へLINEで伝えておく</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">日時・場所・言われた言葉をそのまま書く</button>
     </div>
     <div class="quiz-feedback">記録は「いつ・どこで・誰が・何を言った/した」を、その日のうちに、できるだけそのままの言葉で。感じたことは分けて書くと伝わりやすくなります。</div>
   </div>
   <div class="quiz-box">
     <div class="quiz-question">❓ Q5 / 10: パワハラの6類型に含まれないものはどれ？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, false)">人間関係からの切り離し（無視・仲間はずれ）</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">過小な要求（仕事を与えない）</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">個の侵害（私生活に過度に立ち入る）</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">人間関係からの切り離し（無視・仲間はずれ）</button>
     <button class="quiz-option" onclick="checkQuiz(this, true)">業務上必要な範囲での指導・注意</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">過小な要求（仕事を与えない）</button>
     </div>
     <div class="quiz-feedback">6類型は「身体的な攻撃／精神的な攻撃／人間関係からの切り離し／過大な要求／過小な要求／個の侵害」。業務上必要かつ相当な範囲の指導は、パワハラにはあたりません。</div>
   </div>
   <div class="quiz-box">
     <div class="quiz-question">❓ Q6 / 10: セクハラの防止について定めている法律は？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, true)">男女雇用機会均等法</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">労働施策総合推進法</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">個人情報保護法</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">男女雇用機会均等法</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">障害者総合支援法</button>
     </div>
     <div class="quiz-feedback">セクハラ防止は男女雇用機会均等法、パワハラ防止は労働施策総合推進法で、それぞれ事業主に措置義務が定められています。</div>
@@ -602,10 +615,10 @@ body {
   <div class="quiz-box">
     <div class="quiz-question">❓ Q7 / 10: 居宅介護でハラスメントのリスクが高いとされる、いちばんの理由は？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, false)">利用者の人数が多いから</button>
-    <button class="quiz-option" onclick="checkQuiz(this, true)">単独で利用者宅を訪問することが多く、周囲の目や助けがないから</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">記録の量が多いから</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">資格の要件が厳しいから</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">利用者の人数が多いから</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">記録の量が多いから</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">単独で利用者宅を訪問することが多く、周囲の目や助けがないから</button>
     </div>
     <div class="quiz-feedback">居宅介護は密室での単独訪問が基本です。第三者の目がなく、その場で助けを求めにくいため、リスクが高いとされています。だからこそ報告と組織対応が欠かせません。</div>
   </div>
@@ -613,18 +626,18 @@ body {
     <div class="quiz-question">❓ Q8 / 10: 事業所がとる組織的な対応として、適切でないものは？</div>
     <div class="quiz-options">
     <button class="quiz-option" onclick="checkQuiz(this, false)">2人訪問に変更する</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">担当ヘルパーを交代する</button>
     <button class="quiz-option" onclick="checkQuiz(this, true)">「うまくかわしてね」とヘルパー個人に任せる</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">相談支援専門員や市町村と情報を共有する</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">担当ヘルパーを交代する</button>
     </div>
     <div class="quiz-feedback">個人の対応力に丸投げするのは、事業者の措置義務に反します。2人訪問・担当変更・関係機関との調整・契約見直しなど、組織として対応します。</div>
   </div>
   <div class="quiz-box">
     <div class="quiz-question">❓ Q9 / 10: ハラスメントを相談した職員について、正しいのは？</div>
     <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">証拠がそろっていなければ相談してはいけない</button>
     <button class="quiz-option" onclick="checkQuiz(this, true)">相談を理由に不利益な取扱いをしてはならない</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">相談したらシフトを減らされても仕方がない</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">証拠がそろっていなければ相談してはいけない</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">相談内容は必ず全職員に公開される</button>
     </div>
     <div class="quiz-feedback">相談したこと、事実確認に協力したことを理由とする不利益な取扱いは法律で禁止されています。証拠がそろっていなくても、まず相談して構いません。</div>
@@ -632,10 +645,10 @@ body {
   <div class="quiz-box">
     <div class="quiz-question">❓ Q10 / 10: 同僚が利用者から性的な発言をされているのを見かけた。適切な行動は？</div>
     <div class="quiz-options">
-    <button class="quiz-option" onclick="checkQuiz(this, false)">本人が言い出すまで、何もしない</button>
-    <button class="quiz-option" onclick="checkQuiz(this, false)">「気にしすぎだよ」と励ます</button>
-    <button class="quiz-option" onclick="checkQuiz(this, true)">「一緒にサービス提供責任者へ話そう」と声をかける</button>
     <button class="quiz-option" onclick="checkQuiz(this, false)">SNSで匿名の注意喚起を投稿する</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">「気にしすぎだよ」と励ます</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">本人が言い出すまで、何もしない</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">「一緒にサービス提供責任者へ話そう」と声をかける</button>
     </div>
     <div class="quiz-feedback">見かけた人が声をかけることも、りっぱな対応です。本人が言い出しにくいときこそ、一緒に報告することで事業所が動けます。SNS投稿は秘密保持違反になります。</div>
   </div>
@@ -725,7 +738,11 @@ function generateCert() {
   const today = new Date();
   const dateStr = today.getFullYear() + '年' + (today.getMonth()+1) + '月' + today.getDate() + '日';
 
-  document.getElementById('certDisplayName').innerHTML = name + ' <span>殿</span>';
+  const nameEl = document.getElementById('certDisplayName');
+  nameEl.textContent = name + ' ';
+  const dono = document.createElement('span');
+  dono.textContent = '殿';
+  nameEl.appendChild(dono);
   document.getElementById('certDisplayTheme').textContent = '上記の者は「' + "ハラスメント防止" + '」研修（障害福祉・居宅介護）を修了したことを証します。';
   document.getElementById('certDisplayDate').textContent = '修了日: ' + dateStr;
 
@@ -743,7 +760,10 @@ function generateCert() {
     '修了日: ' + dateStr + '\n\n' +
     '以上、ご確認をお願いいたします。'
   );
-  document.getElementById('certMailBtn').href = 'mailto:' + mailCfg.to + '?cc=' + mailCfg.cc + '&subject=' + subject + '&body=' + body;
+  let href = 'mailto:' + mailCfg.to + '?';
+  if (mailCfg.cc) href += 'cc=' + mailCfg.cc + '&';
+  href += 'subject=' + subject + '&body=' + body;
+  document.getElementById('certMailBtn').href = href;
 }
 
 // 最終ページで「完了！」→ 修了証セクション
