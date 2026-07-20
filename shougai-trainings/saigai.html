@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>障害福祉 非常災害対策・防災 研修 〜 まず自分の安全、そして利用者さんの安全 〜 | 訪問介護ようき</title>
+<meta name="description" content="障害福祉サービス（居宅介護）の非常災害対策・防災研修。訪問介護ようき（有限会社 陽気）の法定研修コンテンツ。">
+<link rel="canonical" href="https://kaigo-yoki.jp/recruit/shougai-trainings/saigai">
+<link rel="icon" type="image/png" href="../favicon.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Kosugi+Maru&display=swap');
+
+:root {
+  --primary: #2D5A8E;
+  --primary-light: #4A8FD4;
+  --accent: #E8594F;
+  --warm: #F9A826;
+  --green: #4CAF7D;
+  --bg: #FFF8F0;
+  --panel-bg: #FFFFFF;
+  --text: #2C2C2C;
+  --text-light: #666666;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Zen Maru Gothic', 'Kosugi Maru', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+.title-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #FF6B35 0%, #F7C948 50%, #FFE066 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.title-screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.08'%3E%3Ctext x='10' y='45' font-size='30'%3E😂%3C/text%3E%3C/g%3E%3C/svg%3E");
+}
+
+.title-badge {
+  background: var(--accent);
+  color: white;
+  padding: 8px 28px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+  animation: bounceIn 0.8s ease;
+}
+
+.title-main {
+  font-size: clamp(26px, 6vw, 48px);
+  font-weight: 900;
+  color: white;
+  text-align: center;
+  line-height: 1.4;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 1s ease 0.3s both;
+  text-shadow: 0 3px 12px rgba(0,0,0,0.2);
+}
+
+.title-sub {
+  font-size: clamp(14px, 3vw, 20px);
+  color: rgba(255,255,255,0.95);
+  margin-top: 16px;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 1s ease 0.6s both;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.title-characters {
+  display: flex;
+  gap: 30px;
+  margin-top: 30px;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 1s ease 0.9s both;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.title-char { text-align: center; }
+
+.title-char-icon {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 44px;
+  margin-bottom: 8px;
+  border: 4px solid rgba(255,255,255,0.6);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.title-char-name {
+  color: white;
+  font-weight: 700;
+  font-size: 13px;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+.start-btn {
+  margin-top: 36px;
+  padding: 16px 48px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 20px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 1s ease 1.2s both, pulse 2s ease-in-out 2.5s infinite;
+  box-shadow: 0 4px 20px rgba(45,90,142,0.4);
+  transition: transform 0.2s;
+}
+.start-btn:hover { transform: scale(1.05); }
+
+.progress-bar {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 5px; background: rgba(0,0,0,0.1); z-index: 100;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #FF6B35, #F7C948);
+  transition: width 0.5s ease;
+  border-radius: 0 3px 3px 0;
+}
+
+.page {
+  display: none; min-height: 100vh; padding: 24px 16px 100px;
+  max-width: 800px; margin: 0 auto; animation: fadeIn 0.6s ease;
+}
+.page.active { display: block; }
+
+.page-header { text-align: center; margin: 20px 0 30px; }
+.page-chapter {
+  display: inline-block; background: var(--primary); color: white;
+  padding: 4px 16px; border-radius: 20px; font-size: 12px;
+  font-weight: 700; letter-spacing: 1px; margin-bottom: 8px;
+}
+.page-title {
+  font-size: clamp(22px, 5vw, 32px); font-weight: 900;
+  color: var(--primary); line-height: 1.3;
+}
+
+.manga-panel {
+  background: var(--panel-bg); border-radius: 16px; padding: 24px;
+  margin-bottom: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  border: 2px solid #EEE; opacity: 0; transform: translateY(20px);
+  animation: panelIn 0.5s ease forwards;
+}
+.manga-panel:nth-child(2) { animation-delay: 0.15s; }
+.manga-panel:nth-child(3) { animation-delay: 0.3s; }
+.manga-panel:nth-child(4) { animation-delay: 0.45s; }
+.manga-panel:nth-child(5) { animation-delay: 0.6s; }
+.manga-panel:nth-child(6) { animation-delay: 0.75s; }
+
+.speech { display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start; }
+.speech.right { flex-direction: row-reverse; }
+
+.speech-avatar {
+  width: 56px; height: 56px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; flex-shrink: 0; border: 3px solid;
+}
+.speech-avatar.oyaji { background: #FFF3E0; border-color: #FF8F00; }
+.speech-avatar.student { background: #E3F2FD; border-color: var(--primary-light); }
+.speech-avatar.tsukkomi { background: #F3E5F5; border-color: #AB47BC; }
+
+.speech-bubble {
+  padding: 14px 18px; border-radius: 16px; font-size: 15px;
+  line-height: 1.7; max-width: 85%; position: relative;
+}
+
+.bubble-oyaji { background: #FFF3E0; border: 2px solid #FFE0B2; border-radius: 16px 16px 16px 4px; }
+.bubble-student { background: #E3F2FD; border: 2px solid #BBDEFB; border-radius: 16px 16px 4px 16px; }
+.bubble-tsukkomi { background: #F3E5F5; border: 2px solid #E1BEE7; border-radius: 16px 16px 4px 16px; }
+
+.speech-name { font-size: 11px; font-weight: 700; color: var(--text-light); margin-bottom: 4px; }
+
+.oyaji-gag {
+  background: linear-gradient(135deg, #FFF9C4, #FFF176);
+  border: 3px solid #FFD54F;
+  border-radius: 16px;
+  padding: 16px 20px;
+  margin: 14px 0;
+  text-align: center;
+  position: relative;
+  animation: gagPop 0.5s ease;
+}
+
+.oyaji-gag::before {
+  content: '\1F4A5';
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 28px;
+}
+
+.gag-text {
+  font-size: 20px;
+  font-weight: 900;
+  color: #E65100;
+  letter-spacing: 2px;
+}
+
+.gag-sub {
+  font-size: 12px;
+  color: #BF360C;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+.tsukkomi-text {
+  font-size: 14px;
+  font-weight: 900;
+  color: #7B1FA2;
+  text-align: center;
+  margin: 4px 0 10px;
+  letter-spacing: 1px;
+}
+
+.shiin {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 900;
+  color: #90A4AE;
+  letter-spacing: 12px;
+  margin: 8px 0;
+  animation: shiinFade 1.5s ease;
+}
+
+.highlight-box { border-radius: 12px; padding: 20px; margin: 16px 0; }
+.highlight-box.law { background: linear-gradient(135deg, #E8EAF6, #C5CAE9); border-left: 5px solid #3F51B5; }
+.highlight-box.important { background: linear-gradient(135deg, #FFF3E0, #FFE0B2); border-left: 5px solid var(--warm); }
+.highlight-box.danger { background: linear-gradient(135deg, #FFEBEE, #FFCDD2); border-left: 5px solid var(--accent); }
+.highlight-box.good { background: linear-gradient(135deg, #E8F5E9, #C8E6C9); border-left: 5px solid var(--green); }
+.highlight-box .box-title { font-weight: 900; font-size: 15px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+.highlight-box .box-content { font-size: 14px; line-height: 1.8; }
+
+.scenario { background: #F5F5F5; border-radius: 12px; padding: 20px; margin: 16px 0; border: 2px dashed #CCC; }
+.scenario-title { font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 10px; }
+
+.quiz-box { background: white; border: 3px solid var(--primary); border-radius: 16px; padding: 24px; margin: 20px 0; }
+.quiz-question { font-size: 16px; font-weight: 700; margin-bottom: 16px; color: var(--primary); }
+.quiz-options { display: flex; flex-direction: column; gap: 10px; }
+.quiz-option {
+  padding: 14px 18px; background: #F5F5F5; border: 2px solid #DDD;
+  border-radius: 12px; cursor: pointer; font-size: 14px; font-family: inherit;
+  text-align: left; transition: all 0.3s; line-height: 1.5;
+}
+.quiz-option:hover { border-color: var(--primary-light); background: #E3F2FD; }
+.quiz-option.correct { background: #E8F5E9; border-color: var(--green); }
+.quiz-option.wrong { background: #FFEBEE; border-color: var(--accent); }
+.quiz-feedback { margin-top: 14px; padding: 14px; border-radius: 10px; font-size: 14px; line-height: 1.7; display: none; }
+.quiz-feedback.show { display: block; }
+
+.point-list { list-style: none; padding: 0; }
+.point-list li {
+  padding: 10px 0 10px 36px; position: relative;
+  font-size: 15px; line-height: 1.6; border-bottom: 1px solid #EEE;
+}
+.point-list li::before {
+  content: '\2713'; position: absolute; left: 0;
+  width: 24px; height: 24px; background: var(--green);
+  color: white; border-radius: 50%; display: flex;
+  align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; top: 12px;
+}
+
+.nav-bar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: white; border-top: 2px solid #EEE;
+  padding: 12px 20px; display: flex; justify-content: space-between;
+  align-items: center; z-index: 50;
+}
+.nav-btn {
+  padding: 10px 24px; border: none; border-radius: 30px;
+  font-size: 15px; font-weight: 700; font-family: inherit;
+  cursor: pointer; transition: all 0.2s;
+}
+.nav-btn.prev { background: #EEE; color: var(--text); }
+.nav-btn.next { background: var(--primary); color: white; box-shadow: 0 2px 10px rgba(45,90,142,0.3); }
+.nav-btn:hover { transform: translateY(-2px); }
+.nav-btn:disabled { opacity: 0.3; cursor: default; transform: none; }
+.nav-page { font-size: 13px; color: var(--text-light); font-weight: 700; }
+
+.toc { display: grid; gap: 12px; margin-top: 20px; }
+.toc-item {
+  display: flex; align-items: center; gap: 14px; padding: 16px;
+  background: white; border-radius: 12px; border: 2px solid #EEE;
+  cursor: pointer; transition: all 0.3s;
+}
+.toc-item:hover { border-color: var(--primary-light); transform: translateX(4px); }
+.toc-num {
+  width: 36px; height: 36px; border-radius: 50%; background: var(--primary);
+  color: white; display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 16px; flex-shrink: 0;
+}
+.toc-text { font-size: 15px; font-weight: 700; }
+
+.ending { text-align: center; padding: 40px 20px; }
+.ending-icon { font-size: 80px; margin-bottom: 16px; }
+.ending-title { font-size: 28px; font-weight: 900; color: var(--primary); margin-bottom: 12px; }
+.ending-msg { font-size: 16px; color: var(--text-light); line-height: 1.8; }
+
+.certificate {
+  background: linear-gradient(135deg, #FFF8E1, #FFECB3);
+  border: 3px solid var(--warm); border-radius: 16px;
+  padding: 30px; margin: 30px auto; max-width: 500px;
+}
+.certificate-title { font-size: 22px; font-weight: 900; color: var(--warm); }
+.certificate-body { font-size: 14px; margin-top: 12px; line-height: 1.8; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes bounceIn { 0% { transform: scale(0); } 60% { transform: scale(1.1); } 100% { transform: scale(1); } }
+@keyframes panelIn { to { opacity: 1; transform: translateY(0); } }
+@keyframes pulse { 0%, 100% { box-shadow: 0 4px 20px rgba(45,90,142,0.4); } 50% { box-shadow: 0 4px 30px rgba(45,90,142,0.7); } }
+@keyframes gagPop { 0% { transform: scale(0.5) rotate(-5deg); opacity: 0; } 50% { transform: scale(1.1) rotate(2deg); } 100% { transform: scale(1) rotate(0); } }
+@keyframes shiinFade { 0% { opacity: 0; letter-spacing: 2px; } 100% { opacity: 1; letter-spacing: 12px; } }
+
+@media (max-width: 600px) {
+  .speech-avatar { width: 44px; height: 44px; font-size: 22px; }
+  .speech-bubble { font-size: 13px; }
+  .gag-text { font-size: 17px; }
+}
+
+.cert-section{display:none;text-align:center;padding:30px 20px;max-width:600px;margin:0 auto;}
+.cert-section.show{display:block;animation:fadeUp .6s ease;}
+.cert-name-input{margin-bottom:24px;}
+.cert-name-input label{display:block;font-size:14px;font-weight:700;color:var(--text,#2C2C2C);margin-bottom:8px;}
+.cert-name-input input{width:100%;max-width:320px;padding:14px 20px;border:3px solid #DDD;border-radius:14px;font-size:16px;font-family:inherit;font-weight:700;text-align:center;outline:none;transition:border-color .3s;}
+.cert-name-input input:focus{border-color:var(--warm,#F9A826);}
+.cert-generate-btn{display:inline-block;padding:14px 40px;background:linear-gradient(135deg,#F9A826,#FF8F00);color:#fff;border:none;border-radius:50px;font-size:16px;font-weight:800;font-family:inherit;cursor:pointer;box-shadow:0 4px 16px rgba(249,168,38,.3);transition:all .3s;margin-bottom:16px;}
+.cert-generate-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(249,168,38,.4);}
+.cert-generate-btn:disabled{opacity:.4;cursor:default;transform:none;}
+.cert-card{display:none;background:linear-gradient(135deg,#FFFDF0,#FFF8E1);border:4px double #D4A017;border-radius:20px;padding:40px 30px;margin:24px auto;max-width:520px;position:relative;overflow:hidden;box-shadow:0 8px 32px rgba(212,160,23,.15);}
+.cert-card.show{display:block;animation:fadeUp .6s ease;}
+.cert-card::before{content:'';position:absolute;inset:8px;border:2px solid rgba(212,160,23,.25);border-radius:14px;pointer-events:none;}
+.cert-card-badge{display:inline-block;background:linear-gradient(135deg,#D4A017,#F5D060);color:#fff;padding:6px 24px;border-radius:30px;font-size:12px;font-weight:800;letter-spacing:3px;margin-bottom:16px;}
+.cert-card-title{font-size:28px;font-weight:900;color:#D4A017;margin-bottom:8px;letter-spacing:2px;}
+.cert-card-name{font-size:24px;font-weight:900;color:#1A1A2E;margin:20px 0 8px;padding:8px 0;border-bottom:2px solid rgba(212,160,23,.3);}
+.cert-card-name span{font-size:14px;font-weight:500;color:#666;}
+.cert-card-theme{font-size:15px;font-weight:700;color:#4A4A68;margin:12px 0;line-height:1.6;}
+.cert-card-date{font-size:13px;color:#888;margin-top:16px;}
+.cert-card-org{margin-top:20px;font-size:14px;font-weight:700;color:#1A1A2E;}
+.cert-card-org small{display:block;font-size:11px;font-weight:400;color:#888;margin-top:2px;}
+.cert-card-seal{position:absolute;bottom:20px;right:20px;width:60px;height:60px;border-radius:50%;border:3px solid #D4A017;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#D4A017;line-height:1.2;text-align:center;}
+.cert-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px;}
+.cert-mail-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;background:linear-gradient(135deg,#4CAF7D,#43A047);color:#fff;border:none;border-radius:50px;font-size:14px;font-weight:800;font-family:inherit;cursor:pointer;box-shadow:0 4px 16px rgba(76,175,125,.3);transition:all .3s;text-decoration:none;}
+.cert-mail-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(76,175,125,.4);}
+.cert-back-btn{display:inline-flex;align-items:center;gap:6px;padding:12px 24px;background:none;border:2px solid #DDD;border-radius:50px;font-size:13px;font-weight:700;color:#666;cursor:pointer;font-family:inherit;transition:all .3s;text-decoration:none;}
+.cert-back-btn:hover{border-color:#999;color:#333;}
+
+</style>
+</head>
+<body>
+
+<!-- TITLE -->
+<div class="title-screen" id="titleScreen">
+  <div class="title-badge">障害福祉（居宅介護） 法定研修</div>
+  <div class="title-main">笑って学ぼう！💥<br>非常災害対策・防災</div>
+  <div class="title-sub">〜 まず自分の安全、そして利用者さんの安全 〜<br>※ ギャグのクオリティは保証しません</div>
+  <div class="title-characters">
+    <div class="title-char">
+      <div class="title-char-icon" style="background:#FFF3E0;">🧔</div>
+      <div class="title-char-name">ダジャレ所長<br>（おやじ先生）</div>
+    </div>
+    <div class="title-char">
+      <div class="title-char-icon" style="background:#E3F2FD;">👩</div>
+      <div class="title-char-name">新人ヘルパー<br>さくらさん</div>
+    </div>
+    <div class="title-char">
+      <div class="title-char-icon" style="background:#F3E5F5;">👩‍🦰</div>
+      <div class="title-char-name">ツッコミ担当<br>先輩みさきさん</div>
+    </div>
+  </div>
+  <button class="start-btn" onclick="startTraining()">▶ 研修をはじめる</button>
+</div>
+
+<div class="progress-bar" id="progressBar" style="display:none;"><div class="progress-fill" id="progressFill"></div></div>
+
+<div class="page" id="page1">
+  <div class="page-header">
+    <div class="page-chapter">はじめに</div>
+    <div class="page-title">今日の研修メニュー 📋</div>
+  </div>
+  <div class="manga-panel">
+  <div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji"><div class="speech-name">ダジャレ所長</div>今日のテーマは「非常災害対策・防災」！障害福祉サービス（居宅介護）で働くみんなに必要な法定研修だよ。</div></div>
+  <div class="speech right"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student"><div class="speech-name">さくら</div>よろしくお願いします！しっかり覚えます。</div></div>
+  <div class="speech right"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi"><div class="speech-name">みさき先輩</div>所長のダジャレは聞き流していいけど、中身は大事だからね。</div></div>
+  </div>
+  <div class="highlight-box important"><div class="box-title">📘 研修の目標</div><div class="box-content">地震・台風・大雨などが起きたときに、ヘルパー自身の安全を守りながら、利用者さんの安否確認と避難の支援ができるようになります。停電時に命に関わる利用者さんへの備えも理解します。</div></div>
+  <div class="toc">
+    <button class="toc-item" onclick="goToPage(2)"><span class="toc-num">1</span><span class="toc-text">第1章: 災害を「想定外」にしない</span></button>
+    <button class="toc-item" onclick="goToPage(3)"><span class="toc-num">2</span><span class="toc-text">第2章: 訪問中に被災したら</span></button>
+    <button class="toc-item" onclick="goToPage(4)"><span class="toc-num">3</span><span class="toc-text">第3章: 安否確認は「つながらない前提」で</span></button>
+    <button class="toc-item" onclick="goToPage(5)"><span class="toc-num">4</span><span class="toc-text">第4章: 停電・断水と、電気が命の利用者さん</span></button>
+    <button class="toc-item" onclick="goToPage(6)"><span class="toc-num">5</span><span class="toc-text">確認テスト＆まとめ</span></button>
+  </div>
+</div>
+<div class="page" id="page2">
+  <div class="page-header">
+    <div class="page-chapter">第1章</div>
+    <div class="page-title">災害を「想定外」にしない</div>
+  </div>
+  <div class="manga-panel">
+  <div class="speech right"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student"><div class="speech-name">さくら</div>沖縄だと台風は毎年ですけど、地震ってあんまり意識してませんでした…</div></div>
+  <div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji"><div class="speech-name">ダジャレ所長</div>そこが落とし穴や。台風、大雨、高潮、津波、地震、そして停電。この地域でどれが起こりうるんか、まず知ることからやで。</div></div>
+  <div class="speech right"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi"><div class="speech-name">みさき先輩</div>ハザードマップを見ると、利用者さんの家が浸水想定区域なのか、土砂災害警戒区域なのかが分かるよ。市町村のサイトで誰でも見られるの。</div></div>
+  <div class="oyaji-gag"><div class="gag-text">災害は「さいがい」…「最悪」を想定「外」にせんから「さいがい」対策や！</div><div class="gag-sub">※「災害（さいがい）」と「最（さい）・外（がい）」をかけた無理やりダジャレ。最悪の事態を想定外にしないのが、防災の第一歩です。</div></div>
+  <div class="shiin">シーーーン</div>
+  <div class="tsukkomi-text">無理やりって、ご自分で言いましたね</div>
+  </div>
+  <div class="highlight-box law"><div class="box-title">📘 法令根拠</div><div class="box-content">障害福祉サービスの運営基準では、非常災害に備えて具体的な計画を立てること、非常災害時の関係機関への通報および連携体制を整備して定期的に職員へ周知すること、そして避難・救出その他必要な訓練を定期的に行うことが求められています。あわせて、業務継続計画（自然災害編）にもとづく研修・訓練も、訪問系サービスは年1回以上の実施が義務です。</div></div>
+  <div class="highlight-box important"><div class="box-title">📘 利用者さんごとに確認しておくこと</div><div class="box-content">①ハザードマップ上のリスク（浸水・土砂・津波）②避難場所と、そこまでの経路・所要時間 ③自力で避難できるか、どんな支援が必要か ④ご家族・支援者・相談支援専門員の連絡先 ⑤電源が必要な医療機器を使っているか ⑥避難行動要支援者名簿に登録されているか。</div></div>
+  <div class="scenario"><div class="scenario-title">📖 こんな場面を想像してみよう</div><p>大雨警報。担当のCさんの家は川のすぐそば、そしてCさんは車いすを使っている。避難所までは徒歩15分、途中に階段がある。—— この情報を、雨が降る前に知っているかどうかで、その日の動きはまったく変わります。</p></div>
+  <div class="manga-panel">
+  <div class="speech right"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi"><div class="speech-name">みさき先輩</div>災害が起きてから調べるんじゃ間に合わない。晴れている日にやることが、防災の中身なの。</div></div>
+  </div>
+</div>
+<div class="page" id="page3">
+  <div class="page-header">
+    <div class="page-chapter">第2章</div>
+    <div class="page-title">訪問中に被災したら</div>
+  </div>
+  <div class="manga-panel">
+  <div class="speech right"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student"><div class="speech-name">さくら</div>訪問中に大きな地震が来たら…私、まず利用者さんを守らなきゃって思うんですけど。</div></div>
+  <div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji"><div class="speech-name">ダジャレ所長</div>気持ちはえらい。けどな、順番は決まっとる。まず自分の安全 → 利用者さんの安全 → 連絡、や。</div></div>
+  <div class="speech right"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student"><div class="speech-name">さくら</div>えっ、自分が先でいいんですか？</div></div>
+  <div class="speech right"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi"><div class="speech-name">みさき先輩</div>ヘルパーが倒れたら、誰も助けられなくなるでしょう。自分の身を守るのは、わがままじゃなくて支援の一部なの。</div></div>
+  <div class="oyaji-gag"><div class="gag-text">避難訓練の「ひなん」、やっとかんと本番で「非難」されるで！</div><div class="gag-sub">※「避難」と「非難」をかけています。訓練していない動きは、本番では出てきません。</div></div>
+  <div class="shiin">シーーーン</div>
+  </div>
+  <div class="highlight-box good"><div class="box-title">👍 訪問中に地震が起きたら</div><div class="box-content">①まず自分が身を守る（頭を守り、家具・ガラス・落下物から離れる）②揺れが収まってから利用者さんの安全を確認する ③火の元とガスを止め、玄関などの出口を確保する ④けがや体調の変化を確認する ⑤事業所へ連絡し、指示を受ける ⑥避難の要否は自己判断せず、事業所・行政の情報にもとづいて動く。</div></div>
+  <div class="highlight-box danger"><div class="box-title">⚠️ 危険な行動</div><div class="box-content">揺れている最中に立ち上がって移動する／慌てて利用者さんを抱え上げようとして共倒れになる／冠水した道路を歩いて渡る（水面下の側溝やマンホールは見えません）／連絡せずに自分の判断だけで避難先を変える／自分が被災しているのに無理に次の訪問へ向かう。</div></div>
+  <div class="scenario"><div class="scenario-title">📖 こんな場面を想像してみよう</div><p>訪問中に激しい揺れ。棚から食器が落ちてくる。あなたは反射的にDさんの車いすへ駆け寄ろうとした。—— まず、あなた自身が落下物から離れること。守る人が無傷でいることが、Dさんの安全につながります。</p></div>
+  <div class="manga-panel">
+  <div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji"><div class="speech-name">ダジャレ所長</div>自分を守るんは、わがままやない。責任や。</div></div>
+  </div>
+</div>
+<div class="page" id="page4">
+  <div class="page-header">
+    <div class="page-chapter">第3章</div>
+    <div class="page-title">安否確認は「つながらない前提」で</div>
+  </div>
+  <div class="manga-panel">
+  <div class="speech right"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi"><div class="speech-name">みさき先輩</div>災害のあと、電話はまずつながらないと思っておいて。回線がいっぱいになるの。</div></div>
+  <div class="speech right"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student"><div class="speech-name">さくら</div>じゃあ、どうやって安否を伝えたらいいんですか？</div></div>
+  <div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji"><div class="speech-name">ダジャレ所長</div>だから手段は多重化するんや。携帯電話、メール、SNSのグループ、災害用伝言ダイヤル、そして最後は自分の足で行く。ぜんぶ用意しとく。</div></div>
+  <div class="oyaji-gag"><div class="gag-text">災害用伝言ダイヤルは171。「いない」人を探すから「171（いない）」や！</div><div class="gag-sub">※171は「いない」の語呂合わせ。安否の伝言を録音・再生できるサービスで、災害時に開設されます。覚えておくと本当に役立ちます。</div></div>
+  <div class="shiin">シーーーン</div>
+  </div>
+  <div class="highlight-box important"><div class="box-title">📘 安否確認のルール</div><div class="box-content">①まず自分と家族の安全を確保する ②決められた方法で、自分の安否と出勤の可否を事業所へ報告する ③担当利用者さんのうち、優先度の高い方から確認する ④確認できた／できなかったを必ず記録して共有する ⑤連絡がつかない場合も勝手に動かず、事業所・相談支援専門員・市町村と連携する。</div></div>
+  <div class="highlight-box important"><div class="box-title">📘 災害時の要配慮者への配慮</div><div class="box-content">障害のある方は、情報を受け取ること・理解すること・移動することのそれぞれに支援が必要な場合があります。【視覚障害】「あちら」ではなく「右へ3歩、その先に段差が1つ」と具体的に言葉で。【聴覚障害】筆談・文字・身ぶりで伝える。【知的障害・発達障害】短い言葉で、ひとつずつ、落ち着いた声で。避難所の環境変化そのものが大きな負担になることもあります。【肢体不自由】移動と排泄に支援が必要。福祉避難所の情報も確認しておきます。</div></div>
+  <div class="highlight-box danger"><div class="box-title">⚠️ 安否確認のNG</div><div class="box-content">「大丈夫ですか」とだけ聞いて終わる（ご本人が困りごとを説明しにくいことがあります）／早口でまくしたてる／確認できなかったことを報告しない／記録に残さず記憶だけで済ませる。</div></div>
+  <div class="scenario"><div class="scenario-title">📖 こんな場面を想像してみよう</div><p>台風の翌朝、独居のEさんに電話。数回鳴ってから出て「大丈夫」とだけ言われた。—— 本当に大丈夫でしょうか。停電は？　水は出る？　薬は飲めた？　ご飯は食べた？　具体的に一つずつ聞くのが安否確認です。</p></div>
+  <div class="manga-panel">
+  <div class="speech right"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi"><div class="speech-name">みさき先輩</div>聞き方ひとつで、見つかる困りごとが全然ちがうよ。</div></div>
+  </div>
+</div>
+<div class="page" id="page5">
+  <div class="page-header">
+    <div class="page-chapter">第4章</div>
+    <div class="page-title">停電・断水と、電気が命の利用者さん</div>
+  </div>
+  <div class="manga-panel">
+  <div class="speech right"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student"><div class="speech-name">さくら</div>台風のあとの停電、丸一日以上続くこともありますよね。</div></div>
+  <div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji"><div class="speech-name">ダジャレ所長</div>その一日が、命に関わる利用者さんがおるんや。人工呼吸器、たんの吸引器、酸素濃縮器、電動ベッド…どれも電気で動く。</div></div>
+  <div class="speech right"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi"><div class="speech-name">みさき先輩</div>だから停電対策は平時のうちに。予備バッテリーの有無と充電の状態、外部電源や自家発電機、車からの給電、そして最寄りの医療機関。ここまで確認して共有しておくの。</div></div>
+  <div class="oyaji-gag"><div class="gag-text">電源の「げん」は、この方たちにとってまさに命の「源（みなもと）」や！</div><div class="gag-sub">※「電源」の「源」をかけています。医療機器を使う方にとって、停電は直接いのちに関わります。</div></div>
+  <div class="shiin">シーーーン</div>
+  </div>
+  <div class="highlight-box important"><div class="box-title">📘 電源が必要な方への備え（平時に確認）</div><div class="box-content">①機器の内蔵バッテリーは何時間もつか ②予備バッテリー・外部電源はあるか、充電されているか ③手動でできる代替手段はあるか（足踏み式・手動の吸引器など）④かかりつけ医・訪問看護・機器業者の緊急連絡先 ⑤停電が長引いたらどこへ避難するか（電源のある医療機関・福祉避難所）⑥電力会社への医療機器使用者としての登録状況。</div></div>
+  <div class="highlight-box good"><div class="box-title">👍 断水したときの対応</div><div class="box-content">飲み水は1人1日3リットルが目安。手指衛生はウェットティッシュとアルコールで代替し、感染対策は続けます。トイレは携帯トイレ、またはビニール袋と新聞紙で対応。清拭はドライシャンプーや清拭タオルで。水を多く使う調理は控え、常温保存できる食品に切り替えます。</div></div>
+  <ul class="point-list">
+    <li>自分の履き慣れた靴・懐中電灯・モバイルバッテリー・飲み水は、訪問車に常備する</li>
+    <li>利用者さん宅の備蓄（水・食料・薬・おむつ）の残量を、ふだんから気にかける</li>
+    <li>薬は最低3日分、できれば1週間分の余裕を、相談支援専門員や主治医と相談しておく</li>
+    <li>ガソリンは半分を切ったら給油（災害時は給油に何時間もかかります）</li>
+    <li>訓練は「やってみる」までがセット。頭で知っているだけでは、体は動きません</li>
+  </ul>
+  <div class="scenario"><div class="scenario-title">📖 こんな場面を想像してみよう</div><p>大型台風の接近が3日前から分かっている。あなたは明日、吸引器を使うFさんを訪問する予定。—— 今日できることは何でしょうか。バッテリーの充電、水と食料の確認、連絡方法の共有、避難の相談。備えは「起きる前」にしかできません。</p></div>
+  <div class="manga-panel">
+  <div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji"><div class="speech-name">ダジャレ所長</div>災害はいつ来るか選ばれへん。せやけど、備えはいつでも始められるで。</div></div>
+  </div>
+</div>
+<div class="page" id="page6">
+  <div class="page-header">
+    <div class="page-chapter">確認テスト</div>
+    <div class="page-title">確認テスト＆まとめ</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q1 / 10: 訪問中に大きな地震が起きたときの、行動の順番として正しいのはどれ？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">利用者さんの安全 → 自分の安全 → 連絡</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">まず自分の安全 → 利用者さんの安全 → 事業所へ連絡</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">まず事業所へ連絡 → 自分の安全 → 利用者さんの安全</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">まず室内の片づけ → 利用者さんの安全 → 連絡</button>
+    </div>
+    <div class="quiz-feedback">ヘルパー自身が無事でなければ、誰も支援できません。自分の身を守ることは支援の一部です。揺れが収まってから利用者さんの安全を確認し、事業所へ連絡します。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q2 / 10: ハザードマップで確認できることはどれ？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">利用者さんの障害支援区分</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">浸水想定区域や土砂災害警戒区域など、その場所の災害リスク</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">職員の避難訓練の実施回数</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">事業所の備蓄の残量</button>
+    </div>
+    <div class="quiz-feedback">市町村が公開しているハザードマップで、利用者さん宅のリスクと避難場所・避難経路を、平時のうちに確認しておきます。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q3 / 10: 災害時の安否確認について、正しいのはどれ？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">電話は必ずつながるので、電話だけ決めておけばよい</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">電話がつながらない前提で、携帯・メール・SNS・災害用伝言ダイヤルなど複数の手段を決めておく</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">連絡がつかない利用者さんは、落ち着くまで放っておく</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">確認できなかったことは、報告しなくてよい</button>
+    </div>
+    <div class="quiz-feedback">災害時は通信がひっ迫します。連絡手段は多重化し、優先度の高い方から確認します。確認できた／できなかったを必ず記録し、事業所へ共有します。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q4 / 10: 災害用伝言ダイヤルの番号はどれ？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">110</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">119</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">171</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">177</button>
+    </div>
+    <div class="quiz-feedback">171です。「いない」の語呂で覚えます。安否の伝言を録音・再生でき、災害時に開設されます。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q5 / 10: 視覚障害のある利用者さんを避難誘導するときの声かけとして、適切なのはどれ？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">「あっちです」と指をさす</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">「危ないから黙ってついてきて」と言う</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">「右へ3歩進みます。その先に段差が1つあります」と具体的に伝える</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">何も言わずに腕を引っぱって進む</button>
+    </div>
+    <div class="quiz-feedback">指さしや「あちら」は伝わりません。方向・距離・段差などを言葉で具体的に伝えます。急に腕を引っぱるのではなく、ヘルパーの肘や肩につかまってもらう方法が基本です。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q6 / 10: 電源が必要な機器（人工呼吸器・吸引器など）を使う利用者さんへの備えとして、適切なのはどれ？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">停電が起きてから、バッテリーがあるかどうか確認する</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">平時に予備バッテリー・外部電源・手動の代替手段・緊急連絡先を確認し、共有しておく</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">電気は必ずすぐ復旧するので、特別な備えは要らない</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">機器のことは医療職の担当なので、ヘルパーは知らなくてよい</button>
+    </div>
+    <div class="quiz-feedback">停電は命に直結します。バッテリーの持続時間、予備電源、足踏み式・手動の吸引器などの代替手段、かかりつけ医・訪問看護・機器業者の連絡先を、平時に確認・共有しておきます。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q7 / 10: 非常災害対策について、事業所に求められていることはどれ？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, true)">具体的な計画の策定、関係機関への通報・連携体制の整備、定期的な訓練の実施</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">全職員に防災士の資格を取らせること</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">全利用者宅に発電機を設置すること</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">台風のたびに事業所を閉鎖すること</button>
+    </div>
+    <div class="quiz-feedback">非常災害に関する具体的計画、通報・連携体制の整備と職員への周知、避難・救出等の訓練の定期的な実施が求められます。BCP（自然災害編）にもとづく研修・訓練も、訪問系サービスは年1回以上が義務です。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q8 / 10: 大雨で道路が冠水している。訪問先へ向かう途中の判断として適切なのはどれ？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">浅そうに見えるので歩いて渡る</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">車なら大丈夫なので、そのまま進む</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">無理に進まず、事業所へ連絡して指示を受ける</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">利用者さんが待っているので、何としてもたどり着く</button>
+    </div>
+    <div class="quiz-feedback">冠水した道路は、水面下の側溝やマンホールの蓋の外れが見えず非常に危険です。まず自分の安全を確保し、事業所へ連絡して判断を仰ぎます。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q9 / 10: 断水したときの対応として、適切なのはどれ？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">手を洗えないので、手指衛生はあきらめる</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">ウェットティッシュやアルコールで手指衛生を代替し、トイレは携帯トイレ等で対応する</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">溜め水を何度も使い回して手を洗う</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">水が出るまで、食事の支援は行わない</button>
+    </div>
+    <div class="quiz-feedback">断水時も感染対策は続けます。アルコールやウェットティッシュで代替し、トイレは携帯トイレやビニール袋で対応。食事は常温保存できるものに切り替えます。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q10 / 10: 台風の接近が数日前から分かっている。ヘルパーとして適切な備えはどれ？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">当日になってから考える</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">事前に水・食料・薬の残りや機器の充電を確認し、連絡方法と避難の相談をしておく</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">事業所から指示があるまで何もしない</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">訪問予定はいつも通りなので、特に何もしない</button>
+    </div>
+    <div class="quiz-feedback">台風は数日前から予測できる、備えられる災害です。備蓄・薬の残数・医療機器の充電・連絡方法・避難の相談を、接近前に済ませておきます。</div>
+  </div>
+  <ul class="point-list">
+    <li>訪問中に被災したら「まず自分の安全 → 利用者さんの安全 → 事業所へ連絡」。守る人が無事でいることが支援の前提。</li>
+    <li>ハザードマップで利用者さん宅のリスクと避難場所・避難経路を、晴れている日に確認しておく。</li>
+    <li>電話はつながらない前提で連絡手段を多重化（携帯・メール・SNS・災害用伝言ダイヤル171）。安否は具体的に一つずつ聞く。</li>
+    <li>電源が必要な機器を使う方には、バッテリー・代替手段・緊急連絡先を平時に確認。備えは「起きる前」にしかできない。</li>
+  </ul>
+  <div class="completion-message">おつかれさまでした！最後にお名前を入れて修了証を発行してください。</div>
+</div>
+
+<div class="nav-bar" id="navBar" style="display:none;">
+  <button class="nav-btn prev" id="prevBtn" onclick="prevPage()">◀ 前へ</button>
+  <span class="nav-page" id="pageNum">1 / 6</span>
+  <button class="nav-btn next" id="nextBtn" onclick="nextPage()">次へ ▶</button>
+</div>
+
+<script>
+let currentPage = 0;
+const totalPages = 6;
+
+function startTraining() {
+  document.getElementById('titleScreen').style.display = 'none';
+  document.getElementById('progressBar').style.display = 'block';
+  document.getElementById('navBar').style.display = 'flex';
+  currentPage = 1;
+  showPage(currentPage);
+}
+
+function showPage(n) {
+  document.querySelectorAll('.page').forEach(p => { p.classList.remove('active'); });
+  const page = document.getElementById('page' + n);
+  if (page) {
+    page.classList.add('active');
+    page.querySelectorAll('.manga-panel').forEach(p => {
+      p.style.animation = 'none';
+      p.offsetHeight;
+      p.style.animation = '';
+    });
+  }
+  document.getElementById('prevBtn').disabled = (n <= 1);
+  document.getElementById('nextBtn').textContent = (n >= totalPages) ? '🎉 完了！' : '次へ ▶';
+  document.getElementById('pageNum').textContent = n + ' / ' + totalPages;
+  document.getElementById('progressFill').style.width = ((n / totalPages) * 100) + '%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function nextPage() { if (currentPage < totalPages) { currentPage++; showPage(currentPage); } }
+function prevPage() { if (currentPage > 1) { currentPage--; showPage(currentPage); } }
+function goToPage(n) { currentPage = n; showPage(n); }
+
+function checkQuiz(btn, isCorrect) {
+  const quizBox = btn.closest('.quiz-box');
+  const options = quizBox.querySelectorAll('.quiz-option');
+  options.forEach(o => { o.disabled = true; o.style.pointerEvents = 'none'; });
+  if (isCorrect) {
+    btn.classList.add('correct');
+    const fb = quizBox.querySelector('.quiz-feedback');
+    if (fb) { fb.classList.add('show'); fb.style.background = '#E8F5E9'; }
+  } else {
+    btn.classList.add('wrong');
+    options.forEach(o => { if (o.getAttribute('onclick') && o.getAttribute('onclick').includes('true')) o.classList.add('correct'); });
+    const fb = quizBox.querySelector('.quiz-feedback');
+    if (fb) { fb.classList.add('show'); fb.style.background = '#FFEBEE'; }
+  }
+}
+
+// === 修了証書機能 ===
+const TRAINING_TITLE = "非常災害対策・防災（障害福祉・居宅介護）";
+
+function showCertSection() {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('navBar').style.display = 'none';
+  document.getElementById('progressBar').style.display = 'none';
+  const cs = document.getElementById('certSection');
+  cs.classList.add('show');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function generateCert() {
+  const nameInput = document.getElementById('certName');
+  const name = nameInput.value.trim();
+  if (!name) { nameInput.style.borderColor = '#E8594F'; nameInput.focus(); return; }
+  nameInput.style.borderColor = '#4CAF7D';
+
+  const today = new Date();
+  const dateStr = today.getFullYear() + '年' + (today.getMonth()+1) + '月' + today.getDate() + '日';
+
+  document.getElementById('certDisplayName').innerHTML = name + ' <span>殿</span>';
+  document.getElementById('certDisplayTheme').textContent = '上記の者は「' + "非常災害対策・防災" + '」研修（障害福祉・居宅介護）を修了したことを証します。';
+  document.getElementById('certDisplayDate').textContent = '修了日: ' + dateStr;
+
+  document.getElementById('certCard').classList.add('show');
+  document.getElementById('certActions').style.display = 'flex';
+
+  // メールリンク生成（宛先は ../scripts/cert-config.js で一元管理）
+  const mailCfg = window.CERT_MAIL_CONFIG || { to: 'rina@kaigo-yoki.jp', cc: 'info@kaigo-yoki.jp', honorific: '施設長 様' };
+  const subject = encodeURIComponent('【研修修了報告】' + TRAINING_TITLE + ' - ' + name);
+  const body = encodeURIComponent(
+    mailCfg.honorific + '\n\n' +
+    '研修修了のご報告をいたします。\n\n' +
+    '受講者名: ' + name + '\n' +
+    '研修テーマ: ' + TRAINING_TITLE + '\n' +
+    '修了日: ' + dateStr + '\n\n' +
+    '以上、ご確認をお願いいたします。'
+  );
+  document.getElementById('certMailBtn').href = 'mailto:' + mailCfg.to + '?cc=' + mailCfg.cc + '&subject=' + subject + '&body=' + body;
+}
+
+// 最終ページで「完了！」→ 修了証セクション
+const _origNextPage = nextPage;
+nextPage = function() {
+  if (currentPage >= totalPages) { showCertSection(); }
+  else { _origNextPage(); }
+};
+</script>
+
+<!-- 修了証書セクション -->
+<div class="cert-section" id="certSection">
+  <div style="font-size:64px;margin-bottom:12px;">🎓</div>
+  <h2 style="font-size:24px;font-weight:900;color:var(--primary,#2D5A8E);margin-bottom:8px;">研修完了おめでとうございます！</h2>
+  <p style="font-size:14px;color:#666;margin-bottom:24px;">修了証書を発行します。お名前を入力してください。<br><small>※ 職員名簿と同じ表記でご入力ください</small></p>
+  <div class="cert-name-input">
+    <label for="certName">受講者名</label>
+    <input type="text" id="certName" placeholder="例: 山田 太郎" autocomplete="name">
+  </div>
+  <button class="cert-generate-btn" id="certGenBtn" onclick="generateCert()">📜 修了証書を発行する</button>
+
+  <div class="cert-card" id="certCard">
+    <div class="cert-card-badge">修 了 証 書</div>
+    <div class="cert-card-title">研修修了証</div>
+    <div class="cert-card-name" id="certDisplayName"></div>
+    <div class="cert-card-theme" id="certDisplayTheme"></div>
+    <div class="cert-card-date" id="certDisplayDate"></div>
+    <div class="cert-card-org">
+      有限会社 陽気<br>訪問介護 ようき（障害福祉・居宅介護）
+      <small>沖縄県南城市佐敷津波古1354-1</small>
+    </div>
+    <div class="cert-card-seal">修了<br>認定</div>
+  </div>
+
+  <div class="cert-actions" id="certActions" style="display:none;">
+    <a class="cert-mail-btn" id="certMailBtn" href="#">✉️ 修了報告メールを送信</a>
+    <a class="cert-back-btn" href="../kenshu-shougai.html">📚 研修一覧へ戻る</a>
+    <a class="cert-back-btn" href="../">🏠 トップページ</a>
+  </div>
+</div>
+<script src="../scripts/cert-config.js"></script>
+<script src="../scripts/read-aloud.js"></script>
+</body>
+</html>

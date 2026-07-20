@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>障害福祉 感染症・食中毒の予防とまん延防止 研修 〜 手を洗って、うつさない！ 〜 | 訪問介護ようき</title>
+<meta name="description" content="障害福祉サービス（居宅介護）の感染症・食中毒の予防とまん延防止研修。訪問介護ようき（有限会社 陽気）の法定研修コンテンツ。">
+<link rel="canonical" href="https://kaigo-yoki.jp/recruit/shougai-trainings/kansen">
+<link rel="icon" type="image/png" href="../favicon.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Kosugi+Maru&display=swap');
+
+:root {
+  --primary: #2D5A8E;
+  --primary-light: #4A8FD4;
+  --accent: #E8594F;
+  --warm: #F9A826;
+  --green: #4CAF7D;
+  --bg: #FFF8F0;
+  --panel-bg: #FFFFFF;
+  --text: #2C2C2C;
+  --text-light: #666666;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Zen Maru Gothic', 'Kosugi Maru', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+.title-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #FF6B35 0%, #F7C948 50%, #FFE066 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.title-screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.08'%3E%3Ctext x='10' y='45' font-size='30'%3E😂%3C/text%3E%3C/g%3E%3C/svg%3E");
+}
+
+.title-badge {
+  background: var(--accent);
+  color: white;
+  padding: 8px 28px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+  animation: bounceIn 0.8s ease;
+}
+
+.title-main {
+  font-size: clamp(26px, 6vw, 48px);
+  font-weight: 900;
+  color: white;
+  text-align: center;
+  line-height: 1.4;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 1s ease 0.3s both;
+  text-shadow: 0 3px 12px rgba(0,0,0,0.2);
+}
+
+.title-sub {
+  font-size: clamp(14px, 3vw, 20px);
+  color: rgba(255,255,255,0.95);
+  margin-top: 16px;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 1s ease 0.6s both;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.title-characters {
+  display: flex;
+  gap: 30px;
+  margin-top: 30px;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 1s ease 0.9s both;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.title-char { text-align: center; }
+
+.title-char-icon {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 44px;
+  margin-bottom: 8px;
+  border: 4px solid rgba(255,255,255,0.6);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.title-char-name {
+  color: white;
+  font-weight: 700;
+  font-size: 13px;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+.start-btn {
+  margin-top: 36px;
+  padding: 16px 48px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 20px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 1s ease 1.2s both, pulse 2s ease-in-out 2.5s infinite;
+  box-shadow: 0 4px 20px rgba(45,90,142,0.4);
+  transition: transform 0.2s;
+}
+.start-btn:hover { transform: scale(1.05); }
+
+.progress-bar {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 5px; background: rgba(0,0,0,0.1); z-index: 100;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #FF6B35, #F7C948);
+  transition: width 0.5s ease;
+  border-radius: 0 3px 3px 0;
+}
+
+.page {
+  display: none; min-height: 100vh; padding: 24px 16px 100px;
+  max-width: 800px; margin: 0 auto; animation: fadeIn 0.6s ease;
+}
+.page.active { display: block; }
+
+.page-header { text-align: center; margin: 20px 0 30px; }
+.page-chapter {
+  display: inline-block; background: var(--primary); color: white;
+  padding: 4px 16px; border-radius: 20px; font-size: 12px;
+  font-weight: 700; letter-spacing: 1px; margin-bottom: 8px;
+}
+.page-title {
+  font-size: clamp(22px, 5vw, 32px); font-weight: 900;
+  color: var(--primary); line-height: 1.3;
+}
+
+.manga-panel {
+  background: var(--panel-bg); border-radius: 16px; padding: 24px;
+  margin-bottom: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  border: 2px solid #EEE; opacity: 0; transform: translateY(20px);
+  animation: panelIn 0.5s ease forwards;
+}
+.manga-panel:nth-child(2) { animation-delay: 0.15s; }
+.manga-panel:nth-child(3) { animation-delay: 0.3s; }
+.manga-panel:nth-child(4) { animation-delay: 0.45s; }
+.manga-panel:nth-child(5) { animation-delay: 0.6s; }
+.manga-panel:nth-child(6) { animation-delay: 0.75s; }
+
+.speech { display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start; }
+.speech.right { flex-direction: row-reverse; }
+
+.speech-avatar {
+  width: 56px; height: 56px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; flex-shrink: 0; border: 3px solid;
+}
+.speech-avatar.oyaji { background: #FFF3E0; border-color: #FF8F00; }
+.speech-avatar.student { background: #E3F2FD; border-color: var(--primary-light); }
+.speech-avatar.tsukkomi { background: #F3E5F5; border-color: #AB47BC; }
+
+.speech-bubble {
+  padding: 14px 18px; border-radius: 16px; font-size: 15px;
+  line-height: 1.7; max-width: 85%; position: relative;
+}
+
+.bubble-oyaji { background: #FFF3E0; border: 2px solid #FFE0B2; border-radius: 16px 16px 16px 4px; }
+.bubble-student { background: #E3F2FD; border: 2px solid #BBDEFB; border-radius: 16px 16px 4px 16px; }
+.bubble-tsukkomi { background: #F3E5F5; border: 2px solid #E1BEE7; border-radius: 16px 16px 4px 16px; }
+
+.speech-name { font-size: 11px; font-weight: 700; color: var(--text-light); margin-bottom: 4px; }
+
+.oyaji-gag {
+  background: linear-gradient(135deg, #FFF9C4, #FFF176);
+  border: 3px solid #FFD54F;
+  border-radius: 16px;
+  padding: 16px 20px;
+  margin: 14px 0;
+  text-align: center;
+  position: relative;
+  animation: gagPop 0.5s ease;
+}
+
+.oyaji-gag::before {
+  content: '\1F4A5';
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 28px;
+}
+
+.gag-text {
+  font-size: 20px;
+  font-weight: 900;
+  color: #E65100;
+  letter-spacing: 2px;
+}
+
+.gag-sub {
+  font-size: 12px;
+  color: #BF360C;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+.tsukkomi-text {
+  font-size: 14px;
+  font-weight: 900;
+  color: #7B1FA2;
+  text-align: center;
+  margin: 4px 0 10px;
+  letter-spacing: 1px;
+}
+
+.shiin {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 900;
+  color: #90A4AE;
+  letter-spacing: 12px;
+  margin: 8px 0;
+  animation: shiinFade 1.5s ease;
+}
+
+.highlight-box { border-radius: 12px; padding: 20px; margin: 16px 0; }
+.highlight-box.law { background: linear-gradient(135deg, #E8EAF6, #C5CAE9); border-left: 5px solid #3F51B5; }
+.highlight-box.important { background: linear-gradient(135deg, #FFF3E0, #FFE0B2); border-left: 5px solid var(--warm); }
+.highlight-box.danger { background: linear-gradient(135deg, #FFEBEE, #FFCDD2); border-left: 5px solid var(--accent); }
+.highlight-box.good { background: linear-gradient(135deg, #E8F5E9, #C8E6C9); border-left: 5px solid var(--green); }
+.highlight-box .box-title { font-weight: 900; font-size: 15px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+.highlight-box .box-content { font-size: 14px; line-height: 1.8; }
+
+.scenario { background: #F5F5F5; border-radius: 12px; padding: 20px; margin: 16px 0; border: 2px dashed #CCC; }
+.scenario-title { font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 10px; }
+
+.quiz-box { background: white; border: 3px solid var(--primary); border-radius: 16px; padding: 24px; margin: 20px 0; }
+.quiz-question { font-size: 16px; font-weight: 700; margin-bottom: 16px; color: var(--primary); }
+.quiz-options { display: flex; flex-direction: column; gap: 10px; }
+.quiz-option {
+  padding: 14px 18px; background: #F5F5F5; border: 2px solid #DDD;
+  border-radius: 12px; cursor: pointer; font-size: 14px; font-family: inherit;
+  text-align: left; transition: all 0.3s; line-height: 1.5;
+}
+.quiz-option:hover { border-color: var(--primary-light); background: #E3F2FD; }
+.quiz-option.correct { background: #E8F5E9; border-color: var(--green); }
+.quiz-option.wrong { background: #FFEBEE; border-color: var(--accent); }
+.quiz-feedback { margin-top: 14px; padding: 14px; border-radius: 10px; font-size: 14px; line-height: 1.7; display: none; }
+.quiz-feedback.show { display: block; }
+
+.point-list { list-style: none; padding: 0; }
+.point-list li {
+  padding: 10px 0 10px 36px; position: relative;
+  font-size: 15px; line-height: 1.6; border-bottom: 1px solid #EEE;
+}
+.point-list li::before {
+  content: '\2713'; position: absolute; left: 0;
+  width: 24px; height: 24px; background: var(--green);
+  color: white; border-radius: 50%; display: flex;
+  align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; top: 12px;
+}
+
+.nav-bar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: white; border-top: 2px solid #EEE;
+  padding: 12px 20px; display: flex; justify-content: space-between;
+  align-items: center; z-index: 50;
+}
+.nav-btn {
+  padding: 10px 24px; border: none; border-radius: 30px;
+  font-size: 15px; font-weight: 700; font-family: inherit;
+  cursor: pointer; transition: all 0.2s;
+}
+.nav-btn.prev { background: #EEE; color: var(--text); }
+.nav-btn.next { background: var(--primary); color: white; box-shadow: 0 2px 10px rgba(45,90,142,0.3); }
+.nav-btn:hover { transform: translateY(-2px); }
+.nav-btn:disabled { opacity: 0.3; cursor: default; transform: none; }
+.nav-page { font-size: 13px; color: var(--text-light); font-weight: 700; }
+
+.toc { display: grid; gap: 12px; margin-top: 20px; }
+.toc-item {
+  display: flex; align-items: center; gap: 14px; padding: 16px;
+  background: white; border-radius: 12px; border: 2px solid #EEE;
+  cursor: pointer; transition: all 0.3s;
+}
+.toc-item:hover { border-color: var(--primary-light); transform: translateX(4px); }
+.toc-num {
+  width: 36px; height: 36px; border-radius: 50%; background: var(--primary);
+  color: white; display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 16px; flex-shrink: 0;
+}
+.toc-text { font-size: 15px; font-weight: 700; }
+
+.ending { text-align: center; padding: 40px 20px; }
+.ending-icon { font-size: 80px; margin-bottom: 16px; }
+.ending-title { font-size: 28px; font-weight: 900; color: var(--primary); margin-bottom: 12px; }
+.ending-msg { font-size: 16px; color: var(--text-light); line-height: 1.8; }
+
+.certificate {
+  background: linear-gradient(135deg, #FFF8E1, #FFECB3);
+  border: 3px solid var(--warm); border-radius: 16px;
+  padding: 30px; margin: 30px auto; max-width: 500px;
+}
+.certificate-title { font-size: 22px; font-weight: 900; color: var(--warm); }
+.certificate-body { font-size: 14px; margin-top: 12px; line-height: 1.8; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes bounceIn { 0% { transform: scale(0); } 60% { transform: scale(1.1); } 100% { transform: scale(1); } }
+@keyframes panelIn { to { opacity: 1; transform: translateY(0); } }
+@keyframes pulse { 0%, 100% { box-shadow: 0 4px 20px rgba(45,90,142,0.4); } 50% { box-shadow: 0 4px 30px rgba(45,90,142,0.7); } }
+@keyframes gagPop { 0% { transform: scale(0.5) rotate(-5deg); opacity: 0; } 50% { transform: scale(1.1) rotate(2deg); } 100% { transform: scale(1) rotate(0); } }
+@keyframes shiinFade { 0% { opacity: 0; letter-spacing: 2px; } 100% { opacity: 1; letter-spacing: 12px; } }
+
+@media (max-width: 600px) {
+  .speech-avatar { width: 44px; height: 44px; font-size: 22px; }
+  .speech-bubble { font-size: 13px; }
+  .gag-text { font-size: 17px; }
+}
+
+.cert-section{display:none;text-align:center;padding:30px 20px;max-width:600px;margin:0 auto;}
+.cert-section.show{display:block;animation:fadeUp .6s ease;}
+.cert-name-input{margin-bottom:24px;}
+.cert-name-input label{display:block;font-size:14px;font-weight:700;color:var(--text,#2C2C2C);margin-bottom:8px;}
+.cert-name-input input{width:100%;max-width:320px;padding:14px 20px;border:3px solid #DDD;border-radius:14px;font-size:16px;font-family:inherit;font-weight:700;text-align:center;outline:none;transition:border-color .3s;}
+.cert-name-input input:focus{border-color:var(--warm,#F9A826);}
+.cert-generate-btn{display:inline-block;padding:14px 40px;background:linear-gradient(135deg,#F9A826,#FF8F00);color:#fff;border:none;border-radius:50px;font-size:16px;font-weight:800;font-family:inherit;cursor:pointer;box-shadow:0 4px 16px rgba(249,168,38,.3);transition:all .3s;margin-bottom:16px;}
+.cert-generate-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(249,168,38,.4);}
+.cert-generate-btn:disabled{opacity:.4;cursor:default;transform:none;}
+.cert-card{display:none;background:linear-gradient(135deg,#FFFDF0,#FFF8E1);border:4px double #D4A017;border-radius:20px;padding:40px 30px;margin:24px auto;max-width:520px;position:relative;overflow:hidden;box-shadow:0 8px 32px rgba(212,160,23,.15);}
+.cert-card.show{display:block;animation:fadeUp .6s ease;}
+.cert-card::before{content:'';position:absolute;inset:8px;border:2px solid rgba(212,160,23,.25);border-radius:14px;pointer-events:none;}
+.cert-card-badge{display:inline-block;background:linear-gradient(135deg,#D4A017,#F5D060);color:#fff;padding:6px 24px;border-radius:30px;font-size:12px;font-weight:800;letter-spacing:3px;margin-bottom:16px;}
+.cert-card-title{font-size:28px;font-weight:900;color:#D4A017;margin-bottom:8px;letter-spacing:2px;}
+.cert-card-name{font-size:24px;font-weight:900;color:#1A1A2E;margin:20px 0 8px;padding:8px 0;border-bottom:2px solid rgba(212,160,23,.3);}
+.cert-card-name span{font-size:14px;font-weight:500;color:#666;}
+.cert-card-theme{font-size:15px;font-weight:700;color:#4A4A68;margin:12px 0;line-height:1.6;}
+.cert-card-date{font-size:13px;color:#888;margin-top:16px;}
+.cert-card-org{margin-top:20px;font-size:14px;font-weight:700;color:#1A1A2E;}
+.cert-card-org small{display:block;font-size:11px;font-weight:400;color:#888;margin-top:2px;}
+.cert-card-seal{position:absolute;bottom:20px;right:20px;width:60px;height:60px;border-radius:50%;border:3px solid #D4A017;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#D4A017;line-height:1.2;text-align:center;}
+.cert-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px;}
+.cert-mail-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;background:linear-gradient(135deg,#4CAF7D,#43A047);color:#fff;border:none;border-radius:50px;font-size:14px;font-weight:800;font-family:inherit;cursor:pointer;box-shadow:0 4px 16px rgba(76,175,125,.3);transition:all .3s;text-decoration:none;}
+.cert-mail-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(76,175,125,.4);}
+.cert-back-btn{display:inline-flex;align-items:center;gap:6px;padding:12px 24px;background:none;border:2px solid #DDD;border-radius:50px;font-size:13px;font-weight:700;color:#666;cursor:pointer;font-family:inherit;transition:all .3s;text-decoration:none;}
+.cert-back-btn:hover{border-color:#999;color:#333;}
+
+</style>
+</head>
+<body>
+
+<!-- TITLE -->
+<div class="title-screen" id="titleScreen">
+  <div class="title-badge">障害福祉（居宅介護） 法定研修</div>
+  <div class="title-main">笑って学ぼう！💥<br>感染症・食中毒の予防とまん延防止</div>
+  <div class="title-sub">〜 手を洗って、うつさない！ 〜<br>※ ギャグのクオリティは保証しません</div>
+  <div class="title-characters">
+    <div class="title-char">
+      <div class="title-char-icon" style="background:#FFF3E0;">🧔</div>
+      <div class="title-char-name">ダジャレ所長<br>（おやじ先生）</div>
+    </div>
+    <div class="title-char">
+      <div class="title-char-icon" style="background:#E3F2FD;">👩</div>
+      <div class="title-char-name">新人ヘルパー<br>さくらさん</div>
+    </div>
+    <div class="title-char">
+      <div class="title-char-icon" style="background:#F3E5F5;">👩‍🦰</div>
+      <div class="title-char-name">ツッコミ担当<br>先輩みさきさん</div>
+    </div>
+  </div>
+  <button class="start-btn" onclick="startTraining()">▶ 研修をはじめる</button>
+</div>
+
+<div class="progress-bar" id="progressBar" style="display:none;"><div class="progress-fill" id="progressFill"></div></div>
+
+<div class="page" id="page1">
+  <div class="page-header">
+    <div class="page-chapter">はじめに</div>
+    <div class="page-title">今日の研修メニュー 📋</div>
+  </div>
+  <div class="manga-panel">
+  <div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji"><div class="speech-name">ダジャレ所長</div>今日のテーマは「感染症・食中毒の予防とまん延防止」！障害福祉サービス（居宅介護）で働くみんなに必要な法定研修だよ。</div></div>
+  <div class="speech right"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student"><div class="speech-name">さくら</div>よろしくお願いします！しっかり覚えます。</div></div>
+  <div class="speech right"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi"><div class="speech-name">みさき先輩</div>所長のダジャレは聞き流していいけど、中身は大事だからね。</div></div>
+  </div>
+  <div class="highlight-box important"><div class="box-title">📘 研修の目標</div><div class="box-content">居宅介護の訪問先で、標準予防策にもとづいた手指衛生と防護具の使い方ができるようになります。また、ノロウイルスなどの感染症や食中毒が起きたときに、まん延させない初動がとれるようになります。</div></div>
+  <div class="toc">
+    <button class="toc-item" onclick="goToPage(2)"><span class="toc-num">1</span><span class="toc-text">第1章: 標準予防策ってなんだ？</span></button>
+    <button class="toc-item" onclick="goToPage(3)"><span class="toc-num">2</span><span class="toc-text">第2章: 手洗いと手袋 — 外す順番がカギ</span></button>
+    <button class="toc-item" onclick="goToPage(4)"><span class="toc-num">3</span><span class="toc-text">第3章: ノロウイルスと食中毒 — 消毒の選び方</span></button>
+    <button class="toc-item" onclick="goToPage(5)"><span class="toc-num">4</span><span class="toc-text">第4章: うつさない体制と、報告のしかた</span></button>
+    <button class="toc-item" onclick="goToPage(6)"><span class="toc-num">5</span><span class="toc-text">確認テスト＆まとめ</span></button>
+  </div>
+</div>
+<div class="page" id="page2">
+  <div class="page-header">
+    <div class="page-chapter">第1章</div>
+    <div class="page-title">標準予防策ってなんだ？</div>
+  </div>
+  <div class="manga-panel">
+  <div class="speech right"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student"><div class="speech-name">さくら</div>所長、利用者さんが「風邪ひいてないよ」って言ってたら、手袋しなくてもいいんですか？</div></div>
+  <div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji"><div class="speech-name">ダジャレ所長</div>あかんあかん。感染対策の基本は「標準予防策（スタンダード・プリコーション）」や。血液・体液・分泌物・排泄物・傷のある皮膚は、誰のもんでも感染の可能性ありとみなす。これが出発点やで。</div></div>
+  <div class="speech right"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi"><div class="speech-name">みさき先輩</div>症状が出ていない人でも、菌やウイルスを持っていることがあるからね。相手を見て判断しない、が鉄則。</div></div>
+  <div class="oyaji-gag"><div class="gag-text">感染対策は「かんせん」やのうて、「完全」にやってこそやで！</div><div class="gag-sub">※「感染」と「完全」をかけています。誰に対しても同じ手順で行うのが標準予防策です。</div></div>
+  <div class="shiin">シーーーン</div>
+  <div class="tsukkomi-text">所長、第1章から飛ばしますね…</div>
+  </div>
+  <div class="highlight-box important"><div class="box-title">📘 標準予防策の対象になるもの</div><div class="box-content">血液／体液（汗を除く分泌物）／排泄物（尿・便・吐物）／傷のある皮膚／粘膜（口・目・鼻）。これらはすべて「感染の可能性がある」として扱います。利用者さんの病名や、症状があるかどうかで手を抜きません。</div></div>
+  <div class="highlight-box law"><div class="box-title">📘 法令根拠</div><div class="box-content">障害福祉サービスの運営基準では、感染症の予防およびまん延の防止のため、①対策を検討する委員会の開催、②指針の整備、③研修の実施、④訓練の実施 が事業所に義務づけられています（経過措置が終わり、令和6年4月から完全義務化）。</div></div>
+  <div class="scenario"><div class="scenario-title">📖 こんな場面を想像してみよう</div><p>Aさんの排泄介助に入ったら、いつもと違って便がゆるい。ご本人は「ちょっとお腹こわしただけよ」と笑っている。—— さて、いつもと同じ手順でいいでしょうか。答えは「いつもと同じ標準予防策を、いつも以上にきっちり」です。</p></div>
+  <div class="manga-panel">
+  <div class="speech right"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student"><div class="speech-name">さくら</div>「この人は大丈夫」っていう思い込みが、いちばんあぶないんですね。</div></div>
+  </div>
+</div>
+<div class="page" id="page3">
+  <div class="page-header">
+    <div class="page-chapter">第2章</div>
+    <div class="page-title">手洗いと手袋 — 外す順番がカギ</div>
+  </div>
+  <div class="manga-panel">
+  <div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji"><div class="speech-name">ダジャレ所長</div>感染対策でいちばん効くのはな、高い薬でも特別な機械でもない。手ぇ洗うことや。</div></div>
+  <div class="speech right"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi"><div class="speech-name">みさき先輩</div>基本は「1ケア1手洗い」。同じ利用者さんのお宅でも、排泄介助のあとに調理へ移るなら、その間に必ず手指衛生よ。</div></div>
+  <div class="speech right"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student"><div class="speech-name">さくら</div>訪問先で洗面所を借りにくいときは、どうしたらいいですか？</div></div>
+  <div class="speech right"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi"><div class="speech-name">みさき先輩</div>目に見える汚れがなければアルコール手指消毒でOK。目に見えて汚れているときや、ノロウイルスが疑われるときは、流水と石けんでしっかり洗い流す。</div></div>
+  <div class="oyaji-gag"><div class="gag-text">手指衛生の「しゅし」は、感染対策の「主旨」そのものやで！</div><div class="gag-sub">※「手指（しゅし）」と「主旨（しゅし）」をかけています。あれこれ道具をそろえる前に、まず手指衛生です。</div></div>
+  <div class="shiin">シーーーン</div>
+  </div>
+  <div class="highlight-box important"><div class="box-title">📘 防護具を外す順番</div><div class="box-content">①手袋（いちばん汚染されている）→ ②手指衛生 → ③エプロン・ガウン（表面に触れず、汚れた面を内側に丸めて）→ ④マスク（ひもを持って、表面に触れない）→ ⑤もう一度手指衛生。外し方をまちがえると、せっかくの防護具が汚れを広げる道具になってしまいます。</div></div>
+  <div class="highlight-box danger"><div class="box-title">⚠️ やってはいけない</div><div class="box-content">手袋をしたまま次の利用者さん宅へ移動する／手袋のままスマホや玄関ドア、車のハンドルを触る／同じ手袋で排泄介助から調理へ移る／マスクの表面を指でつまんでずらす／使い捨て手袋を洗って再利用する。手袋は1回きり、が原則です。</div></div>
+  <div class="scenario"><div class="scenario-title">📖 こんな場面を想像してみよう</div><p>排泄介助を終えて、そのままの手袋でエプロンを外し、マスクをずらして電話に出た。—— この時点で、手袋についた汚れがエプロン・マスク・スマホ・耳のうしろまで旅をしています。</p></div>
+  <div class="manga-panel">
+  <div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji"><div class="speech-name">ダジャレ所長</div>手袋は「安心のお守り」やない。外し方をまちがえたら「汚れの運び屋」になる。外す順番までがワンセットや。</div></div>
+  </div>
+</div>
+<div class="page" id="page4">
+  <div class="page-header">
+    <div class="page-chapter">第3章</div>
+    <div class="page-title">ノロウイルスと食中毒 — 消毒の選び方</div>
+  </div>
+  <div class="manga-panel">
+  <div class="speech right"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student"><div class="speech-name">さくら</div>冬に多い感染性胃腸炎って、アルコールでシュッとやれば大丈夫ですよね？</div></div>
+  <div class="speech right"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi"><div class="speech-name">みさき先輩</div>そこ、いちばんの落とし穴。ノロウイルスにはアルコールが効きにくいの。</div></div>
+  <div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji"><div class="speech-name">ダジャレ所長</div>ノロには次亜塩素酸ナトリウムや。吐物や便で汚れたところは0.1％（1000ppm）、ふだんのドアノブや手すりの拭き取りは0.02％（200ppm）が目安やで。</div></div>
+  <div class="oyaji-gag"><div class="gag-text">ノロウイルスは、名前は「ノロい」けど、広がるスピードは超特急やで！</div><div class="gag-sub">※「ノロ」と「のろい（遅い）」をかけています。ごく少量のウイルスでも発症し、あっという間に広がります。</div></div>
+  <div class="shiin">シーーーン</div>
+  <div class="tsukkomi-text">笑ってる場合じゃないやつです</div>
+  </div>
+  <div class="highlight-box good"><div class="box-title">👍 嘔吐物の正しい片づけ方</div><div class="box-content">①窓を開けて換気し、他の人を近づけない ②使い捨て手袋・マスク・エプロンを着ける ③ペーパータオル等で外側から内側へ、静かに拭き取る（乾く前に・こすらない・掃除機やほうきは使わない）④0.1％次亜塩素酸ナトリウムで浸すように消毒し、10分ほど置いてから水拭き ⑤汚物とペーパーはビニール袋を二重にして密閉 ⑥手袋 → 手指衛生 → エプロン → マスクの順に外し、最後にもう一度手を洗う。</div></div>
+  <div class="highlight-box danger"><div class="box-title">⚠️ 食中毒を招くNG</div><div class="box-content">加熱が足りないまま提供する／作り置きを鍋のまま常温で放置する／消費期限切れに気づかず使う／冷蔵庫に詰め込みすぎて冷えていない／生肉を切ったまな板で、そのまま生野菜を切る。家事援助の調理では「つけない・増やさない・やっつける」が合言葉です。</div></div>
+  <div class="scenario"><div class="scenario-title">📖 こんな場面を想像してみよう</div><p>家事援助で作った煮物を「冷めてからでいいや」と鍋のままコンロに置いて訪問終了。翌日、利用者さんがそれを温めずに食べた。—— 常温で置かれていた数時間が、菌にとってのゴールデンタイムです。</p></div>
+  <div class="manga-panel">
+  <div class="speech right"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi"><div class="speech-name">みさき先輩</div>冷ますときは小分けにして早く冷やして、冷蔵庫へ。そのことを申し送りに書いておくと、次に入る人も助かるよ。</div></div>
+  </div>
+</div>
+<div class="page" id="page5">
+  <div class="page-header">
+    <div class="page-chapter">第4章</div>
+    <div class="page-title">うつさない体制と、報告のしかた</div>
+  </div>
+  <div class="manga-panel">
+  <div class="speech right"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student"><div class="speech-name">さくら</div>もし自分が熱を出したら、休むと事業所に迷惑ですよね…</div></div>
+  <div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji"><div class="speech-name">ダジャレ所長</div>逆や。無理して行くほうが、利用者さんにも同僚にも迷惑や。体調不良は隠さず、すぐ報告。これがまん延防止の第一歩やで。</div></div>
+  <div class="speech right"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi"><div class="speech-name">みさき先輩</div>障害のある利用者さんは、体調の変化を自分から言葉にしにくい方も多いの。だから私たちの「いつもと違う」に気づく目が大事。</div></div>
+  <div class="oyaji-gag"><div class="gag-text">委員会は「いいんかい？」って迷うもんやのうて、「委員会」でちゃんと決めるもんや！</div><div class="gag-sub">※「委員会」と「いいんかい？」をかけています。感染症対策委員会はおおむね6か月に1回以上開催し、結果を職員へ周知します。</div></div>
+  <div class="shiin">シーーーン</div>
+  </div>
+  <div class="highlight-box law"><div class="box-title">📘 事業所に求められる4点セット</div><div class="box-content">①感染症対策委員会の開催（おおむね6か月に1回以上。テレビ会議でも可、他の会議と一体的な開催も可）②感染症の予防およびまん延の防止のための指針の整備 ③研修の実施（訪問系サービスは年1回以上）④訓練（シミュレーション）の実施（訪問系サービスは年1回以上）。</div></div>
+  <div class="highlight-box important"><div class="box-title">📘 訪問先で「感染症かも」と思ったら</div><div class="box-content">①利用者さんの安全を確保し、ひとりで判断しない ②サービス提供責任者・管理者へすぐ連絡する ③次の訪問先への影響は事業所が判断する ④症状・時間・行った対応を、記録に具体的に残す。「たぶん大丈夫」と自己判断で流さないことが、まん延防止の分かれ目です。</div></div>
+  <ul class="point-list">
+    <li>訪問かばんの中身は最小限に。床に直置きせず、玄関先で使う物だけ出す</li>
+    <li>使い捨て手袋・マスク・エプロン・アルコール・ビニール袋は、切らす前に補充</li>
+    <li>自分の体調（発熱・下痢・嘔吐）は出勤前にチェックし、あれば必ず事業所へ報告</li>
+    <li>同居家族に感染症が出たときも報告の対象</li>
+    <li>利用者さんの「いつもと違う」は、その日のうちに申し送る</li>
+  </ul>
+  <div class="scenario"><div class="scenario-title">📖 こんな場面を想像してみよう</div><p>朝、あなたは軽い下痢と微熱。今日は3件の訪問予定。連絡すれば代わりを探すのは大変だろう…と考えて、黙って出勤した。—— その日の午後、3件すべての利用者さんが同じ症状を訴えることになるかもしれません。</p></div>
+  <div class="manga-panel">
+  <div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji"><div class="speech-name">ダジャレ所長</div>休む勇気も、りっぱな感染対策や。ひとりで抱えんと、まず電話してや。</div></div>
+  </div>
+</div>
+<div class="page" id="page6">
+  <div class="page-header">
+    <div class="page-chapter">確認テスト</div>
+    <div class="page-title">確認テスト＆まとめ</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q1 / 10: 標準予防策の考え方として正しいものはどれ？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">感染症の診断がついている人にだけ、手袋やマスクを使う</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">すべての人の血液・体液・排泄物などを、感染の可能性があるものとして扱う</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">症状が出ていない利用者さんには、手指衛生を省略してよい</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">ご家族から「大丈夫」と言われたら、防護具は不要</button>
+    </div>
+    <div class="quiz-feedback">標準予防策は、相手の病名や症状の有無にかかわらず、すべての血液・体液・分泌物・排泄物・傷のある皮膚・粘膜を「感染の可能性がある」とみなして対応する考え方です。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q2 / 10: 防護具を外す順番として正しいのはどれ？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">マスク → エプロン → 手袋</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">手袋 → 手指衛生 → エプロン（ガウン）→ マスク</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">エプロン → 手袋 → マスク</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">順番は決まっていないので、外しやすいものから</button>
+    </div>
+    <div class="quiz-feedback">もっとも汚染されている手袋を最初に外し、手指衛生をしてからエプロン（ガウン）、最後にマスクです。外し終わったら、もう一度手指衛生を行います。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q3 / 10: ノロウイルスの消毒について正しいのはどれ？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">アルコール消毒がもっとも効果的</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">次亜塩素酸ナトリウム（吐物などの汚染部は0.1％）を使う</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">水拭きだけで十分に不活化できる</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">石けんで手を洗うと逆効果になる</button>
+    </div>
+    <div class="quiz-feedback">ノロウイルスにはアルコールが効きにくいため、次亜塩素酸ナトリウム（汚染部0.1％＝1000ppm、通常の環境消毒0.02％＝200ppm）を使います。手指は流水と石けんで物理的に洗い流します。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q4 / 10: 嘔吐物の片づけ方として正しいのはどれ？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">掃除機で素早く吸い取る</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">内側から外側へ、勢いよく拭き広げる</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">外側から内側へ、静かに拭き取る</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">乾いてから、ほうきで掃き集める</button>
+    </div>
+    <div class="quiz-feedback">外側から内側へ、静かに拭き取ります。乾燥するとウイルスが空気中に舞い上がるため、乾く前に処理し、掃除機やほうきは使いません。換気も忘れずに行います。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q5 / 10: 「1ケア1手洗い」の考え方に合うのはどれ？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">同じ利用者さんのお宅にいる間は、1回の手洗いで十分</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">排泄介助のあと、調理に移る前に必ず手指衛生を行う</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">手袋をしていれば、外したあとの手洗いは不要</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">訪問の最初と最後だけ手を洗えばよい</button>
+    </div>
+    <div class="quiz-feedback">ケアの内容が変わるたびに手指衛生を行います。とくに排泄介助から調理・食事介助へ移るときは必須です。手袋を外したあとにも必ず手指衛生をします。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q6 / 10: 家事援助の調理で、食中毒予防として適切なのはどれ？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">作った料理は、鍋のまま常温で冷ましておく</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">生肉を切ったまな板で、続けて生野菜を切る</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">中心部までしっかり加熱し、余った分は小分けにして早く冷まし冷蔵する</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">消費期限は目安なので、少し過ぎていても使ってよい</button>
+    </div>
+    <div class="quiz-feedback">食中毒予防の三原則は「つけない（清潔・器具の使い分け）」「増やさない（低温保存・早く冷ます）」「やっつける（十分な加熱）」です。期限切れの食材は使いません。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q7 / 10: 訪問先での使い捨て手袋の扱いとして正しいのはどれ？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">汚れていなければ、次の利用者さん宅でも続けて使う</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">1回のケアごとに交換し、外したらすぐ廃棄して手指衛生を行う</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">手袋をしていれば、そのままスマホや玄関ドアを触ってよい</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">洗って乾かせば再利用できる</button>
+    </div>
+    <div class="quiz-feedback">使い捨て手袋は1回きりです。使い回しは汚れを別の場所へ運ぶことになります。外したあとは必ず手指衛生を行いましょう。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q8 / 10: 障害福祉サービスの運営基準で、感染症対策として事業所に義務づけられているものはどれ？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, true)">委員会の開催、指針の整備、研修の実施、訓練の実施</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">職員全員の抗体検査</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">利用者全員の毎日の検温記録を市町村へ提出すること</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">感染症専門医の常勤配置</button>
+    </div>
+    <div class="quiz-feedback">①感染症対策委員会の開催（おおむね6か月に1回以上）②指針の整備 ③研修の実施 ④訓練の実施 の4点セットが義務です。令和6年4月から完全義務化されています。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q9 / 10: 出勤前に38度の発熱と下痢がある。どうするのが適切？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">解熱剤を飲み、マスクをして訪問する</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">症状は黙っておき、いつもより丁寧に手を洗って訪問する</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">事業所へすぐ連絡し、指示を受ける</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">利用者さんに直接電話して、来てほしいかどうか決めてもらう</button>
+    </div>
+    <div class="quiz-feedback">体調不良は自己判断せず、まず事業所へ報告します。無理な出勤は利用者さんへの感染拡大に直結します。代わりの調整は事業所の役割です。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q10 / 10: 訪問先で、利用者さんに嘔吐と下痢の症状が出ていた。まず取るべき行動は？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">その場で市販の下痢止めを飲んでもらう</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">利用者さんの安全を確保したうえで、サービス提供責任者・管理者へ連絡する</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">記録には残さず、次回の訪問で様子を見る</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">他の職員に口頭で伝えるだけにする</button>
+    </div>
+    <div class="quiz-feedback">薬の判断は医療職の役割です。まず安全を確保し、速やかに事業所へ報告します。症状・時間・行った対応を具体的に記録し、医療機関への相談や他の訪問先への対応は事業所が判断します。</div>
+  </div>
+  <ul class="point-list">
+    <li>標準予防策は「相手を選ばない」。すべての血液・体液・排泄物を感染の可能性ありとみなし、1ケア1手洗いを徹底する。</li>
+    <li>防護具は外す順番までがワンセット。手袋 → 手指衛生 → エプロン → マスク → 手指衛生。</li>
+    <li>ノロウイルスにアルコールは効きにくい。次亜塩素酸ナトリウム（汚染部0.1％）を使い、嘔吐物は外側から内側へ静かに拭き取る。</li>
+    <li>体調不良は隠さず即報告。事業所は委員会・指針・研修・訓練の4点セットが義務（令和6年4月から完全義務化）。</li>
+  </ul>
+  <div class="completion-message">おつかれさまでした！最後にお名前を入れて修了証を発行してください。</div>
+</div>
+
+<div class="nav-bar" id="navBar" style="display:none;">
+  <button class="nav-btn prev" id="prevBtn" onclick="prevPage()">◀ 前へ</button>
+  <span class="nav-page" id="pageNum">1 / 6</span>
+  <button class="nav-btn next" id="nextBtn" onclick="nextPage()">次へ ▶</button>
+</div>
+
+<script>
+let currentPage = 0;
+const totalPages = 6;
+
+function startTraining() {
+  document.getElementById('titleScreen').style.display = 'none';
+  document.getElementById('progressBar').style.display = 'block';
+  document.getElementById('navBar').style.display = 'flex';
+  currentPage = 1;
+  showPage(currentPage);
+}
+
+function showPage(n) {
+  document.querySelectorAll('.page').forEach(p => { p.classList.remove('active'); });
+  const page = document.getElementById('page' + n);
+  if (page) {
+    page.classList.add('active');
+    page.querySelectorAll('.manga-panel').forEach(p => {
+      p.style.animation = 'none';
+      p.offsetHeight;
+      p.style.animation = '';
+    });
+  }
+  document.getElementById('prevBtn').disabled = (n <= 1);
+  document.getElementById('nextBtn').textContent = (n >= totalPages) ? '🎉 完了！' : '次へ ▶';
+  document.getElementById('pageNum').textContent = n + ' / ' + totalPages;
+  document.getElementById('progressFill').style.width = ((n / totalPages) * 100) + '%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function nextPage() { if (currentPage < totalPages) { currentPage++; showPage(currentPage); } }
+function prevPage() { if (currentPage > 1) { currentPage--; showPage(currentPage); } }
+function goToPage(n) { currentPage = n; showPage(n); }
+
+function checkQuiz(btn, isCorrect) {
+  const quizBox = btn.closest('.quiz-box');
+  const options = quizBox.querySelectorAll('.quiz-option');
+  options.forEach(o => { o.disabled = true; o.style.pointerEvents = 'none'; });
+  if (isCorrect) {
+    btn.classList.add('correct');
+    const fb = quizBox.querySelector('.quiz-feedback');
+    if (fb) { fb.classList.add('show'); fb.style.background = '#E8F5E9'; }
+  } else {
+    btn.classList.add('wrong');
+    options.forEach(o => { if (o.getAttribute('onclick') && o.getAttribute('onclick').includes('true')) o.classList.add('correct'); });
+    const fb = quizBox.querySelector('.quiz-feedback');
+    if (fb) { fb.classList.add('show'); fb.style.background = '#FFEBEE'; }
+  }
+}
+
+// === 修了証書機能 ===
+const TRAINING_TITLE = "感染症・食中毒の予防とまん延防止（障害福祉・居宅介護）";
+
+function showCertSection() {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('navBar').style.display = 'none';
+  document.getElementById('progressBar').style.display = 'none';
+  const cs = document.getElementById('certSection');
+  cs.classList.add('show');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function generateCert() {
+  const nameInput = document.getElementById('certName');
+  const name = nameInput.value.trim();
+  if (!name) { nameInput.style.borderColor = '#E8594F'; nameInput.focus(); return; }
+  nameInput.style.borderColor = '#4CAF7D';
+
+  const today = new Date();
+  const dateStr = today.getFullYear() + '年' + (today.getMonth()+1) + '月' + today.getDate() + '日';
+
+  document.getElementById('certDisplayName').innerHTML = name + ' <span>殿</span>';
+  document.getElementById('certDisplayTheme').textContent = '上記の者は「' + "感染症・食中毒の予防とまん延防止" + '」研修（障害福祉・居宅介護）を修了したことを証します。';
+  document.getElementById('certDisplayDate').textContent = '修了日: ' + dateStr;
+
+  document.getElementById('certCard').classList.add('show');
+  document.getElementById('certActions').style.display = 'flex';
+
+  // メールリンク生成（宛先は ../scripts/cert-config.js で一元管理）
+  const mailCfg = window.CERT_MAIL_CONFIG || { to: 'rina@kaigo-yoki.jp', cc: 'info@kaigo-yoki.jp', honorific: '施設長 様' };
+  const subject = encodeURIComponent('【研修修了報告】' + TRAINING_TITLE + ' - ' + name);
+  const body = encodeURIComponent(
+    mailCfg.honorific + '\n\n' +
+    '研修修了のご報告をいたします。\n\n' +
+    '受講者名: ' + name + '\n' +
+    '研修テーマ: ' + TRAINING_TITLE + '\n' +
+    '修了日: ' + dateStr + '\n\n' +
+    '以上、ご確認をお願いいたします。'
+  );
+  document.getElementById('certMailBtn').href = 'mailto:' + mailCfg.to + '?cc=' + mailCfg.cc + '&subject=' + subject + '&body=' + body;
+}
+
+// 最終ページで「完了！」→ 修了証セクション
+const _origNextPage = nextPage;
+nextPage = function() {
+  if (currentPage >= totalPages) { showCertSection(); }
+  else { _origNextPage(); }
+};
+</script>
+
+<!-- 修了証書セクション -->
+<div class="cert-section" id="certSection">
+  <div style="font-size:64px;margin-bottom:12px;">🎓</div>
+  <h2 style="font-size:24px;font-weight:900;color:var(--primary,#2D5A8E);margin-bottom:8px;">研修完了おめでとうございます！</h2>
+  <p style="font-size:14px;color:#666;margin-bottom:24px;">修了証書を発行します。お名前を入力してください。<br><small>※ 職員名簿と同じ表記でご入力ください</small></p>
+  <div class="cert-name-input">
+    <label for="certName">受講者名</label>
+    <input type="text" id="certName" placeholder="例: 山田 太郎" autocomplete="name">
+  </div>
+  <button class="cert-generate-btn" id="certGenBtn" onclick="generateCert()">📜 修了証書を発行する</button>
+
+  <div class="cert-card" id="certCard">
+    <div class="cert-card-badge">修 了 証 書</div>
+    <div class="cert-card-title">研修修了証</div>
+    <div class="cert-card-name" id="certDisplayName"></div>
+    <div class="cert-card-theme" id="certDisplayTheme"></div>
+    <div class="cert-card-date" id="certDisplayDate"></div>
+    <div class="cert-card-org">
+      有限会社 陽気<br>訪問介護 ようき（障害福祉・居宅介護）
+      <small>沖縄県南城市佐敷津波古1354-1</small>
+    </div>
+    <div class="cert-card-seal">修了<br>認定</div>
+  </div>
+
+  <div class="cert-actions" id="certActions" style="display:none;">
+    <a class="cert-mail-btn" id="certMailBtn" href="#">✉️ 修了報告メールを送信</a>
+    <a class="cert-back-btn" href="../kenshu-shougai.html">📚 研修一覧へ戻る</a>
+    <a class="cert-back-btn" href="../">🏠 トップページ</a>
+  </div>
+</div>
+<script src="../scripts/cert-config.js"></script>
+<script src="../scripts/read-aloud.js"></script>
+</body>
+</html>

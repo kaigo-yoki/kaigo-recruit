@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>障害福祉 身体拘束等の適正化 研修 〜 しばらないケアが、あたりまえに 〜 | 訪問介護ようき</title>
+<meta name="description" content="障害福祉サービス（居宅介護）の身体拘束等の適正化研修。訪問介護ようき（有限会社 陽気）の法定研修コンテンツ。">
+<link rel="canonical" href="https://kaigo-yoki.jp/recruit/shougai-trainings/kousoku">
+<link rel="icon" type="image/png" href="../favicon.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Kosugi+Maru&display=swap');
+
+:root {
+  --primary: #2D5A8E;
+  --primary-light: #4A8FD4;
+  --accent: #E8594F;
+  --warm: #F9A826;
+  --green: #4CAF7D;
+  --bg: #FFF8F0;
+  --panel-bg: #FFFFFF;
+  --text: #2C2C2C;
+  --text-light: #666666;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Zen Maru Gothic', 'Kosugi Maru', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+.title-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #FF6B35 0%, #F7C948 50%, #FFE066 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.title-screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.08'%3E%3Ctext x='10' y='45' font-size='30'%3E😂%3C/text%3E%3C/g%3E%3C/svg%3E");
+}
+
+.title-badge {
+  background: var(--accent);
+  color: white;
+  padding: 8px 28px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+  animation: bounceIn 0.8s ease;
+}
+
+.title-main {
+  font-size: clamp(26px, 6vw, 48px);
+  font-weight: 900;
+  color: white;
+  text-align: center;
+  line-height: 1.4;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 1s ease 0.3s both;
+  text-shadow: 0 3px 12px rgba(0,0,0,0.2);
+}
+
+.title-sub {
+  font-size: clamp(14px, 3vw, 20px);
+  color: rgba(255,255,255,0.95);
+  margin-top: 16px;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 1s ease 0.6s both;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.title-characters {
+  display: flex;
+  gap: 30px;
+  margin-top: 30px;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 1s ease 0.9s both;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.title-char { text-align: center; }
+
+.title-char-icon {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 44px;
+  margin-bottom: 8px;
+  border: 4px solid rgba(255,255,255,0.6);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.title-char-name {
+  color: white;
+  font-weight: 700;
+  font-size: 13px;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+.start-btn {
+  margin-top: 36px;
+  padding: 16px 48px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 20px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 1s ease 1.2s both, pulse 2s ease-in-out 2.5s infinite;
+  box-shadow: 0 4px 20px rgba(45,90,142,0.4);
+  transition: transform 0.2s;
+}
+.start-btn:hover { transform: scale(1.05); }
+
+.progress-bar {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 5px; background: rgba(0,0,0,0.1); z-index: 100;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #FF6B35, #F7C948);
+  transition: width 0.5s ease;
+  border-radius: 0 3px 3px 0;
+}
+
+.page {
+  display: none; min-height: 100vh; padding: 24px 16px 100px;
+  max-width: 800px; margin: 0 auto; animation: fadeIn 0.6s ease;
+}
+.page.active { display: block; }
+
+.page-header { text-align: center; margin: 20px 0 30px; }
+.page-chapter {
+  display: inline-block; background: var(--primary); color: white;
+  padding: 4px 16px; border-radius: 20px; font-size: 12px;
+  font-weight: 700; letter-spacing: 1px; margin-bottom: 8px;
+}
+.page-title {
+  font-size: clamp(22px, 5vw, 32px); font-weight: 900;
+  color: var(--primary); line-height: 1.3;
+}
+
+.manga-panel {
+  background: var(--panel-bg); border-radius: 16px; padding: 24px;
+  margin-bottom: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  border: 2px solid #EEE; opacity: 0; transform: translateY(20px);
+  animation: panelIn 0.5s ease forwards;
+}
+.manga-panel:nth-child(2) { animation-delay: 0.15s; }
+.manga-panel:nth-child(3) { animation-delay: 0.3s; }
+.manga-panel:nth-child(4) { animation-delay: 0.45s; }
+.manga-panel:nth-child(5) { animation-delay: 0.6s; }
+.manga-panel:nth-child(6) { animation-delay: 0.75s; }
+
+.speech { display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start; }
+.speech.right { flex-direction: row-reverse; }
+
+.speech-avatar {
+  width: 56px; height: 56px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; flex-shrink: 0; border: 3px solid;
+}
+.speech-avatar.oyaji { background: #FFF3E0; border-color: #FF8F00; }
+.speech-avatar.student { background: #E3F2FD; border-color: var(--primary-light); }
+.speech-avatar.tsukkomi { background: #F3E5F5; border-color: #AB47BC; }
+
+.speech-bubble {
+  padding: 14px 18px; border-radius: 16px; font-size: 15px;
+  line-height: 1.7; max-width: 85%; position: relative;
+}
+
+.bubble-oyaji { background: #FFF3E0; border: 2px solid #FFE0B2; border-radius: 16px 16px 16px 4px; }
+.bubble-student { background: #E3F2FD; border: 2px solid #BBDEFB; border-radius: 16px 16px 4px 16px; }
+.bubble-tsukkomi { background: #F3E5F5; border: 2px solid #E1BEE7; border-radius: 16px 16px 4px 16px; }
+
+.speech-name { font-size: 11px; font-weight: 700; color: var(--text-light); margin-bottom: 4px; }
+
+.oyaji-gag {
+  background: linear-gradient(135deg, #FFF9C4, #FFF176);
+  border: 3px solid #FFD54F;
+  border-radius: 16px;
+  padding: 16px 20px;
+  margin: 14px 0;
+  text-align: center;
+  position: relative;
+  animation: gagPop 0.5s ease;
+}
+
+.oyaji-gag::before {
+  content: '\1F4A5';
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 28px;
+}
+
+.gag-text {
+  font-size: 20px;
+  font-weight: 900;
+  color: #E65100;
+  letter-spacing: 2px;
+}
+
+.gag-sub {
+  font-size: 12px;
+  color: #BF360C;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+.tsukkomi-text {
+  font-size: 14px;
+  font-weight: 900;
+  color: #7B1FA2;
+  text-align: center;
+  margin: 4px 0 10px;
+  letter-spacing: 1px;
+}
+
+.shiin {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 900;
+  color: #90A4AE;
+  letter-spacing: 12px;
+  margin: 8px 0;
+  animation: shiinFade 1.5s ease;
+}
+
+.highlight-box { border-radius: 12px; padding: 20px; margin: 16px 0; }
+.highlight-box.law { background: linear-gradient(135deg, #E8EAF6, #C5CAE9); border-left: 5px solid #3F51B5; }
+.highlight-box.important { background: linear-gradient(135deg, #FFF3E0, #FFE0B2); border-left: 5px solid var(--warm); }
+.highlight-box.danger { background: linear-gradient(135deg, #FFEBEE, #FFCDD2); border-left: 5px solid var(--accent); }
+.highlight-box.good { background: linear-gradient(135deg, #E8F5E9, #C8E6C9); border-left: 5px solid var(--green); }
+.highlight-box .box-title { font-weight: 900; font-size: 15px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+.highlight-box .box-content { font-size: 14px; line-height: 1.8; }
+
+.scenario { background: #F5F5F5; border-radius: 12px; padding: 20px; margin: 16px 0; border: 2px dashed #CCC; }
+.scenario-title { font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 10px; }
+
+.quiz-box { background: white; border: 3px solid var(--primary); border-radius: 16px; padding: 24px; margin: 20px 0; }
+.quiz-question { font-size: 16px; font-weight: 700; margin-bottom: 16px; color: var(--primary); }
+.quiz-options { display: flex; flex-direction: column; gap: 10px; }
+.quiz-option {
+  padding: 14px 18px; background: #F5F5F5; border: 2px solid #DDD;
+  border-radius: 12px; cursor: pointer; font-size: 14px; font-family: inherit;
+  text-align: left; transition: all 0.3s; line-height: 1.5;
+}
+.quiz-option:hover { border-color: var(--primary-light); background: #E3F2FD; }
+.quiz-option.correct { background: #E8F5E9; border-color: var(--green); }
+.quiz-option.wrong { background: #FFEBEE; border-color: var(--accent); }
+.quiz-feedback { margin-top: 14px; padding: 14px; border-radius: 10px; font-size: 14px; line-height: 1.7; display: none; }
+.quiz-feedback.show { display: block; }
+
+.point-list { list-style: none; padding: 0; }
+.point-list li {
+  padding: 10px 0 10px 36px; position: relative;
+  font-size: 15px; line-height: 1.6; border-bottom: 1px solid #EEE;
+}
+.point-list li::before {
+  content: '\2713'; position: absolute; left: 0;
+  width: 24px; height: 24px; background: var(--green);
+  color: white; border-radius: 50%; display: flex;
+  align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; top: 12px;
+}
+
+.nav-bar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: white; border-top: 2px solid #EEE;
+  padding: 12px 20px; display: flex; justify-content: space-between;
+  align-items: center; z-index: 50;
+}
+.nav-btn {
+  padding: 10px 24px; border: none; border-radius: 30px;
+  font-size: 15px; font-weight: 700; font-family: inherit;
+  cursor: pointer; transition: all 0.2s;
+}
+.nav-btn.prev { background: #EEE; color: var(--text); }
+.nav-btn.next { background: var(--primary); color: white; box-shadow: 0 2px 10px rgba(45,90,142,0.3); }
+.nav-btn:hover { transform: translateY(-2px); }
+.nav-btn:disabled { opacity: 0.3; cursor: default; transform: none; }
+.nav-page { font-size: 13px; color: var(--text-light); font-weight: 700; }
+
+.toc { display: grid; gap: 12px; margin-top: 20px; }
+.toc-item {
+  display: flex; align-items: center; gap: 14px; padding: 16px;
+  background: white; border-radius: 12px; border: 2px solid #EEE;
+  cursor: pointer; transition: all 0.3s;
+}
+.toc-item:hover { border-color: var(--primary-light); transform: translateX(4px); }
+.toc-num {
+  width: 36px; height: 36px; border-radius: 50%; background: var(--primary);
+  color: white; display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 16px; flex-shrink: 0;
+}
+.toc-text { font-size: 15px; font-weight: 700; }
+
+.ending { text-align: center; padding: 40px 20px; }
+.ending-icon { font-size: 80px; margin-bottom: 16px; }
+.ending-title { font-size: 28px; font-weight: 900; color: var(--primary); margin-bottom: 12px; }
+.ending-msg { font-size: 16px; color: var(--text-light); line-height: 1.8; }
+
+.certificate {
+  background: linear-gradient(135deg, #FFF8E1, #FFECB3);
+  border: 3px solid var(--warm); border-radius: 16px;
+  padding: 30px; margin: 30px auto; max-width: 500px;
+}
+.certificate-title { font-size: 22px; font-weight: 900; color: var(--warm); }
+.certificate-body { font-size: 14px; margin-top: 12px; line-height: 1.8; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes bounceIn { 0% { transform: scale(0); } 60% { transform: scale(1.1); } 100% { transform: scale(1); } }
+@keyframes panelIn { to { opacity: 1; transform: translateY(0); } }
+@keyframes pulse { 0%, 100% { box-shadow: 0 4px 20px rgba(45,90,142,0.4); } 50% { box-shadow: 0 4px 30px rgba(45,90,142,0.7); } }
+@keyframes gagPop { 0% { transform: scale(0.5) rotate(-5deg); opacity: 0; } 50% { transform: scale(1.1) rotate(2deg); } 100% { transform: scale(1) rotate(0); } }
+@keyframes shiinFade { 0% { opacity: 0; letter-spacing: 2px; } 100% { opacity: 1; letter-spacing: 12px; } }
+
+@media (max-width: 600px) {
+  .speech-avatar { width: 44px; height: 44px; font-size: 22px; }
+  .speech-bubble { font-size: 13px; }
+  .gag-text { font-size: 17px; }
+}
+
+.cert-section{display:none;text-align:center;padding:30px 20px;max-width:600px;margin:0 auto;}
+.cert-section.show{display:block;animation:fadeUp .6s ease;}
+.cert-name-input{margin-bottom:24px;}
+.cert-name-input label{display:block;font-size:14px;font-weight:700;color:var(--text,#2C2C2C);margin-bottom:8px;}
+.cert-name-input input{width:100%;max-width:320px;padding:14px 20px;border:3px solid #DDD;border-radius:14px;font-size:16px;font-family:inherit;font-weight:700;text-align:center;outline:none;transition:border-color .3s;}
+.cert-name-input input:focus{border-color:var(--warm,#F9A826);}
+.cert-generate-btn{display:inline-block;padding:14px 40px;background:linear-gradient(135deg,#F9A826,#FF8F00);color:#fff;border:none;border-radius:50px;font-size:16px;font-weight:800;font-family:inherit;cursor:pointer;box-shadow:0 4px 16px rgba(249,168,38,.3);transition:all .3s;margin-bottom:16px;}
+.cert-generate-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(249,168,38,.4);}
+.cert-generate-btn:disabled{opacity:.4;cursor:default;transform:none;}
+.cert-card{display:none;background:linear-gradient(135deg,#FFFDF0,#FFF8E1);border:4px double #D4A017;border-radius:20px;padding:40px 30px;margin:24px auto;max-width:520px;position:relative;overflow:hidden;box-shadow:0 8px 32px rgba(212,160,23,.15);}
+.cert-card.show{display:block;animation:fadeUp .6s ease;}
+.cert-card::before{content:'';position:absolute;inset:8px;border:2px solid rgba(212,160,23,.25);border-radius:14px;pointer-events:none;}
+.cert-card-badge{display:inline-block;background:linear-gradient(135deg,#D4A017,#F5D060);color:#fff;padding:6px 24px;border-radius:30px;font-size:12px;font-weight:800;letter-spacing:3px;margin-bottom:16px;}
+.cert-card-title{font-size:28px;font-weight:900;color:#D4A017;margin-bottom:8px;letter-spacing:2px;}
+.cert-card-name{font-size:24px;font-weight:900;color:#1A1A2E;margin:20px 0 8px;padding:8px 0;border-bottom:2px solid rgba(212,160,23,.3);}
+.cert-card-name span{font-size:14px;font-weight:500;color:#666;}
+.cert-card-theme{font-size:15px;font-weight:700;color:#4A4A68;margin:12px 0;line-height:1.6;}
+.cert-card-date{font-size:13px;color:#888;margin-top:16px;}
+.cert-card-org{margin-top:20px;font-size:14px;font-weight:700;color:#1A1A2E;}
+.cert-card-org small{display:block;font-size:11px;font-weight:400;color:#888;margin-top:2px;}
+.cert-card-seal{position:absolute;bottom:20px;right:20px;width:60px;height:60px;border-radius:50%;border:3px solid #D4A017;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#D4A017;line-height:1.2;text-align:center;}
+.cert-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px;}
+.cert-mail-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;background:linear-gradient(135deg,#4CAF7D,#43A047);color:#fff;border:none;border-radius:50px;font-size:14px;font-weight:800;font-family:inherit;cursor:pointer;box-shadow:0 4px 16px rgba(76,175,125,.3);transition:all .3s;text-decoration:none;}
+.cert-mail-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(76,175,125,.4);}
+.cert-back-btn{display:inline-flex;align-items:center;gap:6px;padding:12px 24px;background:none;border:2px solid #DDD;border-radius:50px;font-size:13px;font-weight:700;color:#666;cursor:pointer;font-family:inherit;transition:all .3s;text-decoration:none;}
+.cert-back-btn:hover{border-color:#999;color:#333;}
+
+</style>
+</head>
+<body>
+
+<!-- TITLE -->
+<div class="title-screen" id="titleScreen">
+  <div class="title-badge">障害福祉（居宅介護） 法定研修</div>
+  <div class="title-main">笑って学ぼう！💥<br>身体拘束等の適正化</div>
+  <div class="title-sub">〜 しばらないケアが、あたりまえに 〜<br>※ ギャグのクオリティは保証しません</div>
+  <div class="title-characters">
+    <div class="title-char">
+      <div class="title-char-icon" style="background:#FFF3E0;">🧔</div>
+      <div class="title-char-name">ダジャレ所長<br>（おやじ先生）</div>
+    </div>
+    <div class="title-char">
+      <div class="title-char-icon" style="background:#E3F2FD;">👩</div>
+      <div class="title-char-name">新人ヘルパー<br>さくらさん</div>
+    </div>
+    <div class="title-char">
+      <div class="title-char-icon" style="background:#F3E5F5;">👩‍🦰</div>
+      <div class="title-char-name">ツッコミ担当<br>先輩みさきさん</div>
+    </div>
+  </div>
+  <button class="start-btn" onclick="startTraining()">▶ 研修をはじめる</button>
+</div>
+
+<div class="progress-bar" id="progressBar" style="display:none;"><div class="progress-fill" id="progressFill"></div></div>
+
+<div class="page" id="page1">
+  <div class="page-header">
+    <div class="page-chapter">はじめに</div>
+    <div class="page-title">今日の研修メニュー 📋</div>
+  </div>
+  <div class="manga-panel">
+  <div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji"><div class="speech-name">ダジャレ所長</div>今日のテーマは「身体拘束等の適正化」！障害福祉サービス（居宅介護）で働くみんなに必要な法定研修だよ。</div></div>
+  <div class="speech right"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student"><div class="speech-name">さくら</div>よろしくお願いします！しっかり覚えます。</div></div>
+  <div class="speech right"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi"><div class="speech-name">みさき先輩</div>所長のダジャレは聞き流していいけど、中身は大事だからね。</div></div>
+  </div>
+  <div class="highlight-box important"><div class="box-title">📘 研修の目標</div><div class="box-content">身体拘束は原則禁止であり、例外は「切迫性・非代替性・一時性」の3要件をすべて満たす緊急やむを得ない場合に限られることを理解します。記録義務や組織的判断の手順、スピーチロック・ドラッグロックにも気づける目を養います。</div></div>
+  <div class="toc">
+    <button class="toc-item" onclick="goToPage(2)"><span class="toc-num">1</span><span class="toc-text">第1章: 身体拘束って、そもそも何？</span></button>
+    <button class="toc-item" onclick="goToPage(3)"><span class="toc-num">2</span><span class="toc-text">第2章: 例外が認められる3つの要件</span></button>
+    <button class="toc-item" onclick="goToPage(4)"><span class="toc-num">3</span><span class="toc-text">第3章: やむを得ないときこそ、記録と説明</span></button>
+    <button class="toc-item" onclick="goToPage(5)"><span class="toc-num">4</span><span class="toc-text">第4章: 見えない拘束 — スピーチロックとドラッグロック</span></button>
+    <button class="toc-item" onclick="goToPage(6)"><span class="toc-num">5</span><span class="toc-text">確認テスト＆まとめ</span></button>
+  </div>
+</div>
+<div class="page" id="page2">
+  <div class="page-header">
+    <div class="page-chapter">第1章</div>
+    <div class="page-title">身体拘束って、そもそも何？</div>
+  </div>
+  <div class="manga-panel">
+  <div class="speech right"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student"><div class="speech-name">さくら</div>所長、身体拘束ってひもで縛ることですよね。私たち居宅介護のヘルパーには、あんまり関係ない気がします。</div></div>
+  <div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji"><div class="speech-name">ダジャレ所長</div>ところがどっこい。身体拘束は『ひも』だけじゃない。本人の行動を制限するものは、ぜんぶ拘束になり得るんだ。</div></div>
+  <div class="oyaji-gag"><div class="gag-text">身体「拘束（こうそく）」は、高速じゃないよ。急いで判断したらダメ。むしろ徐行運転でいこう！</div><div class="gag-sub">※「拘束」と「高速」をかけています</div></div>
+  <div class="shiin">シーーーン</div>
+  <div class="tsukkomi-text">所長、朝いちばんでそれはキツいです。</div>
+  </div>
+  <div class="highlight-box law"><div class="box-title">📘 法令根拠</div><div class="box-content">指定障害福祉サービスの運営基準により、身体拘束等は原則として禁止されています。行えるのは「利用者又は他の利用者等の生命又は身体を保護するため緊急やむを得ない場合」に限られます。</div></div>
+  <ul class="point-list">
+    <li>ベッド柵で四方を囲み、自分で降りられなくする</li>
+    <li>車いすやベッドに体幹・手足をひもやベルトで固定する</li>
+    <li>つなぎ服やミトン型手袋で、自分で脱いだり触ったりできなくする</li>
+    <li>居室や玄関の鍵をかけて、自由に出られなくする</li>
+    <li>向精神薬などを過剰に使って、動きを抑える</li>
+  </ul>
+  <div class="manga-panel">
+  <div class="speech right"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi"><div class="speech-name">みさき先輩</div>居宅介護でもね、ご家族が『危ないから』ってベッド柵で囲んでいたり、玄関に鍵をかけていたりすることがあるの。それを見つけるのも私たちの役目よ。</div></div>
+  </div>
+  <div class="highlight-box important"><div class="box-title">📘 押さえるポイント</div><div class="box-content">「本人のため」「危ないから」「家族が希望したから」——どれも身体拘束を正当化する理由にはなりません。原則は禁止、が出発点です。</div></div>
+</div>
+<div class="page" id="page3">
+  <div class="page-header">
+    <div class="page-chapter">第2章</div>
+    <div class="page-title">例外が認められる3つの要件</div>
+  </div>
+  <div class="manga-panel">
+  <div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji"><div class="speech-name">ダジャレ所長</div>じゃあ絶対にダメなのかというと、本当に命に関わる緊急時だけ例外がある。その条件が『3要件』だ。</div></div>
+  </div>
+  <ul class="point-list">
+    <li>切迫性 … 本人や他の人の生命・身体が危険にさらされる可能性が著しく高い</li>
+    <li>非代替性 … 身体拘束以外に代わる方法がない</li>
+    <li>一時性 … 身体拘束は一時的なものである（必要最小限の時間）</li>
+  </ul>
+  <div class="manga-panel">
+  <div class="speech right"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi"><div class="speech-name">みさき先輩</div>ここ、いちばん間違えやすいところ。3つのうち1つ満たせばOK…じゃないの。3つ『ぜんぶ』満たさないとダメ。</div></div>
+  <div class="oyaji-gag"><div class="gag-text">切迫性・非代替性・一時性。ひとつでも欠けたら「三要件」じゃなくて「残念けん」！</div><div class="gag-sub">※「三要件（さんようけん）」と「残念（ざんねん）」をかけています</div></div>
+  <div class="shiin">シーーーン</div>
+  <div class="tsukkomi-text">所長、そこは笑うところですか？…はい、シーンとしましたね。</div>
+  </div>
+  <div class="highlight-box danger"><div class="box-title">⚠️ こんな理由はNG</div><div class="box-content">「転んだら困るから」「夜、外に出ようとするから」「爪を掻きむしるから」「職員の手が足りないから」——これらは切迫性・非代替性を満たしません。人手不足は絶対に理由になりません。</div></div>
+  <div class="scenario"><div class="scenario-title">📖 こんな場面を想像してみよう</div><p>訪問すると、利用者さんが車いすに腰ベルトで固定されていた。ご家族は「転ぶと危ないから、日中はずっとこうしてるんです」と言う。——「ずっと」の時点で一時性を満たしていません。</p></div>
+  <div class="highlight-box good"><div class="box-title">👍 正しい対応</div><div class="box-content">その場でご家族を責めず、事実を記録してサービス提供責任者へ報告。事業所として、なぜ拘束が必要と感じているのかを聞き取り、代わりの方法（環境調整、見守りの工夫、福祉用具など）を一緒に考えます。</div></div>
+</div>
+<div class="page" id="page4">
+  <div class="page-header">
+    <div class="page-chapter">第3章</div>
+    <div class="page-title">やむを得ないときこそ、記録と説明</div>
+  </div>
+  <div class="manga-panel">
+  <div class="speech right"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student"><div class="speech-name">さくら</div>本当にやむを得ないときは、その場で私が判断してもいいんですか？</div></div>
+  <div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji"><div class="speech-name">ダジャレ所長</div>いや、そこが肝心。ひとりで決めちゃいけない。組織で判断して、本人とご家族に説明して、そして必ず記録を残す。この3点セットだ。</div></div>
+  <div class="oyaji-gag"><div class="gag-text">記録は「きろく」だけに…キッチリ・ロクに書こう！書かなかったら、やったことにならないよ！</div><div class="gag-sub">※「記録」と「ロクに（ちゃんと）」をかけています</div></div>
+  <div class="shiin">シーーーン</div>
+  <div class="tsukkomi-text">所長、無理やりすぎます。でも「書かなきゃやってないのと同じ」は本当です。</div>
+  </div>
+  <div class="highlight-box law"><div class="box-title">📘 法令根拠：記録義務</div><div class="box-content">緊急やむを得ず身体拘束等を行う場合は、その①態様（どんな方法か）②時間（いつから、いつまで）③その際の利用者の心身の状況 ④緊急やむを得ない理由 を記録しなければなりません。この記録は必ず保存します。</div></div>
+  <div class="highlight-box important"><div class="box-title">📘 押さえるポイント：組織的判断</div><div class="box-content">身体拘束を行うかどうかは、その場のヘルパー1人の判断ではなく、事業所として（サービス提供責任者・管理者を含むチームで）判断します。そのうえで本人・ご家族へ内容と理由を説明し、同意を得る手続きが必要です。</div></div>
+  <div class="scenario"><div class="scenario-title">📖 こんな場面を想像してみよう</div><p>「あのとき本当に必要だったんです」と後から説明しても、記録がなければ証明できません。逆に、きちんと4項目が記録されていれば、事業所も職員も守られます。</p></div>
+  <div class="manga-panel">
+  <div class="speech right"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi"><div class="speech-name">みさき先輩</div>それに記録があると、『次はどうすれば拘束せずに済むか』の話し合いができるの。記録は反省文じゃなくて、次への材料なのよ。</div></div>
+  </div>
+</div>
+<div class="page" id="page5">
+  <div class="page-header">
+    <div class="page-chapter">第4章</div>
+    <div class="page-title">見えない拘束 — スピーチロックとドラッグロック</div>
+  </div>
+  <div class="manga-panel">
+  <div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji"><div class="speech-name">ダジャレ所長</div>ここからが、じつは居宅介護でいちばん身近な話。道具を使わない拘束、っていうのがあるんだよ。</div></div>
+  </div>
+  <ul class="point-list">
+    <li>フィジカルロック … ひも・ベルト・柵など、物理的に体を縛る</li>
+    <li>スピーチロック … 「動かないで！」「ちょっと待ってて！」など、言葉で行動を止める</li>
+    <li>ドラッグロック … 薬（向精神薬など）を必要以上に使い、動きや行動を抑える</li>
+  </ul>
+  <div class="manga-panel">
+  <div class="oyaji-gag"><div class="gag-text">言葉のカギは、かけちゃダメ。カギだけに…声は「かけて」、拘束は「かけない」！</div><div class="gag-sub">※「鍵をかける」と「声をかける」をかけています</div></div>
+  <div class="shiin">シーーーン</div>
+  <div class="tsukkomi-text">所長、今回はちょっとうまいです。ちょっとだけ。</div>
+  <div class="speech right"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student"><div class="speech-name">さくら</div>『ちょっと待ってて』…私、毎回言ってます。あれもダメなんですか？</div></div>
+  <div class="speech right"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi"><div class="speech-name">みさき先輩</div>全部ダメじゃないの。問題は『理由も見通しもなく、行動を止めるだけ』の言い方。『5分待ってもらえますか、そのあと一緒に行きましょう』なら、ちゃんと支援よ。</div></div>
+  </div>
+  <div class="highlight-box good"><div class="box-title">👍 言いかえてみよう</div><div class="box-content">「動かないで！」→「危ないので、いっしょに行きましょうか」／「ちょっと待って！」→「あと3分で終わります、そのあとすぐ伺いますね」／「立たないで！」→「どちらへ行かれますか？お手伝いします」</div></div>
+  <div class="highlight-box law"><div class="box-title">📘 法令根拠：事業所の義務と減算</div><div class="box-content">運営基準により、身体拘束等の適正化のための①検討委員会の定期開催と結果の周知 ②適正化のための指針の整備 ③職員への定期的な研修 が義務づけられています。これらを実施していない場合、身体拘束廃止未実施減算の対象となります。</div></div>
+  <div class="scenario"><div class="scenario-title">📖 こんな場面を想像してみよう</div><p>「うちは縛ってないから大丈夫」——本当にそうでしょうか。今日の訪問で、あなたが利用者さんに言った言葉を思い出してみてください。カギをかけていませんでしたか？</p></div>
+</div>
+<div class="page" id="page6">
+  <div class="page-header">
+    <div class="page-chapter">確認テスト</div>
+    <div class="page-title">確認テスト＆まとめ</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q1 / 10: 身体拘束が例外的に認められる「3要件」の正しい組み合わせは？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, true)">切迫性・非代替性・一時性</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">緊急性・経済性・継続性</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">安全性・効率性・同意性</button>
+    </div>
+    <div class="quiz-feedback">切迫性・非代替性・一時性の3つです。「緊急やむを得ない場合」とは、この3要件をすべて満たす場合を指します。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q2 / 10: 3要件の満たし方について、正しいのは？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">どれか1つを満たせばよい</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">3つすべてを満たす必要がある</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">2つ以上満たせばよい</button>
+    </div>
+    <div class="quiz-feedback">3つすべてを満たして初めて例外が認められます。1つでも欠ければ身体拘束はできません。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q3 / 10: 「非代替性」の意味として正しいのは？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, true)">身体拘束以外に、代わりとなる方法がないこと</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">拘束を別の職員が代わりに行うこと</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">拘束の道具を身近な物で代用すること</button>
+    </div>
+    <div class="quiz-feedback">他に手立てがないかを本気で検討したうえで、それでも方法がない場合が非代替性です。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q4 / 10: 「一時性」の意味として正しいのは？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">ご家族が一時的に同意していること</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">身体拘束が一時的なもの（必要最小限の時間）であること</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">1時間以内であること</button>
+    </div>
+    <div class="quiz-feedback">時間の上限が決まっているわけではなく、「必要最小限の時間にとどめる」という意味です。日常的・継続的な拘束は認められません。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q5 / 10: やむを得ず身体拘束を行った場合、記録が義務づけられている内容は？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, true)">態様・時間・その際の利用者の心身の状況・緊急やむを得ない理由</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">対応した職員の氏名と勤務時間だけ</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">ご家族の連絡先と続柄だけ</button>
+    </div>
+    <div class="quiz-feedback">この4項目の記録が義務です。記録がなければ「適正な手続きを踏んだ」と証明できません。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q6 / 10: 身体拘束を行うかどうかの判断について、適切なのは？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">訪問中のヘルパーが1人で判断してよい</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">組織（チーム）として判断し、本人・ご家族に説明して同意を得る</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">ご家族が希望すれば無条件で行ってよい</button>
+    </div>
+    <div class="quiz-feedback">身体拘束は必ず組織的に判断します。ご家族の希望だけを根拠に拘束することはできません。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q7 / 10: 「スピーチロック」にあたるのはどれ？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, true)">「動かないで！」「ちょっと待ってて！」と、理由も見通しも示さず行動を言葉で止める</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">「どちらがよろしいですか？」と選んでもらう</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">「いっしょに行きましょうか」と声をかける</button>
+    </div>
+    <div class="quiz-feedback">言葉による拘束をスピーチロックといいます。理由と見通しを添えた声かけに言いかえましょう。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q8 / 10: 「ドラッグロック」の説明として正しいのは？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, true)">薬を必要以上に使って、動きや行動を抑えること</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">利用者さんを引きずって移動させること</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">車いすのブレーキをかけること</button>
+    </div>
+    <div class="quiz-feedback">向精神薬などを過剰に使って行動を抑えることは、薬による身体拘束＝ドラッグロックです。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q9 / 10: 身体拘束にあたる行為はどれ？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, true)">ベッドを柵で囲み、自分で降りられないようにする</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">本人の希望で片側のみ柵を使い、自分で降りられる状態にしている</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">転倒予防のため、床の障害物を片づける</button>
+    </div>
+    <div class="quiz-feedback">自分で降りられない状態にすることが拘束です。環境整備や本人が使いたい手すり代わりの柵は拘束にあたりません。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q10 / 10: 身体拘束等の適正化について、事業所の義務と未実施の場合の扱いは？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, true)">委員会・指針・研修が義務で、未実施の場合は身体拘束廃止未実施減算の対象になる</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">特に義務はなく、報酬にも影響しない</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">研修さえ行っていれば、委員会と指針は不要</button>
+    </div>
+    <div class="quiz-feedback">適正化検討委員会の定期開催・指針の整備・定期的な研修の3つが義務です。未実施は減算につながります。</div>
+  </div>
+  <ul class="point-list">
+    <li>身体拘束は原則禁止。ひもやベルトだけでなく、柵で囲む・鍵をかける・つなぎ服なども身体拘束にあたります。</li>
+    <li>例外が認められるのは「切迫性・非代替性・一時性」の3要件をすべて満たす緊急やむを得ない場合だけ。1つでも欠ければ実施できません。</li>
+    <li>やむを得ず行うときは、態様・時間・利用者の心身の状況・緊急やむを得ない理由を必ず記録し、組織で判断して本人・ご家族に説明します。</li>
+    <li>「動かないで」などのスピーチロック、薬で抑えるドラッグロックも拘束。事業所には委員会・指針・研修が義務で、未実施は身体拘束廃止未実施減算の対象です。</li>
+  </ul>
+  <div class="completion-message">おつかれさまでした！最後にお名前を入れて修了証を発行してください。</div>
+</div>
+
+<div class="nav-bar" id="navBar" style="display:none;">
+  <button class="nav-btn prev" id="prevBtn" onclick="prevPage()">◀ 前へ</button>
+  <span class="nav-page" id="pageNum">1 / 6</span>
+  <button class="nav-btn next" id="nextBtn" onclick="nextPage()">次へ ▶</button>
+</div>
+
+<script>
+let currentPage = 0;
+const totalPages = 6;
+
+function startTraining() {
+  document.getElementById('titleScreen').style.display = 'none';
+  document.getElementById('progressBar').style.display = 'block';
+  document.getElementById('navBar').style.display = 'flex';
+  currentPage = 1;
+  showPage(currentPage);
+}
+
+function showPage(n) {
+  document.querySelectorAll('.page').forEach(p => { p.classList.remove('active'); });
+  const page = document.getElementById('page' + n);
+  if (page) {
+    page.classList.add('active');
+    page.querySelectorAll('.manga-panel').forEach(p => {
+      p.style.animation = 'none';
+      p.offsetHeight;
+      p.style.animation = '';
+    });
+  }
+  document.getElementById('prevBtn').disabled = (n <= 1);
+  document.getElementById('nextBtn').textContent = (n >= totalPages) ? '🎉 完了！' : '次へ ▶';
+  document.getElementById('pageNum').textContent = n + ' / ' + totalPages;
+  document.getElementById('progressFill').style.width = ((n / totalPages) * 100) + '%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function nextPage() { if (currentPage < totalPages) { currentPage++; showPage(currentPage); } }
+function prevPage() { if (currentPage > 1) { currentPage--; showPage(currentPage); } }
+function goToPage(n) { currentPage = n; showPage(n); }
+
+function checkQuiz(btn, isCorrect) {
+  const quizBox = btn.closest('.quiz-box');
+  const options = quizBox.querySelectorAll('.quiz-option');
+  options.forEach(o => { o.disabled = true; o.style.pointerEvents = 'none'; });
+  if (isCorrect) {
+    btn.classList.add('correct');
+    const fb = quizBox.querySelector('.quiz-feedback');
+    if (fb) { fb.classList.add('show'); fb.style.background = '#E8F5E9'; }
+  } else {
+    btn.classList.add('wrong');
+    options.forEach(o => { if (o.getAttribute('onclick') && o.getAttribute('onclick').includes('true')) o.classList.add('correct'); });
+    const fb = quizBox.querySelector('.quiz-feedback');
+    if (fb) { fb.classList.add('show'); fb.style.background = '#FFEBEE'; }
+  }
+}
+
+// === 修了証書機能 ===
+const TRAINING_TITLE = "身体拘束等の適正化（障害福祉・居宅介護）";
+
+function showCertSection() {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('navBar').style.display = 'none';
+  document.getElementById('progressBar').style.display = 'none';
+  const cs = document.getElementById('certSection');
+  cs.classList.add('show');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function generateCert() {
+  const nameInput = document.getElementById('certName');
+  const name = nameInput.value.trim();
+  if (!name) { nameInput.style.borderColor = '#E8594F'; nameInput.focus(); return; }
+  nameInput.style.borderColor = '#4CAF7D';
+
+  const today = new Date();
+  const dateStr = today.getFullYear() + '年' + (today.getMonth()+1) + '月' + today.getDate() + '日';
+
+  document.getElementById('certDisplayName').innerHTML = name + ' <span>殿</span>';
+  document.getElementById('certDisplayTheme').textContent = '上記の者は「' + "身体拘束等の適正化" + '」研修（障害福祉・居宅介護）を修了したことを証します。';
+  document.getElementById('certDisplayDate').textContent = '修了日: ' + dateStr;
+
+  document.getElementById('certCard').classList.add('show');
+  document.getElementById('certActions').style.display = 'flex';
+
+  // メールリンク生成（宛先は ../scripts/cert-config.js で一元管理）
+  const mailCfg = window.CERT_MAIL_CONFIG || { to: 'rina@kaigo-yoki.jp', cc: 'info@kaigo-yoki.jp', honorific: '施設長 様' };
+  const subject = encodeURIComponent('【研修修了報告】' + TRAINING_TITLE + ' - ' + name);
+  const body = encodeURIComponent(
+    mailCfg.honorific + '\n\n' +
+    '研修修了のご報告をいたします。\n\n' +
+    '受講者名: ' + name + '\n' +
+    '研修テーマ: ' + TRAINING_TITLE + '\n' +
+    '修了日: ' + dateStr + '\n\n' +
+    '以上、ご確認をお願いいたします。'
+  );
+  document.getElementById('certMailBtn').href = 'mailto:' + mailCfg.to + '?cc=' + mailCfg.cc + '&subject=' + subject + '&body=' + body;
+}
+
+// 最終ページで「完了！」→ 修了証セクション
+const _origNextPage = nextPage;
+nextPage = function() {
+  if (currentPage >= totalPages) { showCertSection(); }
+  else { _origNextPage(); }
+};
+</script>
+
+<!-- 修了証書セクション -->
+<div class="cert-section" id="certSection">
+  <div style="font-size:64px;margin-bottom:12px;">🎓</div>
+  <h2 style="font-size:24px;font-weight:900;color:var(--primary,#2D5A8E);margin-bottom:8px;">研修完了おめでとうございます！</h2>
+  <p style="font-size:14px;color:#666;margin-bottom:24px;">修了証書を発行します。お名前を入力してください。<br><small>※ 職員名簿と同じ表記でご入力ください</small></p>
+  <div class="cert-name-input">
+    <label for="certName">受講者名</label>
+    <input type="text" id="certName" placeholder="例: 山田 太郎" autocomplete="name">
+  </div>
+  <button class="cert-generate-btn" id="certGenBtn" onclick="generateCert()">📜 修了証書を発行する</button>
+
+  <div class="cert-card" id="certCard">
+    <div class="cert-card-badge">修 了 証 書</div>
+    <div class="cert-card-title">研修修了証</div>
+    <div class="cert-card-name" id="certDisplayName"></div>
+    <div class="cert-card-theme" id="certDisplayTheme"></div>
+    <div class="cert-card-date" id="certDisplayDate"></div>
+    <div class="cert-card-org">
+      有限会社 陽気<br>訪問介護 ようき（障害福祉・居宅介護）
+      <small>沖縄県南城市佐敷津波古1354-1</small>
+    </div>
+    <div class="cert-card-seal">修了<br>認定</div>
+  </div>
+
+  <div class="cert-actions" id="certActions" style="display:none;">
+    <a class="cert-mail-btn" id="certMailBtn" href="#">✉️ 修了報告メールを送信</a>
+    <a class="cert-back-btn" href="../kenshu-shougai.html">📚 研修一覧へ戻る</a>
+    <a class="cert-back-btn" href="../">🏠 トップページ</a>
+  </div>
+</div>
+<script src="../scripts/cert-config.js"></script>
+<script src="../scripts/read-aloud.js"></script>
+</body>
+</html>

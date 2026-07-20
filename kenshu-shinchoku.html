@@ -164,6 +164,9 @@ tbody tr:nth-child(even) td:not(.name-col) { background: #FCFCFC; }
 
       <h2 style="margin-top:28px;">個別研修（役職別・四半期）</h2>
       <div class="table-scroll" id="indivTable"></div>
+
+      <h2 style="margin-top:28px;">💜 障害福祉 法定研修（9研修）</h2>
+      <div class="table-scroll" id="shougaiTable"></div>
     </div>
 
     <div class="panel">
@@ -190,6 +193,19 @@ tbody tr:nth-child(even) td:not(.name-col) { background: #FCFCFC; }
 const KEY_STORE = 'kenshu_shinchoku_key';
 const DEMO = new URLSearchParams(location.search).get('demo') === '1';
 let LEGAL = [], INDIV = [], STAFF = [], RECORDS = [], deptFilter = '全て';
+
+// 障害福祉（居宅介護）法定研修 ― 介護と同じ職員・同じ記録先のためこのボードに集約
+const SHOUGAI = [
+  { id:'gyakutai', icon:'🛡️', title:'虐待防止' },
+  { id:'kousoku', icon:'🙅', title:'身体拘束' },
+  { id:'kansen', icon:'🦠', title:'感染症' },
+  { id:'bcp', icon:'📋', title:'BCP' },
+  { id:'saigai', icon:'🌀', title:'非常災害' },
+  { id:'harassment', icon:'🤝', title:'ハラスメント' },
+  { id:'privacy', icon:'🔒', title:'秘密保持' },
+  { id:'jiko', icon:'⚠️', title:'事故対応' },
+  { id:'ishi', icon:'💬', title:'意思決定支援' }
+].map(t => ({ ...t, path: '/shougai-trainings/' + t.id }));
 
 // 全角/半角（ＭＡＲ→MAR）・大文字小文字・スペースの表記ゆれを吸収して照合する
 const norm = s => String(s || '').normalize('NFKC').replace(/[\s　]/g, '').toLowerCase();
@@ -374,6 +390,24 @@ function render() {
     indivHTML = '<div class="empty-msg">表示するデータがありません。</div>';
   }
   document.getElementById('indivTable').innerHTML = indivHTML;
+
+  // --- 障害福祉 法定研修マトリクス ---
+  if (staff.length) {
+    const sRows = staff.map(s => {
+      const mine = idx[norm(s.name)] || {};
+      let done = 0;
+      const cells = SHOUGAI.map(t => { const d = mine[t.path]; if (d) done++; return `<td>${cellHTML(d)}</td>`; }).join('');
+      const pct = Math.round(done / SHOUGAI.length * 100);
+      return `<tr><td class="name-col">${esc(s.name)}</td>${cells}
+        <td class="rate-cell"><span class="rate-txt">${done}/${SHOUGAI.length} (${pct}%)</span>
+        <div class="rate-bar"><div class="rate-fill" style="width:${pct}%"></div></div></td></tr>`;
+    }).join('');
+    document.getElementById('shougaiTable').innerHTML = `<table>
+      <thead><tr><th class="name-col">職員名</th>${SHOUGAI.map(t => `<th>${t.icon}<br>${t.title}</th>`).join('')}<th>修了率</th></tr></thead>
+      <tbody>${sRows}</tbody></table>`;
+  } else {
+    document.getElementById('shougaiTable').innerHTML = '';
+  }
 
   // --- サマリー ---
   const totalPct = staff.length ? Math.round(doneCells / (staff.length * LEGAL.length) * 100) : 0;

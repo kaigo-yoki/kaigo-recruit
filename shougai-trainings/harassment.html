@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>障害福祉 ハラスメント防止 研修 〜 一人で抱え込まないで！ 〜 | 訪問介護ようき</title>
+<meta name="description" content="障害福祉サービス（居宅介護）のハラスメント防止研修。訪問介護ようき（有限会社 陽気）の法定研修コンテンツ。">
+<link rel="canonical" href="https://kaigo-yoki.jp/recruit/shougai-trainings/harassment">
+<link rel="icon" type="image/png" href="../favicon.png">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&family=Kosugi+Maru&display=swap');
+
+:root {
+  --primary: #2D5A8E;
+  --primary-light: #4A8FD4;
+  --accent: #E8594F;
+  --warm: #F9A826;
+  --green: #4CAF7D;
+  --bg: #FFF8F0;
+  --panel-bg: #FFFFFF;
+  --text: #2C2C2C;
+  --text-light: #666666;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Zen Maru Gothic', 'Kosugi Maru', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+.title-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #FF6B35 0%, #F7C948 50%, #FFE066 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.title-screen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.08'%3E%3Ctext x='10' y='45' font-size='30'%3E😂%3C/text%3E%3C/g%3E%3C/svg%3E");
+}
+
+.title-badge {
+  background: var(--accent);
+  color: white;
+  padding: 8px 28px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+  animation: bounceIn 0.8s ease;
+}
+
+.title-main {
+  font-size: clamp(26px, 6vw, 48px);
+  font-weight: 900;
+  color: white;
+  text-align: center;
+  line-height: 1.4;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 1s ease 0.3s both;
+  text-shadow: 0 3px 12px rgba(0,0,0,0.2);
+}
+
+.title-sub {
+  font-size: clamp(14px, 3vw, 20px);
+  color: rgba(255,255,255,0.95);
+  margin-top: 16px;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 1s ease 0.6s both;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.title-characters {
+  display: flex;
+  gap: 30px;
+  margin-top: 30px;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 1s ease 0.9s both;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.title-char { text-align: center; }
+
+.title-char-icon {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 44px;
+  margin-bottom: 8px;
+  border: 4px solid rgba(255,255,255,0.6);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+.title-char-name {
+  color: white;
+  font-weight: 700;
+  font-size: 13px;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+.start-btn {
+  margin-top: 36px;
+  padding: 16px 48px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 20px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+  animation: fadeUp 1s ease 1.2s both, pulse 2s ease-in-out 2.5s infinite;
+  box-shadow: 0 4px 20px rgba(45,90,142,0.4);
+  transition: transform 0.2s;
+}
+.start-btn:hover { transform: scale(1.05); }
+
+.progress-bar {
+  position: fixed; top: 0; left: 0; right: 0;
+  height: 5px; background: rgba(0,0,0,0.1); z-index: 100;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #FF6B35, #F7C948);
+  transition: width 0.5s ease;
+  border-radius: 0 3px 3px 0;
+}
+
+.page {
+  display: none; min-height: 100vh; padding: 24px 16px 100px;
+  max-width: 800px; margin: 0 auto; animation: fadeIn 0.6s ease;
+}
+.page.active { display: block; }
+
+.page-header { text-align: center; margin: 20px 0 30px; }
+.page-chapter {
+  display: inline-block; background: var(--primary); color: white;
+  padding: 4px 16px; border-radius: 20px; font-size: 12px;
+  font-weight: 700; letter-spacing: 1px; margin-bottom: 8px;
+}
+.page-title {
+  font-size: clamp(22px, 5vw, 32px); font-weight: 900;
+  color: var(--primary); line-height: 1.3;
+}
+
+.manga-panel {
+  background: var(--panel-bg); border-radius: 16px; padding: 24px;
+  margin-bottom: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  border: 2px solid #EEE; opacity: 0; transform: translateY(20px);
+  animation: panelIn 0.5s ease forwards;
+}
+.manga-panel:nth-child(2) { animation-delay: 0.15s; }
+.manga-panel:nth-child(3) { animation-delay: 0.3s; }
+.manga-panel:nth-child(4) { animation-delay: 0.45s; }
+.manga-panel:nth-child(5) { animation-delay: 0.6s; }
+.manga-panel:nth-child(6) { animation-delay: 0.75s; }
+
+.speech { display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start; }
+.speech.right { flex-direction: row-reverse; }
+
+.speech-avatar {
+  width: 56px; height: 56px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; flex-shrink: 0; border: 3px solid;
+}
+.speech-avatar.oyaji { background: #FFF3E0; border-color: #FF8F00; }
+.speech-avatar.student { background: #E3F2FD; border-color: var(--primary-light); }
+.speech-avatar.tsukkomi { background: #F3E5F5; border-color: #AB47BC; }
+
+.speech-bubble {
+  padding: 14px 18px; border-radius: 16px; font-size: 15px;
+  line-height: 1.7; max-width: 85%; position: relative;
+}
+
+.bubble-oyaji { background: #FFF3E0; border: 2px solid #FFE0B2; border-radius: 16px 16px 16px 4px; }
+.bubble-student { background: #E3F2FD; border: 2px solid #BBDEFB; border-radius: 16px 16px 4px 16px; }
+.bubble-tsukkomi { background: #F3E5F5; border: 2px solid #E1BEE7; border-radius: 16px 16px 4px 16px; }
+
+.speech-name { font-size: 11px; font-weight: 700; color: var(--text-light); margin-bottom: 4px; }
+
+.oyaji-gag {
+  background: linear-gradient(135deg, #FFF9C4, #FFF176);
+  border: 3px solid #FFD54F;
+  border-radius: 16px;
+  padding: 16px 20px;
+  margin: 14px 0;
+  text-align: center;
+  position: relative;
+  animation: gagPop 0.5s ease;
+}
+
+.oyaji-gag::before {
+  content: '\1F4A5';
+  position: absolute;
+  top: -14px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 28px;
+}
+
+.gag-text {
+  font-size: 20px;
+  font-weight: 900;
+  color: #E65100;
+  letter-spacing: 2px;
+}
+
+.gag-sub {
+  font-size: 12px;
+  color: #BF360C;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+.tsukkomi-text {
+  font-size: 14px;
+  font-weight: 900;
+  color: #7B1FA2;
+  text-align: center;
+  margin: 4px 0 10px;
+  letter-spacing: 1px;
+}
+
+.shiin {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 900;
+  color: #90A4AE;
+  letter-spacing: 12px;
+  margin: 8px 0;
+  animation: shiinFade 1.5s ease;
+}
+
+.highlight-box { border-radius: 12px; padding: 20px; margin: 16px 0; }
+.highlight-box.law { background: linear-gradient(135deg, #E8EAF6, #C5CAE9); border-left: 5px solid #3F51B5; }
+.highlight-box.important { background: linear-gradient(135deg, #FFF3E0, #FFE0B2); border-left: 5px solid var(--warm); }
+.highlight-box.danger { background: linear-gradient(135deg, #FFEBEE, #FFCDD2); border-left: 5px solid var(--accent); }
+.highlight-box.good { background: linear-gradient(135deg, #E8F5E9, #C8E6C9); border-left: 5px solid var(--green); }
+.highlight-box .box-title { font-weight: 900; font-size: 15px; margin-bottom: 8px; display: flex; align-items: center; gap: 6px; }
+.highlight-box .box-content { font-size: 14px; line-height: 1.8; }
+
+.scenario { background: #F5F5F5; border-radius: 12px; padding: 20px; margin: 16px 0; border: 2px dashed #CCC; }
+.scenario-title { font-size: 13px; font-weight: 700; color: var(--accent); margin-bottom: 10px; }
+
+.quiz-box { background: white; border: 3px solid var(--primary); border-radius: 16px; padding: 24px; margin: 20px 0; }
+.quiz-question { font-size: 16px; font-weight: 700; margin-bottom: 16px; color: var(--primary); }
+.quiz-options { display: flex; flex-direction: column; gap: 10px; }
+.quiz-option {
+  padding: 14px 18px; background: #F5F5F5; border: 2px solid #DDD;
+  border-radius: 12px; cursor: pointer; font-size: 14px; font-family: inherit;
+  text-align: left; transition: all 0.3s; line-height: 1.5;
+}
+.quiz-option:hover { border-color: var(--primary-light); background: #E3F2FD; }
+.quiz-option.correct { background: #E8F5E9; border-color: var(--green); }
+.quiz-option.wrong { background: #FFEBEE; border-color: var(--accent); }
+.quiz-feedback { margin-top: 14px; padding: 14px; border-radius: 10px; font-size: 14px; line-height: 1.7; display: none; }
+.quiz-feedback.show { display: block; }
+
+.point-list { list-style: none; padding: 0; }
+.point-list li {
+  padding: 10px 0 10px 36px; position: relative;
+  font-size: 15px; line-height: 1.6; border-bottom: 1px solid #EEE;
+}
+.point-list li::before {
+  content: '\2713'; position: absolute; left: 0;
+  width: 24px; height: 24px; background: var(--green);
+  color: white; border-radius: 50%; display: flex;
+  align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; top: 12px;
+}
+
+.nav-bar {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: white; border-top: 2px solid #EEE;
+  padding: 12px 20px; display: flex; justify-content: space-between;
+  align-items: center; z-index: 50;
+}
+.nav-btn {
+  padding: 10px 24px; border: none; border-radius: 30px;
+  font-size: 15px; font-weight: 700; font-family: inherit;
+  cursor: pointer; transition: all 0.2s;
+}
+.nav-btn.prev { background: #EEE; color: var(--text); }
+.nav-btn.next { background: var(--primary); color: white; box-shadow: 0 2px 10px rgba(45,90,142,0.3); }
+.nav-btn:hover { transform: translateY(-2px); }
+.nav-btn:disabled { opacity: 0.3; cursor: default; transform: none; }
+.nav-page { font-size: 13px; color: var(--text-light); font-weight: 700; }
+
+.toc { display: grid; gap: 12px; margin-top: 20px; }
+.toc-item {
+  display: flex; align-items: center; gap: 14px; padding: 16px;
+  background: white; border-radius: 12px; border: 2px solid #EEE;
+  cursor: pointer; transition: all 0.3s;
+}
+.toc-item:hover { border-color: var(--primary-light); transform: translateX(4px); }
+.toc-num {
+  width: 36px; height: 36px; border-radius: 50%; background: var(--primary);
+  color: white; display: flex; align-items: center; justify-content: center;
+  font-weight: 900; font-size: 16px; flex-shrink: 0;
+}
+.toc-text { font-size: 15px; font-weight: 700; }
+
+.ending { text-align: center; padding: 40px 20px; }
+.ending-icon { font-size: 80px; margin-bottom: 16px; }
+.ending-title { font-size: 28px; font-weight: 900; color: var(--primary); margin-bottom: 12px; }
+.ending-msg { font-size: 16px; color: var(--text-light); line-height: 1.8; }
+
+.certificate {
+  background: linear-gradient(135deg, #FFF8E1, #FFECB3);
+  border: 3px solid var(--warm); border-radius: 16px;
+  padding: 30px; margin: 30px auto; max-width: 500px;
+}
+.certificate-title { font-size: 22px; font-weight: 900; color: var(--warm); }
+.certificate-body { font-size: 14px; margin-top: 12px; line-height: 1.8; }
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes bounceIn { 0% { transform: scale(0); } 60% { transform: scale(1.1); } 100% { transform: scale(1); } }
+@keyframes panelIn { to { opacity: 1; transform: translateY(0); } }
+@keyframes pulse { 0%, 100% { box-shadow: 0 4px 20px rgba(45,90,142,0.4); } 50% { box-shadow: 0 4px 30px rgba(45,90,142,0.7); } }
+@keyframes gagPop { 0% { transform: scale(0.5) rotate(-5deg); opacity: 0; } 50% { transform: scale(1.1) rotate(2deg); } 100% { transform: scale(1) rotate(0); } }
+@keyframes shiinFade { 0% { opacity: 0; letter-spacing: 2px; } 100% { opacity: 1; letter-spacing: 12px; } }
+
+@media (max-width: 600px) {
+  .speech-avatar { width: 44px; height: 44px; font-size: 22px; }
+  .speech-bubble { font-size: 13px; }
+  .gag-text { font-size: 17px; }
+}
+
+.cert-section{display:none;text-align:center;padding:30px 20px;max-width:600px;margin:0 auto;}
+.cert-section.show{display:block;animation:fadeUp .6s ease;}
+.cert-name-input{margin-bottom:24px;}
+.cert-name-input label{display:block;font-size:14px;font-weight:700;color:var(--text,#2C2C2C);margin-bottom:8px;}
+.cert-name-input input{width:100%;max-width:320px;padding:14px 20px;border:3px solid #DDD;border-radius:14px;font-size:16px;font-family:inherit;font-weight:700;text-align:center;outline:none;transition:border-color .3s;}
+.cert-name-input input:focus{border-color:var(--warm,#F9A826);}
+.cert-generate-btn{display:inline-block;padding:14px 40px;background:linear-gradient(135deg,#F9A826,#FF8F00);color:#fff;border:none;border-radius:50px;font-size:16px;font-weight:800;font-family:inherit;cursor:pointer;box-shadow:0 4px 16px rgba(249,168,38,.3);transition:all .3s;margin-bottom:16px;}
+.cert-generate-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(249,168,38,.4);}
+.cert-generate-btn:disabled{opacity:.4;cursor:default;transform:none;}
+.cert-card{display:none;background:linear-gradient(135deg,#FFFDF0,#FFF8E1);border:4px double #D4A017;border-radius:20px;padding:40px 30px;margin:24px auto;max-width:520px;position:relative;overflow:hidden;box-shadow:0 8px 32px rgba(212,160,23,.15);}
+.cert-card.show{display:block;animation:fadeUp .6s ease;}
+.cert-card::before{content:'';position:absolute;inset:8px;border:2px solid rgba(212,160,23,.25);border-radius:14px;pointer-events:none;}
+.cert-card-badge{display:inline-block;background:linear-gradient(135deg,#D4A017,#F5D060);color:#fff;padding:6px 24px;border-radius:30px;font-size:12px;font-weight:800;letter-spacing:3px;margin-bottom:16px;}
+.cert-card-title{font-size:28px;font-weight:900;color:#D4A017;margin-bottom:8px;letter-spacing:2px;}
+.cert-card-name{font-size:24px;font-weight:900;color:#1A1A2E;margin:20px 0 8px;padding:8px 0;border-bottom:2px solid rgba(212,160,23,.3);}
+.cert-card-name span{font-size:14px;font-weight:500;color:#666;}
+.cert-card-theme{font-size:15px;font-weight:700;color:#4A4A68;margin:12px 0;line-height:1.6;}
+.cert-card-date{font-size:13px;color:#888;margin-top:16px;}
+.cert-card-org{margin-top:20px;font-size:14px;font-weight:700;color:#1A1A2E;}
+.cert-card-org small{display:block;font-size:11px;font-weight:400;color:#888;margin-top:2px;}
+.cert-card-seal{position:absolute;bottom:20px;right:20px;width:60px;height:60px;border-radius:50%;border:3px solid #D4A017;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;color:#D4A017;line-height:1.2;text-align:center;}
+.cert-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px;}
+.cert-mail-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;background:linear-gradient(135deg,#4CAF7D,#43A047);color:#fff;border:none;border-radius:50px;font-size:14px;font-weight:800;font-family:inherit;cursor:pointer;box-shadow:0 4px 16px rgba(76,175,125,.3);transition:all .3s;text-decoration:none;}
+.cert-mail-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(76,175,125,.4);}
+.cert-back-btn{display:inline-flex;align-items:center;gap:6px;padding:12px 24px;background:none;border:2px solid #DDD;border-radius:50px;font-size:13px;font-weight:700;color:#666;cursor:pointer;font-family:inherit;transition:all .3s;text-decoration:none;}
+.cert-back-btn:hover{border-color:#999;color:#333;}
+
+</style>
+</head>
+<body>
+
+<!-- TITLE -->
+<div class="title-screen" id="titleScreen">
+  <div class="title-badge">障害福祉（居宅介護） 法定研修</div>
+  <div class="title-main">笑って学ぼう！💥<br>ハラスメント防止</div>
+  <div class="title-sub">〜 一人で抱え込まないで！ 〜<br>※ ギャグのクオリティは保証しません</div>
+  <div class="title-characters">
+    <div class="title-char">
+      <div class="title-char-icon" style="background:#FFF3E0;">🧔</div>
+      <div class="title-char-name">ダジャレ所長<br>（おやじ先生）</div>
+    </div>
+    <div class="title-char">
+      <div class="title-char-icon" style="background:#E3F2FD;">👩</div>
+      <div class="title-char-name">新人ヘルパー<br>さくらさん</div>
+    </div>
+    <div class="title-char">
+      <div class="title-char-icon" style="background:#F3E5F5;">👩‍🦰</div>
+      <div class="title-char-name">ツッコミ担当<br>先輩みさきさん</div>
+    </div>
+  </div>
+  <button class="start-btn" onclick="startTraining()">▶ 研修をはじめる</button>
+</div>
+
+<div class="progress-bar" id="progressBar" style="display:none;"><div class="progress-fill" id="progressFill"></div></div>
+
+<div class="page" id="page1">
+  <div class="page-header">
+    <div class="page-chapter">はじめに</div>
+    <div class="page-title">今日の研修メニュー 📋</div>
+  </div>
+  <div class="manga-panel">
+  <div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji"><div class="speech-name">ダジャレ所長</div>今日のテーマは「ハラスメント防止」！障害福祉サービス（居宅介護）で働くみんなに必要な法定研修だよ。</div></div>
+  <div class="speech right"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student"><div class="speech-name">さくら</div>よろしくお願いします！しっかり覚えます。</div></div>
+  <div class="speech right"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi"><div class="speech-name">みさき先輩</div>所長のダジャレは聞き流していいけど、中身は大事だからね。</div></div>
+  </div>
+  <div class="highlight-box important"><div class="box-title">📘 研修の目標</div><div class="box-content">パワハラ・セクハラ・カスハラの違いを見分けられるようになります。そして、単独訪問が多い居宅介護で困ったことが起きたとき、我慢せずに「記録して報告する」という行動がとれるようになることが目標です。</div></div>
+  <div class="toc">
+    <button class="toc-item" onclick="goToPage(2)"><span class="toc-num">1</span><span class="toc-text">第1章: ハラスメントって、なんやろ？</span></button>
+    <button class="toc-item" onclick="goToPage(3)"><span class="toc-num">2</span><span class="toc-text">第2章: 単独訪問だからこそ ── カスハラ</span></button>
+    <button class="toc-item" onclick="goToPage(4)"><span class="toc-num">3</span><span class="toc-text">第3章: されたら・見かけたら ── 記録して、報告する</span></button>
+    <button class="toc-item" onclick="goToPage(5)"><span class="toc-num">4</span><span class="toc-text">第4章: 事業所は“組織で”守る</span></button>
+    <button class="toc-item" onclick="goToPage(6)"><span class="toc-num">5</span><span class="toc-text">確認テスト＆まとめ</span></button>
+  </div>
+</div>
+<div class="page" id="page2">
+  <div class="page-header">
+    <div class="page-chapter">第1章</div>
+    <div class="page-title">ハラスメントって、なんやろ？</div>
+  </div>
+  <div class="manga-panel">
+  <div class="speech right"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student"><div class="speech-name">さくら</div>所長、“ハラスメント”って言葉はよく聞くんですけど、正直どこからがアウトなのか分かってなくて…</div></div>
+  <div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji"><div class="speech-name">ダジャレ所長</div>ええ質問や。介護の現場で覚えてほしいのは3つ。職場の上下関係で起きる“パワハラ”、性的な言動の“セクハラ”、そして利用者さんやご家族からの“カスハラ”や。</div></div>
+  <div class="speech right"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi"><div class="speech-name">みさき先輩</div>私も新人のころ、“これくらい普通なのかな”って我慢してました。あれ、我慢しなくてよかったんですよね。</div></div>
+  </div>
+  <div class="highlight-box law"><div class="box-title">📘 法律で決まっています</div><div class="box-content">パワハラの防止は労働施策総合推進法、セクハラの防止は男女雇用機会均等法で、事業主に防止措置の義務が定められています。利用者・家族からのカスハラについては、厚生労働省の「介護現場におけるハラスメント対策マニュアル」が対応の考え方を示しています。</div></div>
+  <div class="highlight-box important"><div class="box-title">📘 パワハラの3要素（3つそろうとパワハラ）</div><div class="box-content">①優越的な関係を背景とした言動　②業務上必要かつ相当な範囲を超えている　③労働者の就業環境が害される。この3つがそろったものがパワハラです。逆に、業務上必要な範囲の指導や注意は、それだけではパワハラになりません。</div></div>
+  <div class="manga-panel">
+  <div class="oyaji-gag"><div class="gag-text">ハラスメントで“腹”を立てる前に、“腹”を割って相談や！</div><div class="gag-sub">※ 一人で我慢するのが、いちばんよくない対応です。</div></div>
+  <div class="shiin">シーーーン</div>
+  <div class="tsukkomi-text">所長、ダジャレはさておき…“腹を割って相談”は本当に大事です。</div>
+  </div>
+  <ul class="point-list">
+    <li>①身体的な攻撃（叩く・物を投げる）</li>
+    <li>②精神的な攻撃（人前で怒鳴る・人格を否定する）</li>
+    <li>③人間関係からの切り離し（無視する・仲間はずれにする）</li>
+    <li>④過大な要求（明らかに無理な仕事を押しつける）</li>
+    <li>⑤過小な要求（仕事を与えない・雑用だけさせる）</li>
+    <li>⑥個の侵害（私生活に過度に立ち入る）</li>
+  </ul>
+  <div class="scenario"><div class="scenario-title">📖 こんな場面を想像してみよう</div><p>サービス提供責任者が、シフト表を見ながら「こんなことも一人でできないの、辞めれば？」と事務所のみんなの前で大きな声で言いました。── これは②精神的な攻撃にあたる可能性があります。指導なら、人前ではなく、内容も“人格”ではなく“やり方”に向けるはずです。</p></div>
+</div>
+<div class="page" id="page3">
+  <div class="page-header">
+    <div class="page-chapter">第2章</div>
+    <div class="page-title">単独訪問だからこそ ── カスハラ</div>
+  </div>
+  <div class="manga-panel">
+  <div class="speech right"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student"><div class="speech-name">さくら</div>利用者さんやご家族から言われることも、ハラスメントになるんですか？</div></div>
+  <div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji"><div class="speech-name">ダジャレ所長</div>なるで。それが“カスハラ”＝カスタマーハラスメント。利用者さんやご家族からの、著しい迷惑行為のことや。</div></div>
+  </div>
+  <ul class="point-list">
+    <li>身体的な暴力（叩く・つねる・物を投げる）</li>
+    <li>大声で怒鳴る、人格を否定する言葉を浴びせる</li>
+    <li>サービス外のことを強要する（家族の分の食事を作らせる など）</li>
+    <li>必要以上に身体に触れる、性的な話を繰り返す</li>
+    <li>特定の職員を名指しで何度も呼びつける、長時間拘束する</li>
+  </ul>
+  <div class="highlight-box danger"><div class="box-title">⚠️ これはやってはいけない対応</div><div class="box-content">「利用者さんだから仕方ない」「新人だから我慢」と、一人で耐えること。ガマンは解決になりません。事業所が状況を知らないままだと、次に訪問する仲間もまったく同じ目にあいます。</div></div>
+  <div class="manga-panel">
+  <div class="oyaji-gag"><div class="gag-text">カスハラ、“かすり傷”やと思ってたら大ケガするで！</div><div class="gag-sub">※ 小さな迷惑行為も、積み重なると心を壊します。</div></div>
+  <div class="shiin">シーーーン</div>
+  <div class="speech right"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi"><div class="speech-name">みさき先輩</div>居宅介護って、基本は一人で利用者さんのお宅に入りますよね。誰も見ていないし、すぐに助けも呼べない。だからこそリスクが高いんです。</div></div>
+  </div>
+  <div class="highlight-box good"><div class="box-title">👍 身の危険を感じたら、その場を離れてよい</div><div class="box-content">訪問を中断して外に出て、すぐに事業所へ電話してください。安全確保が最優先です。「サービスを途中でやめた」ことで責められることはありません。事業所は、そのあとの調整を組織として引き受けます。</div></div>
+  <div class="scenario"><div class="scenario-title">📖 こんな場面を想像してみよう</div><p>身体介護の途中、ご家族が「前のヘルパーはやってくれた」と大声で怒鳴り始め、腕をつかまれた。── 無理に続けず、「一度事業所に確認します」と伝えて玄関を出て、その場から事業所へ電話する。これが正しい対応です。</p></div>
+  <div class="manga-panel">
+  <div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji"><div class="speech-name">ダジャレ所長</div>自分の安全を守るのも、立派な仕事のうちや。倒れてしもたら、次の訪問も守られへんからな。</div></div>
+  </div>
+</div>
+<div class="page" id="page4">
+  <div class="page-header">
+    <div class="page-chapter">第3章</div>
+    <div class="page-title">されたら・見かけたら ── 記録して、報告する</div>
+  </div>
+  <div class="manga-panel">
+  <div class="speech right"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student"><div class="speech-name">さくら</div>事業所に言ったら、大げさだって思われないかな…って考えちゃいます。</div></div>
+  <div class="speech right"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi"><div class="speech-name">みさき先輩</div>思わないよ。むしろ言ってくれないと守れない。私も言うのが遅くて、こじれたことがあるから。</div></div>
+  <div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji"><div class="speech-name">ダジャレ所長</div>ポイントは“その日のうちにメモ”や。時間が経つと記憶はぼやける。日時・場所・誰が・何を言ったか・自分がどうしたか。これを書いとくだけで、事業所は動けるんや。</div></div>
+  <div class="oyaji-gag"><div class="gag-text">記録をとると、あとで“気が楽”になるで！きろく・きらく！</div><div class="gag-sub">※ 日時・場所・言動を、その日のうちに書き残しましょう。</div></div>
+  <div class="shiin">シーーーン</div>
+  </div>
+  <ul class="point-list">
+    <li>いつ（日付・時間）</li>
+    <li>どこで（利用者宅のどの場面か）</li>
+    <li>誰が</li>
+    <li>何を言った・何をした（できるだけそのままの言葉で）</li>
+    <li>そのとき自分はどうしたか・どう感じたか</li>
+    <li>ほかに見ていた人がいるか</li>
+  </ul>
+  <div class="highlight-box important"><div class="box-title">📘 “事実”と“気持ち”は分けて書く</div><div class="box-content">「すごく失礼だった」ではなく「〇〇と言われた」と、言われた言葉をそのまま書きます。感じたことは別の欄に書いておくと、あとで相談するときに状況が正確に伝わります。</div></div>
+  <div class="highlight-box law"><div class="box-title">📘 相談したことで不利益な扱いは受けません</div><div class="box-content">ハラスメントを相談したこと、事実確認に協力したことを理由に、解雇・シフト減・配置転換などの不利益な取扱いをすることは法律で禁止されています。安心して相談してください。</div></div>
+  <div class="scenario"><div class="scenario-title">📖 こんな場面を想像してみよう</div><p>同僚が利用者さんから性的な発言をされて、顔をこわばらせている。── 見かけた側も「さっきのこと、サ責さんに一緒に話そう」と声をかけられます。見て見ぬふりをしないことも、りっぱな対応です。</p></div>
+  <div class="manga-panel">
+  <div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji"><div class="speech-name">ダジャレ所長</div>一人で判断せんでええ。判断するんは事業所の仕事や。あんたの仕事は“伝えること”までやで。</div></div>
+  </div>
+</div>
+<div class="page" id="page5">
+  <div class="page-header">
+    <div class="page-chapter">第4章</div>
+    <div class="page-title">事業所は“組織で”守る</div>
+  </div>
+  <div class="manga-panel">
+  <div class="speech right"><div class="speech-avatar student">👩</div><div class="speech-bubble bubble-student"><div class="speech-name">さくら</div>報告したあと、事業所はどうしてくれるんですか？</div></div>
+  <div class="speech"><div class="speech-avatar oyaji">🧔</div><div class="speech-bubble bubble-oyaji"><div class="speech-name">ダジャレ所長</div>うちが動く。ヘルパー個人に「うまくかわしといて」なんて、絶対に言わん。</div></div>
+  </div>
+  <ul class="point-list">
+    <li>2人体制での訪問に変える</li>
+    <li>担当ヘルパーを交代する</li>
+    <li>訪問時間・曜日・サービス内容を見直す</li>
+    <li>相談支援専門員・市町村と情報を共有して調整する</li>
+    <li>改善が見られない場合は契約内容の見直し、最終的には契約解除も検討する</li>
+  </ul>
+  <div class="highlight-box law"><div class="box-title">📘 事業者の義務</div><div class="box-content">事業主には、ハラスメント防止のための雇用管理上の措置義務があります。相談窓口を設け、相談を受けたら事実確認を行い、被害を受けた職員への配慮と再発防止の措置をとることが求められます。カスハラについても、厚労省マニュアルで組織的な対応が推奨されています。</div></div>
+  <div class="manga-panel">
+  <div class="oyaji-gag"><div class="gag-text">一人で抱えると“重い”、みんなで分ければ“想い”に変わる！</div><div class="gag-sub">※ 抱え込まないこと。それがいちばんの防止策です。</div></div>
+  <div class="shiin">シーーーン</div>
+  <div class="tsukkomi-text">所長、そのダジャレ…けっこう良いこと言ってます。</div>
+  </div>
+  <div class="highlight-box good"><div class="box-title">👍 困ったときの相談先</div><div class="box-content">まずはサービス提供責任者・管理者へ。話しづらい相手が関係している場合は、別の管理者や、外部の相談窓口（都道府県労働局の総合労働相談コーナーなど）に相談することもできます。</div></div>
+  <div class="highlight-box danger"><div class="box-title">⚠️ やりがちなNG</div><div class="box-content">「自分さえ我慢すれば丸くおさまる」── おさまりません。次の担当者に同じことが起き、事業所は原因も分からないまま、人だけが辞めていきます。</div></div>
+  <div class="manga-panel">
+  <div class="speech right"><div class="speech-avatar tsukkomi">👩‍🦰</div><div class="speech-bubble bubble-tsukkomi"><div class="speech-name">みさき先輩</div>「言ってくれてありがとう」って返ってくる職場にしたいですね。</div></div>
+  </div>
+</div>
+<div class="page" id="page6">
+  <div class="page-header">
+    <div class="page-chapter">確認テスト</div>
+    <div class="page-title">確認テスト＆まとめ</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q1 / 10: パワハラの3要素にあてはまらないものはどれ？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">優越的な関係を背景とした言動である</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">業務上必要かつ相当な範囲を超えている</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">労働者の就業環境が害される</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">相手が新人であること</button>
+    </div>
+    <div class="quiz-feedback">パワハラの3要素は「①優越的な関係を背景とした言動」「②業務上必要かつ相当な範囲を超えている」「③就業環境が害される」の3つ。相手が新人かどうかは要素ではありません。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q2 / 10: 訪問中、ご家族から大声で怒鳴られ腕をつかまれた。最も適切な対応は？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">利用者に迷惑がかかるので、最後まで介助を続ける</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">いったん訪問を中断してその場を離れ、すぐ事業所に連絡する</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">その場で言い返して、はっきり注意する</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">誰にも言わず、次回から我慢して対応する</button>
+    </div>
+    <div class="quiz-feedback">身の危険を感じたら、訪問を中断してその場を離れて構いません。安全確保が最優先で、そのあと必ず事業所へ連絡します。責められることはありません。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q3 / 10: カスハラ（カスタマーハラスメント）とは？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">職場の上司からの過大な要求のこと</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">利用者やその家族などからの、著しい迷惑行為のこと</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">同僚同士のトラブル全般のこと</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">取引業者との金銭トラブルのこと</button>
+    </div>
+    <div class="quiz-feedback">カスハラは、利用者・家族等からの暴力や暴言、過度な要求など、著しい迷惑行為を指します。厚労省のマニュアルでも組織的な対応が求められています。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q4 / 10: ハラスメントを受けたときの記録として、最も適切なのは？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">「すごく失礼な人だった」と感想を中心に書く</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">日時・場所・言われた言葉をそのまま書く</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">記憶が確かなうちに家族へLINEで伝えておく</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">一週間分をまとめて月末に書く</button>
+    </div>
+    <div class="quiz-feedback">記録は「いつ・どこで・誰が・何を言った/した」を、その日のうちに、できるだけそのままの言葉で。感じたことは分けて書くと伝わりやすくなります。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q5 / 10: パワハラの6類型に含まれないものはどれ？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">人間関係からの切り離し（無視・仲間はずれ）</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">過小な要求（仕事を与えない）</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">個の侵害（私生活に過度に立ち入る）</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">業務上必要な範囲での指導・注意</button>
+    </div>
+    <div class="quiz-feedback">6類型は「身体的な攻撃／精神的な攻撃／人間関係からの切り離し／過大な要求／過小な要求／個の侵害」。業務上必要かつ相当な範囲の指導は、パワハラにはあたりません。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q6 / 10: セクハラの防止について定めている法律は？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, true)">男女雇用機会均等法</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">労働施策総合推進法</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">個人情報保護法</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">障害者総合支援法</button>
+    </div>
+    <div class="quiz-feedback">セクハラ防止は男女雇用機会均等法、パワハラ防止は労働施策総合推進法で、それぞれ事業主に措置義務が定められています。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q7 / 10: 居宅介護でハラスメントのリスクが高いとされる、いちばんの理由は？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">利用者の人数が多いから</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">単独で利用者宅を訪問することが多く、周囲の目や助けがないから</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">記録の量が多いから</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">資格の要件が厳しいから</button>
+    </div>
+    <div class="quiz-feedback">居宅介護は密室での単独訪問が基本です。第三者の目がなく、その場で助けを求めにくいため、リスクが高いとされています。だからこそ報告と組織対応が欠かせません。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q8 / 10: 事業所がとる組織的な対応として、適切でないものは？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">2人訪問に変更する</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">担当ヘルパーを交代する</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">「うまくかわしてね」とヘルパー個人に任せる</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">相談支援専門員や市町村と情報を共有する</button>
+    </div>
+    <div class="quiz-feedback">個人の対応力に丸投げするのは、事業者の措置義務に反します。2人訪問・担当変更・関係機関との調整・契約見直しなど、組織として対応します。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q9 / 10: ハラスメントを相談した職員について、正しいのは？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, true)">相談を理由に不利益な取扱いをしてはならない</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">相談したらシフトを減らされても仕方がない</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">証拠がそろっていなければ相談してはいけない</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">相談内容は必ず全職員に公開される</button>
+    </div>
+    <div class="quiz-feedback">相談したこと、事実確認に協力したことを理由とする不利益な取扱いは法律で禁止されています。証拠がそろっていなくても、まず相談して構いません。</div>
+  </div>
+  <div class="quiz-box">
+    <div class="quiz-question">❓ Q10 / 10: 同僚が利用者から性的な発言をされているのを見かけた。適切な行動は？</div>
+    <div class="quiz-options">
+    <button class="quiz-option" onclick="checkQuiz(this, false)">本人が言い出すまで、何もしない</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">「気にしすぎだよ」と励ます</button>
+    <button class="quiz-option" onclick="checkQuiz(this, true)">「一緒にサービス提供責任者へ話そう」と声をかける</button>
+    <button class="quiz-option" onclick="checkQuiz(this, false)">SNSで匿名の注意喚起を投稿する</button>
+    </div>
+    <div class="quiz-feedback">見かけた人が声をかけることも、りっぱな対応です。本人が言い出しにくいときこそ、一緒に報告することで事業所が動けます。SNS投稿は秘密保持違反になります。</div>
+  </div>
+  <ul class="point-list">
+    <li>ハラスメントは3種類。職場内の「パワハラ」、性的言動の「セクハラ」、利用者・家族からの「カスハラ」。</li>
+    <li>居宅介護は単独訪問が基本で、周囲の目も助けもない。だからリスクが高く、報告が命綱になる。</li>
+    <li>身の危険を感じたら、訪問を中断してその場を離れてよい。日時・場所・言動をその日のうちに記録して事業所へ。</li>
+    <li>対応するのは個人ではなく事業所。2人訪問・担当変更・契約見直しなど、組織で守る。我慢はさせない。</li>
+  </ul>
+  <div class="completion-message">おつかれさまでした！最後にお名前を入れて修了証を発行してください。</div>
+</div>
+
+<div class="nav-bar" id="navBar" style="display:none;">
+  <button class="nav-btn prev" id="prevBtn" onclick="prevPage()">◀ 前へ</button>
+  <span class="nav-page" id="pageNum">1 / 6</span>
+  <button class="nav-btn next" id="nextBtn" onclick="nextPage()">次へ ▶</button>
+</div>
+
+<script>
+let currentPage = 0;
+const totalPages = 6;
+
+function startTraining() {
+  document.getElementById('titleScreen').style.display = 'none';
+  document.getElementById('progressBar').style.display = 'block';
+  document.getElementById('navBar').style.display = 'flex';
+  currentPage = 1;
+  showPage(currentPage);
+}
+
+function showPage(n) {
+  document.querySelectorAll('.page').forEach(p => { p.classList.remove('active'); });
+  const page = document.getElementById('page' + n);
+  if (page) {
+    page.classList.add('active');
+    page.querySelectorAll('.manga-panel').forEach(p => {
+      p.style.animation = 'none';
+      p.offsetHeight;
+      p.style.animation = '';
+    });
+  }
+  document.getElementById('prevBtn').disabled = (n <= 1);
+  document.getElementById('nextBtn').textContent = (n >= totalPages) ? '🎉 完了！' : '次へ ▶';
+  document.getElementById('pageNum').textContent = n + ' / ' + totalPages;
+  document.getElementById('progressFill').style.width = ((n / totalPages) * 100) + '%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function nextPage() { if (currentPage < totalPages) { currentPage++; showPage(currentPage); } }
+function prevPage() { if (currentPage > 1) { currentPage--; showPage(currentPage); } }
+function goToPage(n) { currentPage = n; showPage(n); }
+
+function checkQuiz(btn, isCorrect) {
+  const quizBox = btn.closest('.quiz-box');
+  const options = quizBox.querySelectorAll('.quiz-option');
+  options.forEach(o => { o.disabled = true; o.style.pointerEvents = 'none'; });
+  if (isCorrect) {
+    btn.classList.add('correct');
+    const fb = quizBox.querySelector('.quiz-feedback');
+    if (fb) { fb.classList.add('show'); fb.style.background = '#E8F5E9'; }
+  } else {
+    btn.classList.add('wrong');
+    options.forEach(o => { if (o.getAttribute('onclick') && o.getAttribute('onclick').includes('true')) o.classList.add('correct'); });
+    const fb = quizBox.querySelector('.quiz-feedback');
+    if (fb) { fb.classList.add('show'); fb.style.background = '#FFEBEE'; }
+  }
+}
+
+// === 修了証書機能 ===
+const TRAINING_TITLE = "ハラスメント防止（障害福祉・居宅介護）";
+
+function showCertSection() {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('navBar').style.display = 'none';
+  document.getElementById('progressBar').style.display = 'none';
+  const cs = document.getElementById('certSection');
+  cs.classList.add('show');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function generateCert() {
+  const nameInput = document.getElementById('certName');
+  const name = nameInput.value.trim();
+  if (!name) { nameInput.style.borderColor = '#E8594F'; nameInput.focus(); return; }
+  nameInput.style.borderColor = '#4CAF7D';
+
+  const today = new Date();
+  const dateStr = today.getFullYear() + '年' + (today.getMonth()+1) + '月' + today.getDate() + '日';
+
+  document.getElementById('certDisplayName').innerHTML = name + ' <span>殿</span>';
+  document.getElementById('certDisplayTheme').textContent = '上記の者は「' + "ハラスメント防止" + '」研修（障害福祉・居宅介護）を修了したことを証します。';
+  document.getElementById('certDisplayDate').textContent = '修了日: ' + dateStr;
+
+  document.getElementById('certCard').classList.add('show');
+  document.getElementById('certActions').style.display = 'flex';
+
+  // メールリンク生成（宛先は ../scripts/cert-config.js で一元管理）
+  const mailCfg = window.CERT_MAIL_CONFIG || { to: 'rina@kaigo-yoki.jp', cc: 'info@kaigo-yoki.jp', honorific: '施設長 様' };
+  const subject = encodeURIComponent('【研修修了報告】' + TRAINING_TITLE + ' - ' + name);
+  const body = encodeURIComponent(
+    mailCfg.honorific + '\n\n' +
+    '研修修了のご報告をいたします。\n\n' +
+    '受講者名: ' + name + '\n' +
+    '研修テーマ: ' + TRAINING_TITLE + '\n' +
+    '修了日: ' + dateStr + '\n\n' +
+    '以上、ご確認をお願いいたします。'
+  );
+  document.getElementById('certMailBtn').href = 'mailto:' + mailCfg.to + '?cc=' + mailCfg.cc + '&subject=' + subject + '&body=' + body;
+}
+
+// 最終ページで「完了！」→ 修了証セクション
+const _origNextPage = nextPage;
+nextPage = function() {
+  if (currentPage >= totalPages) { showCertSection(); }
+  else { _origNextPage(); }
+};
+</script>
+
+<!-- 修了証書セクション -->
+<div class="cert-section" id="certSection">
+  <div style="font-size:64px;margin-bottom:12px;">🎓</div>
+  <h2 style="font-size:24px;font-weight:900;color:var(--primary,#2D5A8E);margin-bottom:8px;">研修完了おめでとうございます！</h2>
+  <p style="font-size:14px;color:#666;margin-bottom:24px;">修了証書を発行します。お名前を入力してください。<br><small>※ 職員名簿と同じ表記でご入力ください</small></p>
+  <div class="cert-name-input">
+    <label for="certName">受講者名</label>
+    <input type="text" id="certName" placeholder="例: 山田 太郎" autocomplete="name">
+  </div>
+  <button class="cert-generate-btn" id="certGenBtn" onclick="generateCert()">📜 修了証書を発行する</button>
+
+  <div class="cert-card" id="certCard">
+    <div class="cert-card-badge">修 了 証 書</div>
+    <div class="cert-card-title">研修修了証</div>
+    <div class="cert-card-name" id="certDisplayName"></div>
+    <div class="cert-card-theme" id="certDisplayTheme"></div>
+    <div class="cert-card-date" id="certDisplayDate"></div>
+    <div class="cert-card-org">
+      有限会社 陽気<br>訪問介護 ようき（障害福祉・居宅介護）
+      <small>沖縄県南城市佐敷津波古1354-1</small>
+    </div>
+    <div class="cert-card-seal">修了<br>認定</div>
+  </div>
+
+  <div class="cert-actions" id="certActions" style="display:none;">
+    <a class="cert-mail-btn" id="certMailBtn" href="#">✉️ 修了報告メールを送信</a>
+    <a class="cert-back-btn" href="../kenshu-shougai.html">📚 研修一覧へ戻る</a>
+    <a class="cert-back-btn" href="../">🏠 トップページ</a>
+  </div>
+</div>
+<script src="../scripts/cert-config.js"></script>
+<script src="../scripts/read-aloud.js"></script>
+</body>
+</html>
