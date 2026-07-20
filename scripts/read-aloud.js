@@ -10,15 +10,33 @@
   var synth = window.speechSynthesis;
 
   // ---- 読み上げ対象テキストの収集 ----
+  // ページ構造が2種類あるため両方に対応する
+  //  A) 漫画型（介護・障害福祉）: .page をめくる形式 → 表示中のページだけ読む
+  //  B) 単一スクロール型（看護）: .sec が縦に並ぶ → 全セクションを読む
   function collectChunks() {
     var parts = [];
-    var lead = document.querySelector('.header .lead');
-    if (lead && lead.innerText) parts.push(lead.innerText);
-    document.querySelectorAll('.sec').forEach(function (sec) {
-      if (sec.classList.contains('cert-area')) return; // 修了証エリアは読まない
-      var t = (sec.innerText || '').trim();
-      if (t) parts.push(t);
-    });
+    var activePage = document.querySelector('.page.active');
+    var certSection = document.getElementById('certSection');
+
+    if (activePage) {
+      // A) 漫画型：いま開いているページを読む（ページを移動したらもう一度押す）
+      parts.push(activePage.innerText || '');
+    } else if (document.querySelector('.sec')) {
+      // B) 単一スクロール型
+      var lead = document.querySelector('.header .lead');
+      if (lead && lead.innerText) parts.push(lead.innerText);
+      document.querySelectorAll('.sec').forEach(function (sec) {
+        if (sec.classList.contains('cert-area')) return; // 修了証エリアは読まない
+        var t = (sec.innerText || '').trim();
+        if (t) parts.push(t);
+      });
+    } else if (certSection && certSection.classList.contains('show')) {
+      parts.push(certSection.innerText || '');
+    } else {
+      // タイトル画面など。最後の手段として表示中の本文を読む
+      var ts = document.getElementById('titleScreen');
+      parts.push(((ts && ts.style.display !== 'none' ? ts.innerText : '') || document.body.innerText || ''));
+    }
     // 文単位に分割（。！？改行で区切る。lookbehind不使用で互換性重視）
     var out = [];
     parts.forEach(function (p) {
