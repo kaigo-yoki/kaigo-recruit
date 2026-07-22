@@ -170,45 +170,18 @@ const ICONS = { HOME1: '🏠', HOME2: '🏡', HOME3: '🏘️' };
 const ICON_CLASS = { HOME1: 'h1', HOME2: 'h2', HOME3: 'h3' };
 const FACILITY_CAPACITY = { HOME1: 18, HOME2: 16, HOME3: 19 };
 const FACILITY_NAMES = { HOME1: 'ホーム1', HOME2: 'ホーム2', HOME3: 'ホーム3' };
-const AIMANA_API = 'https://asia-northeast1-aimana-8a09c.cloudfunctions.net/getCompanyData';
 
+// 空き状況は data/vacancy.json を手動で更新して表示する。
+// 以前は介護のまなAPIから利用者一覧を取得して人数を数えていたが、
+// そのやり方だと利用者の個人データが訪問者のブラウザに読み込まれてしまうため取りやめた。
+// リアルタイム表示に戻す場合は、人数だけを返す窓口をAPI側に用意してもらうこと。
 async function loadData() {
   try {
-    // 介護のまなAPIからリアルタイムデータを取得
-    const res = await fetch(AIMANA_API + '?includeInsuredPersons=true');
-    const apiData = await res.json();
-
-    if (!apiData.success || !apiData.insuredPersons) throw new Error('API error');
-
-    // 利用中の利用者のみフィルター
-    const persons = apiData.insuredPersons.filter(p => p.insuredPersonStatus === 'using');
-
-    // 拠点ごとにカウント
-    const facilities = ['HOME1', 'HOME2', 'HOME3'].map(id => ({
-      id: id,
-      name: FACILITY_NAMES[id],
-      capacity: FACILITY_CAPACITY[id],
-      occupied: persons.filter(p => p.facilityName === id).length
-    }));
-
-    const now = new Date();
-    const data = {
-      lastUpdated: `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`,
-      facilities: facilities
-    };
-
+    const res = await fetch('./data/vacancy.json?' + Date.now());
+    const data = await res.json();
     render(data);
-    document.getElementById('syncIndicator').style.display = 'inline-flex';
-
   } catch (e) {
-    // APIが利用不可の場合、vacancy.jsonにフォールバック
-    try {
-      const res = await fetch('./data/vacancy.json?' + Date.now());
-      const data = await res.json();
-      render(data);
-    } catch (e2) {
-      document.getElementById('loadingState').innerHTML = '<p style="color:#E8594F;">データの読み込みに失敗しました。</p>';
-    }
+    document.getElementById('loadingState').innerHTML = '<p style="color:#E8594F;">データの読み込みに失敗しました。</p>';
   }
 }
 
