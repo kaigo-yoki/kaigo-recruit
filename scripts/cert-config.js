@@ -37,6 +37,52 @@ window.KENSHU_PROGRESS_CONFIG = {
     el.style.color = c[1];
   };
 
+  // 圏外・電波不良で送信できなかった記録を端末に預かり、次に研修ページを開いたときに送り直す。
+  // 現場では利用者宅で受講することが多く、その場で失敗すると記録が永久に失われるため。
+  var QUEUE = 'kenshu_pending_records';
+  window.__kenshuQueue = function (endpoint, payload) {
+    try {
+      var q = JSON.parse(localStorage.getItem(QUEUE) || '[]');
+      q.push({ endpoint: endpoint, payload: payload });
+      localStorage.setItem(QUEUE, JSON.stringify(q.slice(-20)));
+    } catch (e) { /* 保存できない端末では諦める（修了証は出ている） */ }
+  };
+  window.__kenshuPost = function (endpoint, payload) {
+    var ctrl = typeof AbortController === 'function' ? new AbortController() : null;
+    // 応答が返らないまま「送信しています…」で固まらないよう打ち切る
+    var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, 20000) : null;
+    var opt = {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+    };
+    if (ctrl) opt.signal = ctrl.signal;
+    return fetch(endpoint, opt).then(function (res) {
+      if (timer) clearTimeout(timer);
+      // HTTPエラーを成功と取り違えないよう、まず状態を確かめる
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      // 本文が読めなくてもGASには届いており記録は残るので成功として扱う
+      return res.json().catch(function () { return { status: 'ok', unreadable: true }; });
+    }).then(function (j) {
+      if (!j || j.status !== 'ok') throw new Error(j && j.message ? j.message : 'rejected');
+      return j;
+    }).catch(function (e) {
+      if (timer) clearTimeout(timer);
+      throw e;
+    });
+  };
+  // 預かっている記録があれば、ページを開いたときに静かに送り直す
+  (function flush() {
+    var q;
+    try { q = JSON.parse(localStorage.getItem(QUEUE) || '[]'); } catch (e) { return; }
+    if (!q.length) return;
+    try { localStorage.removeItem(QUEUE); } catch (e) { }
+    q.forEach(function (item) {
+      window.__kenshuPost(item.endpoint, item.payload)
+        .catch(function () { window.__kenshuQueue(item.endpoint, item.payload); });
+    });
+  })();
+
   var orig = window.generateCert;
   if (typeof orig !== 'function') return;
   window.generateCert = function () {
@@ -58,35 +104,26 @@ window.KENSHU_PROGRESS_CONFIG = {
         window.__kenshuShowStatus('ok', '✅ 受講記録はすでに送信済みです');
         return;
       }
-      window.__kenshuLogged = dedupKey;
+      var payload = {
+        action: 'log',
+        name: name,
+        training: title,
+        // 翻訳版ページは KENSHU_LOG_PATH に日本語版のパスを設定し、進捗上は同じ研修として扱う
+        // どのURL経由（kaigo-yoki.jp/recruit・vercel.app）でも同じ研修として記録されるよう正規化
+        path: (window.KENSHU_LOG_PATH || location.pathname).replace(/^\/recruit/, '').replace(/\.html$/, ''),
+        date: dateStr
+      };
 
       window.__kenshuShowStatus('pending', '⏳ 受講記録を会社に送信しています…');
       // Content-Type を text/plain にすることでpreflight回避（talent.html と同方式）
-      fetch(cfg.endpoint, {
-        method: 'POST',
-        body: JSON.stringify({
-          action: 'log',
-          name: name,
-          training: title,
-          // 翻訳版ページは KENSHU_LOG_PATH に日本語版のパスを設定し、進捗上は同じ研修として扱う
-          // どのURL経由（kaigo-yoki.jp/recruit・vercel.app）でも同じ研修として記録されるよう正規化
-          path: (window.KENSHU_LOG_PATH || location.pathname).replace(/^\/recruit/, '').replace(/\.html$/, ''),
-          date: dateStr
-        }),
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' }
-      }).then(function (res) {
-        // レスポンスが読めれば正確に判定。読めなくても到達していれば成功扱い（POSTは届いている）
-        return res.json().catch(function () { return { status: 'ok', unreadable: true }; });
-      }).then(function (j) {
-        if (j && j.status === 'ok') {
-          window.__kenshuShowStatus('ok', '✅ 受講記録を会社に送信しました');
-        } else {
-          window.__kenshuLogged = null; // 再送できるようにする
-          window.__kenshuShowStatus('err', '⚠️ 受講記録を送信できませんでした。もう一度「修了証を発行」を押してください');
-        }
+      window.__kenshuPost(cfg.endpoint, payload).then(function () {
+        // 送信済みの記憶は成功を確かめてから。先に立てると、応答待ちの再操作で
+        // 「送信済みです」と出たまま実際には届いていない状態になる。
+        window.__kenshuLogged = dedupKey;
+        window.__kenshuShowStatus('ok', '✅ 受講記録を会社に送信しました');
       }).catch(function () {
-        window.__kenshuLogged = null;
-        window.__kenshuShowStatus('err', '⚠️ 通信エラーで記録を送信できませんでした。電波の良い場所でもう一度お試しください');
+        window.__kenshuQueue(cfg.endpoint, payload);
+        window.__kenshuShowStatus('err', '⚠️ いま記録を送信できませんでした。この端末に保存したので、電波の良い場所で研修ページを開けば自動で送られます');
       });
     } catch (e) { /* 記録失敗でも修了証発行は妨げない */ }
   };

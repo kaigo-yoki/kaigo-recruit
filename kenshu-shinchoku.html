@@ -6,9 +6,9 @@
 <title>研修進捗確認（管理者用）| 訪問介護 ようき</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" type="image/png" href="./favicon.png">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&amp;display=swap" media="print" onload="this.media='all'">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap');
-
 :root {
   --primary: #2D5A8E;
   --primary-light: #4A8FD4;
@@ -217,8 +217,10 @@ const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c =>
 const normDate = s => {
   const str = String(s || '').trim();
   if (/^\d{4}-\d{2}-\d{2}/.test(str)) return str.slice(0, 10);
+  // 日付として読めない値はそのまま返す。手入力の和暦（R8.7.22 等）を黙って
+  // 「未受講」にしてしまうと、修了しているのに気づけないため。表示側は esc() 済み。
   const d = new Date(str);
-  if (isNaN(d)) return '';   // 日付以外の文字列は画面に出さない
+  if (isNaN(d)) return str;
   return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
 };
 

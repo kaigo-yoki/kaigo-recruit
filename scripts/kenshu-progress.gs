@@ -105,6 +105,10 @@ function doPost(e) {
     const rawDate = String(data.date || '').trim();
     const date = /^\d{4}-\d{2}-\d{2}$/.test(rawDate) ? rawDate : '';
     if (!name || !training || !date) return jsonOut({ status: 'error', message: 'name/training/date required' });
+    // 研修ページ以外からの投稿は受け付けない（無関係な行がシートに混入するのを防ぐ）
+    if (!/^\/(trainings|individual-training|shougai-trainings|kango-trainings)\/[A-Za-z0-9_-]+$/.test(path)) {
+      return jsonOut({ status: 'error', message: 'invalid path' });
+    }
 
     const ss = getSS();
     let sheet = ss.getSheetByName(LOG_SHEET);
@@ -119,19 +123,6 @@ function doPost(e) {
         String(r[0]).trim() === name && String(r[2]).trim() === path && asDateStr(r[3]) === date
       );
       if (dup) return jsonOut({ status: 'ok', dedup: true });
-    }
-
-    // 1日あたりの記録数に上限を設ける（大量投入でシートが埋め尽くされるのを防ぐ）
-    if (lastRow > 1) {
-      const todayStr = Utilities.formatDate(new Date(), 'Asia/Tokyo', 'yyyy-MM-dd');
-      const scan = Math.min(lastRow - 1, 600);
-      const stamps = sheet.getRange(lastRow - scan + 1, 1, scan, 1).getValues();
-      let todayCount = 0;
-      stamps.forEach(function (r) {
-        if (r[0] instanceof Date &&
-            Utilities.formatDate(r[0], 'Asia/Tokyo', 'yyyy-MM-dd') === todayStr) todayCount++;
-      });
-      if (todayCount >= 500) return jsonOut({ status: 'error', message: 'daily limit' });
     }
 
     sheet.appendRow([new Date(), name, training, path, date]);

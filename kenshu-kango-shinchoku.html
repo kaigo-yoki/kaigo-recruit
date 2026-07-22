@@ -6,8 +6,9 @@
 <title>訪問看護 研修進捗確認（管理者用）| 訪問看護ようき</title>
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" type="image/png" href="./favicon.png">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&amp;display=swap" media="print" onload="this.media='all'">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap');
 :root{--primary:#0E7C86;--primary-dark:#095961;--accent:#E0533D;--ok:#2E9E6B;--ink:#1A2E33;--muted:#5B6E72;--line:#E3EBEC;--bg:#F4F8F8;}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Zen Kaku Gothic New',sans-serif;background:var(--bg);color:var(--ink);padding:20px 14px 60px;}
@@ -153,12 +154,13 @@ const norm = s => String(s || '').normalize('NFKC').replace(/[\s　]/g, '').toLo
 const normPath = p => String(p || '').replace(/^\/recruit/, '').replace(/\.html$/, '');
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-// 日付以外の文字列は画面に出さない（不正な値が混入しても描画に影響させない）
+// 日付として読めない値はそのまま返す。手入力の和暦（R8.7.22 等）を黙って
+// 「未受講」にしてしまうと、修了しているのに気づけないため。表示側は esc() 済み。
 const normDate = s => {
   const str = String(s || '').trim();
   if (/^\d{4}-\d{2}-\d{2}/.test(str)) return str.slice(0, 10);
   const d = new Date(str);
-  if (isNaN(d)) return '';
+  if (isNaN(d)) return str;
   return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
 };
 

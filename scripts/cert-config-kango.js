@@ -31,17 +31,28 @@ window.KANGO_ORGS = {
 // ---- 所属の判定（?org= → 端末の記憶 → 既定 youki）----
 (function () {
   var ORGS = window.KANGO_ORGS;
+  // ORGS[q] で直接引くと 'constructor' や '__proto__' が組み込みの値に当たってしまい、
+  // 記録先が undefined のまま端末に保存されて看護研修が丸ごと壊れる。必ず自前のキーだけを見る。
+  function known(k) { return !!k && Object.prototype.hasOwnProperty.call(ORGS, k); }
+
   var key = null;
+  var unknownOrg = '';
   try {
     var q = new URLSearchParams(location.search).get('org');
-    if (q && ORGS[q]) { key = q; localStorage.setItem('kango_org', q); }
-    if (!key) key = localStorage.getItem('kango_org');
+    if (q) {
+      if (known(q)) { key = q; localStorage.setItem('kango_org', q); }
+      // 覚えのない所属が指定されたら、黙って自社扱いにしない。
+      // 他社の看護師の記録が陽気のシートに入り、報告メールも陽気に飛んでしまうため。
+      else unknownOrg = q;
+    }
+    if (!key && !unknownOrg) key = localStorage.getItem('kango_org');
   } catch (e) { /* localStorage が使えない環境でも動かす */ }
-  if (!key || !ORGS[key]) key = 'youki';
+  if (!known(key)) key = 'youki';
 
   var org = ORGS[key];
   window.KANGO_ORG_KEY = key;
   window.KANGO_ORG = org;
+  window.KANGO_ORG_UNKNOWN = unknownOrg;
 
   window.CERT_MAIL_CONFIG = { to: org.to, cc: org.cc, honorific: org.honorific };
   window.KENSHU_PROGRESS_CONFIG = { endpoint: org.endpoint };
@@ -54,8 +65,12 @@ window.KANGO_ORGS = {
     el.id = 'kangoOrgNotice';
     var isDefault = (key === 'youki');
     el.style.cssText = 'margin:6px auto 2px;max-width:420px;font-size:12px;font-weight:700;padding:8px 12px;border-radius:10px;line-height:1.6;' +
-      (isDefault ? 'background:#EEF3F3;color:#5B6E72;' : 'background:#FDF4E6;color:#8A5B00;border:1px solid #E8912A;');
-    el.textContent = '📋 記録先：' + org.label;
+      (unknownOrg ? 'background:#FCEDEA;color:#C0392B;border:1px solid #C0392B;'
+        : isDefault ? 'background:#EEF3F3;color:#5B6E72;'
+          : 'background:#FDF4E6;color:#8A5B00;border:1px solid #E8912A;');
+    el.textContent = unknownOrg
+      ? '⚠️ 所属が特定できません（' + unknownOrg + '）。記録が正しい事業所に届きません。管理者から配布されたURLを開き直してください。'
+      : '📋 記録先：' + org.label;
     var host = input.parentNode;
     if (host) host.insertBefore(el, input);
   }
@@ -87,6 +102,52 @@ window.KANGO_ORGS = {
     el.style.color = c[1];
   };
 
+  // 圏外・電波不良で送信できなかった記録を端末に預かり、次に研修ページを開いたときに送り直す。
+  // 訪問先で受講することが多く、その場で失敗すると記録が永久に失われるため。
+  var QUEUE = 'kenshu_pending_records_kango';
+  window.__kenshuQueue = function (endpoint, payload) {
+    try {
+      var q = JSON.parse(localStorage.getItem(QUEUE) || '[]');
+      q.push({ endpoint: endpoint, payload: payload });
+      localStorage.setItem(QUEUE, JSON.stringify(q.slice(-20)));
+    } catch (e) { /* 保存できない端末では諦める（修了証は出ている） */ }
+  };
+  window.__kenshuPost = function (endpoint, payload) {
+    var ctrl = typeof AbortController === 'function' ? new AbortController() : null;
+    // 応答が返らないまま「送信しています…」で固まらないよう打ち切る
+    var timer = ctrl ? setTimeout(function () { ctrl.abort(); }, 20000) : null;
+    var opt = {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' }
+    };
+    if (ctrl) opt.signal = ctrl.signal;
+    return fetch(endpoint, opt).then(function (res) {
+      if (timer) clearTimeout(timer);
+      // HTTPエラーを成功と取り違えないよう、まず状態を確かめる
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      // 本文が読めなくてもGASには届いており記録は残るので成功として扱う
+      return res.json().catch(function () { return { status: 'ok', unreadable: true }; });
+    }).then(function (j) {
+      if (!j || j.status !== 'ok') throw new Error(j && j.message ? j.message : 'rejected');
+      return j;
+    }).catch(function (e) {
+      if (timer) clearTimeout(timer);
+      throw e;
+    });
+  };
+  // 預かっている記録があれば、ページを開いたときに静かに送り直す
+  (function flush() {
+    var q;
+    try { q = JSON.parse(localStorage.getItem(QUEUE) || '[]'); } catch (e) { return; }
+    if (!q.length) return;
+    try { localStorage.removeItem(QUEUE); } catch (e) { }
+    q.forEach(function (item) {
+      window.__kenshuPost(item.endpoint, item.payload)
+        .catch(function () { window.__kenshuQueue(item.endpoint, item.payload); });
+    });
+  })();
+
   var orig = window.generateCert;
   if (typeof orig !== 'function') return;
   window.generateCert = function () {
@@ -98,6 +159,12 @@ window.KANGO_ORGS = {
       if (!name) return;
       if (!cfg || !cfg.endpoint) return;
 
+      // 所属が特定できないときは記録しない（他社の記録が陽気のシートに混ざるのを防ぐ）
+      if (window.KANGO_ORG_UNKNOWN) {
+        window.__kenshuShowStatus('err', '⚠️ 所属が特定できないため記録を送信していません。管理者から配布されたURLで開き直してください');
+        return;
+      }
+
       var title = (typeof TRAINING_TITLE !== 'undefined') ? TRAINING_TITLE : document.title;
       var d = new Date();
       var dateStr = d.getFullYear() + '-' +
@@ -108,32 +175,24 @@ window.KANGO_ORGS = {
         window.__kenshuShowStatus('ok', '✅ 受講記録はすでに送信済みです');
         return;
       }
-      window.__kenshuLogged = dedupKey;
+      var payload = {
+        action: 'log',
+        name: name,
+        training: title,
+        // どのURL経由（kaigo-yoki.jp/recruit・vercel.app）でも同じ研修として記録されるよう正規化
+        path: (window.KENSHU_LOG_PATH || location.pathname).replace(/^\/recruit/, '').replace(/\.html$/, ''),
+        date: dateStr
+      };
 
       window.__kenshuShowStatus('pending', '⏳ 受講記録を会社に送信しています…');
-      fetch(cfg.endpoint, {
-        method: 'POST',
-        body: JSON.stringify({
-          action: 'log',
-          name: name,
-          training: title,
-          // どのURL経由（kaigo-yoki.jp/recruit・vercel.app）でも同じ研修として記録されるよう正規化
-          path: (window.KENSHU_LOG_PATH || location.pathname).replace(/^\/recruit/, '').replace(/\.html$/, ''),
-          date: dateStr
-        }),
-        headers: { 'Content-Type': 'text/plain;charset=utf-8' }
-      }).then(function (res) {
-        return res.json().catch(function () { return { status: 'ok', unreadable: true }; });
-      }).then(function (j) {
-        if (j && j.status === 'ok') {
-          window.__kenshuShowStatus('ok', '✅ 受講記録を会社に送信しました');
-        } else {
-          window.__kenshuLogged = null;
-          window.__kenshuShowStatus('err', '⚠️ 受講記録を送信できませんでした。もう一度「修了証を発行」を押してください');
-        }
+      window.__kenshuPost(cfg.endpoint, payload).then(function () {
+        // 送信済みの記憶は成功を確かめてから。先に立てると、応答待ちの再操作で
+        // 「送信済みです」と出たまま実際には届いていない状態になる。
+        window.__kenshuLogged = dedupKey;
+        window.__kenshuShowStatus('ok', '✅ 受講記録を会社に送信しました');
       }).catch(function () {
-        window.__kenshuLogged = null;
-        window.__kenshuShowStatus('err', '⚠️ 通信エラーで記録を送信できませんでした。電波の良い場所でもう一度お試しください');
+        window.__kenshuQueue(cfg.endpoint, payload);
+        window.__kenshuShowStatus('err', '⚠️ いま記録を送信できませんでした。この端末に保存したので、電波の良い場所で研修ページを開けば自動で送られます');
       });
     } catch (e) { /* 記録失敗でも修了証発行は妨げない */ }
   };
