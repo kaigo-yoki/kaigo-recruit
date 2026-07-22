@@ -36,6 +36,18 @@ function getSS() {
   return SpreadsheetApp.getActiveSpreadsheet();
 }
 
+// 受信した文字列をセルに書く前の安全化。
+// '=' や '+' で始まる値はスプレッドシートが「数式」として実行してしまい、
+// 外部URLの呼び出し（＝名簿の抜き取り）に悪用されうるため、先頭に ' を付けて必ず文字列扱いにする。
+// 長さも制限し、極端に長い値でシートが壊れるのを防ぐ。
+function safeCell(v, maxLen) {
+  // 改行やタブは取り除く（氏名の空白は名簿照合に必要なので残す）
+  var s = String(v == null ? '' : v).replace(/[\r\n\t]/g, ' ').trim();
+  if (s.length > (maxLen || 120)) s = s.slice(0, maxLen || 120);
+  if (/^[=+\-@]/.test(s)) s = "'" + s;
+  return s;
+}
+
 // スプレッドシートは 'YYYY-MM-DD' 文字列を日付型に自動変換するため、読み出し時に文字列へ戻す
 function asDateStr(v) {
   if (v instanceof Date) return Utilities.formatDate(v, 'Asia/Tokyo', 'yyyy-MM-dd');
@@ -87,11 +99,13 @@ function doPost(e) {
     const data = JSON.parse(e.postData.contents);
     if (data.action !== 'log') return jsonOut({ status: 'error', message: 'unknown action' });
 
-    const name = String(data.name || '').trim();
-    const training = String(data.training || '').trim();
-    const path = String(data.path || '').trim();
-    const date = String(data.date || '').trim();
-    if (!name || !training) return jsonOut({ status: 'error', message: 'name/training required' });
+    const name = safeCell(data.name, 40);
+    const training = safeCell(data.training, 100);
+    const path = safeCell(data.path, 120);
+    // 修了日は YYYY-MM-DD 以外を受け付けない（不正な値が進捗表に紛れ込むのを防ぐ）
+    const rawDate = String(data.date || '').trim();
+    const date = /^\d{4}-\d{2}-\d{2}$/.test(rawDate) ? rawDate : '';
+    if (!name || !training || !date) return jsonOut({ status: 'error', message: 'name/training/date required' });
 
     const ss = getSS();
     let sheet = ss.getSheetByName(LOG_SHEET);
@@ -106,6 +120,19 @@ function doPost(e) {
         String(r[0]).trim() === name && String(r[2]).trim() === path && asDateStr(r[3]) === date
       );
       if (dup) return jsonOut({ status: 'ok', dedup: true });
+    }
+
+    // 1日あたりの記録数に上限を設ける（大量投入でシートが埋め尽くされるのを防ぐ）
+    if (lastRow > 1) {
+      const todayStr = Utilities.formatDate(new Date(), 'Asia/Tokyo', 'yyyy-MM-dd');
+      const scan = Math.min(lastRow - 1, 600);
+      const stamps = sheet.getRange(lastRow - scan + 1, 1, scan, 1).getValues();
+      let todayCount = 0;
+      stamps.forEach(function (r) {
+        if (r[0] instanceof Date &&
+            Utilities.formatDate(r[0], 'Asia/Tokyo', 'yyyy-MM-dd') === todayStr) todayCount++;
+      });
+      if (todayCount >= 500) return jsonOut({ status: 'error', message: 'daily limit' });
     }
 
     sheet.appendRow([new Date(), name, training, path, date]);

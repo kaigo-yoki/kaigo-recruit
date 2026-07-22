@@ -153,11 +153,12 @@ const norm = s => String(s || '').normalize('NFKC').replace(/[\s　]/g, '').toLo
 const normPath = p => String(p || '').replace(/^\/recruit/, '').replace(/\.html$/, '');
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c =>
   ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+// 日付以外の文字列は画面に出さない（不正な値が混入しても描画に影響させない）
 const normDate = s => {
   const str = String(s || '').trim();
   if (/^\d{4}-\d{2}-\d{2}/.test(str)) return str.slice(0, 10);
   const d = new Date(str);
-  if (isNaN(d)) return str;
+  if (isNaN(d)) return '';
   return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
 };
 
@@ -248,7 +249,7 @@ function setDept(d) { deptFilter = d; renderFilters(); render(); }
 function cellHTML(date) {
   if (!date) return '<span class="cell-none">・</span>';
   const md = date.slice(5).replace('-', '/');
-  return `<span class="cell-done">✅<span class="cell-date">${md}</span></span>`;
+  return `<span class="cell-done">✅<span class="cell-date">${esc(md)}</span></span>`;
 }
 
 function matrixHTML(list, staff, idx) {
