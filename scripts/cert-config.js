@@ -55,9 +55,10 @@ window.KENSHU_PROGRESS_CONFIG = {
       return x.payload && x.payload.name === p.name && x.payload.path === p.path && x.payload.date === p.date;
     };
     var n = (tries || 0) + 1;
-    // 何度送っても通らない記録を永久に持ち回らない（管理者が名簿・記録を直せば手当てできる）
-    if (n > 5) return;
     q = q.filter(function (x) { return !same(x); });
+    // 何度送っても通らない記録は捨てる。ここで書き戻さないと古い項目が残り、
+    // 研修ページを開くたびに永久に送信を試み続けてしまう。
+    if (n > 5) { writeQueue(q); return; }
     q.push({ endpoint: endpoint, payload: p, tries: n });
     writeQueue(q);
   };
