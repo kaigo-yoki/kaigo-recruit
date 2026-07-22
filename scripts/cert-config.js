@@ -40,12 +40,26 @@ window.KENSHU_PROGRESS_CONFIG = {
   // 圏外・電波不良で送信できなかった記録を端末に預かり、次に研修ページを開いたときに送り直す。
   // 現場では利用者宅で受講することが多く、その場で失敗すると記録が永久に失われるため。
   var QUEUE = 'kenshu_pending_records';
-  window.__kenshuQueue = function (endpoint, payload) {
-    try {
-      var q = JSON.parse(localStorage.getItem(QUEUE) || '[]');
-      q.push({ endpoint: endpoint, payload: payload });
-      localStorage.setItem(QUEUE, JSON.stringify(q.slice(-20)));
-    } catch (e) { /* 保存できない端末では諦める（修了証は出ている） */ }
+  function readQueue() {
+    try { var q = JSON.parse(localStorage.getItem(QUEUE) || '[]'); return q.length ? q : []; }
+    catch (e) { return []; }
+  }
+  function writeQueue(q) {
+    try { localStorage.setItem(QUEUE, JSON.stringify(q.slice(-20))); } catch (e) { }
+  }
+  window.__kenshuQueue = function (endpoint, payload, tries) {
+    var q = readQueue();
+    var p = payload;
+    // 同じ人・同じ研修・同じ日を何度も積まない
+    var same = function (x) {
+      return x.payload && x.payload.name === p.name && x.payload.path === p.path && x.payload.date === p.date;
+    };
+    var n = (tries || 0) + 1;
+    // 何度送っても通らない記録を永久に持ち回らない（管理者が名簿・記録を直せば手当てできる）
+    if (n > 5) return;
+    q = q.filter(function (x) { return !same(x); });
+    q.push({ endpoint: endpoint, payload: p, tries: n });
+    writeQueue(q);
   };
   window.__kenshuPost = function (endpoint, payload) {
     var ctrl = typeof AbortController === 'function' ? new AbortController() : null;
@@ -57,6 +71,8 @@ window.KENSHU_PROGRESS_CONFIG = {
       headers: { 'Content-Type': 'text/plain;charset=utf-8' }
     };
     if (ctrl) opt.signal = ctrl.signal;
+    // 修了証発行の直後にメールアプリへ移ることが多く、遷移で送信が中断されるのを防ぐ
+    try { opt.keepalive = true; } catch (e) { }
     return fetch(endpoint, opt).then(function (res) {
       if (timer) clearTimeout(timer);
       // HTTPエラーを成功と取り違えないよう、まず状態を確かめる
@@ -71,15 +87,22 @@ window.KENSHU_PROGRESS_CONFIG = {
       throw e;
     });
   };
-  // 預かっている記録があれば、ページを開いたときに静かに送り直す
+  // 預かっている記録があれば、ページを開いたときに静かに送り直す。
+  // 送信できたものだけを取り除く。先に消すと、応答を待つ間にページを閉じられたとき
+  // （弱い電波でまさに起きやすい）記録が端末からも消えてしまう。
   (function flush() {
-    var q;
-    try { q = JSON.parse(localStorage.getItem(QUEUE) || '[]'); } catch (e) { return; }
+    var q = readQueue();
     if (!q.length) return;
-    try { localStorage.removeItem(QUEUE); } catch (e) { }
     q.forEach(function (item) {
-      window.__kenshuPost(item.endpoint, item.payload)
-        .catch(function () { window.__kenshuQueue(item.endpoint, item.payload); });
+      window.__kenshuPost(item.endpoint, item.payload).then(function () {
+        var cur = readQueue().filter(function (x) {
+          return !(x.payload && item.payload && x.payload.name === item.payload.name &&
+            x.payload.path === item.payload.path && x.payload.date === item.payload.date);
+        });
+        writeQueue(cur);
+      }).catch(function () {
+        window.__kenshuQueue(item.endpoint, item.payload, item.tries || 1);
+      });
     });
   })();
 

@@ -228,11 +228,12 @@ function apply(data) {
 }
 
 function buildIndex() {
-  const idx = {};
+  // 氏名に __proto__ 等が混ざっても集計が壊れないよう、継承のないオブジェクトを使う
+  const idx = Object.create(null);
   for (const r of RECORDS) {
     const n = norm(r.name), p = normPath(r.path);
     if (!n) continue;
-    if (!idx[n]) idx[n] = {};
+    if (!idx[n]) idx[n] = Object.create(null);
     if (!idx[n][p] || idx[n][p] < r.date) idx[n][p] = r.date;
   }
   return idx;
@@ -288,7 +289,7 @@ function render() {
   const totalPct = staff.length ? Math.round(doneAll / (staff.length * ALL.length) * 100) : 0;
   const lastRec = RECORDS.length ? RECORDS.map(r => r.date).sort().slice(-1)[0] : '—';
   document.getElementById('summary').innerHTML = `
-    <div class="sum-card"><div class="sum-num">${staff.length}</div><div class="sum-label">在籍看護師数${deptFilter !== '全て' ? '（' + deptFilter + '）' : ''}</div></div>
+    <div class="sum-card"><div class="sum-num">${staff.length}</div><div class="sum-label">在籍看護師数${deptFilter !== '全て' ? '（' + esc(deptFilter) + '）' : ''}</div></div>
     <div class="sum-card"><div class="sum-num">${totalPct}%</div><div class="sum-label">全17研修 修了率</div></div>
     <div class="sum-card"><div class="sum-num">${RECORDS.length}</div><div class="sum-label">修了記録 件数</div></div>
     <div class="sum-card"><div class="sum-num" style="font-size:18px;">${esc(lastRec)}</div><div class="sum-label">最終修了日</div></div>`;
@@ -303,7 +304,8 @@ function render() {
   const panel = document.getElementById('unmatchedPanel');
   if (unmatched.length) {
     panel.style.display = 'block';
-    const byName = {};
+    // 氏名がキーになるため、継承のないオブジェクトを使う（__proto__ 等で表が壊れるのを防ぐ）
+    const byName = Object.create(null);
     unmatched.forEach(r => { (byName[r.name] = byName[r.name] || []).push(r.training); });
     document.getElementById('unmatchedList').innerHTML = Object.entries(byName)
       .map(([n, ts]) => `<li><strong>${esc(n)}</strong>（${ts.length}件）</li>`).join('');

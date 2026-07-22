@@ -107,7 +107,9 @@ function doPost(e) {
     const date = /^\d{4}-\d{2}-\d{2}$/.test(rawDate) ? rawDate : '';
     if (!name || !training || !date) return jsonOut({ status: 'error', message: 'name/training/date required' });
     // 研修ページ以外からの投稿は受け付けない（無関係な行がシートに混入するのを防ぐ）
-    if (!/^\/(kango-trainings|trainings|individual-training|shougai-trainings)\/[A-Za-z0-9_-]+$/.test(path)) {
+    // 倫理・法令遵守研修だけはルート直下（/rinri-kenshu）にあるため個別に許可する。
+    // 研修ページを新しい場所に追加したら、ここも忘れずに足すこと。
+    if (!/^\/(rinri-kenshu|(kango-trainings|trainings|individual-training|shougai-trainings)\/[A-Za-z0-9_-]+)$/.test(path)) {
       return jsonOut({ status: 'error', message: 'invalid path' });
     }
 
