@@ -62,7 +62,7 @@ tbody tr:nth-child(even) td:not(.name-col){background:#FAFCFC;}
 <body>
 <div class="wrap">
   <h1>🩺 訪問看護 研修進捗確認</h1>
-  <div class="sub">管理者用 — 看護師ごとの研修修了状況（訪問看護ようき）</div>
+  <div class="sub">管理者用 — 看護師ごとの研修修了状況<br><span id="orgLabel" style="font-weight:700;color:var(--primary-dark);"></span></div>
 
   <div class="panel" id="gate">
     <label for="keyInput">🔑 閲覧キーを入力してください</label>
@@ -117,7 +117,10 @@ tbody tr:nth-child(even) td:not(.name-col){background:#FAFCFC;}
 
 <script src="./scripts/cert-config-kango.js"></script>
 <script>
-const KEY_STORE = 'kenshu_kango_shinchoku_key';
+// 組織ごとに閲覧キーを分けて保存（cert-config-kango.js が ?org= を解釈して所属を決める）
+const ORG_KEY = window.KANGO_ORG_KEY || 'youki';
+const ORG = window.KANGO_ORG || { label: '訪問看護ようき（有限会社 陽気）' };
+const KEY_STORE = 'kenshu_kango_shinchoku_key_' + ORG_KEY;
 const DEMO = new URLSearchParams(location.search).get('demo') === '1';
 let STAFF = [], RECORDS = [], deptFilter = '全て';
 
@@ -309,6 +312,16 @@ function render() {
   const cfg = window.KENSHU_PROGRESS_CONFIG || {};
   if (!cfg.endpoint) { document.getElementById('setupBox').style.display = 'block'; return; }
   if (localStorage.getItem(KEY_STORE)) loadData();
+})();
+(function () {
+  var el = document.getElementById('orgLabel');
+  if (el) el.textContent = '📋 ' + ORG.label;
+  // 記録先が未設定の組織（GAS未デプロイ）は、その旨を先に知らせる
+  var cfg = window.KENSHU_PROGRESS_CONFIG || {};
+  if (!cfg.endpoint) {
+    var box = document.getElementById('setupBox');
+    if (box) box.style.display = 'block';
+  }
 })();
 document.getElementById('keyInput').addEventListener('keydown', e => { if (e.key === 'Enter') enter(); });
 </script>

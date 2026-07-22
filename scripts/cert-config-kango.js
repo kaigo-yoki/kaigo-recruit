@@ -1,17 +1,67 @@
-// 訪問看護 研修 修了報告メールの宛先設定（訪問看護ページ共通）
+// 訪問看護 研修 の組織別設定（訪問看護ページ共通）
 // ※ 介護版（cert-config.js）とは別事業なので設定を分けている。
-//    看護管理者が確定したら to をそのアドレスに変更する。
-window.CERT_MAIL_CONFIG = {
-  to: 'itsuyo@kaigo-yoki.jp',      // 訪問看護 管理者（伊福いつよ）
-  cc: 'info@kaigo-yoki.jp',        // 本部（嶺井代表・控え）
-  honorific: '訪問看護 管理者 様'   // メール冒頭の宛名
+//
+// ▼ 複数の事業所（グループ会社を含む）に対応
+//   同じ研修ページを使いながら、受講者の所属ごとに「記録先スプレッドシート」と
+//   「修了報告メールの宛先」を切り替える。法定研修は事業所ごとに実績が必要なため。
+//
+//   受講者には  ...?org=キー  付きのURLを配る（例: /kango-trainings/kyuhen?org=youki）
+//   一度開けば端末に記憶されるので、2回目以降はURLだけでよい。
+window.KANGO_ORGS = {
+  // 自社（既定）
+  youki: {
+    label: '訪問看護ようき（有限会社 陽気）',
+    to: 'itsuyo@kaigo-yoki.jp',      // 訪問看護 管理者（伊福いつよ）
+    cc: 'info@kaigo-yoki.jp',        // 本部（嶺井代表・控え）
+    honorific: '訪問看護 管理者 様',
+    endpoint: 'https://script.google.com/macros/s/AKfycbzPTsul5M9nP26V8tcGMEHsWjRksN8bEameebmx92OM-kgGWiaCtldTyVwvbHU7ktaO/exec'
+  }
+
+  // ▼ グループ会社を追加するときは、下のブロックのコメントを外して3か所を埋める
+  //   （先方が kango-progress.gs をデプロイして得た URL と、先方管理者のメール）
+  // , group1: {
+  //     label: '（グループ会社名）',
+  //     to: '（先方管理者のメール）',
+  //     cc: 'info@kaigo-yoki.jp',      // 陽気にも控えを送る
+  //     honorific: '訪問看護 管理者 様',
+  //     endpoint: '（先方のGASウェブアプリURL）'
+  //   }
 };
 
-// 訪問看護 研修進捗の自動記録（介護とは別のスプレッドシート／GASを想定）
-// endpoint 未設定（空文字）の間は記録せず、修了証発行は通常どおり動作する。
-window.KENSHU_PROGRESS_CONFIG = {
-  endpoint: 'https://script.google.com/macros/s/AKfycbzPTsul5M9nP26V8tcGMEHsWjRksN8bEameebmx92OM-kgGWiaCtldTyVwvbHU7ktaO/exec'
-};
+// ---- 所属の判定（?org= → 端末の記憶 → 既定 youki）----
+(function () {
+  var ORGS = window.KANGO_ORGS;
+  var key = null;
+  try {
+    var q = new URLSearchParams(location.search).get('org');
+    if (q && ORGS[q]) { key = q; localStorage.setItem('kango_org', q); }
+    if (!key) key = localStorage.getItem('kango_org');
+  } catch (e) { /* localStorage が使えない環境でも動かす */ }
+  if (!key || !ORGS[key]) key = 'youki';
+
+  var org = ORGS[key];
+  window.KANGO_ORG_KEY = key;
+  window.KANGO_ORG = org;
+
+  window.CERT_MAIL_CONFIG = { to: org.to, cc: org.cc, honorific: org.honorific };
+  window.KENSHU_PROGRESS_CONFIG = { endpoint: org.endpoint };
+
+  // 記録先の取り違えを防ぐため、名前入力欄の上に「どこに記録されるか」を明示する
+  function showOrgNotice() {
+    var input = document.getElementById('certName');
+    if (!input || document.getElementById('kangoOrgNotice')) return;
+    var el = document.createElement('div');
+    el.id = 'kangoOrgNotice';
+    var isDefault = (key === 'youki');
+    el.style.cssText = 'margin:6px auto 2px;max-width:420px;font-size:12px;font-weight:700;padding:8px 12px;border-radius:10px;line-height:1.6;' +
+      (isDefault ? 'background:#EEF3F3;color:#5B6E72;' : 'background:#FDF4E6;color:#8A5B00;border:1px solid #E8912A;');
+    el.textContent = '📋 記録先：' + org.label;
+    var host = input.parentNode;
+    if (host) host.insertBefore(el, input);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', showOrgNotice);
+  else showOrgNotice();
+})();
 
 // 修了証発行（generateCert）をフックして、発行時に進捗を自動送信する。
 // このファイルは各研修ページの最後で読み込まれるため、ページ側の定義を上書きできる。
