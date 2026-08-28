@@ -6,9 +6,13 @@
     "dev": "npx -y serve@latest -l 3000",
     "generate": "node scripts/build/generate-post.js",
     "generate-training": "node scripts/build/generate-training.js",
-    "generate-individual": "node scripts/build/generate-individual.js"
+    "generate-individual": "node scripts/build/generate-individual.js",
+    "generate-instagram": "node scripts/build/generate-instagram.js",
+    "ig-publish": "node scripts/build/ig-publish.js",
+    "ig-preview": "node scripts/build/render-slides.js"
   },
   "dependencies": {
-    "openai": "^4.58.0"
+    "openai": "^4.58.0",
+    "puppeteer": "^25.3.0"
   }
 }
