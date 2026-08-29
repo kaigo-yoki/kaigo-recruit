@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>法定研修一覧 | 訪問介護 ようき（沖縄県南城市）- 厚生労働省準拠 全10テーマ</title>
-<meta name="description" content="訪問介護ようき（有限会社 陽気）の法定研修コンテンツ一覧。厚生労働省準拠の全10テーマを漫画形式で楽しく学べます。倫理・プライバシー・感染症・認知症など介護の基礎を網羅。">
+<title>法定研修一覧 | 訪問介護 ようき（沖縄県南城市）- 厚生労働省準拠 全11テーマ</title>
+<meta name="description" content="訪問介護ようき（有限会社 陽気）の法定研修コンテンツ一覧。厚生労働省準拠の全11テーマを漫画形式で楽しく学べます。倫理・プライバシー・感染症・認知症など介護の基礎を網羅。">
 <meta name="keywords" content="法定研修,訪問介護,介護研修,厚生労働省,倫理,プライバシー,感染症,認知症,介護技術,沖縄,南城市,ようき">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://kaigo-yoki.jp/recruit/kenshu.html">
-<meta property="og:title" content="法定研修一覧 | 訪問介護 ようき - 全10テーマ漫画形式">
+<meta property="og:title" content="法定研修一覧 | 訪問介護 ようき - 全11テーマ漫画形式">
 <meta property="og:description" content="厚生労働省準拠の法定研修を漫画形式で楽しく学べる。クイズ付きで理解度チェックも可能。">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://kaigo-yoki.jp/recruit/kenshu.html">
@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="訪問介護 ようき 採用サイト">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="法定研修一覧 | 訪問介護 ようき">
-<meta name="twitter:description" content="厚生労働省準拠の全10テーマ法定研修。漫画形式で楽しく学べる。">
+<meta name="twitter:description" content="厚生労働省準拠の全11テーマ法定研修。漫画形式で楽しく学べる。">
 <link rel="icon" type="image/png" href="./favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -107,7 +107,7 @@ main{max-width:900px;margin:0 auto;padding:40px 24px 80px;}
 </div>
 
 <main>
-  <div class="section-title">📋 全10テーマ</div>
+  <div class="section-title" id="themeCount">📋 全11テーマ</div>
   <div class="section-sub">各テーマをクリックして研修を受けましょう。クイズ付きで理解度もチェック！</div>
 
   <div class="cards" id="training-cards">
@@ -150,16 +150,28 @@ const ALL_THEMES = [
   { id: 'restraint', title: '身体拘束等の適正化', icon: '🙅', desc: '身体拘束の原則禁止と、緊急やむを得ない場合の3要件・スピーチロック防止を学びます。' }
 ];
 
+// trainings.json が読めなかったときの控え（受講可能なテーマのID）。
+// これが無いと、通信が一瞬途切れただけで作成済みの研修まで「準備中」になり、
+// 職員には研修が消えたように見えてしまう。generate-training.js が自動更新する。
+const FALLBACK_READY = ["privacy","dementia","abuse-prevention","accident-prevention","emergency","infection-control","hospitality","harassment","bcp","restraint"];
+
 async function loadTrainings() {
   const container = document.getElementById('training-cards');
   let trainingsData = [];
+  let loadFailed = false;
 
   try {
     const res = await fetch('./trainings/trainings.json?_t=' + Date.now());
+    if (!res.ok) throw new Error('HTTP ' + res.status);
     trainingsData = await res.json();
-  } catch(e) {}
+    if (!Array.isArray(trainingsData)) throw new Error('unexpected format');
+  } catch(e) {
+    // 取得できないときは控えの一覧で表示する（作成日だけ出せない）
+    loadFailed = true;
+    trainingsData = [];
+  }
 
-  const generatedIds = trainingsData.map(t => t.id);
+  const generatedIds = loadFailed ? FALLBACK_READY : trainingsData.map(t => t.id);
 
   container.innerHTML = ALL_THEMES.map((theme, i) => {
     const isGenerated = theme.id === 'rinri' || generatedIds.includes(theme.id);
@@ -190,7 +202,19 @@ async function loadTrainings() {
       statusHTML + dateHTML +
     '</' + tag + '>';
   }).join('');
+
+  // 一覧が控えで表示されていることを管理者に知らせる（受講は続けられる）
+  if (loadFailed) {
+    const notice = document.createElement('div');
+    notice.className = 'section-sub';
+    notice.style.cssText = 'margin-top:16px;background:#FFF3E0;color:#8A5B00;border:1px solid #FF8F00;border-radius:10px;padding:10px 14px;font-weight:700;';
+    notice.textContent = '⚠️ 研修一覧の最新情報を取得できませんでした。受講はできますが、作成日は表示されません。';
+    container.insertAdjacentElement('afterend', notice);
+  }
 }
+
+const themeCountEl = document.getElementById('themeCount');
+if (themeCountEl) themeCountEl.textContent = '📋 全' + ALL_THEMES.length + 'テーマ';
 
 loadTrainings();
 </script>
