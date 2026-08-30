@@ -287,7 +287,11 @@ function render() {
   let doneAll = 0;
   staff.forEach(s => { const mine = idx[norm(s.name)] || {}; ALL.forEach(t => { if (mine[t.path]) doneAll++; }); });
   const totalPct = staff.length ? Math.round(doneAll / (staff.length * ALL.length) * 100) : 0;
-  const lastRec = RECORDS.length ? RECORDS.map(r => r.date).sort().slice(-1)[0] : '—';
+  // 手入力の和暦（R8.7.22 等）は文字列順で ISO 日付より後ろに来るため、
+  // そのまま並べると最新でないものが「最終修了日」に出てしまう。日付として
+  // 確実に読める YYYY-MM-DD だけで判定する（表のセル側は入力値をそのまま残す）。
+  const isoDates = RECORDS.map(r => r.date).filter(d => /^\d{4}-\d{2}-\d{2}$/.test(d));
+  const lastRec = isoDates.length ? isoDates.sort().slice(-1)[0] : '—';
   document.getElementById('summary').innerHTML = `
     <div class="sum-card"><div class="sum-num">${staff.length}</div><div class="sum-label">在籍看護師数${deptFilter !== '全て' ? '（' + esc(deptFilter) + '）' : ''}</div></div>
     <div class="sum-card"><div class="sum-num">${totalPct}%</div><div class="sum-label">全17研修 修了率</div></div>

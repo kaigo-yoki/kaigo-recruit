@@ -5,6 +5,7 @@ const path = require('path');
 // ===== 設定 =====
 const TRAININGS_DIR = path.join(__dirname, '..', '..', 'trainings');
 const TRAININGS_JSON = path.join(TRAININGS_DIR, 'trainings.json');
+const KENSHU_HTML = path.join(__dirname, '..', '..', 'kenshu.html');
 const SITE_URL = 'https://kaigo-yoki.jp/recruit';
 
 // ===== 法定研修テーマプール（厚生労働省準拠） =====
@@ -813,8 +814,26 @@ async function main() {
 
   fs.writeFileSync(TRAININGS_JSON, JSON.stringify(trainings, null, 2), 'utf-8');
   console.log('trainings.json を更新しました。');
+
+  updateFallbackReady(trainings.map(t => t.id));
   console.log(`生成済みテーマ数: ${trainings.length} / ${TRAINING_THEMES.length}`);
   console.log('完了!');
+}
+
+// kenshu.html の FALLBACK_READY を trainings.json と同じ内容に保つ。
+// 一覧ページは trainings.json の取得に失敗したときこの控えを使うため、
+// ここが古いままだと新しい研修が「準備中」のまま表示されてしまう。
+function updateFallbackReady(ids) {
+  if (!fs.existsSync(KENSHU_HTML)) return;
+  const html = fs.readFileSync(KENSHU_HTML, 'utf-8');
+  const line = 'const FALLBACK_READY = ' + JSON.stringify(ids) + ';';
+  const updated = html.replace(/const FALLBACK_READY = \[[^\]]*\];/, line);
+  if (updated === html) {
+    console.warn('注意: kenshu.html の FALLBACK_READY が見つかりませんでした。手動で確認してください。');
+    return;
+  }
+  fs.writeFileSync(KENSHU_HTML, updated, 'utf-8');
+  console.log('kenshu.html の FALLBACK_READY を更新しました。');
 }
 
 main().catch(err => {
