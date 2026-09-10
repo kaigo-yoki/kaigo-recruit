@@ -47,6 +47,16 @@ window.KENSHU_PROGRESS_CONFIG = {
   function writeQueue(q) {
     try { localStorage.setItem(QUEUE, JSON.stringify(q.slice(-20))); } catch (e) { }
   }
+  // 再送をあきらめた記録の置き場。法定研修の実施記録は運営指導で提示するものなので、
+  // 消えたことに気づけない状態を作らないため、捨てずにここへ移して警告を出し続ける。
+  var FAILED = 'kenshu_failed_records';
+  function readFailed() {
+    try { var q = JSON.parse(localStorage.getItem(FAILED) || '[]'); return q.length ? q : []; }
+    catch (e) { return []; }
+  }
+  function writeFailed(q) {
+    try { localStorage.setItem(FAILED, JSON.stringify(q.slice(-20))); } catch (e) { }
+  }
   window.__kenshuQueue = function (endpoint, payload, tries) {
     var q = readQueue();
     var p = payload;
@@ -56,12 +66,62 @@ window.KENSHU_PROGRESS_CONFIG = {
     };
     var n = (tries || 0) + 1;
     q = q.filter(function (x) { return !same(x); });
-    // 何度送っても通らない記録は捨てる。ここで書き戻さないと古い項目が残り、
-    // 研修ページを開くたびに永久に送信を試み続けてしまう。
-    if (n > 5) { writeQueue(q); return; }
+    // 何度送っても通らない記録は再送をあきらめる（ここで書き戻さないと古い項目が
+    // 残り、研修ページを開くたびに永久に送信を試み続けてしまう）。ただし黙って
+    // 捨てず、控えへ移して受講者と管理者に知らせる。
+    if (n > 5) {
+      writeQueue(q);
+      var f = readFailed();
+      if (!f.some(same)) { f.push({ payload: p, at: new Date().toISOString() }); writeFailed(f); }
+      if (window.__kenshuShowFailed) window.__kenshuShowFailed();
+      return;
+    }
     q.push({ endpoint: endpoint, payload: p, tries: n });
     writeQueue(q);
   };
+  // 送れなかった記録が残っていれば、ページを開くたびに画面の一番上で知らせる。
+  // 受講者が気づかないまま記録だけが失われるのを防ぐのが目的。
+  window.__kenshuShowFailed = function () {
+    var f = readFailed();
+    if (!f.length || !document.body) return;
+    var el = document.getElementById('kenshuFailedNotice');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'kenshuFailedNotice';
+      el.setAttribute('role', 'alert');
+      el.style.cssText = 'padding:12px 16px;font-size:13px;font-weight:700;line-height:1.8;' +
+        'background:#FCEDEA;color:#C0392B;border-bottom:3px solid #C0392B;';
+      document.body.insertBefore(el, document.body.firstChild);
+    }
+    // 氏名は受講者本人の入力値。textContent で組み立て、HTMLとして解釈させない。
+    el.textContent = '';
+    var head = document.createElement('div');
+    head.textContent = '⚠️ 会社へ送信できなかった受講記録が ' + f.length + ' 件あります。';
+    el.appendChild(head);
+    f.forEach(function (x) {
+      var row = document.createElement('div');
+      row.textContent = '　・' + (x.payload.date || '') + '　' + (x.payload.name || '') + '　' + (x.payload.training || '');
+      el.appendChild(row);
+    });
+    var tail = document.createElement('div');
+    tail.textContent = 'お手数ですが「✉️ 修了報告メール」を送るか、管理者へこの内容をお伝えください。';
+    el.appendChild(tail);
+    // 連絡が済むまで消えないが、済んだ人が消せないと毎回出続けて邪魔になる。
+    // 押した本人の意思で消す（自動では消さない）。
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = '管理者へ連絡したので消す';
+    btn.style.cssText = 'margin-top:8px;padding:6px 14px;font-size:12px;font-weight:700;' +
+      'color:#C0392B;background:#fff;border:1px solid #C0392B;border-radius:8px;cursor:pointer;';
+    btn.addEventListener('click', function () {
+      writeFailed([]);
+      if (el.parentNode) el.parentNode.removeChild(el);
+    });
+    el.appendChild(btn);
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', window.__kenshuShowFailed);
+  else window.__kenshuShowFailed();
+
   window.__kenshuPost = function (endpoint, payload) {
     var ctrl = typeof AbortController === 'function' ? new AbortController() : null;
     // 応答が返らないまま「送信しています…」で固まらないよう打ち切る
@@ -78,8 +138,12 @@ window.KENSHU_PROGRESS_CONFIG = {
       if (timer) clearTimeout(timer);
       // HTTPエラーを成功と取り違えないよう、まず状態を確かめる
       if (!res.ok) throw new Error('HTTP ' + res.status);
-      // 本文が読めなくてもGASには届いており記録は残るので成功として扱う
-      return res.json().catch(function () { return { status: 'ok', unreadable: true }; });
+      // 応答をJSONとして読み取れないときは、記録できていない可能性がある。
+      // デプロイの失効・ログイン要求・実行回数の上限に達したとき、Googleは
+      // 200のままHTMLのエラーページを返すため、200だけを根拠に成功と決めつけない。
+      // 二重に届いてもGAS側が同じ人・同じ研修・同じ日を弾くので、
+      // 「成功と誤って記録を捨てる」より「失敗として端末に預かる」ほうが安全。
+      return res.json().catch(function () { throw new Error('応答を読み取れませんでした'); });
     }).then(function (j) {
       if (!j || j.status !== 'ok') throw new Error(j && j.message ? j.message : 'rejected');
       return j;
@@ -147,7 +211,7 @@ window.KENSHU_PROGRESS_CONFIG = {
         window.__kenshuShowStatus('ok', '✅ 受講記録を会社に送信しました');
       }).catch(function () {
         window.__kenshuQueue(cfg.endpoint, payload);
-        window.__kenshuShowStatus('err', '⚠️ いま記録を送信できませんでした。この端末に保存したので、電波の良い場所で研修ページを開けば自動で送られます');
+        window.__kenshuShowStatus('err', '⚠️ いま記録を送信できませんでした。この端末に保存したので、電波の良い場所で研修ページを開けば自動で送られます。念のため「✉️ 修了報告メール」も送っておくと確実です');
       });
     } catch (e) { /* 記録失敗でも修了証発行は妨げない */ }
   };
