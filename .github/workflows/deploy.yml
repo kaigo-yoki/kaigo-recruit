@@ -5,6 +5,8 @@ on:
   push:
     branches:
       - main
+  # 転送が失敗したときに、Actionsの画面から手動でやり直せるようにする
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -26,6 +28,10 @@ jobs:
           local-dir: ./
           server-dir: /
           protocol: ftps
+          # Xサーバーへの接続が混み合うと既定の30秒では間に合わず
+          # 「Timeout (control socket)」で転送そのものが始まらないことがある。
+          # 実際、直近144回のうち5回がこれで失敗している。2分まで待つ。
+          timeout: 120000
           exclude: |
             **/.git*
             **/.git*/**
