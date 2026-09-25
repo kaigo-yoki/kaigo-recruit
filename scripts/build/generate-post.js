@@ -8,6 +8,10 @@ const POSTS_JSON = path.join(POSTS_DIR, 'posts.json');
 const SITEMAP_PATH = path.join(__dirname, '..', '..', 'sitemap.xml');
 const SITE_URL = 'https://kaigo-yoki.jp/recruit';
 
+// 'blog' (デフォルト) / 'recruit' (採用特化)
+const POST_MODE = (process.env.POST_MODE || 'blog').toLowerCase();
+const IS_RECRUIT = POST_MODE === 'recruit';
+
 // ===== テーマプール =====
 const THEMES = [
   { title: '未経験から介護職へ！最初の1ヶ月で学んだこと', category: '未経験者向け' },
@@ -48,6 +52,25 @@ const THEMES = [
   { title: '口腔ケアの大切さと現場での実践方法', category: '専門知識' },
 ];
 
+// ===== 採用特化テーマプール（POST_MODE=recruit 時に使用） =====
+const RECRUIT_THEMES = [
+  { title: '未経験で入社して半年｜先輩が教える成長の道のり', category: '採用情報' },
+  { title: '住宅型有料老人ホームの仕事って？1日のスケジュールを公開', category: '採用情報' },
+  { title: '沖縄南城市で介護職を選ぶ7つの理由', category: '採用情報' },
+  { title: '資格取得全額補助の使い方｜陽気のキャリアパス事例', category: 'キャリア' },
+  { title: '夜勤手当・処遇改善加算込み｜介護職の給与の仕組みを解説', category: '採用情報' },
+  { title: '子育てしながら介護職｜時短勤務という選択肢', category: '働き方' },
+  { title: '外国人スタッフが活躍する陽気の現場｜技能実習・特定技能の方へ', category: '採用情報' },
+  { title: '未経験から介護福祉士へ｜陽気の研修制度の全貌', category: 'キャリア' },
+  { title: '住宅型有料老人ホームと特養・グループホームの違い｜介護職の選び方', category: '専門知識' },
+  { title: '面接で何を見られる？陽気の採用担当が教える質問のポイント', category: '採用情報' },
+  { title: '働きやすさを目指して｜陽気の福利厚生まとめ', category: '採用情報' },
+  { title: '介護タクシー・訪問介護・通所介護｜陽気の事業の全体像', category: '採用情報' },
+  { title: '先輩介護職員の本音｜陽気を選んだ決め手とは', category: 'やりがい' },
+  { title: '介護職の腰痛対策・負担軽減｜陽気の労働環境の取り組み', category: '健康' },
+  { title: '見学・職場体験のご案内｜陽気の月次採用説明会', category: '採用情報' },
+];
+
 // ===== ユーティリティ =====
 function getToday() {
   const now = new Date();
@@ -67,9 +90,10 @@ function getUsedThemes() {
 }
 
 function pickTheme(usedThemes) {
-  const available = THEMES.filter(t => !usedThemes.includes(t.title));
+  const pool = IS_RECRUIT ? RECRUIT_THEMES : THEMES;
+  const available = pool.filter(t => !usedThemes.includes(t.title));
   if (available.length === 0) {
-    return THEMES[Math.floor(Math.random() * THEMES.length)];
+    return pool[Math.floor(Math.random() * pool.length)];
   }
   return available[Math.floor(Math.random() * available.length)];
 }
@@ -85,6 +109,7 @@ function getCategoryColor(category) {
     '沖縄': { bg: '#FFFBE6', color: '#E6A800' },
     'コミュニケーション': { bg: '#FFF0F5', color: '#FF6B9D' },
     '健康': { bg: '#E8FAF8', color: '#4ECDC4' },
+    '採用情報': { bg: '#FFF0F5', color: '#FF6B9D' },
   };
   return map[category] || { bg: '#F0EDFF', color: '#A78BFA' };
 }
@@ -93,7 +118,7 @@ function getCategoryColor(category) {
 async function generateArticle(theme) {
   const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-  const systemPrompt = `あなたは沖縄県南城市にある介護施設「ホームいこい」（有限会社 陽気が運営、訪問介護 ようき）のブログ記事を書くライターです。
+  const blogSystemPrompt = `あなたは沖縄県南城市にある介護施設「ホームいこい」（有限会社 陽気が運営、訪問介護 ようき）のブログ記事を書くライターです。
 
 施設の特徴:
 - 沖縄県南城市佐敷津波古1354-1に所在
@@ -123,6 +148,48 @@ SEO対策:
 - 各セクションは3〜5文程度
 - 全体で600〜800文字程度
 - 最後に読者への呼びかけ（見学やお電話への誘導）を入れる`;
+
+  const recruitSystemPrompt = `あなたは沖縄県南城市の有限会社 陽気の採用記事ライターです。求職者の応募意欲を高めることを最優先に書いてください。
+
+会社・事業の特徴（必ず正確に記述してください）:
+- 法人名：有限会社 陽気
+- 主要事業：住宅型有料老人ホーム（HOME1〜3：佐敷津波古で稼働中、HOME4〜5：大里で開設準備中）、通所介護、訪問介護、訪問看護、介護タクシー
+- 本部所在地：沖縄県南城市佐敷津波古1354-1
+- 訪問介護事業の屋号：訪問介護 ようき
+- 夜勤者：月給28万〜32万円、日勤常勤：月給23万〜26万円
+- 資格取得全額補助制度あり（初任者研修・実務者研修・介護福祉士）
+- 飲みニケーション補助金（月1回5,000円）、ランチ補助金（月1回2,000円）
+- 県外研修は会社全額負担
+- 多彩なシフトパターン（夜勤・早勤・日勤・遅勤・入浴担当）
+- 外国人スタッフ（技能実習・特定技能）も活躍中
+- 子育てしながら働ける時短勤務制度あり
+
+絶対に守るルール:
+- 実在の職員氏名・利用者氏名・個人を特定できる情報は一切記載しない（実在モデルの使用は厳禁）
+- 旧称「ホームいこい」「いこい1〜3」は使わず、「住宅型有料老人ホーム」「陽気のHOME」「HOME1〜3佐敷津波古」と表記
+- 給与・福利厚生・制度の数字は上記から外れない（誇張禁止）
+- 医療行為・看護師業務・介護報酬制度の説明で誤情報を含めない
+
+トーンとスタイル:
+- 明るく誠実で前向きなトーン
+- 未経験の20〜40代の求職者にも親しみやすい言葉遣い
+- 求職者が「ここで働きたい」と感じる具体的シーンを描く
+- 専門用語は必ず1文で解説を添える
+- 絵文字は控えめに（1記事に2〜3個程度）
+
+SEO対策:
+- 記事中に以下のキーワードを自然な文脈で含めてください:
+  介護 求人 沖縄 南城市 未経験 資格取得 訪問介護 通所介護 住宅型有料老人ホーム 介護職 転職 介護福祉士 キャリア 働きやすい 福利厚生 子育て両立
+- 見出し（h2）にもキーワードを自然に含めてください
+- 読者が検索しそうな疑問や悩みに答える内容を心がけてください
+
+記事の構成:
+- 見出し（h2）を3〜4個使用
+- 各セクションは3〜5文程度
+- 全体で800〜1100文字程度
+- 最後に「見学・職場体験のお申込み」「お電話でのお問い合わせ」への明確な行動誘導を入れる`;
+
+  const systemPrompt = IS_RECRUIT ? recruitSystemPrompt : blogSystemPrompt;
 
   const userPrompt = `以下のテーマでブログ記事を書いてください。
 
@@ -162,7 +229,8 @@ SEO対策:
 function buildPostHTML(title, date, category, bodyContent, description) {
   const formattedDate = getFormattedDate(date);
   const catColor = getCategoryColor(category);
-  const postUrl = `${SITE_URL}/posts/${date}`;
+  const fileBase = IS_RECRUIT ? `recruit-${date}` : date;
+  const postUrl = `${SITE_URL}/posts/${fileBase}`;
   const metaDescription = description || `${title} - 沖縄県南城市の訪問介護ようき（有限会社 陽気）のブログ。介護求人・未経験OK。`;
   return `<!DOCTYPE html>
 <html lang="ja">
@@ -315,10 +383,11 @@ function generateSitemap(posts) {
     xml += `  <url>\n    <loc>${SITE_URL}/${p.path}</loc>\n    <changefreq>${p.freq}</changefreq>\n    <priority>${p.pri}</priority>\n  </url>\n`;
   }
 
-  // ブログ記事
+  // ブログ・採用記事
   for (const post of posts) {
+    const fileName = post.file || `${post.date}.html`;
     xml += `  <url>\n`;
-    xml += `    <loc>${SITE_URL}/posts/${post.date}.html</loc>\n`;
+    xml += `    <loc>${SITE_URL}/posts/${fileName}</loc>\n`;
     xml += `    <lastmod>${post.date}</lastmod>\n`;
     xml += `    <changefreq>monthly</changefreq>\n`;
     xml += `    <priority>0.6</priority>\n`;
@@ -331,17 +400,19 @@ function generateSitemap(posts) {
 
 // ===== メイン処理 =====
 async function main() {
-  console.log('ブログ記事の自動生成を開始します...');
+  const modeLabel = IS_RECRUIT ? '採用記事' : 'ブログ記事';
+  console.log(`${modeLabel}の自動生成を開始します...（POST_MODE=${POST_MODE}）`);
 
   if (!fs.existsSync(POSTS_DIR)) {
     fs.mkdirSync(POSTS_DIR, { recursive: true });
   }
 
   const today = getToday();
-  const postFile = path.join(POSTS_DIR, `${today}.html`);
+  const fileBase = IS_RECRUIT ? `recruit-${today}` : today;
+  const postFile = path.join(POSTS_DIR, `${fileBase}.html`);
 
   if (fs.existsSync(postFile)) {
-    console.log(`今日（${today}）の記事は既に存在します。スキップします。`);
+    console.log(`今日（${today}）の${modeLabel}は既に存在します。スキップします。`);
     return;
   }
 
@@ -360,7 +431,7 @@ async function main() {
 
   const fullHTML = buildPostHTML(theme.title, today, theme.category, result.body, result.description);
   fs.writeFileSync(postFile, fullHTML, 'utf-8');
-  console.log(`記事ファイルを作成: posts/${today}.html`);
+  console.log(`記事ファイルを作成: posts/${fileBase}.html`);
 
   let posts = [];
   if (fs.existsSync(POSTS_JSON)) {
@@ -371,7 +442,7 @@ async function main() {
     date: today,
     title: theme.title,
     category: theme.category,
-    file: `${today}.html`,
+    file: `${fileBase}.html`,
   });
 
   fs.writeFileSync(POSTS_JSON, JSON.stringify(posts, null, 2), 'utf-8');
