@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>採用適性検査 | 訪問介護 ようき（有限会社 陽気）</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="./favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --pink:#FF6B9D;--orange:#FF8C42;--yellow:#FFD23F;
+  --mint:#4ECDC4;--blue:#45B7D1;--purple:#A78BFA;
+  --td:#2D3436;--tm:#636E72;--tl:#B2BEC3;
+  --bg:#FAFAFA;--wh:#FFFFFF;
+  --r:16px;
+}
+html{scroll-behavior:smooth;}
+body{font-family:'M PLUS Rounded 1c',sans-serif;background:var(--bg);color:var(--td);line-height:1.8;overflow-x:hidden;-webkit-text-size-adjust:100%;}
+
+header{background:rgba(255,255,255,.95);backdrop-filter:blur(20px);border-bottom:2px solid rgba(255,107,157,.15);padding:12px 24px;position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;}
+header .logo{font-weight:800;font-size:14px;color:var(--pink);text-decoration:none;}
+header .sub{font-size:11px;color:var(--tl);font-weight:500;}
+
+.hero{text-align:center;padding:48px 24px 36px;background:linear-gradient(135deg,#FF6B9D,#FF8C42,#FFD23F,#4ECDC4);color:#fff;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;width:300px;height:300px;border-radius:50%;background:rgba(255,255,255,.08);top:-80px;right:-60px;}
+.hero h1{font-size:clamp(20px,4vw,28px);font-weight:900;margin-bottom:8px;position:relative;}
+.hero p{font-size:13px;opacity:.95;max-width:520px;margin:0 auto;position:relative;}
+
+.container{max-width:680px;margin:0 auto;padding:32px 20px 120px;}
+
+/* progress */
+.progress-wrap{margin-bottom:24px;display:none;}
+.progress-bar{height:8px;background:#eee;border-radius:8px;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--pink),var(--orange),var(--yellow),var(--mint));border-radius:8px;transition:width .4s ease;width:0%;}
+.progress-text{font-size:12px;font-weight:700;color:var(--tm);margin-top:8px;text-align:center;}
+
+/* card */
+.card{background:#fff;border-radius:24px;padding:32px 24px;border:2px solid rgba(255,107,157,.08);box-shadow:0 4px 20px rgba(0,0,0,.04);}
+
+/* start */
+.start .emoji{font-size:56px;display:block;text-align:center;margin-bottom:12px;}
+.start h2{font-size:22px;font-weight:900;text-align:center;margin-bottom:12px;}
+.start p{font-size:14px;color:var(--tm);text-align:center;margin-bottom:8px;}
+.features{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:20px 0;}
+.feat{background:var(--bg);border-radius:14px;padding:14px;font-size:12px;font-weight:700;color:var(--tm);display:flex;align-items:center;gap:10px;}
+.feat .i{font-size:20px;}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,var(--pink),var(--orange));color:#fff;padding:16px 40px;border-radius:50px;font-size:15px;font-weight:800;border:none;cursor:pointer;font-family:inherit;box-shadow:0 8px 24px rgba(255,107,157,.3);transition:transform .25s,box-shadow .25s;}
+.btn:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(255,107,157,.4);}
+.btn:disabled{opacity:.5;cursor:not-allowed;}
+.btn-c{display:flex;justify-content:center;margin-top:24px;}
+
+/* demographics */
+.field{margin-bottom:18px;}
+.field label{display:block;font-size:13px;font-weight:800;color:var(--td);margin-bottom:8px;}
+.field label .req{color:var(--pink);font-size:11px;margin-left:4px;}
+.field input,.field select{width:100%;padding:12px 16px;border:2px solid #eee;border-radius:14px;font-size:14px;font-family:inherit;font-weight:600;outline:none;transition:border-color .25s;background:#fff;color:var(--td);}
+.field input:focus,.field select:focus{border-color:var(--pink);}
+.field.error input,.field.error select{border-color:#ff4757;background:#fff5f6;}
+
+/* question */
+.q-num{font-size:11px;font-weight:800;color:var(--pink);background:rgba(255,107,157,.1);display:inline-block;padding:4px 14px;border-radius:50px;margin-bottom:12px;}
+.q-block{font-size:11px;font-weight:700;color:var(--tm);margin-bottom:8px;letter-spacing:.05em;}
+.q-text{font-size:17px;font-weight:800;line-height:1.6;margin-bottom:24px;color:var(--td);}
+.q-scale{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:8px;}
+.q-scale button{padding:18px 6px;border-radius:14px;border:2px solid #eee;background:#fff;font-size:13px;font-weight:800;cursor:pointer;transition:all .2s;font-family:inherit;color:var(--tm);line-height:1.3;}
+.q-scale button:hover{border-color:var(--pink);background:rgba(255,107,157,.05);transform:translateY(-2px);}
+.q-scale button.selected{border-color:var(--pink);background:var(--pink);color:#fff;}
+.q-scale-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--tl);margin-top:6px;padding:0 4px;}
+
+.q-nav{display:flex;justify-content:space-between;margin-top:24px;gap:12px;}
+.q-nav button{flex:1;padding:14px;border-radius:14px;border:2px solid #eee;background:#fff;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;color:var(--tm);transition:all .2s;}
+.q-nav button:hover:not(:disabled){border-color:var(--pink);color:var(--pink);}
+.q-nav button:disabled{opacity:.4;cursor:not-allowed;}
+.q-nav .next{background:linear-gradient(135deg,var(--pink),var(--orange));color:#fff;border-color:transparent;}
+
+/* thanks */
+.thanks{text-align:center;padding:40px 20px;}
+.thanks .emoji{font-size:80px;margin-bottom:16px;display:block;}
+.thanks h2{font-size:24px;font-weight:900;margin-bottom:16px;}
+.thanks p{font-size:14px;color:var(--tm);margin-bottom:8px;line-height:2;}
+.thanks .info{background:var(--bg);border-radius:16px;padding:20px;margin:20px 0;font-size:13px;color:var(--tm);text-align:left;line-height:1.9;}
+
+/* note (β/admin only) */
+.beta-info{background:#fff8e6;border:2px solid #ffd23f;border-radius:14px;padding:14px 18px;margin-bottom:20px;font-size:12px;color:#a87900;font-weight:700;}
+
+footer{text-align:center;padding:32px 20px;font-size:11px;color:var(--tl);}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+.fade{animation:fadeIn .35s ease;}
+
+@media (max-width:480px){
+  .features{grid-template-columns:1fr;}
+  .q-scale button{padding:14px 4px;font-size:11px;}
+  .q-text{font-size:16px;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="./index.html">← 採用サイトへ戻る</a>
+  <span class="sub">採用適性検査</span>
+</header>
+
+<div class="hero">
+  <h1>陽気 採用適性検査</h1>
+  <p>あなたの強みを見つけ、最適な配属先をお探しします</p>
+</div>
+
+<div class="container">
+
+  <!-- ========== Screen 1: Start ========== -->
+  <div id="screen-start" class="card start fade">
+    <span class="emoji">🌟</span>
+    <h2>お疲れ様です</h2>
+    <p>これは「あなたが陽気で輝ける場所」を見つけるための検査です。</p>
+    <p style="font-size:12px;color:var(--tl);margin-top:8px;">所要時間：約15分　/　全70問　/　深く考えず直感でお答えください</p>
+
+    <div class="features">
+      <div class="feat"><span class="i">⏱</span>約15分で完了</div>
+      <div class="feat"><span class="i">✅</span>全70問・5択回答</div>
+      <div class="feat"><span class="i">🔒</span>採用判断のみに使用</div>
+      <div class="feat"><span class="i">💡</span>正解はありません</div>
+    </div>
+
+    <div id="beta-info-box"></div>
+
+    <div class="btn-c">
+      <button class="btn" onclick="goDemographics()">スタート →</button>
+    </div>
+  </div>
+
+  <!-- ========== Screen 2: Demographics ========== -->
+  <div id="screen-demo" class="card fade" style="display:none;">
+    <h2 style="font-size:20px;font-weight:900;margin-bottom:8px;">基本情報</h2>
+    <p style="font-size:13px;color:var(--tm);margin-bottom:24px;">採用ご担当者のみが拝見します</p>
+
+    <div class="field" data-required>
+      <label>お名前 <span class="req">必須</span></label>
+      <input type="text" id="d-name" placeholder="例：嶺井 美幸">
+    </div>
+    <div class="field" data-required>
+      <label>メールアドレス <span class="req">必須</span></label>
+      <input type="email" id="d-email" placeholder="example@example.com">
+    </div>
+    <div class="field">
+      <label>電話番号</label>
+      <input type="tel" id="d-tel" placeholder="090-1234-5678">
+    </div>
+    <div class="field" data-required>
+      <label>応募職種 <span class="req">必須</span></label>
+      <select id="d-position">
+        <option value="">選択してください</option>
+        <option value="介護職員">介護職員（ホーム）</option>
+        <option value="訪問介護職員">訪問介護職員</option>
+        <option value="サービス提供責任者">サービス提供責任者</option>
+        <option value="看護師">看護師</option>
+        <option value="管理者候補">管理者候補</option>
+        <option value="事務">事務</option>
+        <option value="調理">調理</option>
+        <option value="その他">その他</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>応募ルート</label>
+      <select id="d-source">
+        <option value="">選択してください</option>
+        <option value="JobAntenna">JobAntenna</option>
+        <option value="Indeed">Indeed</option>
+        <option value="紹介">紹介（リファラル）</option>
+        <option value="HP">陽気採用サイト</option>
+        <option value="その他">その他</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>紹介者氏名（紹介の場合のみ）</label>
+      <input type="text" id="d-referrer" placeholder="例：照喜名 いずみ">
+    </div>
+
+    <div class="q-nav">
+      <button onclick="backToStart()">← 戻る</button>
+      <button class="next" onclick="startQuestions()">検査を開始 →</button>
+    </div>
+  </div>
+
+  <!-- ========== Screen 3: Questions ========== -->
+  <div class="progress-wrap" id="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+    <div class="progress-text" id="progress-text"></div>
+  </div>
+
+  <div id="screen-q" style="display:none;"></div>
+
+  <!-- ========== Screen 4: Thanks ========== -->
+  <div id="screen-thanks" class="card thanks fade" style="display:none;">
+    <span class="emoji">🌸</span>
+    <h2>ご回答ありがとうございました</h2>
+    <p>結果は採用ご担当者にて確認後、<br>3〜5営業日以内にご連絡いたします。</p>
+    <div class="info">
+      <strong>次のステップ</strong><br>
+      ① 採用担当による結果確認（1〜2日）<br>
+      ② 一次面接のご案内（3〜5営業日以内）<br>
+      ③ 必要に応じて追加面接・施設見学
+    </div>
+    <p style="font-size:12px;color:var(--tl);">
+      お問い合わせ：有限会社 陽気<br>
+      info@kaigo-yoki.jp
+    </p>
+    <div id="beta-result" style="display:none;margin-top:24px;padding-top:24px;border-top:2px solid #eee;"></div>
+  </div>
+
+</div>
+
+<footer>
+  © 有限会社 陽気　訪問介護ようき　採用適性検査システム
+</footer>
+
+<script>
+// ============================================================
+// 70問の質問データ
+// ============================================================
+// block: A=BigFive / B=Achievement / C=MVV / D=CareSpecific
+// factor: 因子コード（スコア集計のキー）
+// reverse: 逆転項目フラグ（true なら 6 - score で計算）
+// weight: MVV因子のみ重み付け（採否総合点用）
+// ============================================================
+
+const QUESTIONS = [
+  // ===== Block A: Big Five (30問) =====
+  // A-1 開放性
+  { id:1,  block:'A', factor:'A_O', reverse:false, text:'新しい介護技術や考え方を学ぶことに興味がある' },
+  { id:2,  block:'A', factor:'A_O', reverse:false, text:'ルーティンワークよりも変化のある仕事を好む' },
+  { id:3,  block:'A', factor:'A_O', reverse:false, text:'想像力を働かせて物事を考えるのが好きだ' },
+  { id:4,  block:'A', factor:'A_O', reverse:false, text:'芸術や文化、季節の行事に関心がある' },
+  { id:5,  block:'A', factor:'A_O', reverse:false, text:'「いつも通り」より「もっと良い方法」を探したい' },
+  { id:6,  block:'A', factor:'A_O', reverse:true,  text:'抽象的な議論より具体的な手順を好む' },
+  // A-2 誠実性
+  { id:7,  block:'A', factor:'A_C', reverse:false, text:'一度決めたことは最後までやり遂げる' },
+  { id:8,  block:'A', factor:'A_C', reverse:false, text:'約束した時間は必ず守る' },
+  { id:9,  block:'A', factor:'A_C', reverse:false, text:'物事を計画的に進めるタイプだ' },
+  { id:10, block:'A', factor:'A_C', reverse:false, text:'仕事の段取りを大切にする' },
+  { id:11, block:'A', factor:'A_C', reverse:false, text:'細かいミスにも気づく方だ' },
+  { id:12, block:'A', factor:'A_C', reverse:true,  text:'締切ギリギリで仕上げることが多い' },
+  // A-3 外向性
+  { id:13, block:'A', factor:'A_E', reverse:false, text:'初対面の人とも会話が弾む' },
+  { id:14, block:'A', factor:'A_E', reverse:false, text:'グループの中心になることが多い' },
+  { id:15, block:'A', factor:'A_E', reverse:false, text:'エネルギッシュで活動的だ' },
+  { id:16, block:'A', factor:'A_E', reverse:false, text:'1人の時間より人と過ごす時間が好き' },
+  { id:17, block:'A', factor:'A_E', reverse:false, text:'自分から声をかけるのが得意だ' },
+  { id:18, block:'A', factor:'A_E', reverse:true,  text:'大勢の場ではどっと疲れる' },
+  // A-4 協調性
+  { id:19, block:'A', factor:'A_A', reverse:false, text:'困っている人を見ると放っておけない' },
+  { id:20, block:'A', factor:'A_A', reverse:false, text:'チームの輪を大切にする' },
+  { id:21, block:'A', factor:'A_A', reverse:false, text:'相手の立場に立って考える方だ' },
+  { id:22, block:'A', factor:'A_A', reverse:false, text:'言いにくいことでも相手のためなら伝えられる' },
+  { id:23, block:'A', factor:'A_A', reverse:false, text:'人の気持ちに敏感だ' },
+  { id:24, block:'A', factor:'A_A', reverse:true,  text:'自分の意見を最後まで通すことが多い' },
+  // A-5 情緒安定性
+  { id:25, block:'A', factor:'A_S', reverse:false, text:'困難な状況でも冷静さを保てる' },
+  { id:26, block:'A', factor:'A_S', reverse:false, text:'ご利用者様の急変時もパニックにならない自信がある' },
+  { id:27, block:'A', factor:'A_S', reverse:false, text:'心配事があっても引きずらない' },
+  { id:28, block:'A', factor:'A_S', reverse:false, text:'失敗しても気持ちを切り替えられる' },
+  { id:29, block:'A', factor:'A_S', reverse:false, text:'ストレスを溜めにくい方だ' },
+  { id:30, block:'A', factor:'A_S', reverse:true,  text:'人から指摘されると傷つきやすい' },
+
+  // ===== Block B: 達成動機 (10問) =====
+  { id:31, block:'B', factor:'B_Ach', reverse:false, text:'目標を達成したときに最も喜びを感じる' },
+  { id:32, block:'B', factor:'B_Ach', reverse:false, text:'自分の能力を高めることに意欲がある' },
+  { id:33, block:'B', factor:'B_Ach', reverse:false, text:'難しい課題ほど挑戦したくなる' },
+  { id:34, block:'B', factor:'B_Ld',  reverse:false, text:'リーダーを任されると力を発揮できる' },
+  { id:35, block:'B', factor:'B_Ld',  reverse:false, text:'後輩や部下を育てることにやりがいを感じる' },
+  { id:36, block:'B', factor:'B_Af',  reverse:false, text:'仲間との人間関係を大切にする' },
+  { id:37, block:'B', factor:'B_Af',  reverse:false, text:'一緒に働く人と打ち解けることを重視する' },
+  { id:38, block:'B', factor:'B_Gr',  reverse:false, text:'5年後の自分が今より成長していると思える' },
+  { id:39, block:'B', factor:'B_Gr',  reverse:false, text:'資格取得や勉強会への参加に前向きだ' },
+  { id:40, block:'B', factor:'B_Gr',  reverse:false, text:'給与より「何を学べるか」で仕事を選びたい' },
+
+  // ===== Block C: 陽気MVV合致6因子 (20問) ★採否判定主軸 =====
+  // C-1 利他性 (重み20%)
+  { id:41, block:'C', factor:'C_Alt', reverse:false, text:'自分の家族を任せたい施設で働きたい' },
+  { id:42, block:'C', factor:'C_Alt', reverse:false, text:'ご利用者様を「自分の祖父母」と思って接することができる' },
+  { id:43, block:'C', factor:'C_Alt', reverse:false, text:'業務の効率より、まず相手の気持ちを優先したい' },
+  { id:44, block:'C', factor:'C_Alt', reverse:false, text:'「ありがとう」と言われることが何よりの報酬だ' },
+  // C-2 学習意欲 (重み20%)
+  { id:45, block:'C', factor:'C_Lrn', reverse:false, text:'月1回の勉強会への参加に抵抗がない' },
+  { id:46, block:'C', factor:'C_Lrn', reverse:false, text:'業務後でも学びの機会には参加したい' },
+  { id:47, block:'C', factor:'C_Lrn', reverse:false, text:'自費で資格を取ることにも前向きだ' },
+  // C-3 情緒安定性(MVV) (重み15%)
+  { id:48, block:'C', factor:'C_Stb', reverse:false, text:'看取りや認知症対応にも腰を据えて向き合える' },
+  { id:49, block:'C', factor:'C_Stb', reverse:false, text:'ご利用者様の体調急変時、慌てず初期対応できる自信がある' },
+  { id:50, block:'C', factor:'C_Stb', reverse:false, text:'重度のご利用者様のケアにやりがいを感じる' },
+  // C-4 チーム協調性 (重み15%)
+  { id:51, block:'C', factor:'C_Tm',  reverse:false, text:'他のスタッフが困っているときは自分の仕事を後回しにしてでも助ける' },
+  { id:52, block:'C', factor:'C_Tm',  reverse:false, text:'シフトの融通を頼まれたら、できる限り応じたい' },
+  { id:53, block:'C', factor:'C_Tm',  reverse:false, text:'自分の意見を言うより、まずチームの方針を理解することを優先する' },
+  // C-5 達成動機(MVV) (重み15%)
+  { id:54, block:'C', factor:'C_Mvt', reverse:false, text:'「人を増やさず急成長」する組織で働きたい' },
+  { id:55, block:'C', factor:'C_Mvt', reverse:false, text:'新しい仕組みやルールが頻繁に変わっても適応できる' },
+  { id:56, block:'C', factor:'C_Mvt', reverse:false, text:'5年後に複数施設で活躍する自分を想像できる' },
+  { id:57, block:'C', factor:'C_Mvt', reverse:false, text:'「現状維持より挑戦」という言葉に共感する' },
+  // C-6 誠実性(MVV) (重み15%)
+  { id:58, block:'C', factor:'C_Int', reverse:false, text:'ご利用者様の前で本音と建前を使い分けない' },
+  { id:59, block:'C', factor:'C_Int', reverse:false, text:'ミスをしたら隠さず即座に報告する' },
+  { id:60, block:'C', factor:'C_Int', reverse:false, text:'ご家族様との約束は必ず守る' },
+
+  // ===== Block D: 介護職特化 (10問) =====
+  // D-1 感情労働耐性
+  { id:61, block:'D', factor:'D_Emo', reverse:false, text:'暴言や拒絶的な言葉を受けても、その背景を理解しようとできる' },
+  { id:62, block:'D', factor:'D_Emo', reverse:false, text:'プライベートで嫌なことがあっても職場では切り替えられる' },
+  { id:63, block:'D', factor:'D_Emo', reverse:false, text:'認知症ご利用者様の同じ話を何度聞いても初めてのように接せる' },
+  { id:64, block:'D', factor:'D_Emo', reverse:false, text:'介護中の排泄物や臭いに過度に反応しない自信がある' },
+  // D-2 共感性
+  { id:65, block:'D', factor:'D_Emp', reverse:false, text:'ご利用者様の表情から気持ちを察するのが得意だ' },
+  { id:66, block:'D', factor:'D_Emp', reverse:false, text:'言葉にされない不安や痛みに気づく方だ' },
+  { id:67, block:'D', factor:'D_Emp', reverse:false, text:'ご家族様の心配を共有できる' },
+  // D-3 夜勤適性
+  { id:68, block:'D', factor:'D_Ngt', reverse:false, text:'不規則勤務でも体調管理ができる方だ' },
+  { id:69, block:'D', factor:'D_Ngt', reverse:false, text:'1人で判断する場面でも冷静さを保てる' },
+  { id:70, block:'D', factor:'D_Ngt', reverse:false, text:'緊急時に的確に外部（救急・看護師）と連携できる自信がある' },
+];
+
+// 因子ラベル（結果表示用）
+const FACTOR_LABEL = {
+  A_O:'開放性', A_C:'誠実性(B5)', A_E:'外向性', A_A:'協調性(B5)', A_S:'情緒安定性(B5)',
+  B_Ach:'達成動機', B_Ld:'リーダーシップ志向', B_Af:'親和動機', B_Gr:'成長志向',
+  C_Alt:'利他性', C_Lrn:'学習意欲', C_Stb:'情緒安定性(MVV)',
+  C_Tm:'チーム協調性', C_Mvt:'達成動機(MVV)', C_Int:'誠実性(MVV)',
+  D_Emo:'感情労働耐性', D_Emp:'共感性', D_Ngt:'夜勤適性'
+};
+
+// MVV採否判定の重み
+const MVV_WEIGHT = {
+  C_Alt:0.20, C_Lrn:0.20, C_Stb:0.15, C_Tm:0.15, C_Mvt:0.15, C_Int:0.15
+};
+
+// 5タイプ判定の重み
+const TYPE_WEIGHT = {
+  alpha: { B_Ach:0.30, A_E:0.25, A_C:0.25, A_O:0.20 },
+  beta:  { C_Alt:0.40, A_A:0.30, D_Emp:0.30 },
+  gamma: { A_S:0.35, A_C:0.30, D_Ngt:0.35 },
+  delta: { A_C:0.40, A_A:0.30, _inv_B_Ach:0.30 } // 逆方向で達成動機低=δ
+};
+const TYPE_LABEL = {
+  alpha:'α 現場リーダー型', beta:'β 寄り添いケア型',
+  gamma:'γ 夜勤・専門型', delta:'δ バックオフィス型'
+};
+
+// ============================================================
+// Google Form 連携設定
+// ============================================================
+// ※ Google Form 作成後に以下を更新してください
+// ============================================================
+const FORM_CONFIG = {
+  // Google Forms の formResponse エンドポイント
+  url: 'PLACEHOLDER_FORM_URL', // TODO: 実装時に設定
+  // 各エントリーIDのマッピング (entry.xxxxxxxxxx)
+  entries: {
+    name:    'entry.PLACEHOLDER',
+    email:   'entry.PLACEHOLDER',
+    tel:     'entry.PLACEHOLDER',
+    position:'entry.PLACEHOLDER',
+    source:  'entry.PLACEHOLDER',
+    referrer:'entry.PLACEHOLDER',
+    answers: 'entry.PLACEHOLDER',  // Q1〜Q70 のJSON文字列
+    scores:  'entry.PLACEHOLDER',  // 因子スコアのJSON
+    rank:    'entry.PLACEHOLDER',  // A/B/C/D
+    type:    'entry.PLACEHOLDER',  // α/β/γ/δ
+    flags:   'entry.PLACEHOLDER',  // 要注意フラグの配列
+    timestamp: 'entry.PLACEHOLDER'
+  }
+};
+
+// ============================================================
+// State
+// ============================================================
+const params = new URLSearchParams(location.search);
+const isBetaMode = params.get('mode') === 'beta';
+const STORAGE_KEY = 'yohki_assessment_v1';
+
+let state = {
+  step:'start', // start / demo / q / done
+  currentQ:0,
+  demo:{ name:'', email:'', tel:'', position:'', source:'', referrer:'' },
+  answers: new Array(QUESTIONS.length).fill(null),
+};
+
+// 復元
+try {
+  const saved = sessionStorage.getItem(STORAGE_KEY);
+  if (saved) {
+    const parsed = JSON.parse(saved);
+    if (parsed && parsed.demo) Object.assign(state, parsed);
+  }
+} catch(e){}
+
+function persist(){
+  try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e){}
+}
+
+// ============================================================
+// Screen control
+// ============================================================
+function show(id){
+  ['screen-start','screen-demo','screen-q','screen-thanks'].forEach(s=>{
+    const el=document.getElementById(s);
+    if(el) el.style.display = (s===id) ? 'block' : 'none';
+  });
+  document.getElementById('progress-wrap').style.display = (id==='screen-q') ? 'block' : 'none';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function goDemographics(){ state.step='demo'; persist(); show('screen-demo'); }
+function backToStart(){ state.step='start'; persist(); show('screen-start'); }
+
+function startQuestions(){
+  if(!validateDemographics()) return;
+  state.step='q'; state.currentQ=0; persist();
+  show('screen-q');
+  renderQuestion();
+}
+
+function validateDemographics(){
+  const fields=['d-name','d-email','d-position'];
+  let ok=true;
+  fields.forEach(id=>{
+    const el=document.getElementById(id);
+    const wrap=el.closest('.field');
+    if(!el.value.trim()){ wrap.classList.add('error'); ok=false; }
+    else wrap.classList.remove('error');
+  });
+  const email=document.getElementById('d-email').value.trim();
+  if(email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    document.getElementById('d-email').closest('.field').classList.add('error');
+    ok=false;
+  }
+  if(!ok){
+    const first=document.querySelector('.field.error');
+    if(first) first.scrollIntoView({behavior:'smooth',block:'center'});
+    return false;
+  }
+  state.demo = {
+    name:document.getElementById('d-name').value.trim(),
+    email:document.getElementById('d-email').value.trim(),
+    tel:document.getElementById('d-tel').value.trim(),
+    position:document.getElementById('d-position').value,
+    source:document.getElementById('d-source').value,
+    referrer:document.getElementById('d-referrer').value.trim(),
+  };
+  persist();
+  return true;
+}
+
+// ============================================================
+// Question rendering
+// ============================================================
+const SCALE_LABELS = ['全くそう思わない','そう思わない','どちらとも','そう思う','非常にそう思う'];
+
+function renderQuestion(){
+  const i = state.currentQ;
+  const q = QUESTIONS[i];
+  const sel = state.answers[i];
+
+  document.getElementById('progress-fill').style.width = ((i)/QUESTIONS.length*100)+'%';
+  document.getElementById('progress-text').textContent = `Q${i+1} / ${QUESTIONS.length}`;
+
+  const blockName = {A:'パーソナリティ',B:'意欲・成長',C:'仕事観',D:'介護現場での適性'}[q.block];
+
+  const html = `
+    <div class="card fade">
+      <div class="q-block">${blockName}</div>
+      <span class="q-num">Q${i+1}</span>
+      <div class="q-text">${q.text}</div>
+      <div class="q-scale">
+        ${[1,2,3,4,5].map(v=>`<button class="${sel===v?'selected':''}" onclick="selectAnswer(${v})">${v}</button>`).join('')}
+      </div>
+      <div class="q-scale-labels">
+        <span>← そう思わない</span><span>そう思う →</span>
+      </div>
+      <div class="q-nav">
+        <button onclick="prevQ()" ${i===0?'disabled':''}>← 前へ</button>
+        <button class="next" onclick="nextQ()" ${sel===null?'disabled':''}>${i===QUESTIONS.length-1?'回答送信':'次へ →'}</button>
+      </div>
+    </div>
+  `;
+  document.getElementById('screen-q').innerHTML = html;
+}
+
+function selectAnswer(v){
+  state.answers[state.currentQ] = v;
+  persist();
+  renderQuestion();
+}
+
+function prevQ(){
+  if(state.currentQ>0){ state.currentQ--; persist(); renderQuestion(); }
+}
+
+function nextQ(){
+  if(state.answers[state.currentQ]===null) return;
+  if(state.currentQ < QUESTIONS.length-1){
+    state.currentQ++; persist(); renderQuestion();
+  } else {
+    submitAll();
+  }
+}
+
+// ============================================================
+// Score calculation
+// ============================================================
+function calculateScores(){
+  const factorScores = {};
+  const factorCounts = {};
+  QUESTIONS.forEach((q,i)=>{
+    const raw = state.answers[i] || 3; // 未回答は中立3
+    const score = q.reverse ? (6 - raw) : raw;
+    factorScores[q.factor] = (factorScores[q.factor]||0) + score;
+    factorCounts[q.factor] = (factorCounts[q.factor]||0) + 1;
+  });
+  // 0-100 正規化
+  const normalized = {};
+  Object.keys(factorScores).forEach(f=>{
+    normalized[f] = Math.round((factorScores[f]/factorCounts[f]) * 20);
+  });
+
+  // 陽気活躍可能性スコア (MVV重み付き)
+  let mvvTotal = 0;
+  Object.keys(MVV_WEIGHT).forEach(f=>{
+    mvvTotal += (normalized[f]||0) * MVV_WEIGHT[f];
+  });
+  const overallScore = Math.round(mvvTotal);
+
+  // 採否ランク
+  let rank = 'D';
+  if(overallScore>=80) rank='A';
+  else if(overallScore>=65) rank='B';
+  else if(overallScore>=50) rank='C';
+
+  // 5タイプ判定
+  const typeScores = {};
+  Object.keys(TYPE_WEIGHT).forEach(t=>{
+    let s=0;
+    Object.entries(TYPE_WEIGHT[t]).forEach(([f,w])=>{
+      if(f.startsWith('_inv_')){
+        const realF = f.replace('_inv_','');
+        s += (100-(normalized[realF]||50))*w;
+      } else {
+        s += (normalized[f]||0)*w;
+      }
+    });
+    typeScores[t] = Math.round(s);
+  });
+  const typeOrder = Object.entries(typeScores).sort((a,b)=>b[1]-a[1]);
+  const primaryType = typeOrder[0][0];
+  const secondaryType = typeOrder[1][0];
+
+  // フラグ
+  const flags = [];
+  if((normalized.A_S||0)<40) flags.push('🚩情緒不安定');
+  if((normalized.D_Emo||0)<50) flags.push('🚩感情労働不向き');
+  if((normalized.C_Lrn||0)<50) flags.push('🚩学習意欲低');
+  if((normalized.C_Alt||0)<60) flags.push('🚩利他性低');
+  // 虚偽回答疑い: 全因子90以上
+  const allHigh = Object.values(normalized).every(v=>v>=90);
+  if(allHigh) flags.push('🚩虚偽回答疑い');
+  // 未回答多数
+  const unanswered = state.answers.filter(a=>a===null).length;
+  if(unanswered>5) flags.push('🚩未回答多数');
+  // ⭐ 管理者候補
+  if((normalized.B_Ach||0)>75 && (normalized.A_C||0)>75 && (normalized.A_E||0)>65){
+    flags.push('⭐管理者候補');
+  }
+  // ⭐ 看取り適性
+  if((normalized.A_S||0)>70 && (normalized.D_Emp||0)>70){
+    flags.push('⭐看取り適性');
+  }
+
+  return { factorScores: normalized, overallScore, rank, primaryType, secondaryType, typeScores, flags };
+}
+
+// ============================================================
+// Submit
+// ============================================================
+async function submitAll(){
+  const result = calculateScores();
+  const payload = {
+    timestamp: new Date().toISOString(),
+    demo: state.demo,
+    answers: state.answers,
+    scores: result.factorScores,
+    overallScore: result.overallScore,
+    rank: result.rank,
+    primaryType: result.primaryType,
+    secondaryType: result.secondaryType,
+    typeScores: result.typeScores,
+    flags: result.flags,
+  };
+
+  // localStorage に最新結果を保管（管理画面で参照）
+  try {
+    const log = JSON.parse(localStorage.getItem('yohki_assessment_log')||'[]');
+    log.push(payload);
+    localStorage.setItem('yohki_assessment_log', JSON.stringify(log.slice(-100))); // 直近100件
+  } catch(e){}
+
+  // Google Form 送信（FORM_URLが未設定の場合スキップ）
+  if(FORM_CONFIG.url && !FORM_CONFIG.url.startsWith('PLACEHOLDER')){
+    try {
+      const fd = new FormData();
+      fd.append(FORM_CONFIG.entries.name, payload.demo.name);
+      fd.append(FORM_CONFIG.entries.email, payload.demo.email);
+      fd.append(FORM_CONFIG.entries.tel, payload.demo.tel);
+      fd.append(FORM_CONFIG.entries.position, payload.demo.position);
+      fd.append(FORM_CONFIG.entries.source, payload.demo.source);
+      fd.append(FORM_CONFIG.entries.referrer, payload.demo.referrer);
+      fd.append(FORM_CONFIG.entries.answers, JSON.stringify(payload.answers));
+      fd.append(FORM_CONFIG.entries.scores, JSON.stringify(payload.scores));
+      fd.append(FORM_CONFIG.entries.rank, payload.rank);
+      fd.append(FORM_CONFIG.entries.type, payload.primaryType+'/'+payload.secondaryType);
+      fd.append(FORM_CONFIG.entries.flags, payload.flags.join(' '));
+      fd.append(FORM_CONFIG.entries.timestamp, payload.timestamp);
+      await fetch(FORM_CONFIG.url, { method:'POST', mode:'no-cors', body:fd });
+    } catch(e){
+      // no-corsは常にopaqueだが送信されている
+    }
+  }
+
+  // セッションクリア
+  sessionStorage.removeItem(STORAGE_KEY);
+
+  // サンクス画面表示
+  show('screen-thanks');
+
+  // βモードなら結果も表示
+  if(isBetaMode){
+    showBetaResult(result);
+  }
+}
+
+// ============================================================
+// β mode result display
+// ============================================================
+function showBetaResult(r){
+  const box = document.getElementById('beta-result');
+  box.style.display = 'block';
+  const factorRows = Object.entries(r.factorScores)
+    .map(([f,s])=>`<tr><td>${FACTOR_LABEL[f]||f}</td><td><strong>${s}</strong></td></tr>`)
+    .join('');
+  box.innerHTML = `
+    <h3 style="font-size:18px;font-weight:900;margin-bottom:16px;text-align:left;">β版・受検者用結果プレビュー</h3>
+    <div style="background:#fff8e6;border:2px solid #ffd23f;border-radius:14px;padding:14px;font-size:12px;color:#a87900;font-weight:700;text-align:left;margin-bottom:16px;">
+      ⚠️ これはβ版受検（既存職員様向け）の結果プレビューです。実際の応募者には表示されません。
+    </div>
+    <div style="text-align:left;background:var(--bg);border-radius:14px;padding:18px;margin-bottom:16px;">
+      <div style="font-size:14px;font-weight:700;color:var(--tm);margin-bottom:6px;">陽気活躍可能性スコア</div>
+      <div style="font-size:48px;font-weight:900;color:var(--pink);line-height:1;">${r.overallScore}<span style="font-size:18px;color:var(--tm);"> / 100</span></div>
+      <div style="font-size:14px;font-weight:800;margin-top:8px;">採否ランク: <span style="color:var(--orange);">${r.rank}</span></div>
+      <div style="font-size:14px;font-weight:800;margin-top:6px;">タイプ: <span style="color:var(--mint);">${TYPE_LABEL[r.primaryType]}</span> ／ 副: ${TYPE_LABEL[r.secondaryType]}</div>
+      ${r.flags.length?`<div style="font-size:13px;font-weight:700;margin-top:10px;color:var(--td);">フラグ: ${r.flags.join(' ')}</div>`:''}
+    </div>
+    <table style="width:100%;border-collapse:collapse;font-size:13px;">
+      <thead><tr style="background:var(--bg);"><th style="padding:8px;text-align:left;border-bottom:2px solid #eee;">因子</th><th style="padding:8px;text-align:right;border-bottom:2px solid #eee;">スコア</th></tr></thead>
+      <tbody>${factorRows.replace(/<td>/g,'<td style="padding:6px 8px;border-bottom:1px solid #eee;">').replace(/<td><strong>/g,'<td style="padding:6px 8px;border-bottom:1px solid #eee;text-align:right;"><strong>')}</tbody>
+    </table>
+    <p style="margin-top:16px;font-size:12px;color:var(--tm);">
+      この結果は採用担当（嶺井代表・SM）にも自動で送信されています。
+    </p>
+  `;
+}
+
+// ============================================================
+// Init
+// ============================================================
+function init(){
+  // βモード表示
+  if(isBetaMode){
+    document.getElementById('beta-info-box').innerHTML = `
+      <div class="beta-info">
+        ⚠️ <strong>β版受検モード</strong><br>
+        既存職員様向けの陽気独自モデル構築のための受検です。<br>
+        ご回答いただいた結果は陽気の標準モデル校正に使用させていただきます。
+      </div>
+    `;
+  }
+  // 復元
+  if(state.step==='demo'){
+    document.getElementById('d-name').value = state.demo.name||'';
+    document.getElementById('d-email').value = state.demo.email||'';
+    document.getElementById('d-tel').value = state.demo.tel||'';
+    document.getElementById('d-position').value = state.demo.position||'';
+    document.getElementById('d-source').value = state.demo.source||'';
+    document.getElementById('d-referrer').value = state.demo.referrer||'';
+    show('screen-demo');
+  } else if(state.step==='q'){
+    show('screen-q');
+    renderQuestion();
+  } else {
+    show('screen-start');
+  }
+}
+init();
+</script>
+
+</body>
+</html>
