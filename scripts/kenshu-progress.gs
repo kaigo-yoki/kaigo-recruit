@@ -53,6 +53,14 @@ function asDateStr(v) {
   return String(v || '').trim();
 }
 
+// 氏名を進捗表（kenshu-shinchoku.html の norm）と同じ基準でそろえる。
+// 大文字小文字・全角半角・スペースの違いを吸収しないと、
+// 「ITOKAZU JO aNa」と「ITOKAZU JO ANA」が別人あつかいになり、
+// 重複判定をすり抜けて同じ受講が二重に記録される。
+function normName(v) {
+  return String(v == null ? '' : v).normalize('NFKC').replace(/[\s\u3000]/g, '').toLowerCase();
+}
+
 /** 初期セットアップ：シート作成＋閲覧キー生成（再実行しても既存データは消えません） */
 function setup() {
   const ss = getSS();
@@ -116,19 +124,36 @@ function doPost(e) {
     let sheet = ss.getSheetByName(LOG_SHEET);
     if (!sheet) { setup(); sheet = ss.getSheetByName(LOG_SHEET); }
 
-    // 同じ人×同じ研修×同じ日の重複は記録しない（発行ボタン連打対策）
-    const lastRow = sheet.getLastRow();
-    if (lastRow > 1) {
-      const checkRows = Math.min(lastRow - 1, 200);
-      const recent = sheet.getRange(lastRow - checkRows + 1, 2, checkRows, 4).getValues();
-      const dup = recent.some(r =>
-        String(r[0]).trim() === name && String(r[2]).trim() === path && asDateStr(r[3]) === date
-      );
-      if (dup) return jsonOut({ status: 'ok', dedup: true });
+    // 「重複を探す→追記する」の2段階の途中で別の送信が割り込むと、
+    // どちらも重複を見つけられないまま両方が書き込まれる。
+    // 実際に1秒差の二重記録が発生しているため、2段階をまとめて排他する。
+    const lock = LockService.getScriptLock();
+    if (!lock.tryLock(10000)) {
+      // ロックが取れなかったときは記録できていないので、成功と答えない。
+      // 端末側が記録を預かり、次に研修ページを開いたときに送り直す。
+      return jsonOut({ status: 'error', message: 'busy' });
     }
+    try {
+      // 同じ人×同じ研修×同じ日の重複は記録しない（発行ボタン連打対策）
+      const nameKey = normName(name);
+      const lastRow = sheet.getLastRow();
+      if (lastRow > 1) {
+        const checkRows = Math.min(lastRow - 1, 200);
+        const recent = sheet.getRange(lastRow - checkRows + 1, 2, checkRows, 4).getValues();
+        const dup = recent.some(r =>
+          normName(r[0]) === nameKey && String(r[2]).trim() === path && asDateStr(r[3]) === date
+        );
+        if (dup) return jsonOut({ status: 'ok', dedup: true });
+      }
 
-    sheet.appendRow([new Date(), name, training, path, date]);
-    return jsonOut({ status: 'ok' });
+      sheet.appendRow([new Date(), name, training, path, date]);
+      // ロックを手放す前に書き込みを確定させる。確定していないと、
+      // 次の送信が古いシートを読んで同じ行をもう一度書いてしまう。
+      SpreadsheetApp.flush();
+      return jsonOut({ status: 'ok' });
+    } finally {
+      lock.releaseLock();
+    }
   } catch (err) {
     return jsonOut({ status: 'error', message: String(err) });
   }
