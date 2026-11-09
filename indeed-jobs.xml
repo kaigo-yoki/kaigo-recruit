@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  Indeed XML求人フィード｜施設訪問介護 マナ（2027年2月 新規オープン）
+  Indeed XML求人フィード｜施設訪問介護 マナ（2027年3月 新規オープン）
   ・Indeed標準フィード仕様に準拠。Indeedに本ファイルのURLを登録すると自動取り込みされます。
     取り込み先URL（push後）: https://kaigo-yoki.jp/recruit/indeed-jobs.xml
   ・職種ごとに <job> を分け、それぞれ特設LPの該当アンカーへリンクしています。
@@ -12,7 +12,7 @@
   <lastBuildDate>Tue, 30 Jun 2026 09:00:00 JST</lastBuildDate>
 
   <job>
-    <title><![CDATA[【2027年2月新規オープン】施設長（オープニング）｜年俸500〜600万]]></title>
+    <title><![CDATA[【2027年3月新規オープン】施設長（オープニング）｜年俸500〜600万]]></title>
     <date><![CDATA[Tue, 30 Jun 2026 09:00:00 JST]]></date>
     <referencenumber><![CDATA[mana-opening-2027-shisetsucho]]></referencenumber>
     <requisitionid><![CDATA[mana-2027-01]]></requisitionid>
@@ -27,10 +27,10 @@
     <jobtype><![CDATA[fulltime]]></jobtype>
     <category><![CDATA[介護・福祉]]></category>
     <description><![CDATA[
-      <p>2027年2月、沖縄県南城市に施設訪問介護「マナ」を新規オープン。立ち上げをリードする施設長（1名）を募集します。</p>
+      <p>2027年3月、沖縄県南城市に施設訪問介護「マナ」を新規オープン。立ち上げをリードする施設長（1名）を募集します。</p>
       <ul>
         <li>年俸 500万〜600万円／月給 350,000〜400,000円（各種手当込み・業績変動制）</li>
-        <li>応募資格：介護職員初任者研修・実務者研修・介護福祉士のいずれか／当社規定のラインをクリアできる方／普通自動車運転免許</li>
+        <li>応募資格：介護福祉士・実務者研修・初任者研修のいずれか＋介護現場でのマネジメント経験歓迎／当社規定のラインをクリアできる方／普通自動車運転免許</li>
         <li>賞与年2回・昇給年1回・企業型確定拠出年金完備・資格取得補助/県外研修/年2回健診は全額会社負担</li>
       </ul>
       <p>詳細・応募はこちら: https://kaigo-yoki.jp/recruit/opening-staff.html</p>
@@ -38,7 +38,7 @@
   </job>
 
   <job>
-    <title><![CDATA[【2027年2月新規オープン】サービス提供責任者（オープニング）｜年俸500〜600万]]></title>
+    <title><![CDATA[【2027年3月新規オープン】サービス提供責任者（オープニング）｜年俸500〜600万]]></title>
     <date><![CDATA[Tue, 30 Jun 2026 09:00:00 JST]]></date>
     <referencenumber><![CDATA[mana-opening-2027-saseki]]></referencenumber>
     <requisitionid><![CDATA[mana-2027-02]]></requisitionid>
@@ -53,10 +53,10 @@
     <jobtype><![CDATA[fulltime]]></jobtype>
     <category><![CDATA[介護・福祉]]></category>
     <description><![CDATA[
-      <p>2027年2月オープンの施設訪問介護「マナ」で、サービス提供責任者（1名）を募集。サービス調整・シフト管理・スタッフ育成の要となるポジションです。</p>
+      <p>2027年3月オープンの施設訪問介護「マナ」で、サービス提供責任者（1名）を募集。サービス調整・シフト管理・スタッフ育成の要となるポジションです。</p>
       <ul>
         <li>年俸 500万〜600万円／月給 350,000〜400,000円（各種手当込み・業績変動制）</li>
-        <li>応募資格：介護職員初任者研修・実務者研修・介護福祉士のいずれか／当社規定のラインをクリアできる方／普通自動車運転免許</li>
+        <li>応募資格：介護福祉士または実務者研修修了／当社規定のラインをクリアできる方／普通自動車運転免許</li>
         <li>賞与年2回・昇給年1回・企業型確定拠出年金完備・資格取得補助/県外研修/年2回健診は全額会社負担</li>
       </ul>
       <p>詳細・応募はこちら: https://kaigo-yoki.jp/recruit/opening-staff.html</p>
@@ -64,7 +64,7 @@
   </job>
 
   <job>
-    <title><![CDATA[【2027年2月新規オープン】常勤 介護スタッフ（夜勤可優遇）｜年俸380〜480万]]></title>
+    <title><![CDATA[【2027年3月新規オープン】常勤 介護スタッフ（夜勤可優遇）｜年俸380〜480万]]></title>
     <date><![CDATA[Tue, 30 Jun 2026 09:00:00 JST]]></date>
     <referencenumber><![CDATA[mana-opening-2027-jokin]]></referencenumber>
     <requisitionid><![CDATA[mana-2027-03]]></requisitionid>
@@ -79,10 +79,10 @@
     <jobtype><![CDATA[fulltime]]></jobtype>
     <category><![CDATA[介護・福祉]]></category>
     <description><![CDATA[
-      <p>2027年2月オープンの施設訪問介護「マナ」で、立ち上げを担う常勤 介護スタッフ（4名）を募集。夜勤可能な方は優遇します。</p>
+      <p>2027年3月オープンの施設訪問介護「マナ」で、立ち上げを担う常勤 介護スタッフ（4名）を募集。夜勤可能な方は優遇します。</p>
       <ul>
         <li>年俸 380万〜480万円／月給 270,000〜340,000円（夜勤回数で変動）＋常勤リーダー手当 20,000円</li>
-        <li>応募資格：介護職員初任者研修・実務者研修・介護福祉士のいずれか／普通自動車運転免許（AT限定可）</li>
+        <li>応募資格：無資格・未経験の方も応募OK（入社後の資格取得が前提／介護職員初任者研修などを会社全額負担で取得）／普通自動車運転免許（AT限定可）</li>
         <li>資格手当（初任者3,000/実務者5,000/介福10,000円）・通勤手当・賞与年2回・昇給年1回・企業型確定拠出年金完備</li>
       </ul>
       <p>詳細・応募はこちら: https://kaigo-yoki.jp/recruit/opening-staff.html</p>
@@ -90,7 +90,7 @@
   </job>
 
   <job>
-    <title><![CDATA[【2027年2月新規オープン】パート 介護スタッフ｜日勤1,300円・夜勤1,500円]]></title>
+    <title><![CDATA[【2027年3月新規オープン】パート 介護スタッフ｜日勤1,300円・夜勤1,500円]]></title>
     <date><![CDATA[Tue, 30 Jun 2026 09:00:00 JST]]></date>
     <referencenumber><![CDATA[mana-opening-2027-part]]></referencenumber>
     <requisitionid><![CDATA[mana-2027-04]]></requisitionid>
@@ -105,10 +105,10 @@
     <jobtype><![CDATA[parttime]]></jobtype>
     <category><![CDATA[介護・福祉]]></category>
     <description><![CDATA[
-      <p>2027年2月オープンの施設訪問介護「マナ」で、パート 介護スタッフ（5名）を募集。勤務時間・曜日はご相談ください。</p>
+      <p>2027年3月オープンの施設訪問介護「マナ」で、パート 介護スタッフ（5名）を募集。勤務時間・曜日はご相談ください。</p>
       <ul>
         <li>日勤 時給1,300円／夜勤 時給1,500円＋パートリーダー手当 10,000円</li>
-        <li>応募資格：介護職員初任者研修・実務者研修・介護福祉士のいずれか／普通自動車運転免許（AT限定可）</li>
+        <li>応募資格：無資格・未経験の方も応募OK（入社後の資格取得が前提／介護職員初任者研修などを会社全額負担で取得）／普通自動車運転免許（AT限定可）</li>
         <li>資格手当（初任者3,000/実務者5,000/介福10,000円）・通勤手当・資格取得補助は全額会社負担</li>
       </ul>
       <p>詳細・応募はこちら: https://kaigo-yoki.jp/recruit/opening-staff.html</p>
