@@ -479,9 +479,9 @@ form.addEventListener('submit', async (e) => {
     form.reset();
 
   } catch (err) {
-    // no-cors では常にopaqueResponseだが送信は成功している
-    successOverlay.classList.add('show');
-    form.reset();
+    // 通信エラー（ネットワーク不通・送信先に到達せず例外）。
+    // この場合は送信できていないため、成功表示にはせず、入力も消さずに残して再送信できるようにする。
+    alert('通信エラーのため送信できませんでした。恐れ入りますが、電波の良い場所で、もう一度「送信する」を押してください。くり返し失敗する場合は、お手数ですがお電話でご連絡ください。');
   } finally {
     submitBtn.classList.remove('loading');
     submitBtn.disabled = false;
