@@ -14,3 +14,12 @@ _tmp_*
 _internal/
 READY.txt
 *_社内専用*
+
+# ローカル開発用一時ファイル
+_tmp/
+
+# Claude Code ローカル設定
+.claude/
+
+# Workflow 提案版（本番化していないドラフト）
+*.proposed
