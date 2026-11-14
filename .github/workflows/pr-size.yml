@@ -1,0 +1,65 @@
+name: PR Size Check
+
+# 8エージェント並行運用での mainPR履歴爆発を防ぐためのソフト警告 workflow。
+# 1PR実質コード差分が1,500行を超えると size/XL ラベル＋警告コメントを付与（blockはしない）。
+# ルール根拠: 内部メモリ feedback_pr_size_and_commit_hygiene
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  size-label:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      issues: write
+    steps:
+      - uses: CodelyTV/pr-size-labeler@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          xs_label: 'size/XS'
+          xs_max_size: '50'
+          s_label: 'size/S'
+          s_max_size: '200'
+          m_label: 'size/M'
+          m_max_size: '500'
+          l_label: 'size/L'
+          l_max_size: '1500'
+          xl_label: 'size/XL'
+          fail_if_xl: 'false'
+          message_if_xl: |
+            ⚠️ **PRサイズ警告**: 実質コード差分が 1,500行 を超えています。
+
+            ルール（内部メモリ `feedback_pr_size_and_commit_hygiene`）:
+            - 1PR ≤ 1,500行（自動生成・ロックファイル・画像・自動生成ブログ除く）
+            - 超える場合は **PR分割** を検討するか、PR description に「一塊で意味がある理由」を明示してください。
+
+            8エージェント並行運用では main 履歴の構造破綻リスクが上がるため、自発的な分割提案をお願いします。
+          files_to_ignore: |
+            "package-lock.json"
+            "yarn.lock"
+            "pnpm-lock.yaml"
+            "*.lock"
+            "node_modules/**"
+            "dist/**"
+            "build/**"
+            "out/**"
+            "*.min.js"
+            "*.min.css"
+            "*.map"
+            "posts/**"
+            "_tmp/**"
+            "_internal/**"
+            "images/**"
+            "data/**"
+            "*.png"
+            "*.jpg"
+            "*.jpeg"
+            "*.gif"
+            "*.webp"
+            "*.svg"
+            "*.ico"
+            "favicon.*"
+            "robots.txt"
+            "qr_*"
