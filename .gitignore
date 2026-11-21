@@ -7,6 +7,9 @@ node_modules/
 .DS_Store
 .env*.local
 
+# Instagram 素材のテスト出力（_で始まるものは追跡しない）
+social/_*
+
 # 内部資料 - 公開禁止
 採用戦略/
 benchmark_*.html
