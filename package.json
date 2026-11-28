@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "npx -y serve@latest -l 3000",
     "generate": "node scripts/build/generate-post.js",
+    "generate:recruit": "POST_MODE=recruit node scripts/build/generate-post.js",
     "generate-training": "node scripts/build/generate-training.js",
     "generate-individual": "node scripts/build/generate-individual.js"
   },
